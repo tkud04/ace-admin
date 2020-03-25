@@ -1,2 +1,2 @@
-# ace-admin
-Admin backend for Ace Luxury Stores
+# ob-sender
+Sender app for Ob's friend
