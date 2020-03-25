@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>        
-    <title>@yield('title') | Admin Dashboard - Ace Luxury Stores NG</title>
+    <title><?php echo $__env->yieldContent('title'); ?> | Admin Dashboard - Ace Luxury Stores NG</title>
     
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,13 +51,13 @@
               
              ?> 
 
-                 @if($pop != "" && $val != "")
-                   @include('session-status',['pop' => $pop, 'val' => $val])
-                 @endif
+                 <?php if($pop != "" && $val != ""): ?>
+                   <?php echo $__env->make('session-status',['pop' => $pop, 'val' => $val], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                 <?php endif; ?>
         	<!--------- Input errors -------------->
-                    @if (count($errors) > 0)
-                          @include('input-errors', ['errors'=>$errors])
-                     @endif 
+                    <?php if(count($errors) > 0): ?>
+                          <?php echo $__env->make('input-errors', ['errors'=>$errors], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                     <?php endif; ?> 
   
 	
     <div class="container">        
@@ -70,25 +70,25 @@
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-reorder"></span>                            
                         </button>                                                
-                        <a class="navbar-brand" href="{{url('/')}}"><img src="img/icon.png" width="32" height="28"/></a>                                                                                     
+                        <a class="navbar-brand" href="<?php echo e(url('/')); ?>"><img src="img/icon.png" width="32" height="28"/></a>                                                                                     
                     </div>
                     <div class="collapse navbar-collapse navbar-ex1-collapse">                                     
                         <ul class="nav navbar-nav">
                             <li class="active">
-                                <a href="{{url('/')}}">
+                                <a href="<?php echo e(url('/')); ?>">
                                     <span class="icon-home"></span> dashboard
                                 </a>
                             </li>                            
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> products</a>
                                 <ul class="dropdown-menu">                                    
-                                    <li><a href="{{url('products')}}"> View products</a></li>
-                                    <li><a href="{{url('add-product')}}"> Add new product</a></li>
+                                    <li><a href="<?php echo e(url('products')); ?>"> View products</a></li>
+                                    <li><a href="<?php echo e(url('add-product')); ?>"> Add new product</a></li>
                                 </ul>                                
                             </li>
                                                        
                         </ul>
-                        <form class="navbar-form navbar-right" role="search" action="{{url('search')}}" method="post">
+                        <form class="navbar-form navbar-right" role="search" action="<?php echo e(url('search')); ?>" method="post">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="search..."/>
                             </div>                            
@@ -99,14 +99,14 @@
             </div>            
         </div>
         <div class="row">
-         @yield('content')  
+         <?php echo $__env->yieldContent('content'); ?>  
             
         </div>
         <div class="row">
             <div class="page-footer">
                 <div class="page-footer-wrap">
                     <div class="side pull-left">
-                        copyright &copy;{{date("Y")}} Ace Luxury Stores, all rights reserved.
+                        copyright &copy;<?php echo e(date("Y")); ?> Ace Luxury Stores, all rights reserved.
                     </div>
                 </div>
             </div>
@@ -114,4 +114,4 @@
     </div>
 
 </body>
-</html>
+</html><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/layout.blade.php ENDPATH**/ ?>

@@ -31,6 +31,11 @@ class MainController extends Controller {
 		if(Auth::check())
 		{
 			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
 		}
 		else
 		{
@@ -41,7 +46,7 @@ class MainController extends Controller {
 		//$accounts = $this->helpers->getUsers();
 		$accounts = [];
         
-    	return view('index',compact(['user','accounts','signals']));
+    	return view('index',compact(['user','signals']));
     }
 
      /**
@@ -49,7 +54,7 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getDrivers(Request $request)
+	public function getProducts(Request $request)
     {
        $user = null;
        $req = $request->all();
@@ -58,6 +63,11 @@ class MainController extends Controller {
 		if(Auth::check())
 		{
 			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
 		}
 		else
 		{
@@ -65,11 +75,11 @@ class MainController extends Controller {
 		}
 		
 		
-		$drivers = $this->helpers->getDrivers();
+		$products = $this->helpers->getProducts();
 		
 		$signals = $this->helpers->signals;
 		//dd($drivers);
-    	return view('drivers',compact(['user','drivers','signals']));
+    	return view('products',compact(['user','products','signals']));
     }
 	
 	/**
@@ -77,7 +87,7 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getDriver(Request $request)
+	public function getProduct(Request $request)
     {
        $user = null;
        $req = $request->all();
@@ -86,6 +96,12 @@ class MainController extends Controller {
 		if(Auth::check())
 		{
 			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+			
 			$req = $request->all();
 			
             $validator = Validator::make($req, [                            
@@ -94,14 +110,14 @@ class MainController extends Controller {
          
             if($validator->fails())
             {
-               return redirect()->intended('drivers');
+               return redirect()->intended('products');
             }
          
             else
             {
-              $driver = $this->helpers->getDriver($req['id']);
+              $product = $this->helpers->getProduct($req['id']);
 			  $signals = $this->helpers->signals;
-		      return view('driver',compact(['user','driver','signals']));
+		      return view('product',compact(['user','product','signals']));
             }
 		}
 		else
@@ -115,7 +131,7 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getAddDriver(Request $request)
+	public function getAddProduct(Request $request)
     {
        $user = null;
        $req = $request->all();
@@ -124,6 +140,11 @@ class MainController extends Controller {
 		if(Auth::check())
 		{
 			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
 		}
 		else
 		{
@@ -131,8 +152,9 @@ class MainController extends Controller {
 		}
 		
 		$signals = $this->helpers->signals;
+		$c = $this->helpers->categories;
 		#dd($cg);
-    	return view('add-driver',compact(['user','signals']));
+    	return view('add-product',compact(['user','signals','c']));
     }
 	
 	/**
@@ -140,11 +162,16 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-    public function postAddDriver(Request $request)
+    public function postAddProduct(Request $request)
     {
     	if(Auth::check())
 		{
 			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
 		}
 		else
         {
@@ -152,13 +179,14 @@ class MainController extends Controller {
         }
         
         $req = $request->all();
-		//dd($req);
+		#dd($req);
         $validator = Validator::make($req, [
-                            'pass' => 'required|confirmed',
-                             'email' => 'required|email',                            
-                             'phone' => 'required|numeric',
-                             'fname' => 'required',
-                             'lname' => 'required',
+                             'category' => 'required|not_in:none',
+                             'description' => 'required',                        
+                             'in_stock' => 'required|not_in:none',                        
+                             'amount' => 'required|numeric',
+                             'img' => 'array|min:1',
+                             'img.*' => 'file'
          ]);
          
          if($validator->fails())
@@ -170,15 +198,23 @@ class MainController extends Controller {
          
          else
          {
-            $req['role'] = "driver";    
-            $req['status'] = "enabled";           
-            $req['verified'] = "user";  			
-            
-                       #dd($req);            
-
-            $user =  $this->helpers->createUser($req);
-			session()->flash("create-driver-status", "success");
-			return redirect()->intended('drivers');
+            //upload product images 
+             $img = $request->file('img');
+                 //dd($img);
+                 $ird = [];
+             for($i = 0; $i < count($img); $i++)
+             {           
+             	$ret = $this->helpers->uploadCloudImage($img[$i]->getRealPath());
+			     #dd($ret);
+			    array_push($ird, $ret['public_id']);
+             }         
+             $req['ird'] = $ird;
+             $req['user_id'] = $user->id;
+             $req['name'] = "";
+			
+             $product = $this->helpers->createProduct($req);
+			session()->flash("create-product-status", "success");
+			return redirect()->intended('products');
          } 	  
     }
 	
@@ -187,7 +223,7 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getEditDriver(Request $request)
+	public function getEditProduct(Request $request)
     {
        $user = null;
        $req = $request->all();
@@ -196,6 +232,11 @@ class MainController extends Controller {
 		if(Auth::check())
 		{
 			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
 			$req = $request->all();
 			
             $validator = Validator::make($req, [                            
@@ -209,10 +250,10 @@ class MainController extends Controller {
          
             else
             {
-              $driver = $this->helpers->getDriver($req['id']);
+              $product = $this->helpers->getProduct($req['id']);
 			  $signals = $this->helpers->signals;
 			  $xf = $req['id'];
-		      return view('edit-driver',compact(['user','driver','xf','signals']));
+		      return view('edit-product',compact(['user','product','xf','signals']));
             }
 		}
 		else
@@ -226,11 +267,16 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-    public function postEditDriver(Request $request)
+    public function postEditProduct(Request $request)
     {
     	if(Auth::check())
 		{
 			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
 		}
 		else
         {
@@ -238,7 +284,7 @@ class MainController extends Controller {
         }
         
         $req = $request->all();
-		#dd($req);
+		dd($req);
         $validator = Validator::make($req, [
                              'xf' => 'required',                            
                              'email' => 'required|email',                            
@@ -263,125 +309,7 @@ class MainController extends Controller {
          } 	  
     }
 
-    /**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-    public function postViewAccount(Request $request)
-    {
-    	if(Auth::check())
-		{
-			$user = Auth::user();
-		}
-		else
-        {
-        	return redirect()->intended('login');
-        }
-        
-        $req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
-                             'acc' => 'required|numeric|not_in:none',
-         ]);
-         
-         if($validator->fails())
-         {
-             $messages = $validator->messages();
-             return redirect()->intended('accounts?xf='.$user->id);
-             //dd($messages);
-         }
-         
-         else
-         {
-			 $uu = 'accounts?xf='.$req['acc'];
-			 if(isset($req['xf'])) $uu = 'accounts?xf='.$req['xf'].'&cg='.$req['acc'];
-         	 return redirect()->intended($uu);
-         }  
-    }
-	
-	/**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-    public function postViewConfig(Request $request)
-    {
-    	if(Auth::check())
-		{
-			$user = Auth::user();
-		}
-		else
-        {
-        	return redirect()->intended('login');
-        }
-        
-        $req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
-                             'acc' => 'required|numeric|not_in:none',
-         ]);
-         
-         if($validator->fails())
-         {
-             $messages = $validator->messages();
-             $uu = 'config';
-			 if(isset($req['xf'])) $uu = 'config?xf='.$req['xf'];
-         	 return redirect()->intended($uu);
-             //dd($messages);
-         }
-         
-         else
-         {
-         	 $uu = 'config?cg='.$req['acc'];
-			 if(isset($req['xf'])) $uu = 'config?xf='.$req['xf'].'&cg='.$req['acc'];
-         	 return redirect()->intended($uu);
-         }  
-    }
-
-  /**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-    public function postAccounts(Request $request)
-    {
-    	if(Auth::check())
-		{
-			$user = Auth::user();
-		}
-		else
-        {
-        	return redirect()->intended('login');
-        }
-        
-        $req = $request->all();
-		#dd($req);
-        $validator = Validator::make($req, [
-                             'fname' => 'required',
-                             'lname' => 'required',
-                             'email' => 'required|email',
-                             'phone' => 'required|numeric',
-                             'acnum' => 'required|numeric',
-                             'balance' => 'required|numeric',
-                             'status' => 'required|not_in:none',
-         ]);
-         
-         if($validator->fails())
-         {
-             $messages = $validator->messages();
-             return redirect()->back()->withInput()->with('errors',$messages);
-             //dd($messages);
-         }
-         
-         else
-         {
-             $ret = $this->helpers->updateUser($req);
-	        session()->flash("update-status","ok");
-			return redirect()->intended('accounts');
-         } 	  
-    }
-
+    
 	
     
     /**

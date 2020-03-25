@@ -9,6 +9,11 @@ use Auth;
 use \Swift_Mailer;
 use \Swift_SmtpTransport;
 use App\User;
+use App\Products;
+use App\ProductData;
+use App\ProductImages;
+use \Cloudinary\Api;
+use \Cloudinary\Api\Response;
 use GuzzleHttp\Client;
 
 class Helper implements HelperContract
@@ -26,8 +31,8 @@ class Helper implements HelperContract
                         
              public $signals = ['okays'=> ["login-status" => "Sign in successful",            
                      "signup-status" => "Account created successfully! You can now login to complete your profile.",
-                     "create-driver-status" => "Driver account created successfully!",
-                     "update-driver-status" => "Driver account updated successfully!",
+                     "create-product-status" => "Product added!",
+                     "update-product-status" => "Product updated!",
                      "update-status" => "Account updated!",
                      "config-status" => "Config added/updated!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
@@ -36,10 +41,19 @@ class Helper implements HelperContract
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
 					 "update-status-error" => "There was a problem updating the account, please contact support.",
 					 "contact-status-error" => "There was a problem sending your message, please contact support.",
-					 "create-driver-status-error" => "There was a problem creating driver account, please contact support.",
-					 "update-driver-status-error" => "There was a problem updating driver info, please contact support.",
+					 "create-product-status-error" => "There was a problem adding the product, please try again.",
+					 "update-product-status-error" => "There was a problem updating product info, please try again.",
                     ]
                    ];
+				   
+		    public $categories = ['watches' => "Watches",
+			                      'anklets' => "Anklets",
+								  'bracelets' => "Bracelets",
+								  'brooches' => "Brooches",
+								  'earrings' => "Ear Rings",
+								  'necklaces' => "Necklaces",
+								  'rings' => "Rings"
+								  ];
 				   
 	
 /**
@@ -309,33 +323,75 @@ $subject = $data['subject'];
            }
 		   
 		   
-		   function getDrivers()
+		   function getProducts()
            {
            	$ret = [];
-              $drivers = User::where('role',"driver")->get();
+              $products = Products::where('id','>',"0")->get();
  
-              if($drivers != null)
+              if($products != null)
                {
-				  foreach($drivers as $d)
+				  foreach($products as $p)
 				  {
-					  $dd = $this->getUser($d->id);
-					  array_push($ret,$dd);
+					  $pp = $this->getProduct($p->id);
+					  array_push($ret,$pp);
 				  }
                }                         
                                                       
                 return $ret;
            }
 		   
-		   function getDriver($id)
+		   function getProduct($id)
            {
            	$ret = [];
-              $driver = User::where('role',"driver")
-			                 ->where('id',$id)->first();
+              $product = Products::where('id',$id)
+			                 ->orWhere('sku',$id)->first();
  
-              if($driver != null)
+              if($product != null)
                {
-				  $dd = $this->getUser($driver->id);
-				  $ret = $dd;
+				  $temp = [];
+				  $temp['id'] = $product->id;
+				  $temp['sku'] = $product->sku;
+				  $temp['status'] = $product->status;
+				  $temp['pd'] = $this->getProductData($product->sku);
+				  $temp['imgs'] = $this->getProductImages($product->sku);
+				  $ret = $temp;
+               }                         
+                                                      
+                return $ret;
+           }
+
+		   function getProductData($sku)
+           {
+           	$ret = [];
+              $pd = ProductData::where('sku',$sku)->first();
+ 
+              if($pd != null)
+               {
+				  $temp = [];
+				  $temp['id'] = $pd->id;
+				  $temp['sku'] = $pd->sku;
+				  $temp['amount'] = $pd->amount;
+				  $temp['description'] = $pd->description;
+				  $temp['in_stock'] = $pd->in_stock;
+				  $temp['category'] = $pd->category;
+				  $ret = $temp;
+               }                         
+                                                      
+                return $ret;
+           }
+
+		   function getProductImages($sku)
+           {
+           	$ret = [];
+              $pi = ProductImages::where('sku',$sku)->first();
+ 
+              if($pi != null)
+               {
+				  $temp = [];
+				  $temp['id'] = $pi->id;
+				  $temp['sku'] = $pi->sku;
+				  $temp['url'] = $pi->url;
+				  $ret = $temp;
                }                         
                                                       
                 return $ret;
@@ -357,6 +413,87 @@ $subject = $data['subject'];
 				}
 					
            }
+		   
+		   function isAdmin($user)
+           {
+           	$ret = false; 
+               if($user->role === "admin" || $user->role === "su") $ret = true; 
+           	return $ret;
+           }
+		   
+		   function generateSKU()
+           {
+           	$ret = "ACE".rand(1,9999)."LX".rand(1,999);
+                                                      
+                return $ret;
+           }
+		   
+		   
+		   function createProduct($data)
+           {
+           	$sku = $this->generateSKU();
+               
+           	$ret = Products::create(['name' => $data['name'],                                                                                                          
+                                                      'sku' => $sku, 
+                                                      'added_by' => $data['user_id'],                                                       
+                                                      'status' => "active", 
+                                                      ]);
+                                                      
+                 $data['sku'] = $ret->sku;                         
+                $pd = $this->createProductData($data);
+				$ird = "none";
+				$irdc = 0;
+				if(isset($data['ird']) && count($data['ird']) > 0)
+				{
+					foreach($data['ird'] as $url)
+                    {
+                    	$this->createProductImage(['sku' => $data['sku'], 'url' => $url, 'irdc' => "1"]);
+                    }
+				}
+                
+                return $ret;
+           }
+           function createProductData($data)
+           {
+           	$in_stock = (isset($data["in_stock"])) ? "new" : $data["in_stock"];
+           
+           	$ret = ProductData::create(['sku' => $data['sku'],                                                                                                          
+                                                      'description' => $data['description'], 
+                                                      'amount' => $data['amount'],                                                      
+                                                      'category' => $data['category'],                                                       
+                                                      'in_stock' => $in_stock                                              
+                                                      ]);
+                                                      
+                return $ret;
+           }
+         
+           function createProductImage($data)
+           {
+           	$ret = ProductImages::create(['sku' => $data['sku'],                                                                                                          
+                                                      'url' => $data['url'], 
+                                                      'irdc' => $data['irdc'], 
+                                                      ]);
+                                                      
+                return $ret;
+           }
+		   
+		  function deleteCloudImage($id)
+          {
+          	$dt = ['invalidate' => true];
+          	$rett = \Cloudinary\Uploader::destroy($id,$dt);
+                                                     
+             return $rett; 
+         }
+		   
+		    function uploadCloudImage($path)
+          {
+          	$ret = [];
+          	$dt = ['cloud_name' => "dahkzo84h"];
+              $preset = "tsh1rffm";
+          	$rett = \Cloudinary\Uploader::unsigned_upload($path,$preset,$dt);
+                                                      
+             return $rett; 
+         }
 		  	   
 		   
 		

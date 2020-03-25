@@ -1,26 +1,25 @@
-@extends('layout')
+<?php $__env->startSection('title',"Dashboard"); ?>
 
-@section('title',"Dashboard")
-
-@section('content')
+<?php $__env->startSection('content'); ?>
             <div class="col-md-2">
                 
                 <div class="block block-drop-shadow">
                     <div class="user bg-default bg-light-rtl">
                         <div class="info">                                                                                
                             <a href="#" class="informer informer-three">
-                                <span>{{$user->fname}}</span>
-									{{$user->lname}}
+                                <span><?php echo e($user->fname); ?></span>
+									<?php echo e($user->lname); ?>
+
                             </a>                            
                             <a href="#" class="informer informer-four">
-                                <span>{{strtoupper($user->role)}}</span>
+                                <span><?php echo e(strtoupper($user->role)); ?></span>
                                 Role
                             </a>                                                        
                             <img src="img/icon.png" class="img-circle img-thumbnail"/>
                         </div>
                     </div>
                     <div class="content list-group list-group-icons">
-                        <a href="{{url('logout')}}" class="list-group-item"><span class="icon-off"></span>Logout<i class="icon-angle-right pull-right"></i></a>
+                        <a href="<?php echo e(url('logout')); ?>" class="list-group-item"><span class="icon-off"></span>Logout<i class="icon-angle-right pull-right"></i></a>
                     </div>
                 </div> 
                 
@@ -118,4 +117,5 @@
               
 
             </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/index.blade.php ENDPATH**/ ?>
