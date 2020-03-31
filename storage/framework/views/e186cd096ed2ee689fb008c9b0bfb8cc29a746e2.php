@@ -1,8 +1,6 @@
-@extends('layout')
+<?php $__env->startSection('title',$product['sku']); ?>
 
-@section('title',$product['sku'])
-
-@section('content')
+<?php $__env->startSection('content'); ?>
             <div class="col-md-2">
                 
                 <div class="block block-drop-shadow">
@@ -10,8 +8,9 @@
                     <div class="user bg-default bg-light-rtl">
                         <div class="info">                                                                                
                             <a href="#" class="informer informer-three">
-                                <span>{{$driver['fname']}}</span>
-									{{$driver['lname']}}
+                                <span><?php echo e($driver['fname']); ?></span>
+									<?php echo e($driver['lname']); ?>
+
                             </a>                            
                             <a href="#" class="informer informer-four">
                                 <span>Driver</span>
@@ -22,7 +21,7 @@
                     </div>
 				   </div>
                     <div class="content list-group list-group-icons">
-                        <a href="{{url('delete-driver')}}" class="list-group-item"><span class="icon-off"></span>Suspend driver<i class="icon-angle-right pull-right"></i></a>
+                        <a href="<?php echo e(url('delete-driver')); ?>" class="list-group-item"><span class="icon-off"></span>Suspend driver<i class="icon-angle-right pull-right"></i></a>
                     </div>
                 </div> 
                 
@@ -73,7 +72,7 @@
                         <h2>Personal Information</h2>
                         <div class="pull-right">
                             <ul class="buttons">
-                                <li><a href="{{$ed}}"><span class="icon-pencil"></span></a></li>                                
+                                <li><a href="<?php echo e($ed); ?>"><span class="icon-pencil"></span></a></li>                                
                             </ul>
                         </div>                        
                         <div class="head-subtitle">Personal information about this driver</div>                                         
@@ -82,17 +81,17 @@
 						   <div class="col-md-6">
                             <dl class="driver-dl">
 						      <dt>Full Name</dt>
-						      <dd>{{$name}}</dd>
+						      <dd><?php echo e($name); ?></dd>
 						      <dt>Phone number</dt>
-						      <dd>{{$phone}}</dd>
+						      <dd><?php echo e($phone); ?></dd>
 						    </dl>
                            </div>
 						   <div class="col-md-6">
                             <dl class="driver-dl">
 						      <dt>Email address</dt>
-						      <dd>{{$email}}</dd>
+						      <dd><?php echo e($email); ?></dd>
 						      <dt>Status</dt>
-								<dd><span class="driver-status label label-{{$ss}}">{{$status}}</span></dd>
+								<dd><span class="driver-status label label-<?php echo e($ss); ?>"><?php echo e($status); ?></span></dd>
 						    </dl>
                            </div>						 
 						 </div>
@@ -104,7 +103,7 @@
                 <div class="block block-drop-shadow">
                     
                     <div class="header">
-                        <h2>Earnings per month (as at {{date("F Y")}})</h2>
+                        <h2>Earnings per month (as at <?php echo e(date("F Y")); ?>)</h2>
                     </div>
                     
                     <div class="content">
@@ -136,7 +135,7 @@
                                     <p>John Doe omplete this task list:</p>
                                     <p class="text-muted">Account was created.</p>
                                 </div>
-                                <div class="timeline-info-date">{{$created_at}}</div>
+                                <div class="timeline-info-date"><?php echo e($created_at); ?></div>
                             </div>
                         </div>                            
                    
@@ -147,4 +146,5 @@
                 </div>
                 
             </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/product.blade.php ENDPATH**/ ?>

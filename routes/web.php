@@ -27,3 +27,9 @@ Route::get('add-product', 'MainController@getAddProduct');
 Route::post('add-product', 'MainController@postAddProduct');
 Route::get('edit-product', 'MainController@getEditProduct');
 Route::post('edit-product', 'MainController@postEditProduct');
+
+Route::get('categories', 'MainController@getCategories');
+Route::get('add-category', 'MainController@getAddCategory');
+Route::post('add-category', 'MainController@postAddCategory');
+Route::get('edit-category', 'MainController@getEditCategory');
+Route::post('edit-category', 'MainController@postEditCategory');

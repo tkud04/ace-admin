@@ -12,6 +12,7 @@ use App\User;
 use App\Products;
 use App\ProductData;
 use App\ProductImages;
+use App\Categories;
 use \Cloudinary\Api;
 use \Cloudinary\Api\Response;
 use GuzzleHttp\Client;
@@ -32,7 +33,9 @@ class Helper implements HelperContract
              public $signals = ['okays'=> ["login-status" => "Sign in successful",            
                      "signup-status" => "Account created successfully! You can now login to complete your profile.",
                      "create-product-status" => "Product added!",
+                     "create-category-status" => "Category added!",
                      "update-product-status" => "Product updated!",
+                     "edit-category-status" => "Category updated!",
                      "update-status" => "Account updated!",
                      "config-status" => "Config added/updated!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
@@ -42,7 +45,9 @@ class Helper implements HelperContract
 					 "update-status-error" => "There was a problem updating the account, please contact support.",
 					 "contact-status-error" => "There was a problem sending your message, please contact support.",
 					 "create-product-status-error" => "There was a problem adding the product, please try again.",
+					 "create-category-status-error" => "There was a problem adding the category, please try again.",
 					 "update-product-status-error" => "There was a problem updating product info, please try again.",
+					 "edit-category-status-error" => "There was a problem updating category, please try again.",
                     ]
                    ];
 				   
@@ -353,7 +358,8 @@ $subject = $data['subject'];
 				  $temp['sku'] = $product->sku;
 				  $temp['status'] = $product->status;
 				  $temp['pd'] = $this->getProductData($product->sku);
-				  $temp['imgs'] = $this->getProductImages($product->sku);
+				  $imgs = $this->getProductImages($product->sku);
+				  $temp['imggs'] = $this->getCloudinaryImages($imgs);
 				  $ret = $temp;
                }                         
                                                       
@@ -380,22 +386,53 @@ $subject = $data['subject'];
                 return $ret;
            }
 
-		   function getProductImages($sku)
+		  function getProductImages($sku)
            {
            	$ret = [];
-              $pi = ProductImages::where('sku',$sku)->first();
+              $pis = ProductImages::where('sku',$sku)->get();
  
-              if($pi != null)
+            
+              if($pis != null)
                {
-				  $temp = [];
-				  $temp['id'] = $pi->id;
-				  $temp['sku'] = $pi->sku;
-				  $temp['url'] = $pi->url;
-				  $ret = $temp;
+				  foreach($pis as $pi)
+				  {
+				    $temp = [];
+				    $temp['id'] = $pi->id;
+				    $temp['sku'] = $pi->sku;
+				    $temp['url'] = $pi->url;
+				    array_push($ret,$temp);
+				  }
                }                         
                                                       
                 return $ret;
            }
+		   
+		   function getCloudinaryImages($dt)
+		   {
+			   $ret = [];
+                  //dd($dt);       
+               if(count($dt) < 1) { $ret = ["img/no-image.png"]; }
+               
+			   else
+			   {
+                   $ird = $dt[0]['url'];
+				   if($ird == "none")
+					{
+					   $ret = ["img/no-image.png"];
+					}
+				   else
+					{
+                       for($x = 0; $x < count($dt); $x++)
+						 {
+							 $ird = $dt[$x]['url'];
+                            $imgg = "https://res.cloudinary.com/dahkzo84h/image/upload/v1585236664/".$ird;
+                            array_push($ret,$imgg); 
+                         }
+					}
+                }
+				
+				return $ret;
+		   }
 		   
 		     function updateUser($data)
            {		
@@ -436,7 +473,7 @@ $subject = $data['subject'];
            	$ret = Products::create(['name' => $data['name'],                                                                                                          
                                                       'sku' => $sku, 
                                                       'added_by' => $data['user_id'],                                                       
-                                                      'status' => "active", 
+                                                      'status' => $data["status"], 
                                                       ]);
                                                       
                  $data['sku'] = $ret->sku;                         
@@ -477,6 +514,34 @@ $subject = $data['subject'];
                 return $ret;
            }
 		   
+		   function updateProduct($data)
+           {
+           	$ret = [];
+              $p = Products::where('id',$data['xf'])
+			                 ->orWhere('sku',$data['xf'])->first();
+ 
+              if($p != null)
+               {
+				  $p->update([
+				    'status' => $data['status']
+				  ]);
+				  
+				  $pd = ProductData::where('sku',$p->sku)->first();
+				  if($pd != null)
+				  {
+					  $pd->update([
+					    'category' => $data['category'],
+					    'in_stock' => $data['in_stock'],
+					    'amount' => $data['amount'],
+					    'description' => $data['description'],
+					  ]);
+				  }			 
+				 
+               }                         
+                                                      
+                return "ok";
+           }
+		   
 		  function deleteCloudImage($id)
           {
           	$dt = ['invalidate' => true];
@@ -494,6 +559,92 @@ $subject = $data['subject'];
                                                       
              return $rett; 
          }
+		 
+		  function addCategory($data)
+           {
+           	$category = Categories::create([
+			   'name' => $data['name'],
+			   'category' => $data['category'],
+			   'special' => $data['special'],
+			   'status' => $data['status'],
+			]);                          
+            return $ret;
+           }
+		   
+		   function getCategories()
+           {
+           	$ret = [];
+           	$categories = Categories::where('id','>','0')->get();
+              // dd($cart);
+			  
+              if($categories != null)
+               {           	
+               	foreach($categories as $c) 
+                    {
+						$temp = [];
+						$temp['id'] = $c->id;
+						$temp['name'] = $c->name;
+						$temp['category'] = $c->category;
+						$temp['special'] = $c->special;
+						$temp['status'] = $c->status;
+						array_push($ret,$temp);
+                    }
+                   
+               }                                 
+                                                      
+                return $ret;
+           }
+		   
+		   function getCategory($id)
+           {
+           	$ret = [];
+           	$c = Categories::where('id',$id)->first();
+              // dd($cart);
+			  
+              if($c != null)
+               {           	
+						$temp = [];
+						$temp['id'] = $c->id;
+						$temp['name'] = $c->name;
+						$temp['category'] = $c->category;
+						$temp['special'] = $c->special;
+						$temp['status'] = $c->status;
+						$ret = $temp;
+               }                                 
+                                                      
+                return $ret;
+           }
+		   
+		   function createCategory($data)
+           {
+           	$ret = Categories::create(['name' => ucwords($data['category']),                                                                                                          
+                                                      'category' => $data['category'],                                                      
+                                                      'special' => $data['special'],                                                      
+                                                      'status' => $data['status'], 
+                                                      ]);
+            
+                
+                return $ret;
+           }
+		   
+		   function updateCategory($data)
+           {
+			  $c = Categories::where('id',$data['xf'])->first();
+			 
+			  $special = isset($data['special']) ? $data['special'] : "";
+			 
+			if($c != null)
+			{
+				$c->update(['name' => ucwords($data['category']),                                                                                                          
+                                                      'category' => $data['category'],                                                      
+                                                      'special' => $special,                                                      
+                                                      'status' => $data['status']
+				
+				]);
+			}
+
+                return "ok";
+           }
 		  	   
 		   
 		

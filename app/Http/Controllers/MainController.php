@@ -245,15 +245,17 @@ class MainController extends Controller {
          
             if($validator->fails())
             {
-               return redirect()->intended('drivers');
+               return redirect()->intended('products');
             }
          
             else
             {
               $product = $this->helpers->getProduct($req['id']);
+			  $categories = $this->helpers->getCategories();
 			  $signals = $this->helpers->signals;
 			  $xf = $req['id'];
-		      return view('edit-product',compact(['user','product','xf','signals']));
+			  //dd($product);
+		      return view('edit-product',compact(['user','product','categories','xf','signals']));
             }
 		}
 		else
@@ -284,13 +286,209 @@ class MainController extends Controller {
         }
         
         $req = $request->all();
-		dd($req);
+		#dd($req);
         $validator = Validator::make($req, [
                              'xf' => 'required',                            
-                             'email' => 'required|email',                            
-                             'phone' => 'required|numeric',
-                             'fname' => 'required',
-                             'lname' => 'required',
+                             'description' => 'required',                            
+                             'amount' => 'required|numeric',
+                             'category' => 'required',
+                             'status' => 'required|not_in:none',
+                             'in_stock' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+            $this->helpers->updateProduct($req);
+			session()->flash("update-product-status", "success");
+			return redirect()->back();
+         } 	  
+    }
+	
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getCategories(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$categories = $this->helpers->getCategories();
+		
+		$signals = $this->helpers->signals;
+		//dd($drivers);
+    	return view('categories',compact(['user','categories','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddCategory(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$signals = $this->helpers->signals;
+		$c = $this->helpers->categories;
+		#dd($cg);
+    	return view('add-category',compact(['user','signals','c']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddCategory(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'category' => 'required',
+                             'status' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			 $req['user_id'] = $user->id;
+             $this->helpers->createCategory($req);
+			session()->flash("create-category-status", "success");
+			return redirect()->intended('categories');
+         } 	  
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getEditCategory(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+			$req = $request->all();
+			
+            $validator = Validator::make($req, [                            
+                             'id' => 'required',
+            ]);
+         
+            if($validator->fails())
+            {
+               return redirect()->intended('categories');
+            }
+         
+            else
+            {
+              $category = $this->helpers->getCategory($req['id']);
+			  $signals = $this->helpers->signals;
+			  $xf = $req['id'];
+		      return view('edit-category',compact(['user','category','xf','signals']));
+            }
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}	
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postEditCategory(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'xf' => 'required',                            
+                             'category' => 'required',                            
                              'status' => 'required|not_in:none',
          ]);
          
@@ -303,9 +501,9 @@ class MainController extends Controller {
          
          else
          {
-            $this->helpers->updateUser($req);
-			session()->flash("update-driver-status", "success");
-			return redirect()->intended('drivers');
+            $this->helpers->updateCategory($req);
+			session()->flash("edit-category-status", "success");
+			return redirect()->intended('categories');
          } 	  
     }
 

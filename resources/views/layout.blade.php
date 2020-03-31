@@ -86,6 +86,13 @@
                                     <li><a href="{{url('add-product')}}"> Add new product</a></li>
                                 </ul>                                
                             </li>
+							<li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> categories</a>
+                                <ul class="dropdown-menu">                                    
+                                    <li><a href="{{url('categories')}}"> View categories</a></li>
+                                    <li><a href="{{url('add-category')}}"> Add new category</a></li>
+                                </ul>                                
+                            </li>
                                                        
                         </ul>
                         <form class="navbar-form navbar-right" role="search" action="{{url('search')}}" method="post">
