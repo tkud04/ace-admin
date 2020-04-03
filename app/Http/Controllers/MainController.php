@@ -538,11 +538,182 @@ class MainController extends Controller {
 		$categories = $this->helpers->getCategories();
 		
 		$signals = $this->helpers->signals;
-		//dd($drivers);
+	    #dd($ads);
 		
     	return view('ads',compact(['user','categories','ads','signals']));
     }
     
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddAd(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$signals = $this->helpers->signals;
+		$c = $this->helpers->categories;
+		#dd($cg);
+    	return view('add-ad',compact(['user','signals','c']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddAd(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'type' => 'required',
+                             'status' => 'required|not_in:none',
+                             'img' => 'required|file',
+							 
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			 //upload product images 
+             $img = $request->file('img');
+              $ret = $this->helpers->uploadCloudImage($img->getRealPath());
+			  $req['img'] = $ret['public_id'];
+			 
+             $this->helpers->createAd($req);
+			session()->flash("create-ad-status", "success");
+			return redirect()->intended('ads');
+         } 	  
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getEditAd(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+			$req = $request->all();
+			
+            $validator = Validator::make($req, [                            
+                             'id' => 'required',
+            ]);
+         
+            if($validator->fails())
+            {
+               return redirect()->intended('categories');
+            }
+         
+            else
+            {
+              $ad = $this->helpers->getAd($req['id']);
+			  $signals = $this->helpers->signals;
+			  $xf = $req['id'];
+		      return view('edit-ad',compact(['user','ad','xf','signals']));
+            }
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}	
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postEditAd(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                             'xf' => 'required',                            
+                             'type' => 'required|not_in:none',                            
+                             'status' => 'required|not_in:none',
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+            $this->helpers->updateAd($req);
+			session()->flash("edit-ad-status", "success");
+			return redirect()->intended('ads');
+         } 	  
+    }
+	
+	
+	
 	
 	
     /**

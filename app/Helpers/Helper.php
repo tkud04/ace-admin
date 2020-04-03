@@ -40,6 +40,8 @@ class Helper implements HelperContract
                      "edit-category-status" => "Category updated!",
                      "update-status" => "Account updated!",
                      "config-status" => "Config added/updated!",
+                     "create-ad-status" => "Ad added!",
+                     "edi-ad-status" => "Ad updated!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
@@ -50,6 +52,8 @@ class Helper implements HelperContract
 					 "create-category-status-error" => "There was a problem adding the category, please try again.",
 					 "update-product-status-error" => "There was a problem updating product info, please try again.",
 					 "edit-category-status-error" => "There was a problem updating category, please try again.",
+					 "create-ad-status-error" => "There was a problem adding new ad, please try again.",
+					 "edit-ad-status-error" => "There was a problem updating the ad, please try again.",
                     ]
                    ];
 				   
@@ -409,6 +413,20 @@ $subject = $data['subject'];
                 return $ret;
            }
 		   
+		   function getCloudinaryImage($dt)
+		   {
+			   $ret = [];
+                  //dd($dt);       
+               if(is_null($dt)) { $ret = "img/no-image.png"; }
+               
+			   else
+			   {
+				    $ret = "https://res.cloudinary.com/dahkzo84h/image/upload/v1585236664/".$dt;
+                }
+				
+				return $ret;
+		   }
+		   
 		   function getCloudinaryImages($dt)
 		   {
 			   $ret = [];
@@ -435,6 +453,7 @@ $subject = $data['subject'];
 				
 				return $ret;
 		   }
+		
 		   
 		     function updateUser($data)
            {		
@@ -648,7 +667,7 @@ $subject = $data['subject'];
                 return "ok";
            }
 		   
-		   function createAds($data)
+		   function createAd($data)
            {
            	$ret = Ads::create(['img' => $data['img'], 
                                                       'type' => $data['type'], 
@@ -658,19 +677,19 @@ $subject = $data['subject'];
                 return $ret;
            }
 
-           function getAds()
+            function getAds($type="wide-ad")
 		   {
 			   $ret = [];
-			   $ads = Ads::where('status',"enabled")->get();
-			   
+			   $ads = Ads::where('id',">",'0')->get();
+			   #dd($ads);
 			   if(!is_null($ads))
 			   {
 				   foreach($ads as $ad)
 				   {
 					   $temp = [];
 					   $temp['id'] = $ad->id;
-					   $imgs = [$ad->img];
-					   $temp['imggs'] = $this->getCloudinaryImages($imgs);
+					   $img = $ad->img;
+					   $temp['img'] = $this->getCloudinaryImage($img);
 					   $temp['type'] = $ad->type;
 					   $temp['status'] = $ad->status;
 					   array_push($ret,$temp);
@@ -678,7 +697,43 @@ $subject = $data['subject'];
 			   }
 			   
 			   return $ret;
-		   }		   
+		   }	   
+
+		   function getAd($id)
+		   {
+			   $ret = [];
+			   $ad = Ads::where('id',$id)->first();
+			   #dd($ads);
+
+			   if(!is_null($ad))
+			   {
+					   $temp = [];
+					   $temp['id'] = $ad->id;
+					   $img = $ad->img;
+					   $temp['img'] = $this->getCloudinaryImage($img);
+					   $temp['type'] = $ad->type;
+					   $temp['status'] = $ad->status;
+					   $ret = $temp;
+			   }
+			   
+			   return $ret;
+		   }	 
+
+            function updateAd($data)
+           {
+			  $ad = Ads::where('id',$data['xf'])->first();
+			 
+			 
+			if($ad != null)
+			{
+				$ad->update(['type' => $data['type'],                                                                                                                                                               
+                                                      'status' => $data['status']
+				
+				]);
+			}
+
+                return "ok";
+           }		   
 		  
 		  
 		   function createReview($user,$data)

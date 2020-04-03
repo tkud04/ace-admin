@@ -33,3 +33,9 @@ Route::get('add-category', 'MainController@getAddCategory');
 Route::post('add-category', 'MainController@postAddCategory');
 Route::get('edit-category', 'MainController@getEditCategory');
 Route::post('edit-category', 'MainController@postEditCategory');
+
+Route::get('ads', 'MainController@getAds');
+Route::get('new-ad', 'MainController@getAddAd');
+Route::post('new-ad', 'MainController@postAddAd');
+Route::get('edit-ad', 'MainController@getEditAd');
+Route::post('edit-ad', 'MainController@postEditAd');

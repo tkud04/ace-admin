@@ -1,10 +1,9 @@
-@extends('layout')
+<?php $__env->startSection('title',"Ads"); ?>
 
-@section('title',"Ads")
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 			<div class="col-md-12">
-				{!! csrf_field() !!}
+				<?php echo csrf_field(); ?>
+
                 <div class="block">
                     <div class="header">
                         <h2>List of ads</h2>
@@ -23,26 +22,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-							   @foreach($ads as $a)
+							   <?php $__currentLoopData = $ads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 							   <?php
 							   $status = $a['status'];
 							   $imgg = $a['img'];
 							   $ss = ($status == "enabled") ? "success" : "danger";
 							   ?>
                                 <tr>
-                                    <td>{{$a['id']}}</td>
-                                    <td><a href="{{$imgg}}" target="_blank">{{$imgg}}</a></td>
-                                    <td>{{$a['type']}}</td>
-                                    <td><span class="driver-status label label-{{$ss}}">{{$status}}</span></td>                                                                     
+                                    <td><?php echo e($a['id']); ?></td>
+                                    <td><a href="<?php echo e($imgg); ?>" target="_blank"><?php echo e($imgg); ?></a></td>
+                                    <td><?php echo e($a['type']); ?></td>
+                                    <td><span class="driver-status label label-<?php echo e($ss); ?>"><?php echo e($status); ?></span></td>                                                                     
                                     <td>
 									  <?php
 									   $uu = url('edit-ad')."?id=".$a['id'];
 									   
 									  ?>
-									  <a href="{{$uu}}" class="btn btn-primary">View</button>									  
+									  <a href="<?php echo e($uu); ?>" class="btn btn-primary">View</button>									  
 									</td>                                                                     
                                 </tr>
-                               @endforeach                       
+                               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                       
                             </tbody>
                         </table>                                        
 
@@ -50,4 +49,5 @@
                 </div>  
             </div>				
            </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/ads.blade.php ENDPATH**/ ?>
