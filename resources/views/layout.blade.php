@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <link rel="icon" type="image/ico" href="favicon.ico">    
+    <link rel="icon" type="image/png" href="img/favicon.png" sizes="16x16">  
     <link href="css/stylesheets.css" rel="stylesheet" type="text/css">
     
     <script type='text/javascript' src='js/plugins/jquery/jquery.min.js'></script>

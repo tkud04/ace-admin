@@ -13,6 +13,8 @@ use App\Products;
 use App\ProductData;
 use App\ProductImages;
 use App\Categories;
+use App\Reviews;
+use App\Ads;
 use \Cloudinary\Api;
 use \Cloudinary\Api\Response;
 use GuzzleHttp\Client;
@@ -645,7 +647,79 @@ $subject = $data['subject'];
 
                 return "ok";
            }
-		  	   
+		   
+		   function createAds($data)
+           {
+           	$ret = Ads::create(['img' => $data['img'], 
+                                                      'type' => $data['type'], 
+                                                      'status' => $data['status'] 
+                                                      ]);
+                                                      
+                return $ret;
+           }
+
+           function getAds()
+		   {
+			   $ret = [];
+			   $ads = Ads::where('status',"enabled")->get();
+			   
+			   if(!is_null($ads))
+			   {
+				   foreach($ads as $ad)
+				   {
+					   $temp = [];
+					   $temp['id'] = $ad->id;
+					   $imgs = [$ad->img];
+					   $temp['imggs'] = $this->getCloudinaryImages($imgs);
+					   $temp['type'] = $ad->type;
+					   $temp['status'] = $ad->status;
+					   array_push($ret,$temp);
+				   }
+			   }
+			   
+			   return $ret;
+		   }		   
+		  
+		  
+		   function createReview($user,$data)
+           {
+			   $userId = $user == null ? $this->generateTempUserID() : $user->id;
+           	$ret = Reviews::create(['user_id' => $userId, 
+                                                      'sku' => $data['sku'], 
+                                                      'price' => $data['price'], 
+                                                      'quality' => $data['quality'], 
+                                                      'value' => $data['value'],
+                                                      'name' => $data['name'],
+                                                      'review' => $data['review'],
+                                                      ]);
+                                                      
+                return $ret;
+           }
+		   
+		   function getReviews($sku)
+           {
+           	$ret = [];
+              $reviews = Reviews::where('sku',$sku)->get();
+ 
+              if($reviews != null)
+               {
+				  foreach($reviews as $r)
+				  {
+					  $temp = [];
+					  $temp['id'] = $r->id;
+					  $temp['user_id'] = $r->user_id;
+					  $temp['sku'] = $r->sku;
+					  $temp['price'] = $r->price;
+					  $temp['quality'] = $r->quality;
+					  $temp['value'] = $r->value;
+					  $temp['name'] = $r->name;
+					  $temp['review'] = $r->review;
+					  array_push($ret,$temp);
+				  }
+               }                         
+                                  
+                return $ret;
+           }
 		   
 		
 		

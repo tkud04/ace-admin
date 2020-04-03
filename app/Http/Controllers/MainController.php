@@ -508,8 +508,43 @@ class MainController extends Controller {
     }
 
     
-	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAds(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$ads = $this->helpers->getAds();
+		$categories = $this->helpers->getCategories();
+		
+		$signals = $this->helpers->signals;
+		//dd($drivers);
+		
+    	return view('ads',compact(['user','categories','ads','signals']));
+    }
     
+	
+	
     /**
 	 * Show the application welcome screen to the user.
 	 *

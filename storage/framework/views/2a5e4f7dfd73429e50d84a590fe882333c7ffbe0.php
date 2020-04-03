@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>        
-    <title><?php echo $__env->yieldContent('title'); ?> | Admin Dashboard - Astro Ride NG</title>
+    <title><?php echo $__env->yieldContent('title'); ?> | Admin Dashboard - Ace Luxury Stores NG</title>
     
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
