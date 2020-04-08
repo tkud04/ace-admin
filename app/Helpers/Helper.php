@@ -44,7 +44,8 @@ class Helper implements HelperContract
                      "create-ad-status" => "Ad added!",
                      "edi-ad-status" => "Ad updated!",
 					 "create-banner-status" => "Banner added!",
-                     "edi-banner-status" => "Banner updated!",
+                     "edit-banner-status" => "Banner updated!",
+                     "edit-review-status" => "Review info updated!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
@@ -741,25 +742,24 @@ $subject = $data['subject'];
            }		   
 		  
 		  
-		   function createReview($user,$data)
+		    function createReview($user,$data)
            {
 			   $userId = $user == null ? $this->generateTempUserID() : $user->id;
            	$ret = Reviews::create(['user_id' => $userId, 
                                                       'sku' => $data['sku'], 
-                                                      'price' => $data['price'], 
-                                                      'quality' => $data['quality'], 
-                                                      'value' => $data['value'],
+                                                      'rating' => $data['rating'],
                                                       'name' => $data['name'],
                                                       'review' => $data['review'],
+													  'status' => "pending",
                                                       ]);
                                                       
                 return $ret;
            }
 		   
-		   function getReviews($sku)
+		  function getReviews()
            {
            	$ret = [];
-              $reviews = Reviews::where('sku',$sku)->get();
+              $reviews = Reviews::where('id','>',"0")->get();
  
               if($reviews != null)
                {
@@ -769,16 +769,53 @@ $subject = $data['subject'];
 					  $temp['id'] = $r->id;
 					  $temp['user_id'] = $r->user_id;
 					  $temp['sku'] = $r->sku;
-					  $temp['price'] = $r->price;
-					  $temp['quality'] = $r->quality;
-					  $temp['value'] = $r->value;
+					  $temp['rating'] = $r->rating;
 					  $temp['name'] = $r->name;
 					  $temp['review'] = $r->review;
+					  $temp['status'] = $r->status;
 					  array_push($ret,$temp);
 				  }
                }                         
                                   
                 return $ret;
+           }
+		   
+		   function getReview($id)
+           {
+           	$ret = [];
+              $r = Reviews::where('id',$id)->first();
+ 
+              if($r != null)
+               {
+				  
+					  $temp = [];
+					  $temp['id'] = $r->id;
+					  $temp['user_id'] = $r->user_id;
+					  $temp['sku'] = $r->sku;
+					  $temp['rating'] = $r->rating;
+					  $temp['name'] = $r->name;
+					  $temp['review'] = $r->review;
+					  $temp['status'] = $r->status;
+					  $ret = $temp;
+               }                         
+                                  
+                return $ret;
+           }
+		   
+		    function updateReview($data)
+           {
+			  $r = Reviews::where('id',$data['xf'])->first();
+			   #dd($data);
+			 
+			if($r != null)
+			{
+				$r->update(['name' => $data['name'],                                                                                                                                                               
+                                                      'status' => $data['status']
+				
+				]);
+			}
+
+                return "ok";
            }
 		   
 		    function createBanner($data)

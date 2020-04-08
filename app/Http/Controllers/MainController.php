@@ -963,6 +963,129 @@ class MainController extends Controller {
          } 	  
     }
 	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getReviews(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$reviews = $this->helpers->getReviews();
+		$categories = $this->helpers->getCategories();
+		
+		$signals = $this->helpers->signals;
+	    #dd($ads);
+		
+    	return view('reviews',compact(['user','categories','reviews','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getEditReview(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+			$req = $request->all();
+			
+            $validator = Validator::make($req, [                            
+                             'id' => 'required',
+            ]);
+         
+            if($validator->fails())
+            {
+               return redirect()->intended('reviews');
+            }
+         
+            else
+            {
+              $r = $this->helpers->getReview($req['id']);
+			  $signals = $this->helpers->signals;
+			  $xf = $r['id'];
+			  #dd($r);
+		      return view('edit-review',compact(['user','r','xf','signals']));
+            }
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}	
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postEditReview(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                            'name' => 'required',
+                             'status' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+            $this->helpers->updateReview($req);
+			session()->flash("edit-review-status", "success");
+			return redirect()->back();
+         } 	  
+    }
+	
 	
 	
 	

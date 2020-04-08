@@ -47,3 +47,8 @@ Route::get('edit-banner', 'MainController@getEditBanner');
 Route::post('edit-banner', 'MainController@postEditBanner');
 
 Route::get('delete-img', 'MainController@postDeleteImage');
+
+Route::get('reviews', 'MainController@getReviews');
+Route::get('edit-review', 'MainController@getEditReview');
+Route::post('edit-review', 'MainController@postEditReview');
+

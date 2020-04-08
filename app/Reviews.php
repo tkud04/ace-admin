@@ -13,7 +13,7 @@ class Reviews extends Model
      * @var array
      */
     protected $fillable = [
-        'sku', 'user_id', 'price', 'quality', 'value', 'name', 'review'
+        'sku', 'user_id', 'price', 'rating', 'name', 'review', 'status'
     ];
     
 }
