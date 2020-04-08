@@ -499,7 +499,7 @@ $subject = $data['subject'];
            	$ret = Products::create(['name' => $data['name'],                                                                                                          
                                                       'sku' => $sku, 
                                                       'added_by' => $data['user_id'],                                                       
-                                                      'status' => $data["status"], 
+                                                      'status' => "enabled", 
                                                       ]);
                                                       
                  $data['sku'] = $ret->sku;                         
