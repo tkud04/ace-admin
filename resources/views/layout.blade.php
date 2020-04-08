@@ -94,6 +94,13 @@
                                 </ul>                                
                             </li>
 							<li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> banners</a>
+                                <ul class="dropdown-menu">                                    
+                                    <li><a href="{{url('banners')}}"> View banners</a></li>
+                                    <li><a href="{{url('new-banner')}}"> Add new banner</a></li>
+                                </ul>                                
+                            </li>
+							<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> ads</a>
                                 <ul class="dropdown-menu">                                    
                                     <li><a href="{{url('ads')}}"> View ads</a></li>

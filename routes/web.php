@@ -39,3 +39,11 @@ Route::get('new-ad', 'MainController@getAddAd');
 Route::post('new-ad', 'MainController@postAddAd');
 Route::get('edit-ad', 'MainController@getEditAd');
 Route::post('edit-ad', 'MainController@postEditAd');
+
+Route::get('banners', 'MainController@getBanners');
+Route::get('new-banner', 'MainController@getAddBanner');
+Route::post('new-banner', 'MainController@postAddBanner');
+Route::get('edit-banner', 'MainController@getEditBanner');
+Route::post('edit-banner', 'MainController@postEditBanner');
+
+Route::get('delete-img', 'MainController@postDeleteImage');

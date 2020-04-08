@@ -14,6 +14,7 @@ use App\ProductData;
 use App\ProductImages;
 use App\Categories;
 use App\Reviews;
+use App\Banners;
 use App\Ads;
 use \Cloudinary\Api;
 use \Cloudinary\Api\Response;
@@ -42,6 +43,8 @@ class Helper implements HelperContract
                      "config-status" => "Config added/updated!",
                      "create-ad-status" => "Ad added!",
                      "edi-ad-status" => "Ad updated!",
+					 "create-banner-status" => "Banner added!",
+                     "edi-banner-status" => "Banner updated!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
@@ -54,6 +57,8 @@ class Helper implements HelperContract
 					 "edit-category-status-error" => "There was a problem updating category, please try again.",
 					 "create-ad-status-error" => "There was a problem adding new ad, please try again.",
 					 "edit-ad-status-error" => "There was a problem updating the ad, please try again.",
+					 "create-banner-status-error" => "There was a problem adding new banner, please try again.",
+					 "edit-banner-status-error" => "There was a problem updating the banner, please try again.",
                     ]
                    ];
 				   
@@ -565,7 +570,7 @@ $subject = $data['subject'];
 		   
 		  function deleteCloudImage($id)
           {
-          	$dt = ['invalidate' => true];
+          	$dt = ['cloud_name' => "dahkzo84h",'invalidate' => true];
           	$rett = \Cloudinary\Uploader::destroy($id,$dt);
                                                      
              return $rett; 
@@ -776,6 +781,79 @@ $subject = $data['subject'];
                 return $ret;
            }
 		   
+		    function createBanner($data)
+           {
+			   $copy = isset($data['copy']) ? $data['copy'] : "";
+           	$ret = Banners::create(['img' => $data['img'], 
+                                                      'title' => $data['title'], 
+                                                      'subtitle' => $data['subtitle'], 
+                                                      'copy' => $copy, 
+                                                      'status' => $data['status'] 
+                                                      ]);
+                                                      
+                return $ret;
+           }
+
+            function getBanners()
+		   {
+			   $ret = [];
+			   $banners = Banners::where('id',">",'0')->get();
+			   #dd($ads);
+			   if(!is_null($banners))
+			   {
+				   foreach($banners as $b)
+				   {
+					   $temp = [];
+					   $temp['id'] = $b->id;
+					   $img = $b->img;
+					   $temp['img'] = $this->getCloudinaryImage($img);
+					   $temp['title'] = $b->title;
+					   $temp['subtitle'] = $b->subtitle;
+					   $temp['copy'] = $b->copy;
+					   $temp['status'] = $b->status;
+					   array_push($ret,$temp);
+				   }
+			   }
+			   
+			   return $ret;
+		   }	   
+
+		   function getBanner($id)
+		   {
+			   $ret = [];
+			   $b = Banners::where('id',$id)->first();
+			   #dd($banners);
+			   if(!is_null($b))
+			   {
+					   $temp = [];
+					   $temp['id'] = $b->id;
+					   $img = $b->img;
+					   $temp['img'] = $this->getCloudinaryImage($img);
+					   $temp['title'] = $b->title;
+					   $temp['subtitle'] = $b->subtitle;
+					   $temp['copy'] = $b->copy;
+					   $temp['status'] = $b->status;
+					   $ret = $temp;
+			   }
+			   
+			   return $ret;
+		   }	 
+
+            function updateBanner($data)
+           {
+			  $b = Banners::where('id',$data['xf'])->first();
+			 
+			 
+			if($b != null)
+			{
+				$b->update(['img' => $data['img'],                                                                                                                                                               
+                                                      'status' => $data['status']
+				
+				]);
+			}
+
+                return "ok";
+           }
 		
 		
            
