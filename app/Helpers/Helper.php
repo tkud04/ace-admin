@@ -891,6 +891,18 @@ $subject = $data['subject'];
 
                 return "ok";
            }
+
+		   function getDashboardStats()
+           {
+			   $ret = [];
+			   
+			  //total products
+			  $ret['total'] = Products::where('id','>',"0")->count();
+			  $ret['enabled'] = Products::where('status',"enabled")->count();
+			  $ret['disabled'] = Products::where('status',"disabled")->count();
+			
+              return $ret;
+           }
 		
 		
            

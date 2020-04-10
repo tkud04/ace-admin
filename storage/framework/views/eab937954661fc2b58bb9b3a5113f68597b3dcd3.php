@@ -97,17 +97,17 @@
                         <div class="head-subtitle">Total products in store</div>                        
                         <div class="head-panel nm tac" style="line-height: 0px;">
                             <div class="knob">
-                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="100" data-width="100" data-height="100" value="0" data-readOnly="true"/>
+                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="100" data-width="100" data-height="100" value="<?php echo e($stats['total']); ?>" data-readOnly="true"/>
                             </div>                              
                         </div>
                         <div class="head-panel nm">
                             <div class="hp-info hp-simple pull-left">
-                                <span class="hp-main">In-stock products</span>
-                                <span class="hp-sm">0</span>                                
+                                <span class="hp-main">Enabled products</span>
+                                <span class="hp-sm"><?php echo e($stats['enabled']); ?></span>                                
                             </div>
                             <div class="hp-info hp-simple pull-right">
-                                <span class="hp-main">Out-of-stock products</span>
-                                <span class="hp-sm">0</span>                                
+                                <span class="hp-main">Disabled products</span>
+                                <span class="hp-sm"><?php echo e($stats['disabled']); ?></span>                                
                             </div>                            
                         </div>                        
                     </div>                    
