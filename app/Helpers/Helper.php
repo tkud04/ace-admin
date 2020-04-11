@@ -15,6 +15,7 @@ use App\ProductImages;
 use App\Categories;
 use App\Reviews;
 use App\Banners;
+use App\Trackings;
 use App\Ads;
 use \Cloudinary\Api;
 use \Cloudinary\Api\Response;
@@ -903,6 +904,41 @@ $subject = $data['subject'];
 			
               return $ret;
            }
+		   
+		   
+		   function createTracking($dt)
+		   {
+			   $ret = Trackings::create(['user_id' => $dt['user_id'],
+			                          'reference' => $dt['reference'],
+			                          'description' => $dt['description'],
+			                          'status' => $dt['status']
+			                 ]);
+			  return $ret;
+		   }
+
+           function getTrackings($reference="")
+		   {
+			   $ret = [];
+			   if($trackings == "") $trackings = Trackings::where('id','>',"0")->get();
+			   else $trackings = Trackings::where('reference',$reference)->get();
+			   
+			   if(!is_null($trackings))
+			   {
+				   foreach($trackings as $t)
+				   {
+					   $temp = [];
+					   $temp['id'] = $t->id;
+					   $temp['user_id'] = $t->user_id;
+					   $temp['reference'] = $t->reference;
+					   $temp['description'] = $t->description;
+					   $temp['status'] = $t->status;
+					   $temp['date'] = $t->created_at->format("jS F, Y h:i A");
+					   array_push($ret,$temp);
+				   }
+			   }
+			   
+			   return $ret;
+		   }		   
 		
 		
            
