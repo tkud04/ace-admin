@@ -1,10 +1,9 @@
-@extends('layout')
+<?php $__env->startSection('title',"Orders"); ?>
 
-@section('title',"Orders")
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 			<div class="col-md-12">
-				{!! csrf_field() !!}
+				<?php echo csrf_field(); ?>
+
                 <div class="block">
                     <div class="header">
                         <h2>List of orders in the system</h2>
@@ -34,8 +33,8 @@
 							 $uu = "#";
 				    ?>
                       <tr>
-					   <td>{{$o['date']}}</td>
-					   <td>{{$o['reference']}}</td>
+					   <td><?php echo e($o['date']); ?></td>
+					   <td><?php echo e($o['reference']); ?></td>
 					    <td>
 						<?php
 						 foreach($items as $i)
@@ -45,14 +44,14 @@
 							 $pu = url('edit-product')."?id=".$product['sku'];
 							 $tu = url('edit-order')."?r=".$o['reference'];
 						 ?>
-						 <a href="{{$pu}}" target="_blank">{{$product['sku']}}</a> (x{{$qty}})<br>
+						 <a href="<?php echo e($pu); ?>" target="_blank"><?php echo e($product['sku']); ?></a> (x<?php echo e($qty); ?>)<br>
 						 <?php
 						 }
 						?>
-						<b>Total: &#8358;{{number_format($o['amount'],2)}}</b>
+						<b>Total: &#8358;<?php echo e(number_format($o['amount'],2)); ?></b>
 					   </td>	  
-					   <td><span class="label label-{{$statusClass}}">{{strtoupper($o['status'])}}</span></td>
-					   <td><a class="btn btn-primary" href="{{$tu}}">View</span></td>
+					   <td><span class="label label-<?php echo e($statusClass); ?>"><?php echo e(strtoupper($o['status'])); ?></span></td>
+					   <td><a class="btn btn-primary" href="<?php echo e($tu); ?>">View</span></td>
 					 </tr>
 					<?php
 						 }  
@@ -65,4 +64,5 @@
                 </div>  
             </div>				
            </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/orders.blade.php ENDPATH**/ ?>

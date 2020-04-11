@@ -1127,6 +1127,95 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
+	public function getEditOrder(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+			$req = $request->all();
+			
+            $validator = Validator::make($req, [                            
+                             'r' => 'required',
+            ]);
+         
+            if($validator->fails())
+            {
+               return redirect()->intended('orders');
+            }
+         
+            else
+            {
+				#dd($req);
+              $o = $this->helpers->getOrder($req['r']);
+			  $signals = $this->helpers->signals;
+			  $xf = $o['id'];
+			  #dd($order);
+		      return view('edit-order',compact(['user','o','xf','signals']));
+            }
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}	
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postEditOrder(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                            'xf' => 'required',
+                             'status' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+            $this->helpers->updateOrder($req);
+			session()->flash("edit-order-status", "success");
+			return redirect()->back();
+         } 	  
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
 	public function getTrackings(Request $request)
     {
        $user = null;

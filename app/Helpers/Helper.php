@@ -16,6 +16,8 @@ use App\Categories;
 use App\Reviews;
 use App\Banners;
 use App\Trackings;
+use App\Orders;
+use App\OrderItems;
 use App\Ads;
 use \Cloudinary\Api;
 use \Cloudinary\Api\Response;
@@ -47,6 +49,7 @@ class Helper implements HelperContract
 					 "create-banner-status" => "Banner added!",
                      "edit-banner-status" => "Banner updated!",
                      "edit-review-status" => "Review info updated!",
+                     "edit-order-status" => "Order info updated!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
@@ -61,6 +64,7 @@ class Helper implements HelperContract
 					 "edit-ad-status-error" => "There was a problem updating the ad, please try again.",
 					 "create-banner-status-error" => "There was a problem adding new banner, please try again.",
 					 "edit-banner-status-error" => "There was a problem updating the banner, please try again.",
+					 "edit-order-status-error" => "There was a problem updating the order, please try again.",
                     ]
                    ];
 				   
@@ -938,7 +942,138 @@ $subject = $data['subject'];
 			   }
 			   
 			   return $ret;
-		   }		   
+		   }	
+
+
+
+            function createOrder($user, $dt)
+		   {
+			   $ret = Orders::create(['user_id' => $user->id,
+			                          'reference' => $dt['ref'],
+			                          'amount' => $dt['amount'],
+			                          'type' => $dt['type'],
+			                          'payment_code' => $dt['payment_code'],
+			                          'notes' => $dt['notes'],
+			                          'status' => $dt['status'],
+			                 ]);
+			  return $ret;
+		   }
+		   
+		    function getDeliveryFee()
+		   {
+			   return 1000;
+		   }
+
+		   function createOrderItems($dt)
+		   {
+			   $ret = OrderItems::create(['order_id' => $dt['order_id'],
+			                          'sku' => $dt['sku'],
+			                          'qty' => $dt['qty']
+			                 ]);
+			  return $ret;
+		   }
+
+           function getOrderTotals($items)
+           {
+           	$ret = ["subtotal" => 0, "delivery" => 0, "items" => 0];
+              #dd($items);
+              if($items != null && count($items) > 0)
+               {           	
+               	foreach($items as $i) 
+                    {
+						$amount = $i['product']['pd']['amount'];
+						$qty = $i['qty'];
+                    	$ret['items'] += $qty;
+						$ret['subtotal'] += ($amount * $qty);	
+                    }
+                   
+                   $ret['delivery'] = $this->getDeliveryFee();
+                  
+               }                                 
+                                                      
+                return $ret;
+           }
+
+           function getOrders()
+           {
+           	$ret = [];
+
+			  $orders = Orders::where('id','>',"0")->get();
+			  #dd($uu);
+              if($orders != null)
+               {
+               	  foreach($orders as $o) 
+                    {
+                    	$temp = $this->getOrder($o->reference);
+                        array_push($ret, $temp); 
+                    }
+               }                                 
+              			  
+                return $ret;
+           }
+		   
+		   function getOrder($ref)
+           {
+           	$ret = [];
+
+			  $o = Orders::where('id',$ref)
+			                  ->orWhere('reference',$ref)->first();
+			  #dd($uu);
+              if($o != null)
+               {
+				  $temp = [];
+                  $temp['id'] = $o->id;
+                  $temp['reference'] = $o->reference;
+                  $temp['amount'] = $o->amount;
+                  $temp['type'] = $o->type;
+                  $temp['payment_code'] = $o->payment_code;
+                  $temp['notes'] = $o->notes;
+                  $temp['status'] = $o->status;
+                  $temp['items'] = $this->getOrderItems($o->id);
+                  $temp['totals'] = $this->getOrderTotals( $temp['items']);
+                  $temp['date'] = $o->created_at->format("jS F, Y");
+                  $ret = $temp; 
+               }                                 
+              			  
+                return $ret;
+           }
+
+
+           function getOrderItems($id)
+           {
+           	$ret = [];
+
+			  $items = OrderItems::where('order_id',$id)->get();
+			  #dd($uu);
+              if($items != null)
+               {
+               	  foreach($items as $i) 
+                    {
+						$temp = [];
+                    	$temp['id'] = $i->id; 
+                        $temp['product'] = $this->getProduct($i->sku); 
+                        $temp['qty'] = $i->qty; 
+                        array_push($ret, $temp); 
+                    }
+               }                                 
+              			  
+                return $ret;
+           }
+
+           function updateOrder($data)
+           {
+			  $o = Orders::where('id',$data['xf'])->first();
+			 
+			 
+			if($o != null)
+			{
+				$o->update(['status' => $data['status']
+				
+				]);
+			}
+
+                return "ok";
+           }		   
 		
 		
            
