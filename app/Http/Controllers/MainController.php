@@ -1316,7 +1316,7 @@ class MainController extends Controller {
         $req = $request->all();
 		#dd($req);
         $validator = Validator::make($req, [                          
-                            'xf' => 'required',
+                             'reference' => 'required',
                              'status' => 'required|not_in:none'
          ]);
          
@@ -1329,9 +1329,10 @@ class MainController extends Controller {
          
          else
          {
-            $this->helpers->updateOrder($req);
-			session()->flash("edit-order-status", "success");
-			return redirect()->back();
+			 $req['user_id'] = $user->id;
+            $this->helpers->createTracking($req);
+			session()->flash("create-tracking-status", "success");
+			return redirect()->intended('orders');
          } 	  
     }
 	

@@ -5,6 +5,7 @@
 			<form method="post" action="<?php echo e(url('new-tracking')); ?>" enctype="multipart/form-data">
 				<?php echo csrf_field(); ?>
 
+				
                 <div class="block">
                     <div class="header">
                         <h2>Add new tracking</h2>
@@ -19,7 +20,7 @@
 						<div class="form-row">
                             <div class="col-md-3">Order reference #</div>
                            <div class="col-md-9">
-							  <input type="text" class="form-control" name="r" value="<?php echo e($r); ?>" readonly>
+							  <input type="text" class="form-control" name="reference" value="<?php echo e($r); ?>" readonly>
 						   </div>
                         </div><br>
                        
@@ -29,7 +30,12 @@
 							  <select class="form-control" name="status">
 							    <option value="none">Select status</option>
 								<?php
-								 $statuses = ['enabled' => "Enabled",'disabled' => "Disabled"];
+								 $statuses = ['pickup' => "Scheduled for Pickup",
+								              'transit' => "In Transit",
+								              'delivered' => "Package delivered",
+								              'return' => "Package Returned",
+								              'receiver_not_present' => "Receiver Not Present at Delivery Address",
+											 ];
 								?>
 								<?php $__currentLoopData = $statuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 								 <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>

@@ -34,6 +34,14 @@ class Helper implements HelperContract
                            'spp' => 'kudayisi',
                            'sa' => 'yes',
                            'sec' => 'tls'
+                       ];    
+
+			public $deliveryStatuses = [
+                           'pickup' => 'Your order has been processed and is scheduled for pickup.',
+                           'transit' => 'The package has left the pickup point and is on its way to the delivery address.',
+                           'delivered' => 'The package has been delivered to the receiver.',
+                           'return' => 'The delivery address was not correct and the package has been returned.',
+                           'receiver_not_present' => 'The receiver was not present at the delivery address and the package has been returned.'
                        ];     
                         
              public $signals = ['okays'=> ["login-status" => "Sign in successful",            
@@ -51,6 +59,7 @@ class Helper implements HelperContract
                      "edit-review-status" => "Review info updated!",
                      "edit-order-status" => "Order info updated!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
+                     "create-tracking-status" => "Tracking info updated.",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -65,6 +74,7 @@ class Helper implements HelperContract
 					 "create-banner-status-error" => "There was a problem adding new banner, please try again.",
 					 "edit-banner-status-error" => "There was a problem updating the banner, please try again.",
 					 "edit-order-status-error" => "There was a problem updating the order, please try again.",
+					 "create-tracking-status-error" => "There was a problem updating tracking information, please try again.",
                     ]
                    ];
 				   
@@ -912,10 +922,12 @@ $subject = $data['subject'];
 		   
 		   function createTracking($dt)
 		   {
+			   $status = $dt['status'];
+			   $description = $this->deliveryStatuses[$status];
 			   $ret = Trackings::create(['user_id' => $dt['user_id'],
 			                          'reference' => $dt['reference'],
-			                          'description' => $dt['description'],
-			                          'status' => $dt['status']
+			                          'description' => $description,
+			                          'status' => $status
 			                 ]);
 			  return $ret;
 		   }

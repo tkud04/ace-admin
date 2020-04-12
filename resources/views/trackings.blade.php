@@ -20,6 +20,7 @@
                             <thead>
                                 <tr>
                                     <th width="20%">ID</th>
+                                    <th width="20%">Reference #</th>
                                     <th width="20%">Date</th>
                                     <th width="20%">Status</th>                                                                       
                                     <th width="20%">Description</th>                                                                                                                                             
@@ -34,6 +35,7 @@
 				    ?>
 					 <tr>
 					   <td>{{$t['id']}}</td>
+					   <td>{{$t['reference']}}</td>
 					   <td>{{$t['date']}}</td>
 					   <td>{{$t['status']}}</td>
 					   <td>{{$t['description']}}</td>

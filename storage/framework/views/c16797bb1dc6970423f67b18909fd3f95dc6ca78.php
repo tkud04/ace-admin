@@ -19,6 +19,7 @@
                             <thead>
                                 <tr>
                                     <th width="20%">ID</th>
+                                    <th width="20%">Reference #</th>
                                     <th width="20%">Date</th>
                                     <th width="20%">Status</th>                                                                       
                                     <th width="20%">Description</th>                                                                                                                                             
@@ -33,6 +34,7 @@
 				    ?>
 					 <tr>
 					   <td><?php echo e($t['id']); ?></td>
+					   <td><?php echo e($t['reference']); ?></td>
 					   <td><?php echo e($t['date']); ?></td>
 					   <td><?php echo e($t['status']); ?></td>
 					   <td><?php echo e($t['description']); ?></td>
