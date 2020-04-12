@@ -52,7 +52,7 @@ Route::get('reviews', 'MainController@getReviews');
 Route::get('edit-review', 'MainController@getEditReview');
 Route::post('edit-review', 'MainController@postEditReview');
 
-Route::get('trackings', 'MainController@getTrackings');
+Route::get('track', 'MainController@getTrackings');
 Route::get('new-tracking', 'MainController@getAddTracking');
 Route::post('new-tracking', 'MainController@postAddTracking');
 

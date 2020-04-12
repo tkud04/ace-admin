@@ -43,6 +43,7 @@
 							 $qty = $i['qty'];
 							 $pu = url('edit-product')."?id=".$product['sku'];
 							 $tu = url('edit-order')."?r=".$o['reference'];
+							 $ttu = url('track')."?o=".$o['reference'];
 						 ?>
 						 <a href="<?php echo e($pu); ?>" target="_blank"><?php echo e($product['sku']); ?></a> (x<?php echo e($qty); ?>)<br>
 						 <?php
@@ -51,7 +52,10 @@
 						<b>Total: &#8358;<?php echo e(number_format($o['amount'],2)); ?></b>
 					   </td>	  
 					   <td><span class="label label-<?php echo e($statusClass); ?>"><?php echo e(strtoupper($o['status'])); ?></span></td>
-					   <td><a class="btn btn-primary" href="<?php echo e($tu); ?>">View</span></td>
+					   <td>
+					     <a class="btn btn-primary" href="<?php echo e($tu); ?>">View</span>&nbsp;&nbsp;
+					     <a class="btn btn-warning" href="<?php echo e($ttu); ?>">Track</span>
+					   </td>
 					 </tr>
 					<?php
 						 }  

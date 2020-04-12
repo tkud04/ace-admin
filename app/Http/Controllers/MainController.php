@@ -1237,13 +1237,102 @@ class MainController extends Controller {
 		}
 		
 		
-		$trackings = $this->helpers->getTrackings();
+		$req = $request->all();
+		$trackings = $this->helpers->getTrackings($req['o']);
+		$r = $req['o'];
 		$categories = $this->helpers->getCategories();
 		
 		$signals = $this->helpers->signals;
 	    #dd($ads);
 		
-    	return view('trackings',compact(['user','categories','trackings','signals']));
+    	return view('trackings',compact(['user','categories','r','trackings','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddTracking(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$req = $request->all();
+		if(isset($req['r']))
+		{
+		  $r = $req['r'];
+		  $categories = $this->helpers->getCategories();
+		
+		  $signals = $this->helpers->signals;
+	      #dd($ads);
+		
+    	  return view('add-tracking',compact(['user','categories','r','signals']));	
+		}
+		else
+		{
+			 return redirect()->intended('orders');
+		}
+		
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddTracking(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                            'xf' => 'required',
+                             'status' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+            $this->helpers->updateOrder($req);
+			session()->flash("edit-order-status", "success");
+			return redirect()->back();
+         } 	  
     }
 	
 	

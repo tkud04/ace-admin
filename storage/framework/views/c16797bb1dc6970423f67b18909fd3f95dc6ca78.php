@@ -1,17 +1,16 @@
-@extends('layout')
+<?php $__env->startSection('title',"Trackings"); ?>
 
-@section('title',"Trackings")
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 			<div class="col-md-12">
-				{!! csrf_field() !!}
+				<?php echo csrf_field(); ?>
+
 				<?php
 				$tu = url('new-tracking')."?r=".$r;
 				?>
                 <div class="block">
                     <div class="header">
-                        <h2>Trackings for order #{{$r}}</h2><br>
-						<a class="btn btn-primary" href="{{$tu}}">Add tracking</a>
+                        <h2>Trackings for order #<?php echo e($r); ?></h2><br>
+						<a class="btn btn-primary" href="<?php echo e($tu); ?>">Add tracking</a>
                     </div>
                     <div class="content">
                        <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
@@ -33,10 +32,10 @@
 						 {
 				    ?>
 					 <tr>
-					   <td>{{$t['id']}}</td>
-					   <td>{{$t['date']}}</td>
-					   <td>{{$t['status']}}</td>
-					   <td>{{$t['description']}}</td>
+					   <td><?php echo e($t['id']); ?></td>
+					   <td><?php echo e($t['date']); ?></td>
+					   <td><?php echo e($t['status']); ?></td>
+					   <td><?php echo e($t['description']); ?></td>
 					 </tr>
 					<?php
 						 }  
@@ -49,4 +48,5 @@
                 </div>  
             </div>				
            </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/trackings.blade.php ENDPATH**/ ?>

@@ -923,7 +923,7 @@ $subject = $data['subject'];
            function getTrackings($reference="")
 		   {
 			   $ret = [];
-			   if($trackings == "") $trackings = Trackings::where('id','>',"0")->get();
+			   if($reference == "") $trackings = Trackings::where('id','>',"0")->get();
 			   else $trackings = Trackings::where('reference',$reference)->get();
 			   
 			   if(!is_null($trackings))
