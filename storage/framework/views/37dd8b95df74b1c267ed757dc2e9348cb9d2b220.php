@@ -24,6 +24,12 @@
 						   </div>
                         </div><br>
 						<div class="form-row">
+                            <div class="col-md-3">Payment method</div>
+                           <div class="col-md-9">
+							  <input type="text" class="form-control" value="<?php echo e($o['type']); ?>" readonly>
+						   </div>
+                        </div><br>
+						<div class="form-row">
                             <div class="col-md-3">Payment code</div>
                            <div class="col-md-9">
 							  <input type="text" class="form-control" value="<?php echo e($o['payment_code']); ?>" readonly>
