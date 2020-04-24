@@ -46,8 +46,9 @@ class MainController extends Controller {
 		//$accounts = $this->helpers->getUsers();
 		$accounts = [];
 		$stats = $this->helpers->getDashboardStats();
+		$profits = $this->helpers->getProfits();
         
-    	return view('index',compact(['user','stats','signals']));
+    	return view('index',compact(['user','stats','profits','signals']));
     }
 
      /**

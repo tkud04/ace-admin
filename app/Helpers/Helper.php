@@ -915,9 +915,26 @@ $subject = $data['subject'];
 			  $ret['total'] = Products::where('id','>',"0")->count();
 			  $ret['enabled'] = Products::where('status',"enabled")->count();
 			  $ret['disabled'] = Products::where('status',"disabled")->count();
+			  $ret['o_total'] = Orders::where('id','>',"0")->count();
+			  $ret['o_paid'] = Orders::where('id','>',"0")->where('status',"paid")->count();
+			  $ret['o_unpaid'] = Orders::where('id','>',"0")->where('status',"unpaid")->count();
+			  $ret['o_today'] = Orders::whereDate('created_at',date("Y-m-d"))->count();
+			  $ret['o_month'] = Orders::whereMonth('created_at',date("m"))->count();
 			
               return $ret;
            }
+		   
+		   function getProfits()
+		   {
+			   $ret = [];
+			   
+			    //total profits
+				$ret['total'] = Orders::where('id','>',"0")->sum('amount');
+				$ret['today'] = Orders::whereDate('created_at',date("Y-m-d"))->sum('amount');
+				$ret['month'] = Orders::whereMonth('created_at',date("m"))->sum('amount');
+				
+				return $ret;
+		   }
 		   
 		   
 		   function createTracking($dt)
@@ -1087,6 +1104,33 @@ $subject = $data['subject'];
                 return "ok";
            }		   
 		
+		
+		 function getPasswordResetCode($user)
+           {
+           	$u = $user; 
+               
+               if($u != null)
+               {
+               	//We have the user, create the code
+                   $code = bcrypt(rand(125,999999)."rst".$u->id);
+               	$u->update(['reset_code' => $code]);
+               }
+               
+               return $code; 
+           }
+           
+           function verifyPasswordResetCode($code)
+           {
+           	$u = User::where('reset_code',$code)->first();
+               
+               if($u != null)
+               {
+               	//We have the user, delete the code
+               	$u->update(['reset_code' => '']);
+               }
+               
+               return $u; 
+           }
 		
            
            

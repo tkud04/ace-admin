@@ -33,20 +33,22 @@
                                 <li><a href="#"><span class="icon-cogs"></span></a></li>
                             </ul>
                         </div>
-                        <div class="head-subtitle">Total amount generated from revenue </div>                        
+                        <div class="head-subtitle">Total amount generated from sales </div>                        
                         <div class="head-panel tac" style="line-height: 0px;">
-                            <div class="knob">
-                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="1024" data-width="100" data-height="100" value="0" data-readOnly="true"/>
-                            </div>                              
+                                                    
                         </div>
                         <div class="head-panel nm">
                             <div class="hp-info hp-simple pull-left hp-inline">
+                                <span class="hp-main">Total profit</span>
+                                <span class="hp-sm">Amount: &#8358;{{number_format($profits['total'],2)}} </span>
+                            </div>   
+							<div class="hp-info hp-simple pull-left hp-inline">
                                 <span class="hp-main">Total profit today</span>
-                                <span class="hp-sm">Amount: &#8358;0 </span>
+                                <span class="hp-sm">Amount: &#8358;{{number_format($profits['today'],2)}} </span>
                             </div>                 
                             <div class="hp-info hp-simple pull-left hp-inline">
                                 <span class="hp-main">Total profit this month</span>
-                                 <span class="hp-sm">Amount: &#8358;0 </span>
+                                 <span class="hp-sm">Amount: &#8358;{{number_format($profits['month'],2)}} </span>
                             </div>                 
                         </div>                        
                     </div>                    
@@ -58,26 +60,36 @@
             <div class="col-md-5">
                <div class="block block-drop-shadow">                    
                     <div class="head bg-dot20">
-                        <h2>Total sales</h2>
+                        <h2>Total orders</h2>
                         <div class="side pull-right">               
                             <ul class="buttons">                                
                                 <li><a href="#"><span class="icon-cogs"></span></a></li>
                             </ul>
                         </div>
-                        <div class="head-subtitle">Total sales on the app</div>                        
+                        <div class="head-subtitle">Total orders on Ace Luxury Stores</div>                        
                         <div class="head-panel nm tac" style="line-height: 0px;">
                             <div class="knob">
-                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="100" data-width="100" data-height="100" value="0" data-readOnly="true"/>
+                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="100" data-width="100" data-height="100" value="{{$stats['o_total']}}" data-readOnly="true"/>
                             </div>                              
                         </div>
                         <div class="head-panel nm">
                             <div class="hp-info hp-simple pull-left">
-                                <span class="hp-main">Today's sales</span>
-                                <span class="hp-sm">0</span>                                
+                                <span class="hp-main">Today's orders</span>
+                                <span class="hp-sm">{{$stats['o_today']}}</span>                                
                             </div>
                             <div class="hp-info hp-simple pull-right">
-                                <span class="hp-main">Total sales this month</span>
-                                <span class="hp-sm">0</span>                                
+                                <span class="hp-main">Total orders this month</span>
+                                <span class="hp-sm">{{$stats['o_month']}}</span>                                
+                            </div>                            
+                        </div>
+						<div class="head-panel nm" style="padding-top: 5px">
+                            <div class="hp-info hp-simple pull-left">
+                                <span class="hp-main">Total paid orders</span>
+                                <span class="hp-sm">{{$stats['o_paid']}}</span>                                
+                            </div>
+                            <div class="hp-info hp-simple pull-right">
+                                <span class="hp-main">Total unpaid orders</span>
+                                <span class="hp-sm">{{$stats['o_unpaid']}}</span>                                
                             </div>                            
                         </div>                        
                     </div>                    
