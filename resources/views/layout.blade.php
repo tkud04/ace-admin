@@ -30,6 +30,7 @@
     <script type='text/javascript' src='js/actions.js'></script>    
     <script type='text/javascript' src='js/charts.js'></script>
     <script type='text/javascript' src='js/settings.js'></script>
+    <script type='text/javascript' src='js/custom.js'></script>
     
 </head>
 <body class="bg-img-num1" data-settings="open"> 

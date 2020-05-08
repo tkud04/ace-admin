@@ -46,7 +46,7 @@ Route::post('new-banner', 'MainController@postAddBanner');
 Route::get('edit-banner', 'MainController@getEditBanner');
 Route::post('edit-banner', 'MainController@postEditBanner');
 
-Route::get('delete-img', 'MainController@postDeleteImage');
+Route::get('delete-img', 'MainController@getDeleteImage');
 
 Route::get('reviews', 'MainController@getReviews');
 Route::get('edit-review', 'MainController@getEditReview');
@@ -61,4 +61,6 @@ Route::get('new-order', 'MainController@getAddOrder');
 Route::post('new-order', 'MainController@postAddOrder');
 Route::get('edit-order', 'MainController@getEditOrder');
 Route::post('edit-order', 'MainController@postEditOrder');
+
+Route::get('delete-discount', 'MainController@getDeleteDiscount');
 

@@ -13,6 +13,7 @@ use App\Products;
 use App\ProductData;
 use App\ProductImages;
 use App\Categories;
+use App\Discounts;
 use App\Reviews;
 use App\Banners;
 use App\Trackings;
@@ -60,6 +61,7 @@ class Helper implements HelperContract
                      "edit-order-status" => "Order info updated!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
                      "create-tracking-status" => "Tracking info updated.",
+                     "delete-discount-status" => "Discount deleted.",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -75,6 +77,7 @@ class Helper implements HelperContract
 					 "edit-banner-status-error" => "There was a problem updating the banner, please try again.",
 					 "edit-order-status-error" => "There was a problem updating the order, please try again.",
 					 "create-tracking-status-error" => "There was a problem updating tracking information, please try again.",
+					 "delete-discount-status-error" => "There was a problem deleting the discount, please try again.",
                     ]
                    ];
 				   
@@ -372,7 +375,7 @@ $subject = $data['subject'];
                 return $ret;
            }
 		   
-		   function getProduct($id)
+		   function getProduct($id,$imgId=false)
            {
            	$ret = [];
               $product = Products::where('id',$id)
@@ -386,6 +389,7 @@ $subject = $data['subject'];
 				  $temp['status'] = $product->status;
 				  $temp['pd'] = $this->getProductData($product->sku);
 				  $imgs = $this->getProductImages($product->sku);
+				  if($imgId) $temp['imgs'] = $imgs;
 				  $temp['imggs'] = $this->getCloudinaryImages($imgs);
 				  $ret = $temp;
                }                         
@@ -556,12 +560,55 @@ $subject = $data['subject'];
                 return $ret;
            }
 		   
+		   function createDiscount($data)
+           {
+           	$ret = Discounts::create(['sku' => $data['sku'],                                                                                                          
+                                                      'discount_type' => $data['discount_type'], 
+                                                      'discount' => $data['discount'], 
+                                                      'type' => $data['type'], 
+                                                      'status' => "enabled", 
+                                                      ]);
+                                                      
+                return $ret;
+           }
+		   
+		   function getDiscounts($id)
+           {
+           	$ret = [];
+              $product = Products::where('id',$id)
+			                 ->orWhere('sku',$id)->first();
+ 
+              if($product != null)
+               {
+				    $discounts = Discounts::where('sku',$id)
+			                 ->orWhere('type',"all")->get();
+							 
+					if($discounts != null)
+					{
+						foreach($discounts as $disc)
+						{
+							$temp = [];
+				            $temp['id'] = $disc->id;
+				            $temp['sku'] = $disc->sku;
+				            $temp['discount_type'] = $disc->discount_type;
+				            $temp['discount'] = $disc->discount;
+				            $temp['type'] = $disc->type;
+				            $temp['status'] = $disc->status;
+							array_push($ret,$temp);
+						}
+					}
+               }                         
+                                                      
+                return $ret;
+           }
+		   
 		   function updateProduct($data)
            {
            	$ret = [];
               $p = Products::where('id',$data['xf'])
 			                 ->orWhere('sku',$data['xf'])->first();
- 
+              
+			  //dd($data);
               if($p != null)
                {
 				  $p->update([
@@ -577,8 +624,57 @@ $subject = $data['subject'];
 					    'amount' => $data['amount'],
 					    'description' => $data['description'],
 					  ]);
-				  }			 
+				  }
+				  
+				  //images
+				  if(isset($data['ird']) && count($data['ird']) > 0)
+				{
+					foreach($data['ird'] as $url)
+                    {
+                    	$this->createProductImage(['sku' => $p->sku, 'url' => $url, 'irdc' => "1"]);
+                    }
+				}
+
+                  //discounts
+                  if($data['add_discount'] == "yes")
+				  {
+					  $disc = ['sku' => $p->sku,
+					           'discount_type' => $data['discount_type'],
+							   'discount' => $data['discount'],
+							   'type' => 'single'
+							   ];
+					  $discount = $this->createDiscount($disc);
+				  }				  
 				 
+               }                         
+                                                      
+                return "ok";
+           } 
+		   
+		   function deleteDiscount($xf)
+           {
+           	$ret = [];
+              $d = Discounts::where('id',$xf)->first();
+              
+			  //dd($data);
+              if($d != null)
+               {
+				 $d->delete();
+               }                         
+                                                      
+                return "ok";
+           }
+		   
+		   function deleteProductImage($xf)
+           {
+           	$ret = [];
+              $pi = ProductImages::where('id',$xf)->first();
+              
+			  //dd($data);
+              if($pi != null)
+               {
+				 // $this->deleteCloudImage($pi->url);
+				 $pi->delete();
                }                         
                                                       
                 return "ok";

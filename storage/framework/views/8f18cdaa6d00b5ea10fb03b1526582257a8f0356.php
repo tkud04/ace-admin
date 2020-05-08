@@ -23,6 +23,68 @@
                             <div class="col-md-9"><input type="number" class="form-control" name="amount" placeholder="Price in NGN" value="<?php echo e($product['pd']['amount']); ?>"/></div>
                         </div> 
 						<div class="form-row">
+                            <div class="col-md-3">Discount:</div>
+                           <div class="col-md-9">
+						   		<input type="hidden" name="add_discount" id="add_discount" value="no"/>
+						      <div id="add-discount-button">
+							     <center>
+								 <?php
+								 if(isset($discounts) && count($discounts) > 0)
+								 {
+									foreach($discounts as $d)
+									{
+										$dtype = $d['discount_type'];
+										$discount = $d['discount'];
+										$rt = "";
+										
+										switch($dtype)
+										{
+											case "flat":
+											 $rt = "&#8358;".number_format($discount,2);
+											break;
+											case "percentage":
+											 $rt = $discount."%";
+											break;
+										}
+										
+										$du = url("delete-discount")."?xf=".$d['id'];
+								 ?>
+							     <p><b><?php echo e(strtoupper($d['type'])); ?></b> - <?php echo $rt; ?> - <a href="<?php echo e($du); ?>" class="btn btn-default btn-clean">Delete</a></p>
+								 <?php
+							        }
+								 }
+								 else
+								 {
+								 ?>
+                                  <p>No discount</p>
+                                 <?php								 
+								 }
+								 ?>
+							     </center>
+							  </div>
+							  <div>
+							    <center>
+							      <a href="javascript:void(0)" id="toggle-discount-btn" class="btn btn-default btn-clean">Add discount</a>
+							    </center>	<br>
+							  </div>
+						      <div id="add-discount-input">
+							  <select class="form-control" name="discount_type" style="margin-bottom: 5px;">
+							    <option value="none">Select discount type</option>
+								<?php
+								$discTypes = ['flat' => "Flat(NGN)",'percentage' => "Percentage(%)"];
+								foreach($discTypes as $key => $value){
+								?>
+								 <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+								<?php
+								}
+								?>
+							  </select>
+							  <input type="number" class="form-control" name="discount" id="discount" placeholder="Discount in NGN or in %" value=""/>
+							  </div>
+						     
+							</div>
+                        </div>
+						<div class="form-row">
                             <div class="col-md-3">Category:</div>
                             <div class="col-md-9">
 							  <select class="form-control" name="category">
@@ -79,15 +141,25 @@
 							   <ul class="list-inline">
 							    <?php
 								  $imggs = $product['imggs'];
+								  $imgs = $product['imgs'];
 								  
-								  foreach($imggs as $i){
+								  for($ii = 0; $ii < count($imggs); $ii++){
+									  $i = $imggs[$ii];
+									  $diu = url("delete-img")."?xf=".$imgs[$ii]['id'];
                                 ?>
-								<li><img class="img img-responsive" src="<?php echo e($i); ?>" width="200" height="300"></li>
+								<li>
+								  <img class="img img-responsive" src="<?php echo e($i); ?>" width="200" height="300" style="margin-bottom: 3px;">
+								  <a href="<?php echo e($diu); ?>" class="btn btn-default btn-block btn-clean">Delete</a>
+								</li>
                                 <?php
 								  }
                                 ?>
-                               </ul>								
+                               </ul>
+							    <p class="form-control-plaintext text-left"><i class="fa fa-asterik"></i> Upload product images (<b>Recommended dimension: 700 x 700</b>)</p><br>
+								<input type="file" name="img[]" id="img-1" class="form-control" >
+								<input type="file" name="img[]" id="img-2" class="form-control" >		<br><br>						   
 							</div>
+							
                         </div>
 						<div class="form-row">
                             <div class="col-md-4"></div>

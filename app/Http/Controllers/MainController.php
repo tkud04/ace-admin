@@ -252,12 +252,13 @@ class MainController extends Controller {
          
             else
             {
-              $product = $this->helpers->getProduct($req['id']);
+              $product = $this->helpers->getProduct($req['id'],true);
+              $discounts = $this->helpers->getDiscounts($req['id']);
 			  $categories = $this->helpers->getCategories();
 			  $signals = $this->helpers->signals;
 			  $xf = $req['id'];
 			  //dd($product);
-		      return view('edit-product',compact(['user','product','categories','xf','signals']));
+		      return view('edit-product',compact(['user','product','discounts','categories','xf','signals']));
             }
 		}
 		else
@@ -288,14 +289,17 @@ class MainController extends Controller {
         }
         
         $req = $request->all();
-		#dd($req);
+		//dd($req);
         $validator = Validator::make($req, [
                              'xf' => 'required',                            
                              'description' => 'required',                            
                              'amount' => 'required|numeric',
                              'category' => 'required',
                              'status' => 'required|not_in:none',
-                             'in_stock' => 'required|not_in:none'
+                             'in_stock' => 'required|not_in:none',
+                             'add_discount' => 'required',
+                             'img' => 'array',
+                             'img.*' => 'file'							 
          ]);
          
          if($validator->fails())
@@ -307,6 +311,21 @@ class MainController extends Controller {
          
          else
          {
+			 $img = $request->file('img');
+			 //dd($img);
+			 if(!is_null($img) && count($img) > 0)
+			 {
+				 //upload product images 
+                 //dd($img);
+                 $ird = [];
+             for($i = 0; $i < count($img); $i++)
+             {           
+             	$ret = $this->helpers->uploadCloudImage($img[$i]->getRealPath());
+			     #dd($ret);
+			    array_push($ird, $ret['public_id']);
+             } 
+			 }
+			 $req['ird'] = $ird;
             $this->helpers->updateProduct($req);
 			session()->flash("update-product-status", "success");
 			return redirect()->back();
@@ -926,7 +945,7 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
-    public function postDeleteImage(Request $request)
+    public function getDeleteImage(Request $request)
     {
     	if(Auth::check())
 		{
@@ -957,9 +976,8 @@ class MainController extends Controller {
          
          else
          {
-			 //upload product images 
-             $public_id = $req['xf'];
-              $ret = $this->helpers->deleteCloudImage($public_id);
+			 //delete product images 
+              $ret = $this->helpers->deleteProductImage($req['xf']);
 			session()->flash("delete-image-status", "success");
 			return redirect()->back();
          } 	  
@@ -1334,6 +1352,49 @@ class MainController extends Controller {
             $this->helpers->createTracking($req);
 			session()->flash("create-tracking-status", "success");
 			return redirect()->intended('orders');
+         } 	  
+    }
+	
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function getDeleteDiscount(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'xf' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+           $this->helpers->deleteDiscount($req['xf']);
+			session()->flash("delete-discount-status", "success");
+			return redirect()->back();
          } 	  
     }
 	
