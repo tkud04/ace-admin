@@ -1,13 +1,13 @@
 @extends('layout')
 
-@section('title',"Products")
+@section('title',"Discounts")
 
 @section('content')
 			<div class="col-md-12">
 				{!! csrf_field() !!}
                 <div class="block">
                     <div class="header">
-                        <h2>List of products in the system</h2>
+                        <h2>List of discounts</h2>
                     </div>
                     <div class="content">
                        <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
@@ -15,28 +15,47 @@
                         <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable">
                             <thead>
                                 <tr>
-                                    <th width="30%">Product</th>
-                                    <th width="10%">Current qty</th>
-                                    <th width="20%">Amount(&#8358;)</th>
+                                    <th width="20%">ID</th>
+                                    <th width="20%">Type</th>
+                                    <th width="20%">Discount</th>
                                     <th width="20%">Status</th>                                                                       
                                     <th width="20%">Actions</th>                                                                       
                                 </tr>
                             </thead>
                             <tbody>
-							   @foreach($products as $p)
+							   @foreach($discounts as $d)
 							   <?php
-							   $pd = $p['pd'];
-							   $status = $p['status'];
+							   $status = $d['status'];
 							   $ss = ($status == "enabled") ? "success" : "danger";
+							   $disc = "";
+							   $dtype = "";
+							   
+							   if($d['discount_type'] == "flat")
+							   {
+								   $disc = "&#8358;".$d['discount'];
+							   }
+							   elseif($d['discount_type'] == "percentage")
+							   {
+								   $disc = $d['discount']."%";
+							   }
+							   
+							   if($d['type'] == "single")
+							   {
+								   $dtype = strtoupper($d['type'])." - ".$d['sku'];
+							   }
+							   elseif($d['type'] == "general")
+							   {
+								   $dtype = strtoupper($d['type']);
+							   }
 							   ?>
                                 <tr>
-                                    <td>{{$p['sku']}}<br>{{$pd['description']}}</td>
-                                    <td>{{$p['qty']}}</td>
-                                    <td>{{number_format($pd['amount'],2)}}</td>
+                                    <td>{{$d['id']}}</td>
+                                    <td>{{$dtype}}</td>
+                                    <td>{!!$disc!!}</td>
                                     <td><span class="driver-status label label-{{$ss}}">{{$status}}</span></td>                                                                     
                                     <td>
 									  <?php
-									   $uu = url('edit-product')."?id=".$p['sku'];
+									   $uu = url('edit-discount')."?d=".$d['id'];
 									   
 									  ?>
 									  <a href="{{$uu}}" class="btn btn-primary">View</button>									  

@@ -88,6 +88,13 @@
                                 </ul>                                
                             </li>
 							<li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> discounts</a>
+                                <ul class="dropdown-menu">                                    
+                                    <li><a href="<?php echo e(url('discounts')); ?>"> View discounts</a></li>
+                                    <li><a href="<?php echo e(url('new-discount')); ?>"> Add new discount</a></li>
+                                </ul>                                
+                            </li>
+							<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> orders</a>
                                 <ul class="dropdown-menu">                                    
                                     <li><a href="<?php echo e(url('orders')); ?>"> View orders</a></li>
@@ -120,6 +127,10 @@
                                 <ul class="dropdown-menu">                                    
                                     <li><a href="<?php echo e(url('reviews')); ?>"> View reviews</a></li>
                                 </ul>                                
+                            </li>
+							<li>
+                                <a href="#"><span class="icon-pencil"></span> help</a>
+                                                               
                             </li>
                                                        
                         </ul>

@@ -23,6 +23,10 @@
                             <div class="col-md-9"><input type="number" class="form-control" name="amount" placeholder="Price in NGN" value="<?php echo e($product['pd']['amount']); ?>"/></div>
                         </div> 
 						<div class="form-row">
+                            <div class="col-md-3">Quantity:</div>
+                            <div class="col-md-9"><input type="number" class="form-control" name="qty" placeholder="Current stock e.g 10" value="<?php echo e($product['qty']); ?>"/></div>
+                        </div> 
+						<div class="form-row">
                             <div class="col-md-3">Discount:</div>
                            <div class="col-md-9">
 						   		<input type="hidden" name="add_discount" id="add_discount" value="no"/>
@@ -68,18 +72,28 @@
 							    </center>	<br>
 							  </div>
 						      <div id="add-discount-input">
-							  <select class="form-control" name="discount_type" style="margin-bottom: 5px;">
-							    <option value="none">Select discount type</option>
-								<?php
-								$discTypes = ['flat' => "Flat(NGN)",'percentage' => "Percentage(%)"];
-								foreach($discTypes as $key => $value){
-								?>
-								 <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-								<?php
-								}
-								?>
-							  </select>
-							  <input type="number" class="form-control" name="discount" id="discount" placeholder="Discount in NGN or in %" value=""/>
+							  <div class="form-row">
+                                <div class="col-md-3">Discount type:</div>
+								<div class="col-md-9">
+							      <select class="form-control" name="discount_type" style="margin-bottom: 5px;">
+							        <option value="none">Select discount type</option>
+								    <?php
+								     $discTypes = ['flat' => "Flat(NGN)",'percentage' => "Percentage(%)"];
+								     foreach($discTypes as $key => $value){
+								    ?>
+								    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+								    <?php
+								    }
+								    ?>
+							      </select>
+								 </div>
+								</div>
+								<div class="form-row">
+                                <div class="col-md-3">Discount:</div>
+								<div class="col-md-9">
+							      <input type="number" class="form-control" name="discount" id="discount" placeholder="Discount in NGN or in %" value=""/>
+							    </div>
+							   </div>
 							  </div>
 						     
 							</div>

@@ -1,4 +1,4 @@
-<?php $__env->startSection('title',"Products"); ?>
+<?php $__env->startSection('title',"Discounts"); ?>
 
 <?php $__env->startSection('content'); ?>
 			<div class="col-md-12">
@@ -6,7 +6,7 @@
 
                 <div class="block">
                     <div class="header">
-                        <h2>List of products in the system</h2>
+                        <h2>List of discounts</h2>
                     </div>
                     <div class="content">
                        <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
@@ -14,28 +14,47 @@
                         <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable">
                             <thead>
                                 <tr>
-                                    <th width="30%">Product</th>
-                                    <th width="10%">Current qty</th>
-                                    <th width="20%">Amount(&#8358;)</th>
+                                    <th width="20%">ID</th>
+                                    <th width="20%">Type</th>
+                                    <th width="20%">Discount</th>
                                     <th width="20%">Status</th>                                                                       
                                     <th width="20%">Actions</th>                                                                       
                                 </tr>
                             </thead>
                             <tbody>
-							   <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+							   <?php $__currentLoopData = $discounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $d): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 							   <?php
-							   $pd = $p['pd'];
-							   $status = $p['status'];
+							   $status = $d['status'];
 							   $ss = ($status == "enabled") ? "success" : "danger";
+							   $disc = "";
+							   $dtype = "";
+							   
+							   if($d['discount_type'] == "flat")
+							   {
+								   $disc = "&#8358;".$d['discount'];
+							   }
+							   elseif($d['discount_type'] == "percentage")
+							   {
+								   $disc = $d['discount']."%";
+							   }
+							   
+							   if($d['type'] == "single")
+							   {
+								   $dtype = strtoupper($d['type'])." - ".$d['sku'];
+							   }
+							   elseif($d['type'] == "general")
+							   {
+								   $dtype = strtoupper($d['type']);
+							   }
 							   ?>
                                 <tr>
-                                    <td><?php echo e($p['sku']); ?><br><?php echo e($pd['description']); ?></td>
-                                    <td><?php echo e($p['qty']); ?></td>
-                                    <td><?php echo e(number_format($pd['amount'],2)); ?></td>
+                                    <td><?php echo e($d['id']); ?></td>
+                                    <td><?php echo e($dtype); ?></td>
+                                    <td><?php echo $disc; ?></td>
                                     <td><span class="driver-status label label-<?php echo e($ss); ?>"><?php echo e($status); ?></span></td>                                                                     
                                     <td>
 									  <?php
-									   $uu = url('edit-product')."?id=".$p['sku'];
+									   $uu = url('edit-discount')."?d=".$d['id'];
 									   
 									  ?>
 									  <a href="<?php echo e($uu); ?>" class="btn btn-primary">View</button>									  
@@ -50,4 +69,4 @@
             </div>				
            </div>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/products.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/discounts.blade.php ENDPATH**/ ?>

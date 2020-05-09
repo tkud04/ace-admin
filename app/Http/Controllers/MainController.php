@@ -187,6 +187,7 @@ class MainController extends Controller {
                              'description' => 'required',                        
                              'in_stock' => 'required|not_in:none',                        
                              'amount' => 'required|numeric',
+                             'qty' => 'required|numeric',
                              'img' => 'array|min:1',
                              'img.*' => 'file'
          ]);
@@ -294,6 +295,7 @@ class MainController extends Controller {
                              'xf' => 'required',                            
                              'description' => 'required',                            
                              'amount' => 'required|numeric',
+							 'qty' => 'required|numeric',
                              'category' => 'required',
                              'status' => 'required|not_in:none',
                              'in_stock' => 'required|not_in:none',
@@ -313,11 +315,10 @@ class MainController extends Controller {
          {
 			 $img = $request->file('img');
 			 //dd($img);
+			 $ird = [];
 			 if(!is_null($img) && count($img) > 0)
 			 {
-				 //upload product images 
-                 //dd($img);
-                 $ird = [];
+				 //upload product images if present  
              for($i = 0; $i < count($img); $i++)
              {           
              	$ret = $this->helpers->uploadCloudImage($img[$i]->getRealPath());
@@ -1352,6 +1353,242 @@ class MainController extends Controller {
             $this->helpers->createTracking($req);
 			session()->flash("create-tracking-status", "success");
 			return redirect()->intended('orders');
+         } 	  
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddDiscount(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$categories = $this->helpers->getCategories();
+		$products = $this->helpers->getProducts();
+		 $signals = $this->helpers->signals;
+		 
+		return view('add-discount',compact(['user','products','categories','signals']));	
+		
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddDiscount(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                             'discount_type' => 'required|not_in:none',
+                             'discount' => 'required',
+                             'type' => 'required|not_in:none',
+                             'status' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			 if($req['type'] == "single")
+			 {
+				if(isset($req['sku']) && $req['sku'] != "none")
+				{
+					
+				}
+				else
+				{
+					session()->flash("no-sku-status", "success"); 
+					return redirect()->back();
+				}
+			 }
+            $this->helpers->createDiscount($req);
+			session()->flash("create-discount-status", "success");
+			return redirect()->intended('discounts');
+         } 	  
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getDiscounts(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$req = $request->all();
+		$discounts = $this->helpers->getDiscounts();
+		$categories = $this->helpers->getCategories();
+		
+		$signals = $this->helpers->signals;
+	    #dd($discounts);
+		
+    	return view('discounts',compact(['user','categories','discounts','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getEditDiscount(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+			$req = $request->all();
+			
+            $validator = Validator::make($req, [                            
+                             'd' => 'required',
+            ]);
+         
+            if($validator->fails())
+            {
+               return redirect()->intended('orders');
+            }
+         
+            else
+            {
+				#dd($req);
+              $discount = $this->helpers->getDiscount($req['d']);
+			  $signals = $this->helpers->signals;
+			  $xf = $discount['id'];
+			  $products = $this->helpers->getProducts();
+			  #dd($discount);
+		      return view('edit-discount',compact(['user','discount','xf','products','signals']));
+            }
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postEditDiscount(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [       
+                              'xf' => 'required',		
+                             'discount_type' => 'required|not_in:none',
+                             'discount' => 'required',
+                             'type' => 'required|not_in:none',
+                             'status' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			 if($req['type'] == "single")
+			 {
+				if(isset($req['sku']) && $req['sku'] != "none")
+				{
+					
+				}
+				else
+				{
+					session()->flash("no-sku-status", "success"); 
+					return redirect()->back();
+				}
+			 }
+			 else
+			 {
+				 $req['sku'] = "";
+			 }
+            $this->helpers->updateDiscount($req);
+			session()->flash("update-discount-status", "success");
+			return redirect()->intended('discounts');
          } 	  
     }
 	

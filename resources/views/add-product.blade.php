@@ -24,6 +24,10 @@
                             <div class="col-md-9"><input type="number" class="form-control" name="amount" placeholder="Price in NGN"/></div>
                         </div> 
 						<div class="form-row">
+                            <div class="col-md-3">Quantity:</div>
+                            <div class="col-md-9"><input type="number" class="form-control" name="qty" placeholder="Current stock e.g 10"/></div>
+                        </div> 
+						<div class="form-row">
                             <div class="col-md-3">Category:</div>
                             <div class="col-md-9">
 							  <select class="form-control" name="category">

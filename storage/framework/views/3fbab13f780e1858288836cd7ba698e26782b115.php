@@ -23,6 +23,10 @@
                             <div class="col-md-9"><input type="number" class="form-control" name="amount" placeholder="Price in NGN"/></div>
                         </div> 
 						<div class="form-row">
+                            <div class="col-md-3">Quantity:</div>
+                            <div class="col-md-9"><input type="number" class="form-control" name="qty" placeholder="Current stock e.g 10"/></div>
+                        </div> 
+						<div class="form-row">
                             <div class="col-md-3">Category:</div>
                             <div class="col-md-9">
 							  <select class="form-control" name="category">
@@ -50,7 +54,7 @@
 						<div class="form-row">
                             <div class="col-md-3">Upload images:</div>
                             <div class="col-md-9">
-							    <p class="form-control-plaintext text-left"><i class="fa fa-asterik"></i> Upload deal images (<b>Recommended dimension: 700 x 700</b>)</p><br>
+							    <p class="form-control-plaintext text-left"><i class="fa fa-asterik"></i> Upload product images (<b>Recommended dimension: 700 x 700</b>)</p>
 								<input type="file" name="img[]" id="img-1" class="form-control" >
 								<input type="file" name="img[]" id="img-2" class="form-control" >		
 							</div>

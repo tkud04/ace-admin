@@ -61,7 +61,10 @@ class Helper implements HelperContract
                      "edit-order-status" => "Order info updated!",
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
                      "create-tracking-status" => "Tracking info updated.",
+                     "update-discount-status" => "Discount updated.",
+                     "create-discount-status" => "Discount deleted.",
                      "delete-discount-status" => "Discount deleted.",
+                     "no-sku-status" => "Please select a product for single discount.",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -77,6 +80,8 @@ class Helper implements HelperContract
 					 "edit-banner-status-error" => "There was a problem updating the banner, please try again.",
 					 "edit-order-status-error" => "There was a problem updating the order, please try again.",
 					 "create-tracking-status-error" => "There was a problem updating tracking information, please try again.",
+					 "create-discount-status-error" => "There was a problem creating the discount, please try again.",
+					 "update-discount-status-error" => "There was a problem updating the discount, please try again.",
 					 "delete-discount-status-error" => "There was a problem deleting the discount, please try again.",
                     ]
                    ];
@@ -386,6 +391,7 @@ $subject = $data['subject'];
 				  $temp = [];
 				  $temp['id'] = $product->id;
 				  $temp['sku'] = $product->sku;
+				  $temp['qty'] = $product->qty;
 				  $temp['status'] = $product->status;
 				  $temp['pd'] = $this->getProductData($product->sku);
 				  $imgs = $this->getProductImages($product->sku);
@@ -518,6 +524,7 @@ $subject = $data['subject'];
                
            	$ret = Products::create(['name' => $data['name'],                                                                                                          
                                                       'sku' => $sku, 
+                                                      'qty' => $data['qty'],                                                       
                                                       'added_by' => $data['user_id'],                                                       
                                                       'status' => "enabled", 
                                                       ]);
@@ -562,26 +569,39 @@ $subject = $data['subject'];
 		   
 		   function createDiscount($data)
            {
+			   $sku = ($data['type'] == "single") ? $data['type'] : "";
+			   
            	$ret = Discounts::create(['sku' => $data['sku'],                                                                                                          
                                                       'discount_type' => $data['discount_type'], 
                                                       'discount' => $data['discount'], 
                                                       'type' => $data['type'], 
-                                                      'status' => "enabled", 
+                                                      'status' => $data['status'], 
                                                       ]);
                                                       
                 return $ret;
            }
 		   
-		   function getDiscounts($id)
+		   function getDiscounts($id="")
            {
            	$ret = [];
-              $product = Products::where('id',$id)
+			if($id == "")
+			{
+				$discounts = Discounts::where('id','>',"0")->get();
+			}
+			else
+			{
+				$product = Products::where('id',$id)
 			                 ->orWhere('sku',$id)->first();
- 
-              if($product != null)
+				
+				if($product != null)
                {
 				    $discounts = Discounts::where('sku',$id)
 			                 ->orWhere('type',"all")->get();
+			   }
+			}
+              
+ 
+              
 							 
 					if($discounts != null)
 					{
@@ -596,8 +616,28 @@ $subject = $data['subject'];
 				            $temp['status'] = $disc->status;
 							array_push($ret,$temp);
 						}
-					}
-               }                         
+					}                      
+                                                      
+                return $ret;
+           }
+
+		   function getDiscount($id)
+           {
+           	
+				$disc = Discounts::where('id',$id)->first();              
+							 
+					if($disc != null)
+					{
+					
+							$temp = [];
+				            $temp['id'] = $disc->id;
+				            $temp['sku'] = $disc->sku;
+				            $temp['discount_type'] = $disc->discount_type;
+				            $temp['discount'] = $disc->discount;
+				            $temp['type'] = $disc->type;
+				            $temp['status'] = $disc->status;
+							$ret = $temp;
+					}                      
                                                       
                 return $ret;
            }
@@ -612,6 +652,7 @@ $subject = $data['subject'];
               if($p != null)
                {
 				  $p->update([
+				  'qty' => $data['qty'],
 				    'status' => $data['status']
 				  ]);
 				  
@@ -650,6 +691,28 @@ $subject = $data['subject'];
                                                       
                 return "ok";
            } 
+		   
+		    function updateDiscount($data)
+           {
+           	$ret = [];
+              $disc = Discounts::where('id',$data['xf'])->first();
+              
+			  //dd($data);
+              if($disc != null)
+               {
+				  $disc->update([
+				  'type' => $data['type'],
+				  'sku' => $data['sku'],
+				  'discount_type' => $data['discount_type'],
+				  'discount' => $data['discount'],
+				    'status' => $data['status']
+				  ]);
+				  
+				 
+               }                         
+                                                      
+                return "ok";
+           }
 		   
 		   function deleteDiscount($xf)
            {
