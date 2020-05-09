@@ -11,6 +11,7 @@
         "php": "^7.2",
         "cloudinary/cloudinary_php": "dev-master",
         "fideloper/proxy": "~4.0",
+        "intervention/image": "^2.5",
         "laravel/framework": "^6.0",
         "laravel/helpers": "^1.1",
         "laravel/tinker": "~1.0",

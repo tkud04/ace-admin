@@ -35,4 +35,5 @@ $(document).ready(function(){
 			    $('#sku-form-row').hide();			 
 			   }
 		  });
+		  
 });

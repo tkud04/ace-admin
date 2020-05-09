@@ -320,8 +320,14 @@ class MainController extends Controller {
 			 {
 				 //upload product images if present  
              for($i = 0; $i < count($img); $i++)
-             {           
-             	$ret = $this->helpers->uploadCloudImage($img[$i]->getRealPath());
+             {
+				/**
+				$imgResource = imagecreatefromjpeg($img[$i]->path());
+				 $resizedImg = imagescale($imgResource, 200, 200);    
+                	
+               **/
+              $resizedImg = $this->helpers->resizeImage($img[$i],[650,650]);
+             	$ret = $this->helpers->uploadCloudImage($resizedImg);
 			     #dd($ret);
 			    array_push($ird, $ret['public_id']);
              } 
