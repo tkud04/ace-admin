@@ -13,6 +13,6 @@ class ProductImages extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'sku', 'url'
+        'id', 'sku', 'cover', 'url'
     ];
 }

@@ -946,6 +946,49 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
+    public function getSetCoverImage(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'xf' => 'required' 
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			 //delete product images 
+              $ret = $this->helpers->setCoverImage($req['xf']);
+			session()->flash("set-cover-image-status", "success");
+			return redirect()->back();
+         } 	  
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
     public function getDeleteImage(Request $request)
     {
     	if(Auth::check())

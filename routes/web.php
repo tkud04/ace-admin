@@ -46,6 +46,7 @@ Route::post('new-banner', 'MainController@postAddBanner');
 Route::get('edit-banner', 'MainController@getEditBanner');
 Route::post('edit-banner', 'MainController@postEditBanner');
 
+Route::get('set-cover-img', 'MainController@getSetCoverImage');
 Route::get('delete-img', 'MainController@getDeleteImage');
 
 Route::get('reviews', 'MainController@getReviews');

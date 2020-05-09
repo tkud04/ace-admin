@@ -160,10 +160,14 @@
 								  
 								  for($ii = 0; $ii < count($imggs); $ii++){
 									  $i = $imggs[$ii];
+									  $i2 = $imgs[$ii];
 									  $diu = url("delete-img")."?xf=".$imgs[$ii]['id'];
+									  $ciu = "<a class='btn btn-default btn-block btn-clean' href='".url("set-cover-img")."?xf=".$imgs[$ii]['id']."'>Set as cover image</a>";
+									  if($i2['cover'] == "yes") $ciu = "<p class='text-primary text-bold'>Cover image</p>";
                                 ?>
 								<li>
 								  <img class="img img-responsive" src="{{$i}}" width="200" height="300" style="margin-bottom: 3px;">
+									{!! $ciu !!}
 								  <a href="{{$diu}}" class="btn btn-default btn-block btn-clean">Delete</a>
 								</li>
                                 <?php

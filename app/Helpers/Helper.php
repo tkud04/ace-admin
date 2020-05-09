@@ -65,6 +65,8 @@ class Helper implements HelperContract
                      "create-discount-status" => "Discount deleted.",
                      "delete-discount-status" => "Discount deleted.",
                      "no-sku-status" => "Please select a product for single discount.",
+                     "set-cover-image-status" => "Product image updated",
+                     "delete-image-status" => "Product image deleted",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -82,6 +84,8 @@ class Helper implements HelperContract
 					 "create-tracking-status-error" => "There was a problem updating tracking information, please try again.",
 					 "create-discount-status-error" => "There was a problem creating the discount, please try again.",
 					 "update-discount-status-error" => "There was a problem updating the discount, please try again.",
+					 "delete-image-status-error" => "There was a problem deleting the image, please try again.",
+					 "set-cover-image-status-error" => "There was a problem updating the product image, please try again.",
 					 "delete-discount-status-error" => "There was a problem deleting the discount, please try again.",
                     ]
                    ];
@@ -436,12 +440,31 @@ $subject = $data['subject'];
 				    $temp = [];
 				    $temp['id'] = $pi->id;
 				    $temp['sku'] = $pi->sku;
+				    $temp['cover'] = $pi->cover;
 				    $temp['url'] = $pi->url;
 				    array_push($ret,$temp);
 				  }
                }                         
                                                       
                 return $ret;
+           }
+		   function setCoverImage($id)
+           {
+              $pi = ProductImages::where('id',$id)->first();
+            
+              if($pi != null)
+               {
+				   $formerPi = ProductImages::where('sku',$pi->sku)
+			              ->where('cover',"yes")->first();
+                   
+				   if($formerPi != null)
+				   {
+					   $formerPi->update(['cover' => "no"]);
+				   }
+				   
+				  $pi->update(['cover' => "yes"]);
+               }                         
+                                                      
            }
 		   
 		   function getCloudinaryImage($dt)
@@ -562,6 +585,7 @@ $subject = $data['subject'];
            	$ret = ProductImages::create(['sku' => $data['sku'],                                                                                                          
                                                       'url' => $data['url'], 
                                                       'irdc' => $data['irdc'], 
+                                                      'cover' => "no", 
                                                       ]);
                                                       
                 return $ret;
