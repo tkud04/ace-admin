@@ -15,7 +15,8 @@
         "laravel/framework": "^6.0",
         "laravel/helpers": "^1.1",
         "laravel/tinker": "~1.0",
-        "unicodeveloper/laravel-paystack": "1.0.*"
+        "unicodeveloper/laravel-paystack": "1.0.*",
+		"ext-gd": "*"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
