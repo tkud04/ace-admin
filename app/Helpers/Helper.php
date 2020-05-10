@@ -780,7 +780,7 @@ $subject = $data['subject'];
 		 {
 			  $ret = Image::make($res)->resize($size[0],$size[1])->save(sys_get_temp_dir()."/upp");			   
               // dd($ret);
-			   $fname = $ret->dirname."\\".$ret->basename;
+			   $fname = $ret->dirname."/".$ret->basename;
 			   $fsize = getimagesize($fname);
 			  return $fname;		   
 		 }
