@@ -56,9 +56,11 @@
                                     <td>
 									  <?php
 									   $uu = url('edit-discount')."?d=".$d['id'];
+									   $du = url('delete-discount')."?xf=".$d['id'];
 									   
 									  ?>
 									  <a href="{{$uu}}" class="btn btn-primary">View</button>									  
+									  <a href="{{$du}}" class="btn btn-danger">Delete</button>									  
 									</td>                                                                     
                                 </tr>
                                @endforeach                       

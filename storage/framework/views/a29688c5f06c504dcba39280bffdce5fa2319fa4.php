@@ -55,9 +55,11 @@
                                     <td>
 									  <?php
 									   $uu = url('edit-discount')."?d=".$d['id'];
+									   $du = url('delete-discount')."?xf=".$d['id'];
 									   
 									  ?>
 									  <a href="<?php echo e($uu); ?>" class="btn btn-primary">View</button>									  
+									  <a href="<?php echo e($du); ?>" class="btn btn-danger">Delete</button>									  
 									</td>                                                                     
                                 </tr>
                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                       

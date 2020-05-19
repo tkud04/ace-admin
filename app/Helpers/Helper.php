@@ -63,7 +63,7 @@ class Helper implements HelperContract
                      "contact-status" => "Message sent! Our customer service representatives will get back to you shortly.",
                      "create-tracking-status" => "Tracking info updated.",
                      "update-discount-status" => "Discount updated.",
-                     "create-discount-status" => "Discount deleted.",
+                     "create-discount-status" => "Discount created.",
                      "delete-discount-status" => "Discount deleted.",
                      "no-sku-status" => "Please select a product for single discount.",
                      "set-cover-image-status" => "Product image updated",
@@ -100,6 +100,21 @@ class Helper implements HelperContract
 								  'rings' => "Rings"
 								  ];
 				   
+	public $smtp = [
+       'ss' => "smtp.gmail.com",
+       'sp' => "587",
+       'sec' => "tls",
+       'sa' => "yes",
+       'su' => "aceluxurystoree@gmail.com",
+       'spp' => "Ace12345$",
+       'sn' => "Ace Luxury Store",
+       'se' => "aceluxurystoree@gmail.com"
+  ];
+  
+  
+  public $adminEmail = "aceluxurystore@yahoo.com";
+  public $suEmail = "kudayisitobi@gmail.com";
+	
 	
 /**
  * Polyline encoding & decoding methods
@@ -226,8 +241,8 @@ class Helper implements HelperContract
 
 /********************************************************************************************************************/
 
-
-          function sendEmailSMTP($data,$view,$type="view")
+         #{'msg':msg,'em':em,'subject':subject,'link':link,'sn':senderName,'se':senderEmail,'ss':SMTPServer,'sp':SMTPPort,'su':SMTPUser,'spp':SMTPPass,'sa':SMTPAuth};
+         function sendEmailSMTP($data,$view,$type="view")
            {
            	    // Setup a new SmtpTransport instance for new SMTP
                 $transport = "";
@@ -1324,6 +1339,31 @@ $subject = $data['subject'];
                
                return $u; 
            }
+		   
+		   function confirmPayment($id)
+           {
+           	$o = Orders::where('id',$id)
+			           ->OrWhere('ref',$id)->first();
+               
+               if($o != null)
+               {
+				   $u = $this->getUser($o->user_id);
+				   dd($u);
+               	//We have the user, update the status and notify the customer
+               	$o->update(['status' => 'paid']);
+				$ret['subject'] = "URGENT: Confirm payment for order ".$o['payment_code'];
+		        $ret['em'] = $this->suEmail;
+		        $ret['acname'] = $data['acname'];
+		        $bname =  $data['bname'] == "other" ? $data['bname-other'] : $this->banks[$data['bname']];
+		        $ret['bname'] = $bname;
+		        $ret['acnum'] = $data['acnum'];
+		        $this->sendEmailSMTP($ret,"emails.admin-confirm-payment");
+               }
+               
+               return $o; 
+           }
+		   
+		   
 		
            
            

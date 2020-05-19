@@ -70,3 +70,5 @@ Route::get('edit-discount', 'MainController@getEditDiscount');
 Route::post('edit-discount', 'MainController@postEditDiscount');
 Route::get('delete-discount', 'MainController@getDeleteDiscount');
 
+Route::get('confirm-payment', 'MainController@getConfirmPayment');
+
