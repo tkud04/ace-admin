@@ -1348,16 +1348,15 @@ $subject = $data['subject'];
                if($o != null)
                {
 				   $u = $this->getUser($o->user_id);
-				   dd($u);
+				   //dd($u);
                	//We have the user, update the status and notify the customer
                	$o->update(['status' => 'paid']);
-				$ret['subject'] = "URGENT: Confirm payment for order ".$o['payment_code'];
-		        $ret['em'] = $this->suEmail;
-		        $ret['acname'] = $data['acname'];
-		        $bname =  $data['bname'] == "other" ? $data['bname-other'] : $this->banks[$data['bname']];
-		        $ret['bname'] = $bname;
-		        $ret['acnum'] = $data['acnum'];
-		        $this->sendEmailSMTP($ret,"emails.admin-confirm-payment");
+				$ret = $this->smtp;
+				$ret['order'] = $o;
+				$ret['user'] = $u;
+				$ret['subject'] = "Your payment for order ".$o['payment_code']." has been confirmed!";
+		        $ret['em'] = $u['email'];
+		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
                }
                
                return $o; 
