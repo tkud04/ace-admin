@@ -1343,7 +1343,7 @@ $subject = $data['subject'];
 		   function confirmPayment($id)
            {
            	$o = Orders::where('id',$id)
-			           ->OrWhere('ref',$id)->first();
+			           ->OrWhere('reference',$id)->first();
                
                if($o != null)
                {
