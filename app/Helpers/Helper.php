@@ -1106,10 +1106,9 @@ $subject = $data['subject'];
 			 
 			if($b != null)
 			{
-				$b->update(['img' => $data['img'],                                                                                                                                                               
-                                                      'status' => $data['status']
-				
-				]);
+				$rr = ['status' => $data['status']];
+				if(isset($data['img'])) $rr['img'] = $data['img'];
+				$b->update($rr);
 			}
 
                 return "ok";
