@@ -927,7 +927,6 @@ class MainController extends Controller {
         $validator = Validator::make($req, [                          
                             'subtitle' => 'required',
                              'title' => 'required',
-                             'copy' => 'required',
                              'status' => 'required|not_in:none',
                              'img' => 'file',
          ]);
@@ -941,6 +940,7 @@ class MainController extends Controller {
          
          else
          {
+			 if(!isset($req['copy'])) $req['copy'] = "";
             $this->helpers->updateBanner($req);
 			session()->flash("edit-banner-status", "success");
 			return redirect()->intended('banners');
