@@ -16,9 +16,8 @@
                             <thead>
                                 <tr>
                                     <th width="20%">ID</th>
-                                    <th width="20%">Image</th>
-                                    <th width="20%">Subtitle</th>
-                                    <th width="20%">Title</th>                                                                       
+                                    <th width="40%">Image</th>
+                                    <th width="20%">Status</th>                                                                       
                                     <th width="20%">Actions</th>                                                                       
                                 </tr>
                             </thead>
@@ -28,12 +27,12 @@
                            	    $imgg = $b['img'];
 	                            $subtitle = $b['subtitle'];
 	                            $title = $b['title'];
+	                            $status = $b['status'];
 							   ?>
                                 <tr>
                                     <td>{{$b['id']}}</td>
                                     <td><img src="{{$imgg}}" width="750" height="250">{{$imgg}}</a></td>
-                                    <td>{{$subtitle}}</td>
-                                    <td>{{$title}}</td>                                                                     
+                                    <td>{{$status}}</td>                                                                     
                                     <td>
 									  <?php
 									   $uu = url('edit-banner')."?id=".$b['id'];
