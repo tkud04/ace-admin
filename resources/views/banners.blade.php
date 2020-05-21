@@ -31,7 +31,7 @@
 							   ?>
                                 <tr>
                                     <td>{{$b['id']}}</td>
-                                    <td><a href="{{$imgg}}" target="_blank">{{$imgg}}</a></td>
+                                    <td><img src="{{$imgg}}" width="250" height="250">{{$imgg}}</a></td>
                                     <td>{{$subtitle}}</td>
                                     <td>{{$title}}</td>                                                                     
                                     <td>
