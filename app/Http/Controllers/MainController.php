@@ -1027,7 +1027,7 @@ class MainController extends Controller {
          else
          {
 			 //delete product images 
-              $ret = $this->helpers->deleteProductImage($req['xf']);
+              $ret = $this->helpers->deleteBanner($req['xf']);
 			session()->flash("delete-image-status", "success");
 			return redirect()->back();
          } 	  

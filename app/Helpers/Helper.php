@@ -67,7 +67,7 @@ class Helper implements HelperContract
                      "delete-discount-status" => "Discount deleted.",
                      "no-sku-status" => "Please select a product for single discount.",
                      "set-cover-image-status" => "Product image updated",
-                     "delete-image-status" => "Product image deleted",
+                     "delete-image-status" => "Image deleted",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -1111,6 +1111,21 @@ $subject = $data['subject'];
 				$b->update($rr);
 			}
 
+                return "ok";
+           }
+		   
+		   function deleteBanner($xf)
+           {
+           	$ret = [];
+              $b = Banners::where('id',$xf)->first();
+              
+			  //dd($data);
+              if($b != null)
+               {
+				 // $this->deleteCloudImage($pi->url);
+				 $b->delete();
+               }                         
+                                                      
                 return "ok";
            }
 
