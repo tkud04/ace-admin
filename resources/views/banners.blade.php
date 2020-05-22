@@ -16,7 +16,8 @@
                             <thead>
                                 <tr>
                                     <th width="20%">ID</th>
-                                    <th width="40%">Image</th>
+                                    <th width="30%">Image</th>
+                                    <th width="10%">Role</th>                                                                       
                                     <th width="20%">Status</th>                                                                       
                                     <th width="20%">Actions</th>                                                                       
                                 </tr>
@@ -32,6 +33,7 @@
                                 <tr>
                                     <td>{{$b['id']}}</td>
                                     <td><img src="{{$imgg}}" width="750" height="250">{{$imgg}}</a></td>
+                                    <td>Random</td>                                                                     
                                     <td>{{$status}}</td>                                                                     
                                     <td>
 									  <?php
