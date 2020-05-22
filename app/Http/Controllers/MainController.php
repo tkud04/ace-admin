@@ -1712,7 +1712,7 @@ class MainController extends Controller {
 			if(count($order) > 0 && $order['status'] == "unpaid" && $order['type'] == "bank")
 			{
 				$this->helpers->confirmPayment($req['o']);
-				return view("confirm-payment",compact(['user','cart','c','ad','order','banks','signals']));
+				return view("confirm-payment",compact(['order']));
 			}
 			else
 			{
