@@ -722,7 +722,8 @@ $subject = $data['subject'];
 					  $disc = ['sku' => $p->sku,
 					           'discount_type' => $data['discount_type'],
 							   'discount' => $data['discount'],
-							   'type' => 'single'
+							   'type' => 'single',
+							   'status' => "enabled"
 							   ];
 					  $discount = $this->createDiscount($disc);
 				  }				  

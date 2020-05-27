@@ -32,8 +32,10 @@
                             <div class="col-md-9">
 							  <select class="form-control" name="category">
 							    <option value="none">Select category</option>
-								@foreach($c as $key=> $value)
-								 <option value="{{$key}}">{{$value}}</option>
+								@foreach($c as $cc)
+								 @if($cc['status'] == "enabled")
+								 <option value="{{$cc['category']}}">{{$cc['name']}}</option>
+								 @endif
 								@endforeach
 							  </select>
 							</div>

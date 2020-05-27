@@ -31,8 +31,10 @@
                             <div class="col-md-9">
 							  <select class="form-control" name="category">
 							    <option value="none">Select category</option>
-								<?php $__currentLoopData = $c; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-								 <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+								<?php $__currentLoopData = $c; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+								 <?php if($cc['status'] == "enabled"): ?>
+								 <option value="<?php echo e($cc['category']); ?>"><?php echo e($cc['name']); ?></option>
+								 <?php endif; ?>
 								<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 							  </select>
 							</div>

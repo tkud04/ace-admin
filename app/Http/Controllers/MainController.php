@@ -154,8 +154,8 @@ class MainController extends Controller {
 		}
 		
 		$signals = $this->helpers->signals;
-		$c = $this->helpers->categories;
-		#dd($cg);
+		$c = $this->helpers->getCategories();
+		#dd($c);
     	return view('add-product',compact(['user','signals','c']));
     }
 	
