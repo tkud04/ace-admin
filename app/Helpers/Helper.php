@@ -387,7 +387,8 @@ $subject = $data['subject'];
            {
            	$ret = [];
               $products = Products::where('id','>',"0")->get();
- 
+              $products = $products->sortByDesc('created_at');
+			  
               if($products != null)
                {
 				  foreach($products as $p)
@@ -405,7 +406,7 @@ $subject = $data['subject'];
            	$ret = [];
               $product = Products::where('id',$id)
 			                 ->orWhere('sku',$id)->first();
- 
+       
               if($product != null)
                {
 				  $temp = [];
@@ -984,7 +985,8 @@ $subject = $data['subject'];
            {
            	$ret = [];
               $reviews = Reviews::where('id','>',"0")->get();
- 
+              $reviews = $review->sortByDesc('created_at');
+			  
               if($reviews != null)
                {
 				  foreach($reviews as $r)
@@ -1251,6 +1253,7 @@ $subject = $data['subject'];
            	$ret = [];
 
 			  $orders = Orders::where('id','>',"0")->get();
+			  $orders = $orders->sortByDesc('created_at');
 			  #dd($uu);
               if($orders != null)
                {
