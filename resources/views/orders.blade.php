@@ -57,7 +57,7 @@
 					   <td>
 					     <a class="btn btn-primary" href="{{$tu}}">View</span>&nbsp;&nbsp;
 					     <a class="btn btn-warning" href="{{$ttu}}">Track</span>&nbsp;&nbsp;
-					     <a class="btn btn-warning" href="{{$du}}">Delete</span>
+					     <a class="btn btn-danger" href="{{$du}}">Delete</span>
 					   </td>
 					 </tr>
 					<?php
