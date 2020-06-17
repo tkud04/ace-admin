@@ -1279,6 +1279,49 @@ class MainController extends Controller {
 			return redirect()->back();
          } 	  
     }
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function getDeleteOrder(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [
+                             'o' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+           $this->helpers->deleteOrder($req['o']);
+			session()->flash("delete-order-status", "success");
+			return redirect()->back();
+         } 	  
+    }
+    
 	
 	/**
 	 * Show the application welcome screen to the user.
