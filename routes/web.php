@@ -62,6 +62,7 @@ Route::get('new-order', 'MainController@getAddOrder');
 Route::post('new-order', 'MainController@postAddOrder');
 Route::get('edit-order', 'MainController@getEditOrder');
 Route::post('edit-order', 'MainController@postEditOrder');
+Route::get('delete-order', 'MainController@getDeleteOrder');
 
 Route::get('new-discount', 'MainController@getAddDiscount');
 Route::post('new-discount', 'MainController@postAddDiscount');

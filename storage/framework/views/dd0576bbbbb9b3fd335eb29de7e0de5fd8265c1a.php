@@ -44,6 +44,7 @@
 							 $pu = url('edit-product')."?id=".$product['sku'];
 							 $tu = url('edit-order')."?r=".$o['reference'];
 							 $ttu = url('track')."?o=".$o['reference'];
+							$du = url('delete-order')."?o=".$o['reference'];
 						 ?>
 						 <a href="<?php echo e($pu); ?>" target="_blank"><?php echo e($product['sku']); ?></a> (x<?php echo e($qty); ?>)<br>
 						 <?php
@@ -54,7 +55,8 @@
 					   <td><span class="label label-<?php echo e($statusClass); ?>"><?php echo e(strtoupper($o['status'])); ?></span></td>
 					   <td>
 					     <a class="btn btn-primary" href="<?php echo e($tu); ?>">View</span>&nbsp;&nbsp;
-					     <a class="btn btn-warning" href="<?php echo e($ttu); ?>">Track</span>
+					     <a class="btn btn-warning" href="<?php echo e($ttu); ?>">Track</span>&nbsp;&nbsp;
+					     <a class="btn btn-danger" href="<?php echo e($du); ?>">Delete</span>
 					   </td>
 					 </tr>
 					<?php

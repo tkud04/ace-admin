@@ -68,6 +68,7 @@ class Helper implements HelperContract
                      "no-sku-status" => "Please select a product for single discount.",
                      "set-cover-image-status" => "Product image updated",
                      "delete-image-status" => "Image deleted",
+                     "delete-order-status" => "Order deleted",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
