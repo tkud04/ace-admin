@@ -1380,7 +1380,28 @@ $subject = $data['subject'];
                return $o; 
            }
 		   
-		   
+		   function deleteOrder($id)
+           {
+			  $o = Orders::where('id',$id)
+			           ->OrWhere('reference',$id)->first();
+			 
+			 
+			if($o != null)
+			{
+				$items = OrderItems::where('order_id',$o->id)->get();
+			    if($items != null)
+                 {
+                   foreach($items as $i) 
+                    {
+                    	$i->delete();
+                    }
+                }
+                
+                $o->delete();
+			}
+
+                return "ok";
+           }	
 		
            
            
