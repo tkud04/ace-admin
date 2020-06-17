@@ -45,6 +45,7 @@
 							 $pu = url('edit-product')."?id=".$product['sku'];
 							 $tu = url('edit-order')."?r=".$o['reference'];
 							 $ttu = url('track')."?o=".$o['reference'];
+							$du = url('delete-order')."?o=".$o['reference'];
 						 ?>
 						 <a href="{{$pu}}" target="_blank">{{$product['sku']}}</a> (x{{$qty}})<br>
 						 <?php
@@ -55,7 +56,8 @@
 					   <td><span class="label label-{{$statusClass}}">{{strtoupper($o['status'])}}</span></td>
 					   <td>
 					     <a class="btn btn-primary" href="{{$tu}}">View</span>&nbsp;&nbsp;
-					     <a class="btn btn-warning" href="{{$ttu}}">Track</span>
+					     <a class="btn btn-warning" href="{{$ttu}}">Track</span>&nbsp;&nbsp;
+					     <a class="btn btn-warning" href="{{$du}}">Delete</span>
 					   </td>
 					 </tr>
 					<?php
