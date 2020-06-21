@@ -41,13 +41,20 @@
 						 foreach($items as $i)
 						 {
 							 $product = $i['product'];
+							 $sku = $product['sku'];
+							  $img = $product['imggs'][0];
 							 $qty = $i['qty'];
 							 $pu = url('edit-product')."?id=".$product['sku'];
 							 $tu = url('edit-order')."?r=".$o['reference'];
 							 $ttu = url('track')."?o=".$o['reference'];
 							$du = url('delete-order')."?o=".$o['reference'];
 						 ?>
-						 <a href="{{$pu}}" target="_blank">{{$product['sku']}}</a> (x{{$qty}})<br>
+						 <span>
+						 <a href="{{$pu}}" target="_blank">
+						   <img class="img img-fluid" src="{{$img}}" alt="{{$sku}}" height="50" width="50" style="margin-bottom: 5px;" />
+							   {{$sku}}
+						 </a> (x{{$qty}})
+						 </span><br>
 						 <?php
 						 }
 						?>

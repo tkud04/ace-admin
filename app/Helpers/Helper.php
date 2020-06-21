@@ -416,7 +416,7 @@ $subject = $data['subject'];
 				  $temp['qty'] = $product->qty;
 				  $temp['status'] = $product->status;
 				  $temp['pd'] = $this->getProductData($product->sku);
-				  $imgs = $this->getProductImages($product->sku);
+				  $imgs = $this->getImages($product->sku);
 				  if($imgId) $temp['imgs'] = $imgs;
 				  $temp['imggs'] = $this->getCloudinaryImages($imgs);
 				  $ret = $temp;
@@ -444,8 +444,8 @@ $subject = $data['subject'];
                                                       
                 return $ret;
            }
-
-		  function getProductImages($sku)
+		   
+		   function getProductImages($sku)
            {
            	$ret = [];
               $pis = ProductImages::where('sku',$sku)->get();
@@ -466,6 +466,53 @@ $subject = $data['subject'];
                                                       
                 return $ret;
            }
+		   
+		   function isCoverImage($img)
+		   {
+			   return $img['cover'] == "yes";
+		   }
+		   
+		   function getImage($pi)
+           {
+       	         $temp = [];
+				 $temp['id'] = $pi->id;
+				 $temp['sku'] = $pi->sku;
+			     $temp['cover'] = $pi->cover;
+				 $temp['url'] = $pi->url;
+				 
+                return $temp;
+           }
+		   
+		   function getImages($sku)
+		   {
+			   $ret = [];
+			   $records = $this->getProductImages($sku);
+			   
+			   $coverImage = ProductImages::where('sku',$sku)
+			                              ->where('cover',"yes")->first();
+										  
+               $otherImages = ProductImages::where('sku',$sku)
+			                              ->where('cover',"!=","yes")->get();
+			  
+               if($coverImage != null)
+			   {
+				   $temp = $this->getImage($coverImage);
+				   array_push($ret,$temp);
+			   }
+
+               if($otherImages != null)
+			   {
+				   foreach($otherImages as $oi)
+				   {
+					   $temp = $this->getImage($oi);
+				       array_push($ret,$temp);
+				   }
+			   }
+			   
+			   return $ret;
+		   }
+
+		  
 		   function setCoverImage($id)
            {
               $pi = ProductImages::where('id',$id)->first();

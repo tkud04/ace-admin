@@ -39,21 +39,27 @@
 						<div class="form-row">
                             <div class="col-md-3">Items</div>
                            <div class="col-md-9">
-							  <textarea class="form-control" rows="5" readonly>
 							    <?php
 						 foreach($items as $i)
 						 {
 							 $product = $i['product'];
+							 $sku = $product['sku'];
+							   $img = $product['imggs'][0];
 							 $pd = $product['pd'];
 							 $qty = $i['qty'];
 							 $pu = url('edit-product')."?id=".$product['sku'];
 							 $tu = url('edit-order')."?r=".$o['reference'];
 						 ?>
-						 {{$product['sku']}}    &#8358;{{number_format($pd['amount'],2)}}     (x{{$qty}})
+						 <span>
+						 <a href="{{$pu}}" target="_blank">
+						   <img class="img img-fluid" src="{{$img}}" alt="{{$sku}}" height="50" width="50" style="margin-bottom: 5px;" />
+							   {{$sku}} - &#8358;{{number_format($pd['amount'],2)}}
+						 </a> (x{{$qty}})
+						  </span><br>
 						 <?php
 						 }
 						?>
-							  </textarea>
+							 
 						   </div>
                         </div><br>
 						<div class="form-row">

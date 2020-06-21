@@ -24,20 +24,24 @@
                             <tbody>
 							   <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 							   <?php
+							   $sku = $p['sku'];
+							    $uu = url('edit-product')."?id=".$sku;
 							   $pd = $p['pd'];
+							    $img = $p['imggs'][0];
 							   $status = $p['status'];
 							   $ss = ($status == "enabled") ? "success" : "danger";
 							   ?>
                                 <tr>
-                                    <td><?php echo e($p['sku']); ?><br><?php echo e($pd['description']); ?></td>
+                                    <td>
+									<a href="<?php echo e($uu); ?>" target="_blank">
+						             <img class="img img-fluid" src="<?php echo e($img); ?>" alt="<?php echo e($sku); ?>" height="50" width="50" style="margin-bottom: 5px;" />
+							         <span><?php echo e($sku); ?><br><?php echo e($pd['description']); ?></span>
+						            </a><br>
+									</td>
                                     <td><?php echo e($p['qty']); ?></td>
                                     <td><?php echo e(number_format($pd['amount'],2)); ?></td>
                                     <td><span class="driver-status label label-<?php echo e($ss); ?>"><?php echo e($status); ?></span></td>                                                                     
                                     <td>
-									  <?php
-									   $uu = url('edit-product')."?id=".$p['sku'];
-									   
-									  ?>
 									  <a href="<?php echo e($uu); ?>" class="btn btn-primary">View</button>									  
 									</td>                                                                     
                                 </tr>

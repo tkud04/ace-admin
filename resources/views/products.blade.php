@@ -25,20 +25,24 @@
                             <tbody>
 							   @foreach($products as $p)
 							   <?php
+							   $sku = $p['sku'];
+							    $uu = url('edit-product')."?id=".$sku;
 							   $pd = $p['pd'];
+							    $img = $p['imggs'][0];
 							   $status = $p['status'];
 							   $ss = ($status == "enabled") ? "success" : "danger";
 							   ?>
                                 <tr>
-                                    <td>{{$p['sku']}}<br>{{$pd['description']}}</td>
+                                    <td>
+									<a href="{{$uu}}" target="_blank">
+						             <img class="img img-fluid" src="{{$img}}" alt="{{$sku}}" height="50" width="50" style="margin-bottom: 5px;" />
+							         <span>{{$sku}}<br>{{$pd['description']}}</span>
+						            </a><br>
+									</td>
                                     <td>{{$p['qty']}}</td>
                                     <td>{{number_format($pd['amount'],2)}}</td>
                                     <td><span class="driver-status label label-{{$ss}}">{{$status}}</span></td>                                                                     
                                     <td>
-									  <?php
-									   $uu = url('edit-product')."?id=".$p['sku'];
-									   
-									  ?>
 									  <a href="{{$uu}}" class="btn btn-primary">View</button>									  
 									</td>                                                                     
                                 </tr>

@@ -1226,9 +1226,17 @@ class MainController extends Controller {
 				#dd($req);
               $o = $this->helpers->getOrder($req['r']);
 			  $signals = $this->helpers->signals;
-			  $xf = $o['id'];
-			  #dd($order);
-		      return view('edit-order',compact(['user','o','xf','signals']));
+			  if(count($o) > 0)
+			  {
+				  $xf = $o['id'];
+			     #dd($order);
+		         return view('edit-order',compact(['user','o','xf','signals']));
+			  }
+			  else
+			  {
+				  return redirect()->intended('orders');
+			  }
+			  
             }
 		}
 		else
