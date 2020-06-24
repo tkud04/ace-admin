@@ -359,6 +359,23 @@ $subject = $data['subject'];
               return $ret; 
            }
 		   
+		   function getUsers()
+           {
+           	$ret = [];
+              $users = User::where('id','>',"0")->get();
+             
+              if($users != null)
+               {
+				  foreach($users as $u)
+				  {
+					  $uu = $this->getUser($u->id);
+					  array_push($ret,$uu);
+				  }
+               }                         
+                                                      
+                return $ret;
+           }
+		   
 		   function getUser($id)
            {
            	$ret = [];

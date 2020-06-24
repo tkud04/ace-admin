@@ -339,6 +339,85 @@ class MainController extends Controller {
          } 	  
     }
 	
+	  /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getUsers(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$users = $this->helpers->getUsers();
+		
+		$signals = $this->helpers->signals;
+		#dd($users);
+    	return view('users',compact(['user','users','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getUser(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+			$req = $request->all();
+			
+            $validator = Validator::make($req, [                            
+                             'id' => 'required',
+            ]);
+         
+            if($validator->fails())
+            {
+               return redirect()->intended('products');
+            }
+         
+            else
+            {
+              $u = $this->helpers->getUser($req['id']);
+
+			  $signals = $this->helpers->signals;
+			  $xf = $req['id'];
+			  //dd($product);
+		      return view('user',compact(['user','u','xf','signals']));
+            }
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}	
+    }
+	
 	 /**
 	 * Show the application welcome screen to the user.
 	 *
@@ -1183,6 +1262,7 @@ class MainController extends Controller {
 		
 		
 		$orders = $this->helpers->getOrders();
+		#dd($orders);
 		$categories = $this->helpers->getCategories();
 		
 		$signals = $this->helpers->signals;

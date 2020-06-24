@@ -81,6 +81,12 @@
                                 </a>
                             </li>                            
                             <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> users</a>
+                                <ul class="dropdown-menu">                                    
+                                    <li><a href="{{url('users')}}"> View users</a></li>
+                                </ul>                                
+                            </li>
+							<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> products</a>
                                 <ul class="dropdown-menu">                                    
                                     <li><a href="{{url('products')}}"> View products</a></li>
