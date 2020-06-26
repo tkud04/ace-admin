@@ -47,8 +47,9 @@ class MainController extends Controller {
 		$accounts = [];
 		$stats = $this->helpers->getDashboardStats();
 		$profits = $this->helpers->getProfits();
-        
-    	return view('index',compact(['user','stats','profits','signals']));
+		$orders = $this->helpers->getOrders();
+        #dd($orders);
+    	return view('index',compact(['user','stats','profits','orders','signals']));
     }
 
      /**
@@ -410,6 +411,50 @@ class MainController extends Controller {
 			  $xf = $req['id'];
 			  //dd($product);
 		      return view('user',compact(['user','u','xf','signals']));
+            }
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}	
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getManageUserStatus(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+			$req = $request->all();
+			
+            $validator = Validator::make($req, [                            
+                             'id' => 'required',
+            ]);
+         
+            if($validator->fails())
+            {
+               return redirect()->intended('products');
+            }
+         
+            else
+            {
+              $ret = $this->helpers->manageUserStatus($req);
+
+			  session()->flash("update-user-status", "success");
+			return redirect()->intended('users');
             }
 		}
 		else

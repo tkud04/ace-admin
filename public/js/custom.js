@@ -37,3 +37,7 @@ $(document).ready(function(){
 		  });
 		  
 });
+
+function updateTracking(){
+	console.log('we are here');
+}

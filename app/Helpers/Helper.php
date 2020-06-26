@@ -53,6 +53,7 @@ class Helper implements HelperContract
                      "update-product-status" => "Product updated!",
                      "edit-category-status" => "Category updated!",
                      "update-status" => "Account updated!",
+                     "update-user-status" => "User account updated!",
                      "config-status" => "Config added/updated!",
                      "create-ad-status" => "Ad added!",
                      "edi-ad-status" => "Ad updated!",
@@ -73,6 +74,7 @@ class Helper implements HelperContract
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
 					 "update-status-error" => "There was a problem updating the account, please contact support.",
+					 "update-user-status-error" => "There was a problem updating the user account, please contact support.",
 					 "contact-status-error" => "There was a problem sending your message, please contact support.",
 					 "create-product-status-error" => "There was a problem adding the product, please try again.",
 					 "create-category-status-error" => "There was a problem adding the category, please try again.",
@@ -1050,7 +1052,7 @@ $subject = $data['subject'];
            {
            	$ret = [];
               $reviews = Reviews::where('id','>',"0")->get();
-              $reviews = $review->sortByDesc('created_at');
+              $reviews = $reviews->sortByDesc('created_at');
 			  
               if($reviews != null)
                {
@@ -1466,7 +1468,22 @@ $subject = $data['subject'];
 			}
 
                 return "ok";
-           }	
+           }
+
+
+          function manageUserStatus($dt)
+		  {
+			  $user = User::where('id',$dt['id'])
+			              ->orWhere('email',$dt['id'])->first();
+			  
+			  if($user != null)
+			  {
+				  $val = $dt['action'] == "enable" ? "enabled" : "disabled";
+				  $user->update(['status' => $val]);
+			  }
+			  
+			  return "ok";
+		  }		   
 		
            
            

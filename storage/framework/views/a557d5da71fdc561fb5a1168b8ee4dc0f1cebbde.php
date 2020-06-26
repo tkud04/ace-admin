@@ -28,6 +28,9 @@
 							   $email = $u['email'];
 							   $phone = $u['phone'];
 							    $uu = url('user')."?id=".$u['id'];
+							    $action = ($u['status'] == "enabled") ? "disable" : "enable";
+							    $statusColor = ($u['status'] == "enabled") ? "warning" : "success";
+								$du = url('edu')."?id=".$u['id']."&action=".$action;
 							   $status = $u['status'];
 							   $ss = ($status == "enabled") ? "success" : "danger";
 							   ?>
@@ -41,6 +44,7 @@
                                     <td><span class="driver-status label label-<?php echo e($ss); ?>"><?php echo e($status); ?></span></td>                                                                     
                                     <td>
 									  <a href="<?php echo e($uu); ?>" class="btn btn-primary">View</button>									  
+									  <a href="<?php echo e($du); ?>" class="btn btn-<?php echo e($statusColor); ?>"><?php echo e(ucwords($action)); ?></button>									  
 									</td>                                                                     
                                 </tr>
                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                       

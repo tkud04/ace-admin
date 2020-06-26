@@ -29,6 +29,9 @@
 							   $email = $u['email'];
 							   $phone = $u['phone'];
 							    $uu = url('user')."?id=".$u['id'];
+							    $action = ($u['status'] == "enabled") ? "disable" : "enable";
+							    $statusColor = ($u['status'] == "enabled") ? "warning" : "success";
+								$du = url('edu')."?id=".$u['id']."&action=".$action;
 							   $status = $u['status'];
 							   $ss = ($status == "enabled") ? "success" : "danger";
 							   ?>
@@ -41,6 +44,7 @@
                                     <td><span class="driver-status label label-{{$ss}}">{{$status}}</span></td>                                                                     
                                     <td>
 									  <a href="{{$uu}}" class="btn btn-primary">View</button>									  
+									  <a href="{{$du}}" class="btn btn-{{$statusColor}}">{{ucwords($action)}}</button>									  
 									</td>                                                                     
                                 </tr>
                                @endforeach                       

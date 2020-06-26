@@ -95,7 +95,99 @@
                     </div>                    
                     
                 </div>    				
-              
+
+               <div class="block block-drop-shadow">                    
+                        <div class="head bg-dot20">
+                        <h2>Track orders</h2>
+                        
+                        <div class="head-subtitle">Update tracking info for multiple orders</div>                        
+                        
+                        <div class="head-panel nm">
+						   
+						   <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
+					     
+                        <table cellpadding="0" cellspacing="0" width="100%" data-idl="2" class="table table-bordered table-striped sortable">
+                            <thead>
+                                <tr>
+                                    <th width="90%">Order</th>
+                                    <th width="10%"></th>                                                                                                      
+                                </tr>
+                            </thead>
+                            <tbody>
+							   <?php
+							   $uss = [];
+							   
+							   foreach($orders as $o)
+							   {
+								   $items = $o['items'];
+								   
+							   ?>
+                                <tr>
+                                    <td>
+									<h6>ACE_{{$o['reference']}}</h6>
+									  <?php
+						 foreach($items as $i)
+						 {
+							 $product = $i['product'];
+							 $sku = $product['sku'];
+							  $img = $product['imggs'][0];
+							 $qty = $i['qty'];
+							 $pu = url('edit-product')."?id=".$product['sku'];
+							 $tu = url('edit-order')."?r=".$o['reference'];
+							 $ttu = url('track')."?o=".$o['reference'];
+							$du = url('delete-order')."?o=".$o['reference'];
+						 ?>
+						 
+						 <span>
+						 <a href="{{$pu}}" target="_blank">
+						   <img class="img img-fluid" src="{{$img}}" alt="{{$sku}}" height="40" width="40" style="margin-bottom: 5px;" />
+							   {{$sku}}
+						 </a> (x{{$qty}})
+						 </span><br>
+						 <?php
+						 }
+						?>
+									</td>
+                                    <td>
+									 <input type="checkbox" name="btrack" id="btrack-{{$sku}}"/>
+									</td>                                                                     
+                                </tr>
+                               <?php
+							   }
+                               ?>							   
+                            </tbody>
+                        </table>                                        
+
+                    </div>
+						   
+						   
+                            <div class="hp-info hp-simple pull-left">
+                                <span class="hp-main">Update tracking:</span>
+                                <div class="hp-sm">
+								 <select id="update-tracking-btn">
+								   <?php
+								 $statuses = ['none' => "Select tracking status",
+								              'pickup' => "Scheduled for Pickup",
+								              'transit' => "In Transit",
+								              'delivered' => "Package delivered",
+								              'return' => "Package Returned",
+								              'receiver_not_present' => "Receiver Not Present at Delivery Address",
+											 ];
+								?>
+								@foreach($statuses as $key=> $value)
+								 <option value="{{$key}}">{{$value}}</option>
+								@endforeach
+								 </select><br>
+								 <button onclick="updateTracking()" class="btn btn-default btn-block btn-clean">Submit</button>
+								</div>                                
+                            </div>
+                                               
+                        </div>                        
+                    </div>                    
+                                       
+                    
+                </div>   				
+
 
             </div> 
 			<div class="col-md-5">
@@ -126,8 +218,6 @@
                     </div>                    
                                        
                     
-                </div>   				
-              
-
-            </div>
+                </div>
+		</div>
 @stop
