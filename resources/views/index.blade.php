@@ -104,13 +104,17 @@
                         
                         <div class="head-panel nm">
 						   
-						   <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
+						   <div class="dataTables_wrapper" role="grid">
 					     
-                        <table cellpadding="0" cellspacing="0" width="100%" data-idl="2" class="table table-bordered table-striped sortable">
+                        <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered table-striped sortable">
                             <thead>
                                 <tr>
-                                    <th width="90%">Order</th>
-                                    <th width="10%"></th>                                                                                                      
+                                    <th width="70%">Order</th>
+                                    <th width="20%">Status</th>
+                                    <th width="10%">
+									 <button id="tracking-select-all" onclick="trackingSelectAllOrders()" class="btn btn-success">Select all</button>
+									 <button id="tracking-unselect-all" onclick="trackingUnselectAllOrders()" class="btn btn-success">Unselect all</button>
+									</th>                                                                                                      
                                 </tr>
                             </thead>
                             <tbody>
@@ -120,7 +124,8 @@
 							   foreach($orders as $o)
 							   {
 								   $items = $o['items'];
-								   
+								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
+									
 							   ?>
                                 <tr>
                                     <td>
@@ -148,8 +153,9 @@
 						 }
 						?>
 									</td>
-                                    <td>
-									 <input type="checkbox" name="btrack" id="btrack-{{$sku}}"/>
+                                    <td><span class="label label-{{$statusClass}}">{{strtoupper($o['status'])}}</span></td>
+									<td>
+									 <button onclick="trackingSelectOrder({reference: '{{$o['reference']}}'})" id="{{$o['reference']}}" class="btn btn-info r">Select</button>
 									</td>                                                                     
                                 </tr>
                                <?php
@@ -162,6 +168,9 @@
 						   
 						   
                             <div class="hp-info hp-simple pull-left">
+							<form action="{{url('but')}}" id="but-form" method="post" enctype="multipart/form-data">
+							  {!! csrf_field() !!}
+							</form>
                                 <span class="hp-main">Update tracking:</span>
                                 <div class="hp-sm">
 								 <select id="update-tracking-btn">

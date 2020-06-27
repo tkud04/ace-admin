@@ -139,7 +139,7 @@ $(document).ready(function() {
             "sPaginationType": "full_numbers",
             "bLengthChange": false,
             "bFilter": true,
-            "bInfo": true,
+            "bInfo": false,
             "bPaginate": true
         });
     }

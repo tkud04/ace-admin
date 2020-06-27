@@ -6,3 +6,8 @@ span.driver-status{
 	text-transform: uppercase;
 	padding: 10px;
 }
+
+.scroll{
+	overflow-x: hidden;
+	overflow-y: auto;
+}
