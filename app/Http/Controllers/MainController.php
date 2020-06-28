@@ -1929,10 +1929,40 @@ class MainController extends Controller {
          }       
     }
     
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postBulkConfirmPayment(Request $request)
+    {	
+       $req = $request->all();
+		   dd($req); 
+        $validator = Validator::make($req, [
+                             'dt' => 'required',
+                             'action' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			$this->helpers->bulkUpdateTracking($req);
+			session()->flash("bulk-update-tracking-status", "success");
+			return redirect()->back();
+					
+         }       
+    }
     
-    /****************/
+    
+    /****************
     POST Redirects
-    /****************/
+    ****************/
     
     /**
 	 * Show the application welcome screen to the user.
