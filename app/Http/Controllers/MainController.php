@@ -1907,32 +1907,24 @@ class MainController extends Controller {
     public function postBulkUpdateTracking(Request $request)
     {	
        $req = $request->all();
-		   dd($req); 
+		   #dd($req); 
         $validator = Validator::make($req, [
-                             'o' => 'required'
+                             'dt' => 'required',
+                             'action' => 'required|not_in:none'
          ]);
          
          if($validator->fails())
          {
              $messages = $validator->messages();
-             return redirect()->intended('orders');
+             return redirect()->back()->withInput()->with('errors',$messages);
              //dd($messages);
          }
          
          else
          {
-			$order = $this->helpers->getOrder($req['o']);
-			//dd($order);
-			if(count($order) > 0 && $order['status'] == "unpaid" && $order['type'] == "bank")
-			{
-				$this->helpers->confirmPayment($req['o']);
-				return view("confirm-payment",compact(['order']));
-			}
-			else
-			{
-				
-             return redirect()->intended('orders');
-			}
+			$this->helpers->bulkUpdateTracking($req);
+			session()->flash("bulk-update-tracking-status", "success");
+			return redirect()->back();
 					
          }       
     }
