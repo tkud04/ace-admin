@@ -61,6 +61,7 @@ function updateTracking(){
 			showSelectError('tracking','status');
 		}
 	}
+	else{
 	
 	let isAllUnselected = true;
 	
@@ -77,6 +78,7 @@ function updateTracking(){
 		
 		$('#but-form').submit();
 	}
+  }
 }
 
 function showBulkSelectButton(type,op){
