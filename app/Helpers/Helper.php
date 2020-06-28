@@ -70,6 +70,7 @@ class Helper implements HelperContract
                      "set-cover-image-status" => "Product image updated",
                      "delete-image-status" => "Image deleted",
                      "delete-order-status" => "Order deleted",
+                     "bulk-update-tracking-status" => "Trackings updated"
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -91,6 +92,7 @@ class Helper implements HelperContract
 					 "delete-image-status-error" => "There was a problem deleting the image, please try again.",
 					 "set-cover-image-status-error" => "There was a problem updating the product image, please try again.",
 					 "delete-discount-status-error" => "There was a problem deleting the discount, please try again.",
+					"bulk-update-tracking-status-error" => "There was a problem updating trackings, please try again."
                     ]
                    ];
 				   
@@ -1475,6 +1477,22 @@ $subject = $data['subject'];
 		  {
 			  $user = User::where('id',$dt['id'])
 			              ->orWhere('email',$dt['id'])->first();
+			  
+			  if($user != null)
+			  {
+				  $val = $dt['action'] == "enable" ? "enabled" : "disabled";
+				  $user->update(['status' => $val]);
+			  }
+			  
+			  return "ok";
+		  }
+
+          function bulkUpdateTracking($data)
+		  {
+			$dt = json_decode($data['dt']);
+			$action = $data['action'];
+			
+			dd($dt);
 			  
 			  if($user != null)
 			  {
