@@ -1347,6 +1347,7 @@ $subject = $data['subject'];
                {
 				  $temp = [];
                   $temp['id'] = $o->id;
+                  $temp['user_id'] = $o->user_id;
                   $temp['reference'] = $o->reference;
                   $temp['amount'] = $o->amount;
                   $temp['type'] = $o->type;
