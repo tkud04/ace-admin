@@ -28,6 +28,11 @@ Route::post('add-product', 'MainController@postAddProduct');
 Route::get('edit-product', 'MainController@getEditProduct');
 Route::post('edit-product', 'MainController@postEditProduct');
 
+Route::get('users', 'MainController@getUsers');
+Route::get('user', 'MainController@getUser');
+Route::post('user', 'MainController@postUser');
+Route::get('edu', 'MainController@getManageUserStatus');
+
 Route::get('categories', 'MainController@getCategories');
 Route::get('add-category', 'MainController@getAddCategory');
 Route::post('add-category', 'MainController@postAddCategory');
@@ -72,3 +77,9 @@ Route::post('edit-discount', 'MainController@postEditDiscount');
 Route::get('delete-discount', 'MainController@getDeleteDiscount');
 
 Route::get('confirm-payment', 'MainController@getConfirmPayment');
+
+Route::get('but', 'MainController@getBulkUpdateTracking');
+Route::post('but', 'MainController@postBulkUpdateTracking');
+Route::get('bcp', 'MainController@getBulkConfirmPayment');
+Route::post('bcp', 'MainController@postBulkConfirmPayment');
+
