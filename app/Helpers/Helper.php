@@ -1492,13 +1492,26 @@ $subject = $data['subject'];
 			$dt = json_decode($data['dt']);
 			$action = $data['action'];
 			
-			dd($dt);
+			#dd($dt);
+			 
+			foreach($dt as $o)
+            {
+            	if($o->selected)
+                {
+                	$order = $this->getOrder($o->reference);
+                    if(count($order) > 0)
+                    {
+                    	$t = [
+                         'user_id' => $order['user_id'],
+                         'reference' => $o->reference,
+                         'status' => $action
+                         ];
+                         
+                         $this->createTracking($t);
+                    }
+                }
+            }
 			  
-			  if($user != null)
-			  {
-				  $val = $dt['action'] == "enable" ? "enabled" : "disabled";
-				  $user->update(['status' => $val]);
-			  }
 			  
 			  return "ok";
 		  }		   
