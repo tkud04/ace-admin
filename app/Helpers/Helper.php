@@ -1251,6 +1251,7 @@ $subject = $data['subject'];
 			   
 			   if(!is_null($trackings))
 			   {
+				  $trackings = $trackings->sortByDesc('created_at');
 				   foreach($trackings as $t)
 				   {
 					   $temp = [];
@@ -1515,7 +1516,20 @@ $subject = $data['subject'];
 			  
 			  
 			  return "ok";
-		  }		   
+		  }	
+
+         function getCurrentTracking($reference)
+         {
+         	$ret = null;
+         	$trackings = $this->getTrackings($reference);
+             
+             if(count($trackings) > 0)
+             {
+             	$ret = $trackings[0];
+             }
+             
+             return $ret;
+        }	   
 		
            
            
