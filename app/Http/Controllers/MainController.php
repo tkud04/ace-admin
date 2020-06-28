@@ -1928,6 +1928,33 @@ class MainController extends Controller {
 					
          }       
     }
+    
+    
+    /****************/
+    POST Redirects
+    /****************/
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getBulkUpdateTracking()
+    {
+       return redirect()->intended('/');
+    }
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getBulkConfirmPayment()
+    {
+       return redirect()->intended('/');
+    }
+    
+    
 
 	
 	
