@@ -4,13 +4,15 @@
 $(document).ready(function(){
 	$('#add-discount-input').hide();
 	
-	$('#tracking-unselect-all').hide();
-	
+	hideUnselects();
+	hideSelectErrors();
 	if($("#add-discount-type").val() == "single"){} 
 	else {$('#sku-form-row').hide(); }
 	
         $("#update-tracking-btn").change((e) =>{
-			trackingAction = $(this).val();
+			e.preventDefault();
+			let vv = $("#update-tracking-btn").val();
+			trackingAction = vv;
 		});
 		
         $("#toggle-discount-btn").click(function(e){            
@@ -49,10 +51,32 @@ $(document).ready(function(){
 });
 
 function updateTracking(){
-	console.log('we are here');
-	console.log(trackingOrders);
-	console.log(trackingAction);
+	hideSelectErrors();
 	
+	if(trackingOrders.length < 1 || trackingAction == "none"){
+		if(trackingOrders.length < 1){
+			showSelectError('tracking','order');
+		}
+		if(trackingAction == "none"){
+			showSelectError('tracking','status');
+		}
+	}
+	
+	let isAllUnselected = true;
+	
+	for(let i = 0; i < trackingOrders.length; i++){
+		if(trackingOrders[i].selected) isAllUnselected = false;
+	}
+	
+	if(isAllUnselected){
+		showSelectError('tracking','order');
+	}
+	else{
+		$('#dt').val(JSON.stringify(trackingOrders));
+		$('#action').val(trackingAction);
+		
+		$('#but-form').submit();
+	}
 }
 
 function showBulkSelectButton(type,op){
@@ -136,4 +160,17 @@ function trackingUnselectOrder(o){
 	  }
 	  
 	}
+}
+
+function hideUnselects(){
+	$('#tracking-unselect-all').hide();
+}
+
+function hideSelectErrors(){
+	$('#tracking-select-order-error').hide();
+	$('#tracking-select-status-error').hide();
+}
+
+function showSelectError(type,err){
+	$(`#${type}-select-${err}-error`).fadeIn();
 }

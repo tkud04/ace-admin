@@ -78,3 +78,5 @@ Route::get('delete-discount', 'MainController@getDeleteDiscount');
 
 Route::get('confirm-payment', 'MainController@getConfirmPayment');
 
+Route::post('but', 'MainController@postBulkUpdateTracking');
+

@@ -170,6 +170,8 @@
                             <div class="hp-info hp-simple pull-left">
 							<form action="{{url('but')}}" id="but-form" method="post" enctype="multipart/form-data">
 							  {!! csrf_field() !!}
+							  <input type="hidden" id="dt" name="dt">
+							  <input type="hidden" id="action" name="action">
 							</form>
                                 <span class="hp-main">Update tracking:</span>
                                 <div class="hp-sm">
@@ -187,7 +189,10 @@
 								 <option value="{{$key}}">{{$value}}</option>
 								@endforeach
 								 </select><br>
-								 <button onclick="updateTracking()" class="btn btn-default btn-block btn-clean">Submit</button>
+								 <h3 id="tracking-select-order-error" class="label label-danger text-uppercase">Please select an order</h3>
+								 <h3 id="tracking-select-status-error" class="label label-danger text-uppercase">Please select tracking status</h3>
+								 <br>
+								 <button onclick="updateTracking()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>                                
                             </div>
                                                

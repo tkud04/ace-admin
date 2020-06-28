@@ -1898,6 +1898,44 @@ class MainController extends Controller {
 					
          }       
     }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postBulkUpdateTracking(Request $request)
+    {	
+       $req = $request->all();
+		   dd($req); 
+        $validator = Validator::make($req, [
+                             'o' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->intended('orders');
+             //dd($messages);
+         }
+         
+         else
+         {
+			$order = $this->helpers->getOrder($req['o']);
+			//dd($order);
+			if(count($order) > 0 && $order['status'] == "unpaid" && $order['type'] == "bank")
+			{
+				$this->helpers->confirmPayment($req['o']);
+				return view("confirm-payment",compact(['order']));
+			}
+			else
+			{
+				
+             return redirect()->intended('orders');
+			}
+					
+         }       
+    }
 
 	
 	
