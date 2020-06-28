@@ -1355,6 +1355,7 @@ $subject = $data['subject'];
                   $temp['payment_code'] = $o->payment_code;
                   $temp['notes'] = $o->notes;
                   $temp['status'] = $o->status;
+                  $temp['current_tracking'] = $this->getCurrentTracking($o->reference);
                   $temp['items'] = $this->getOrderItems($o->id);
                   $temp['totals'] = $this->getOrderTotals( $temp['items']);
                   $temp['date'] = $o->created_at->format("jS F, Y");
