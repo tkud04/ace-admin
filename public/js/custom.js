@@ -128,10 +128,7 @@ function trackingSelectOrder(o){
 	  console.log(`selecting order ${o.reference}`);
 	  b = $(`button#${o.reference}`);
 	  if(b){
-		  b.attr('disabled',true);
-		  b.removeClass('btn-info');
-		  b.addClass('btn-warning');
-		  b.html("Selected");
+		   $(`#tracking-unselect_${o.reference}`).fadeIn();
 		  let ss = trackingOrders.find(i => i.reference == o.reference);
 		  //console.log('us: ',us);
 		  if(ss){
@@ -152,10 +149,7 @@ function trackingUnselectOrder(o){
 	  console.log(`unselecting order ${o.reference}`);
 	  b = $(`button#${o.reference}`);
 	  if(b){
-		  b.attr('disabled',false);
-		  b.removeClass('btn-warning');
-		  b.addClass('btn-info');
-		  b.html("Select");
+		  $(`#tracking-unselect_${o.reference}`).hide();
 		  let us = trackingOrders.find(i => i.reference == o.reference);
 		  //console.log('us: ',us);
 		  us.selected = false;
@@ -166,6 +160,7 @@ function trackingUnselectOrder(o){
 
 function hideUnselects(){
 	$('#tracking-unselect-all').hide();
+	$('.tracking-unselect').hide();
 }
 
 function hideSelectErrors(){

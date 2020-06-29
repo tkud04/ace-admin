@@ -155,7 +155,10 @@
 									</td>
                                     <td><span class="label label-<?php echo e($statusClass); ?>"><?php echo e(strtoupper($o['status'])); ?></span></td>
 									<td>
-									 <button onclick="trackingSelectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="<?php echo e($o['reference']); ?>" class="btn btn-info r">Select</button>
+									 <div class="btn-group" role="group">
+									 <button onclick="trackingSelectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="<?php echo e($o['reference']); ?>" class="btn btn-info r"><span class="icon-check"></span></button>
+									 <button onclick="trackingUnselectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="tracking-unselect_<?php echo e($o['reference']); ?>" class="btn btn-warning tracking-unselect"><span class="icon-check-empty"></span></button>
+									 </div>
 									</td>                                                                     
                                 </tr>
                                <?php
