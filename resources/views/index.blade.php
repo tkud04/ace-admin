@@ -3,6 +3,15 @@
 @section('title',"Dashboard")
 
 @section('content')
+   <?php
+								 $statuses = ['none' => "Select tracking status",
+								              'pickup' => "Scheduled for Pickup",
+								              'transit' => "In Transit",
+								              'delivered' => "Package delivered",
+								              'return' => "Package Returned",
+								              'receiver_not_present' => "Receiver Not Present at Delivery Address",
+											 ];
+								?>
             <div class="col-md-2">
                 
                 <div class="block block-drop-shadow">
@@ -125,6 +134,7 @@
 							   {
 								   $items = $o['items'];
 								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
+								$cs = $o['current_status'];
 									
 							   ?>
                                 <tr>
@@ -153,7 +163,7 @@
 						 }
 						?>
 									</td>
-                                    <td><span class="label label-{{$statusClass}}">{{strtoupper($o['status'])}}</span></td>
+                                    <td><span class="label label-info">{{strtoupper($statuses[$cs])}}</span></td>
 									<td>
 									 <div class="btn-group" role="group">
 									 <button onclick="trackingSelectOrder({reference: '{{$o['reference']}}'})" id="{{$o['reference']}}" class="btn btn-info r"><span class="icon-check"></span></button>
@@ -179,15 +189,7 @@
                                 <span class="hp-main">Update tracking:</span>
                                 <div class="hp-sm">
 								 <select id="update-tracking-btn">
-								   <?php
-								 $statuses = ['none' => "Select tracking status",
-								              'pickup' => "Scheduled for Pickup",
-								              'transit' => "In Transit",
-								              'delivered' => "Package delivered",
-								              'return' => "Package Returned",
-								              'receiver_not_present' => "Receiver Not Present at Delivery Address",
-											 ];
-								?>
+								
 								@foreach($statuses as $key=> $value)
 								 <option value="{{$key}}">{{$value}}</option>
 								@endforeach
