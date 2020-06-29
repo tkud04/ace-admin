@@ -134,7 +134,7 @@
 							   {
 								   $items = $o['items'];
 								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
-								$cs = $o['current_tracking']['status'];
+								$cs = ($o['current_tracking'] != null) ? $o['current_tracking']['status'] : "none";
 									
 							   ?>
                                 <tr>
