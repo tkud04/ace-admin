@@ -223,7 +223,9 @@ function trackingUnselectOrder(o){
 		  $(`#tracking-unselect_${o.reference}`).hide();
 		  let us = trackingOrders.find(i => i.reference == o.reference);
 		  //console.log('us: ',us);
-		  us.selected = false;
+		  if(us){
+		    us.selected = false;
+		  }
 	  }
 	  
 	}
@@ -291,7 +293,10 @@ function cpUnselectOrder(o){
 		  $(`#cp-unselect_${o.reference}`).hide();
 		  let us = cpOrders.find(i => i.reference == o.reference);
 		  //console.log('us: ',us);
-		  us.selected = false;
+		  
+		  if(us){
+		    us.selected = false;
+		  }
 	  }
 	  
 	}
@@ -361,7 +366,9 @@ function pqUnselectProduct(p){
 		  $(`#pq-unselect_${p.sku}`).hide();
 		  let us = pqProducts.find(i => i.sku == p.sku);
 		  //console.log('us: ',us);
-		  us.selected = false;
+		   if(us){
+		     us.selected = false;
+		   }
 	  }
 	  
 	}
