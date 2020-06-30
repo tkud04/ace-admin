@@ -1,6 +1,15 @@
 <?php $__env->startSection('title',"Dashboard"); ?>
 
 <?php $__env->startSection('content'); ?>
+   <?php
+								 $statuses = ['none' => "Select tracking status",
+								              'pickup' => "Scheduled for Pickup",
+								              'transit' => "In Transit",
+								              'delivered' => "Package delivered",
+								              'return' => "Package Returned",
+								              'receiver_not_present' => "Receiver Not Present at Delivery Address",
+											 ];
+								?>
             <div class="col-md-2">
                 
                 <div class="block block-drop-shadow">
@@ -95,11 +104,11 @@
                     
                 </div>    				
 
-               <div class="block block-drop-shadow">                    
+                <div class="block block-drop-shadow">                    
                         <div class="head bg-dot20">
-                        <h2>Track orders</h2>
+                        <h2>Confirm payments</h2>
                         
-                        <div class="head-subtitle">Update tracking info for multiple orders</div>                        
+                        <div class="head-subtitle">Confirm bank payment for multiple orders</div>                        
                         
                         <div class="head-panel nm">
 						   
@@ -111,8 +120,8 @@
                                     <th width="70%">Order</th>
                                     <th width="20%">Status</th>
                                     <th width="10%">
-									 <button id="tracking-select-all" onclick="trackingSelectAllOrders()" class="btn btn-success">Select all</button>
-									 <button id="tracking-unselect-all" onclick="trackingUnselectAllOrders()" class="btn btn-success">Unselect all</button>
+									 <button id="cp-select-all" onclick="cpSelectAllOrders()" class="btn btn-success">Select all</button>
+									 <button id="cp-unselect-all" onclick="cpUnselectAllOrders()" class="btn btn-success">Unselect all</button>
 									</th>                                                                                                      
                                 </tr>
                             </thead>
@@ -156,8 +165,8 @@
                                     <td><span class="label label-<?php echo e($statusClass); ?>"><?php echo e(strtoupper($o['status'])); ?></span></td>
 									<td>
 									 <div class="btn-group" role="group">
-									 <button onclick="trackingSelectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="<?php echo e($o['reference']); ?>" class="btn btn-info r"><span class="icon-check"></span></button>
-									 <button onclick="trackingUnselectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="tracking-unselect_<?php echo e($o['reference']); ?>" class="btn btn-warning tracking-unselect"><span class="icon-check-empty"></span></button>
+									 <button onclick="cpSelectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="cp-<?php echo e($o['reference']); ?>" class="btn btn-info cp"><span class="icon-check"></span></button>
+									 <button onclick="cpUnselectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="cp-unselect_<?php echo e($o['reference']); ?>" class="btn btn-warning cp-unselect"><span class="icon-check-empty"></span></button>
 									 </div>
 									</td>                                                                     
                                 </tr>
@@ -171,32 +180,22 @@
 						   
 						   
                             <div class="hp-info hp-simple pull-left">
-							<form action="<?php echo e(url('but')); ?>" id="but-form" method="post" enctype="multipart/form-data">
+							<form action="<?php echo e(url('bcp')); ?>" id="bcp-form" method="post" enctype="multipart/form-data">
 							  <?php echo csrf_field(); ?>
 
-							  <input type="hidden" id="dt" name="dt">
-							  <input type="hidden" id="action" name="action">
+							  <input type="hidden" id="cp-dt" name="dt">
+							  <input type="hidden" id="cp-action" name="action">
 							</form>
-                                <span class="hp-main">Update tracking:</span>
+                                <span class="hp-main">Select action:</span>
                                 <div class="hp-sm">
-								 <select id="update-tracking-btn">
-								   <?php
-								 $statuses = ['none' => "Select tracking status",
-								              'pickup' => "Scheduled for Pickup",
-								              'transit' => "In Transit",
-								              'delivered' => "Package delivered",
-								              'return' => "Package Returned",
-								              'receiver_not_present' => "Receiver Not Present at Delivery Address",
-											 ];
-								?>
-								<?php $__currentLoopData = $statuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-								 <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-								<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+								 <select id="cp-btn">
+								  <option value="none">Select action</option>
+								  <option value="confirm">Confirm payment</option>
 								 </select><br>
-								 <h3 id="tracking-select-order-error" class="label label-danger text-uppercase">Please select an order</h3>
-								 <h3 id="tracking-select-status-error" class="label label-danger text-uppercase">Please select tracking status</h3>
+								 <h3 id="cp-select-order-error" class="label label-danger text-uppercase">Please select an order</h3>
+								 <h3 id="cp-select-status-error" class="label label-danger text-uppercase">Please select action</h3>
 								 <br>
-								 <button onclick="updateTracking()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+								 <button onclick="updateBankPayments()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>                                
                             </div>
                                                
@@ -204,8 +203,7 @@
                     </div>                    
                                        
                     
-                </div>   				
-
+                </div> 
 
             </div> 
 			<div class="col-md-5">
@@ -237,6 +235,112 @@
                                        
                     
                 </div>
+				
+				
+				<div class="block block-drop-shadow">                    
+                        <div class="head bg-dot20">
+                        <h2>Track orders</h2>
+                        
+                        <div class="head-subtitle">Update tracking info for multiple orders</div>                        
+                        
+                        <div class="head-panel nm">
+						   
+						   <div class="dataTables_wrapper" role="grid">
+					     
+                        <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered table-striped sortable">
+                            <thead>
+                                <tr>
+                                    <th width="70%">Order</th>
+                                    <th width="20%">Status</th>
+                                    <th width="10%">
+									 <button id="tracking-select-all" onclick="trackingSelectAllOrders()" class="btn btn-success">Select all</button>
+									 <button id="tracking-unselect-all" onclick="trackingUnselectAllOrders()" class="btn btn-success">Unselect all</button>
+									</th>                                                                                                      
+                                </tr>
+                            </thead>
+                            <tbody>
+							   <?php
+							   $uss = [];
+							   
+							   foreach($orders as $o)
+							   {
+								   $items = $o['items'];
+								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
+								$cs = ($o['current_tracking'] != null) ? $o['current_tracking']['status'] : "none";
+									
+							   ?>
+                                <tr>
+                                    <td>
+									<h6>ACE_<?php echo e($o['reference']); ?></h6>
+									  <?php
+						 foreach($items as $i)
+						 {
+							 $product = $i['product'];
+							 $sku = $product['sku'];
+							  $img = $product['imggs'][0];
+							 $qty = $i['qty'];
+							 $pu = url('edit-product')."?id=".$product['sku'];
+							 $tu = url('edit-order')."?r=".$o['reference'];
+							 $ttu = url('track')."?o=".$o['reference'];
+							$du = url('delete-order')."?o=".$o['reference'];
+						 ?>
+						 
+						 <span>
+						 <a href="<?php echo e($pu); ?>" target="_blank">
+						   <img class="img img-fluid" src="<?php echo e($img); ?>" alt="<?php echo e($sku); ?>" height="40" width="40" style="margin-bottom: 5px;" />
+							   <?php echo e($sku); ?>
+
+						 </a> (x<?php echo e($qty); ?>)
+						 </span><br>
+						 <?php
+						 }
+						?>
+									</td>
+                                    <td><span class="label label-info"><?php echo e(strtoupper($statuses[$cs])); ?></span></td>
+									<td>
+									 <div class="btn-group" role="group">
+									 <button onclick="trackingSelectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="<?php echo e($o['reference']); ?>" class="btn btn-info r"><span class="icon-check"></span></button>
+									 <button onclick="trackingUnselectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="tracking-unselect_<?php echo e($o['reference']); ?>" class="btn btn-warning tracking-unselect"><span class="icon-check-empty"></span></button>
+									 </div>
+									</td>                                                                     
+                                </tr>
+                               <?php
+							   }
+                               ?>							   
+                            </tbody>
+                        </table>                                        
+
+                    </div>
+						   
+						   
+                            <div class="hp-info hp-simple pull-left">
+							<form action="<?php echo e(url('but')); ?>" id="but-form" method="post" enctype="multipart/form-data">
+							  <?php echo csrf_field(); ?>
+
+							  <input type="hidden" id="dt" name="dt">
+							  <input type="hidden" id="action" name="action">
+							</form>
+                                <span class="hp-main">Update tracking:</span>
+                                <div class="hp-sm">
+								 <select id="update-tracking-btn">
+								
+								<?php $__currentLoopData = $statuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+								 <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+								<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+								 </select><br>
+								 <h3 id="tracking-select-order-error" class="label label-danger text-uppercase">Please select an order</h3>
+								 <h3 id="tracking-select-status-error" class="label label-danger text-uppercase">Please select tracking status</h3>
+								 <br>
+								 <button onclick="updateTracking()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+								</div>                                
+                            </div>
+                                               
+                        </div>                        
+                    </div>                    
+                                       
+                    
+                </div>
+				 
 		</div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/index.blade.php ENDPATH**/ ?>

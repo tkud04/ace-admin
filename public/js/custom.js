@@ -1,4 +1,4 @@
-	let trackingOrders = [], trackingAction = "none";
+	let trackingOrders = [], trackingAction = "none", cpOrders = [], cpAction = "none";
    
 
 $(document).ready(function(){
@@ -13,6 +13,11 @@ $(document).ready(function(){
 			e.preventDefault();
 			let vv = $("#update-tracking-btn").val();
 			trackingAction = vv;
+		});
+		$("#cp-btn").change((e) =>{
+			e.preventDefault();
+			let cc = $("#cp-btn").val();
+			cpAction = cc;
 		});
 		
         $("#toggle-discount-btn").click(function(e){            
@@ -77,6 +82,37 @@ function updateTracking(){
 		$('#action').val(trackingAction);
 		
 		$('#but-form').submit();
+	}
+  }
+}
+
+function updateBankPayments(){
+	hideSelectErrors();
+	
+	if(cpOrders.length < 1 || cpAction == "none"){
+		if(cpOrders.length < 1){
+			showSelectError('cp','order');
+		}
+		if(cpAction == "none"){
+			showSelectError('cp','status');
+		}
+	}
+	else{
+	
+	let cpIsAllUnselected = true;
+	
+	for(let i = 0; i < cpOrders.length; i++){
+		if(cpOrders[i].selected) cpIsAllUnselected = false;
+	}
+	
+	if(cpIsAllUnselected){
+		showSelectError('cp','order');
+	}
+	else{
+		$('#cp-dt').val(JSON.stringify(cpOrders));
+		$('#cp-action').val(cpAction);
+		
+		$('#bcp-form').submit();
 	}
   }
 }
@@ -162,14 +198,86 @@ function trackingUnselectOrder(o){
 	}
 }
 
+function cpSelectAllOrders(){
+	console.log("selecting all orders");
+    bs = $('button.cp');
+	
+	if(bs){
+		console.log(bs.length);
+		for(let i = 0; i < bs.length; i++){
+			b = bs[i];
+			cpSelectOrder({reference: b.id.substring(3)});
+		}
+	    showBulkSelectButton("cp","selectAll");
+	
+	}
+}
+
+function cpUnselectAllOrders(){
+	console.log("unselecting all orders");
+     bs = $('button.cp');
+	
+	if(bs){
+		console.log(bs.length);
+		for(let i = 0; i < bs.length; i++){
+			b = bs[i];
+			cpUnselectOrder({reference: b.id});
+		}
+		showBulkSelectButton("cp","unselectAll");
+	}
+}
+
+function cpSelectOrder(o){
+	if(o.reference){
+	  console.log(`cp selecting order ${o.reference}`);
+	  b = $(`button#cp-${o.reference}`);
+	  if(b){
+		   b.attr('disabled',true);
+		   
+		   $(`#cp-unselect_${o.reference}`).fadeIn();
+		  let ss = cpOrders.find(i => i.reference == o.reference);
+		  //console.log('us: ',us);
+		  if(ss){
+			ss.selected = true;  
+		  }
+		  else{
+			cpOrders.push({reference: o.reference,selected: true});  
+		  }
+		  
+		  
+	  }
+	  
+	}
+}
+
+function cpUnselectOrder(o){
+	if(o.reference){
+	  console.log(`unselecting order ${o.reference}`);
+	  b = $(`button#cp-${o.reference}`);
+	  
+	  if(b){
+		  b.attr('disabled',false);
+		  $(`#cp-unselect_${o.reference}`).hide();
+		  let us = cpOrders.find(i => i.reference == o.reference);
+		  //console.log('us: ',us);
+		  us.selected = false;
+	  }
+	  
+	}
+}
+
 function hideUnselects(){
 	$('#tracking-unselect-all').hide();
 	$('.tracking-unselect').hide();
+	$('#cp-unselect-all').hide();
+	$('.cp-unselect').hide();
 }
 
 function hideSelectErrors(){
 	$('#tracking-select-order-error').hide();
 	$('#tracking-select-status-error').hide();
+	$('#cp-select-order-error').hide();
+	$('#cp-select-status-error').hide();
 }
 
 function showSelectError(type,err){

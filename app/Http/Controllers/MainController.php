@@ -1937,7 +1937,7 @@ class MainController extends Controller {
     public function postBulkConfirmPayment(Request $request)
     {	
        $req = $request->all();
-		   dd($req); 
+		   #dd($req); 
         $validator = Validator::make($req, [
                              'dt' => 'required',
                              'action' => 'required|not_in:none'
@@ -1952,8 +1952,8 @@ class MainController extends Controller {
          
          else
          {
-			$this->helpers->bulkUpdateTracking($req);
-			session()->flash("bulk-update-tracking-status", "success");
+			$this->helpers->bulkConfirmPayment($req);
+			session()->flash("bulk-confirm-payment-status", "success");
 			return redirect()->back();
 					
          }       
