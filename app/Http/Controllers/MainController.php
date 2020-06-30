@@ -49,7 +49,9 @@ class MainController extends Controller {
 		$profits = $this->helpers->getProfits();
 		$orders = $this->helpers->getOrders();
         #dd($orders);
-    	return view('index',compact(['user','stats','profits','orders','signals']));
+		 $products = $this->helpers->getProducts();
+		#dd($products);
+    	return view('index',compact(['user','stats','profits','orders','products','signals']));
     }
 
      /**
@@ -1958,6 +1960,36 @@ class MainController extends Controller {
 					
          }       
     }
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postBulkUpdateProducts(Request $request)
+    {	
+       $req = $request->all();
+		  # dd($req); 
+        $validator = Validator::make($req, [
+                             'dt' => 'required',
+                             'action' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			$this->helpers->bulkUpdateProducts($req);
+			session()->flash("bulk-update-products-status", "success");
+			return redirect()->back();
+					
+         }       
+    }
     
     
     /****************
@@ -1980,6 +2012,16 @@ class MainController extends Controller {
 	 * @return Response
 	 */
 	public function getBulkConfirmPayment()
+    {
+       return redirect()->intended('/');
+    }
+    
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getBulkUpdateProducts()
     {
        return redirect()->intended('/');
     }

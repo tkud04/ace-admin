@@ -1,4 +1,4 @@
-	let trackingOrders = [], trackingAction = "none", cpOrders = [], cpAction = "none";
+	let trackingOrders = [], trackingAction = "none", cpOrders = [], cpAction = "none", pqProducts = [], pqAction = "0";
    
 
 $(document).ready(function(){
@@ -113,6 +113,37 @@ function updateBankPayments(){
 		$('#cp-action').val(cpAction);
 		
 		$('#bcp-form').submit();
+	}
+  }
+}
+
+function updateProducts(){
+	hideSelectErrors();
+	pqAction = $('#pq-qty').val();
+	if(pqProducts.length < 1 || (pqAction == "0" || pqAction == "")){
+		if(pqProducts.length < 1){
+			showSelectError('pq','product');
+		}
+		if(pqAction == "0" || pqAction == ""){
+			showSelectError('pq','qty');
+		}
+	}
+	else{
+	
+	let pqIsAllUnselected = true;
+	
+	for(let i = 0; i < pqProducts.length; i++){
+		if(pqProducts[i].selected) pqIsAllUnselected = false;
+	}
+	
+	if(pqIsAllUnselected){
+		showSelectError('pq','product');
+	}
+	else{
+		$('#pq-dt').val(JSON.stringify(pqProducts));
+		$('#pq-action').val(pqAction);
+		
+		$('#bup-form').submit();
 	}
   }
 }
@@ -266,11 +297,83 @@ function cpUnselectOrder(o){
 	}
 }
 
+function pqSelectAllProducts(){
+	console.log("selecting all products");
+    bs = $('button.p');
+	
+	if(bs){
+		console.log(bs.length);
+		for(let i = 0; i < bs.length; i++){
+			b = bs[i];
+			pqSelectProduct({sku: b.id.substring(3)});
+		}
+	    showBulkSelectButton("pq","selectAll");
+	
+	}
+}
+
+function pqUnselectAllProducts(){
+	console.log("unselecting all products");
+     bs = $('button.p');
+	
+	if(bs){
+		console.log(bs.length);
+		for(let i = 0; i < bs.length; i++){
+			b = bs[i];
+			pqUnselectProduct({sku: b.id.substring(3)});
+		}
+		showBulkSelectButton("pq","unselectAll");
+	}
+}
+
+function pqSelectProduct(prd){
+	if(prd.sku){
+	  console.log(`pq selecting product ${prd.sku}`);
+	  p = $(`button#pq-${prd.sku}`);
+	  if(p){
+		   p.attr('disabled',true);
+		   
+		   $(`#pq-unselect_${prd.sku}`).fadeIn();
+		  let pp = pqProducts.find(i => i.sku == prd.sku);
+		  console.log('pp: ',pp);
+		 
+		  if(pp){
+			pp.selected = true;  
+		  }
+		  else{
+			pqProducts.push({sku: prd.sku,selected: true});  
+		  }
+	
+		  
+		  
+	  }
+	  
+	}
+}
+
+function pqUnselectProduct(p){
+	if(p.sku){
+	  console.log(`pq unselecting product ${p.sku}`);
+	  b = $(`button#pq-${p.sku}`);
+	  
+	  if(b){
+		  b.attr('disabled',false);
+		  $(`#pq-unselect_${p.sku}`).hide();
+		  let us = pqProducts.find(i => i.sku == p.sku);
+		  //console.log('us: ',us);
+		  us.selected = false;
+	  }
+	  
+	}
+}
+
 function hideUnselects(){
 	$('#tracking-unselect-all').hide();
 	$('.tracking-unselect').hide();
 	$('#cp-unselect-all').hide();
 	$('.cp-unselect').hide();
+	$('#pq-unselect-all').hide();
+	$('.pq-unselect').hide();
 }
 
 function hideSelectErrors(){
@@ -278,6 +381,8 @@ function hideSelectErrors(){
 	$('#tracking-select-status-error').hide();
 	$('#cp-select-order-error').hide();
 	$('#cp-select-status-error').hide();
+	$('#pq-select-product-error').hide();
+	$('#pq-select-qty-error').hide();
 }
 
 function showSelectError(type,err){

@@ -11,3 +11,7 @@ span.driver-status{
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+
+.sink{
+	font-size: 1.1em;
+}

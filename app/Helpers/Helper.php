@@ -71,7 +71,8 @@ class Helper implements HelperContract
                      "delete-image-status" => "Image deleted",
                      "delete-order-status" => "Order deleted",
                      "bulk-update-tracking-status" => "Trackings updated",
-                     "bulk-confirm-payment-status" => "Payments confirmed"
+                     "bulk-confirm-payment-status" => "Payments confirmed",
+                     "bulk-update-products-status" => "Products updated"
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -94,7 +95,8 @@ class Helper implements HelperContract
 					 "set-cover-image-status-error" => "There was a problem updating the product image, please try again.",
 					 "delete-discount-status-error" => "There was a problem deleting the discount, please try again.",
 					"bulk-update-tracking-status-error" => "There was a problem updating trackings, please try again.",
-					"bulk-confirm-payment-status-error" => "There was a problem confirming payments, please try again."
+					"bulk-confirm-payment-status-error" => "There was a problem confirming payments, please try again.",
+					"bulk-update-products-status-error" => "There was a problem updating products, please try again."
                     ]
                    ];
 				   
@@ -1546,6 +1548,30 @@ $subject = $data['subject'];
             	if($o->selected)
                 {
                 	$this->confirmPayment($o->reference);
+                }
+            }
+			  
+			  
+			  return "ok";
+		  }		
+		  
+		 function bulkUpdateProducts($data)
+		  {
+			$dt = json_decode($data['dt']);
+			$action = $data['action'];
+			
+			#dd($dt);
+			 
+			foreach($dt as $p)
+            {
+            	if($p->selected)
+                {
+                	$product = Products::where('sku',$p->sku)->first();
+					
+					if($product != null)
+					{
+						$product->update(['qty' => $action]);
+					}
                 }
             }
 			  
