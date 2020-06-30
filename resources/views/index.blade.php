@@ -132,6 +132,8 @@
 							   
 							   foreach($orders as $o)
 							   {
+								 if($o['status'] == "unpaid")
+								 {
 								   $items = $o['items'];
 								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
 									
@@ -171,6 +173,7 @@
 									</td>                                                                     
                                 </tr>
                                <?php
+							    }
 							   }
                                ?>							   
                             </tbody>
