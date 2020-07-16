@@ -111,97 +111,32 @@
                         <div class="head-subtitle">Confirm bank payment for multiple orders</div>                        
                         
                         <div class="head-panel nm">
+						<br>
+						  <?php
+						  $unpaidOrders = $ordersCollection->where('status',"unpaid");
+						   $uocount = count($unpaidOrders);
 						   
-						   <div class="dataTables_wrapper" role="grid">
-					     
-                        <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered table-striped sortable">
-                            <thead>
-                                <tr>
-                                    <th width="70%">Order</th>
-                                    <th width="20%">Status</th>
-                                    <th width="10%">
-									 <button id="cp-select-all" onclick="cpSelectAllOrders()" class="btn btn-success">Select all</button>
-									 <button id="cp-unselect-all" onclick="cpUnselectAllOrders()" class="btn btn-success">Unselect all</button>
-									</th>                                                                                                      
-                                </tr>
-                            </thead>
-                            <tbody>
-							   <?php
-							   $uss = [];
-							   
-							   foreach($orders as $o)
-							   {
-								 if($o['status'] == "unpaid")
-								 {
-								   $items = $o['items'];
-								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
-									
-							   ?>
-                                <tr>
-                                    <td>
-									<h6>ACE_<?php echo e($o['reference']); ?></h6>
-									  <?php
-						 foreach($items as $i)
-						 {
-							 $product = $i['product'];
-							 $sku = $product['sku'];
-							  $img = $product['imggs'][0];
-							 $qty = $i['qty'];
-							 $pu = url('edit-product')."?id=".$product['sku'];
-							 $tu = url('edit-order')."?r=".$o['reference'];
-							 $ttu = url('track')."?o=".$o['reference'];
-							$du = url('delete-order')."?o=".$o['reference'];
-						 ?>
-						 
-						 <span>
-						 <a href="<?php echo e($pu); ?>" target="_blank">
-						   <img class="img img-fluid" src="<?php echo e($img); ?>" alt="<?php echo e($sku); ?>" height="40" width="40" style="margin-bottom: 5px;" />
-							   <?php echo e($sku); ?>
-
-						 </a> (x<?php echo e($qty); ?>)
-						 </span><br>
-						 <?php
-						 }
-						?>
-									</td>
-                                    <td><span class="label label-<?php echo e($statusClass); ?> sink"><?php echo e(strtoupper($o['status'])); ?></span></td>
-									<td>
-									 <div class="btn-group" role="group">
-									 <button onclick="cpSelectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="cp-<?php echo e($o['reference']); ?>" class="btn btn-info cp"><span class="icon-check"></span></button>
-									 <button onclick="cpUnselectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="cp-unselect_<?php echo e($o['reference']); ?>" class="btn btn-warning cp-unselect"><span class="icon-check-empty"></span></button>
-									 </div>
-									</td>                                                                     
-                                </tr>
-                               <?php
-							    }
-							   }
-                               ?>							   
-                            </tbody>
-                        </table>                                        
-
-                    </div>
+						  if($uocount < 1)
+						   {
+						  ?>	  
+						  <h4>No unpaid orders to confirm today.</h4>
+					      <?php
+						   }
+						  else
+						  {
+						   $ot = "order"; $ct = "payment";
 						   
-						   
-                            <div class="hp-info hp-simple pull-left">
-							<form action="<?php echo e(url('bcp')); ?>" id="bcp-form" method="post" enctype="multipart/form-data">
-							  <?php echo csrf_field(); ?>
-
-							  <input type="hidden" id="cp-dt" name="dt">
-							  <input type="hidden" id="cp-action" name="action">
-							</form>
-                                <span class="hp-main">Select action:</span>
-                                <div class="hp-sm">
-								 <select id="cp-btn">
-								  <option value="none">Select action</option>
-								  <option value="confirm">Confirm payment</option>
-								 </select><br>
-								 <h3 id="cp-select-order-error" class="label label-danger text-uppercase">Please select an order</h3>
-								 <h3 id="cp-select-status-error" class="label label-danger text-uppercase">Please select action</h3>
-								 <br>
-								 <button onclick="updateBankPayments()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
-								</div>                                
-                            </div>
-                                               
+						   if($uocount > 1)
+						   {
+							   $ot = "orders";
+							   $ct = "payments";
+						   }
+						  ?>
+							<h4><?php echo e($uocount); ?> unpaid <?php echo e($ot); ?> on your website.</h4>
+                            <a href="<?php echo e(url('bcp')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Confirm <?php echo e($ct); ?></a> 
+						  <?php						
+						  }
+                          ?>               
                         </div>                        
                     </div>                    
                                        
@@ -209,91 +144,36 @@
                 </div> 
 				
 				<div class="block block-drop-shadow">                    
-                        <div class="head bg-dot20">
-                        <h2>Update Stock</h2>
+                   <div class="head bg-dot20">
+                      <h2>Update Stock</h2>  
+                      <div class="head-subtitle">Update quantity for multiple products</div>                        
                         
-                        <div class="head-subtitle">Update quantity for multiple products</div>                        
-                        
-                        <div class="head-panel nm">
+                      <div class="head-panel nm">
+						<br>
+						  <?php
+						  $pcount = count($products);
+						  
+						   $pt = "product";
 						   
-						   <div class="dataTables_wrapper" role="grid">
-					     
-                        <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered table-striped sortable">
-                            <thead>
-                                <tr>
-                                    <th width="70%">Product</th>
-                                    <th width="20%">Quantity</th>
-                                    <th width="10%">
-									 <button id="pq-select-all" onclick="pqSelectAllProducts()" class="btn btn-success">Select all</button>
-									 <button id="pq-unselect-all" onclick="pqUnselectAllProducts()" class="btn btn-success">Unselect all</button>
-									</th>                                                                                                      
-                                </tr>
-                            </thead>
-                            <tbody>
-							   <?php
-							   $uss = [];
-							   
-							   foreach($products as $p)
-							   {
-								 if($p['status'] == "enabled")
-								 {
-								   $sku = $p['sku'];
-								   $pd = $p['pd'];
-							       $img = $p['imggs'][0];
-							       $qty = $p['qty'];
-								   $pu = url('edit-product')."?id=".$sku;
-									
-							   ?>
-                                <tr>
-                                    <td>
-									<h6><?php echo e($sku); ?></h6>
-									  
-						 
-						 <span>
-						 <a href="<?php echo e($pu); ?>" target="_blank">
-						   <img class="img img-fluid" src="<?php echo e($img); ?>" alt="<?php echo e($sku); ?>" height="40" width="40" style="margin-bottom: 5px;" />
-							   
-						 </a> (&#8358;<?php echo e(number_format($pd['amount'],2)); ?>)<br>
-							 <?php echo $pd['description']; ?>
-
-						 </span><br>
-									</td>
-                                    <td><span class="label label-info sink"><?php echo e($qty); ?></span></td>
-									<td>
-									 <div class="btn-group" role="group">
-									 <button onclick="pqSelectProduct({sku: '<?php echo e($sku); ?>'})" id="pq-<?php echo e($sku); ?>" class="btn btn-info p"><span class="icon-check"></span></button>
-									 <button onclick="pqUnselectProduct({sku: '<?php echo e($sku); ?>'})" id="pq-unselect_<?php echo e($sku); ?>" class="btn btn-warning pq-unselect"><span class="icon-check-empty"></span></button>
-									 </div>
-									</td>                                                                     
-                                </tr>
-                               <?php
-							   }
-							 }
-                               ?>							   
-                            </tbody>
-                        </table>                                        
-
-                    </div>
-						   
-						   
-                            <div class="hp-info hp-simple pull-left">
-							<form action="<?php echo e(url('bup')); ?>" id="bup-form" method="post" enctype="multipart/form-data">
-							  <?php echo csrf_field(); ?>
-
-							  <input type="hidden" id="pq-dt" name="dt">
-							  <input type="hidden" id="pq-action" name="action">
-							</form>
-                                <span class="hp-main">Enter quantity:</span>
-                                <div class="hp-sm">
-								 <input type="number" class="form-control" placeholder="Enter quantity" id="pq-qty" aria-label="Username" aria-describedby="basic-addon1"><br>
-								 <h3 id="pq-select-product-error" class="label label-danger text-uppercase">Please select a product</h3>
-								 <h3 id="pq-select-qty-error" class="label label-danger text-uppercase">Please enter quantity</h3>
-								 <br>
-								 <button onclick="updateProducts()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
-								</div>                                
-                            </div>
-                                               
-                        </div>                        
+						   if($pcount > 1)
+						   {
+							   $pt = "products";
+						   }
+						  ?>	  
+						  <h4><?php echo e($pcount." ".$pt); ?> currently on your website.</h4>
+						  <?php
+						  $lsp = count($lowStockProducts);
+						  
+						  if($lsp > 0)
+						  {
+						  ?>
+						  <h5 style="color:red;"><?php echo e($lsp); ?> product(s) have below 10 pieces left.</h5>
+					      <?php
+						  }
+						  ?>             
+                          <a href="<?php echo e(url('bup')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Update <?php echo e($pt); ?></a>						  
+                        </div>    
+					
                     </div>                    
                                        
                     
@@ -332,108 +212,49 @@
 				
 				
 				<div class="block block-drop-shadow">                    
-                        <div class="head bg-dot20">
+                    <div class="head bg-dot20">
                         <h2>Track orders</h2>
                         
                         <div class="head-subtitle">Update tracking info for multiple orders</div>                        
                         
                         <div class="head-panel nm">
+						<br>
+						  <?php
+						  $paidOrders = $ordersCollection->where('status',"paid");
+						   $pocount = count($paidOrders);
 						   
-						   <div class="dataTables_wrapper" role="grid">
-					     
-                        <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered table-striped sortable">
-                            <thead>
-                                <tr>
-                                    <th width="70%">Order</th>
-                                    <th width="20%">Status</th>
-                                    <th width="10%">
-									 <button id="tracking-select-all" onclick="trackingSelectAllOrders()" class="btn btn-success">Select all</button>
-									 <button id="tracking-unselect-all" onclick="trackingUnselectAllOrders()" class="btn btn-success">Unselect all</button>
-									</th>                                                                                                      
-                                </tr>
-                            </thead>
-                            <tbody>
-							   <?php
-							   $uss = [];
-							   
-							   foreach($orders as $o)
-							   {
-								 if($o['status'] == "paid")
-								 {
-								   $items = $o['items'];
-								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
-								$cs = ($o['current_tracking'] != null) ? $o['current_tracking']['status'] : "none";
-								$scs = ($cs == "none") ? "none" : $statuses[$cs];
-									
-							   ?>
-                                <tr>
-                                    <td>
-									<h6>ACE_<?php echo e($o['reference']); ?></h6>
-									  <?php
-						 foreach($items as $i)
-						 {
-							 $product = $i['product'];
-							 $sku = $product['sku'];
-							  $img = $product['imggs'][0];
-							 $qty = $i['qty'];
-							 $pu = url('edit-product')."?id=".$product['sku'];
-							 $tu = url('edit-order')."?r=".$o['reference'];
-							 $ttu = url('track')."?o=".$o['reference'];
-							$du = url('delete-order')."?o=".$o['reference'];
-						 ?>
-						 
-						 <span>
-						 <a href="<?php echo e($pu); ?>" target="_blank">
-						   <img class="img img-fluid" src="<?php echo e($img); ?>" alt="<?php echo e($sku); ?>" height="40" width="40" style="margin-bottom: 5px;" />
-							   <?php echo e($sku); ?>
-
-						 </a> (x<?php echo e($qty); ?>)
-						 </span><br>
-						 <?php
-						 }
-						?>
-									</td>
-                                    <td><span class="label label-info sink"><?php echo e(strtoupper($scs)); ?></span></td>
-									<td>
-									 <div class="btn-group" role="group">
-									 <button onclick="trackingSelectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="<?php echo e($o['reference']); ?>" class="btn btn-info r"><span class="icon-check"></span></button>
-									 <button onclick="trackingUnselectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="tracking-unselect_<?php echo e($o['reference']); ?>" class="btn btn-warning tracking-unselect"><span class="icon-check-empty"></span></button>
-									 </div>
-									</td>                                                                     
-                                </tr>
-                               <?php
-							   }
-							 }
-                               ?>							   
-                            </tbody>
-                        </table>                                        
-
-                    </div>
+						  if($pocount < 1)
+						   {
+						  ?>	  
+						  <h4>No paid orders to track today.</h4>
+					      <?php
+						   }
+						  else
+						  {
+						   $ot = "order"; 
 						   
-						   
-                            <div class="hp-info hp-simple pull-left">
-							<form action="<?php echo e(url('but')); ?>" id="but-form" method="post" enctype="multipart/form-data">
-							  <?php echo csrf_field(); ?>
-
-							  <input type="hidden" id="dt" name="dt">
-							  <input type="hidden" id="action" name="action">
-							</form>
-                                <span class="hp-main">Update tracking:</span>
-                                <div class="hp-sm">
-								 <select id="update-tracking-btn">
-								
-								<?php $__currentLoopData = $statuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-								 <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
-								<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-								 </select><br>
-								 <h3 id="tracking-select-order-error" class="label label-danger text-uppercase">Please select an order</h3>
-								 <h3 id="tracking-select-status-error" class="label label-danger text-uppercase">Please select tracking status</h3>
-								 <br>
-								 <button onclick="updateTracking()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
-								</div>                                
-                            </div>
-                                               
-                        </div>                        
+						   if($pocount > 1)
+						   {
+							   $ot = "orders";
+						   }
+						  ?>
+							<h4><?php echo e($pocount); ?> paid <?php echo e($ot); ?> on your website.</h4>
+							<?php
+							 $untrackedOrders = $paidOrders->where('current_tracking',null);
+						  $uto = count($untrackedOrders);
+						  
+						  if($uto > 0)
+						  {
+						  ?>
+						  <h5 style="color:red;"><?php echo e($uto); ?> order(s) have not been tracked yet.</h5>
+					      <?php
+						  }
+						  ?>             
+                            <a href="<?php echo e(url('but')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Track <?php echo e($ot); ?></a> 
+						  <?php						
+						  }
+                          ?>               
+                        </div>                      
                     </div>                    
                                        
                     

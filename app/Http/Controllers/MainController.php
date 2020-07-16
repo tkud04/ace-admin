@@ -48,10 +48,13 @@ class MainController extends Controller {
 		$stats = $this->helpers->getDashboardStats();
 		$profits = $this->helpers->getProfits();
 		$orders = $this->helpers->getOrders();
-        #dd($orders);
+		$ordersCollection = collect($orders);
+        #dd($ordersCollection);
 		 $products = $this->helpers->getProducts();
-		#dd($products);
-    	return view('index',compact(['user','stats','profits','orders','products','signals']));
+		 $productsCollection = collect($products);
+		 $lowStockProducts = $productsCollection->where('qty','<',"10");
+		#dd($lowStockProducts);
+    	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','lowStockProducts','signals']));
     }
 
      /**
