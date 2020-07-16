@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">    
     <link rel="icon" type="image/png" href="img/favicon.png" sizes="16x16">  
     <link href="css/stylesheets.css" rel="stylesheet" type="text/css">
+	
+	<?php echo $__env->yieldContent('styles'); ?>
     
     <script type='text/javascript' src='js/plugins/jquery/jquery.min.js'></script>
     <script type='text/javascript' src='js/plugins/jquery/jquery-ui.min.js'></script>
@@ -18,7 +20,6 @@
     
     <script type='text/javascript' src='js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
     <script type='text/javascript' src='js/plugins/uniform/jquery.uniform.min.js'></script>
-        <script type='text/javascript' src='js/plugins/datatables/jquery.dataTables.min.js'></script>
         <script type='text/javascript' src='js/plugins/fancybox/jquery.fancybox.pack.js'></script>
 		
     <script type='text/javascript' src='js/plugins/knob/jquery.knob.js'></script>
@@ -31,6 +32,8 @@
     <script type='text/javascript' src='js/charts.js'></script>
     <script type='text/javascript' src='js/settings.js'></script>
     <script type='text/javascript' src='js/custom.js'></script>
+	
+	<?php echo $__env->yieldContent('scripts'); ?>
     
 </head>
 <body class="bg-img-num1" data-settings="open"> 
