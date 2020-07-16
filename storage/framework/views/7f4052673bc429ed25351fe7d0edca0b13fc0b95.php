@@ -3,7 +3,7 @@
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
 <h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Payment confirmed!</h3>
-Hello <?php echo e($user['fname']); ?>,<br> your payment for order <b><?php echo e($order['payment_code']); ?></b> has been cleared and your order is being processed. <br><br>
+Hello <?php echo e($name); ?>,<br> your payment for order <b><?php echo e($order['payment_code']); ?></b> has been cleared and your order is being processed. <br><br>
 <h5 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Next steps</h5>
 
 <p>Kindly click the button below to track your delivery. Alternatively you can log in to your Dashboard to track your order (go to Orders and click the Track button beside the order).</p><br>

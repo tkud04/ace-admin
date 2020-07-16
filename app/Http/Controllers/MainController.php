@@ -1996,7 +1996,7 @@ class MainController extends Controller {
     
     
     /****************
-    POST Redirects
+    BUlk ACtions
     ****************/
     
     /**
@@ -2005,8 +2005,26 @@ class MainController extends Controller {
 	 * @return Response
 	 */
 	public function getBulkUpdateTracking()
-    {
-       return redirect()->intended('/');
+    {     
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$signals = $this->helpers->signals;
+		$os = $this->helpers->getOrders();
+		$ordersCollection = collect($os);
+		$orders = $ordersCollection->where('status',"paid");
+       return view('but',compact(['user','orders','signals']));
     }
     
     /**
@@ -2016,7 +2034,25 @@ class MainController extends Controller {
 	 */
 	public function getBulkConfirmPayment()
     {
-       return redirect()->intended('/');
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$signals = $this->helpers->signals;
+		$os = $this->helpers->getOrders();
+		$ordersCollection = collect($os);
+		$orders = $ordersCollection->where('status',"unpaid");
+       return view('bcp',compact(['user','orders','signals']));
     }
     
 	/**
@@ -2026,7 +2062,24 @@ class MainController extends Controller {
 	 */
 	public function getBulkUpdateProducts()
     {
-       return redirect()->intended('/');
+       	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$signals = $this->helpers->signals;
+		$ps = $this->helpers->getProducts();
+		 $products = collect($ps);
+       return view('bup',compact(['user','products','signals']));
     }
     
     

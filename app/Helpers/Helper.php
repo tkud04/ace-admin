@@ -17,6 +17,7 @@ use App\Discounts;
 use App\Reviews;
 use App\Banners;
 use App\Trackings;
+use App\AnonOrders;
 use App\Orders;
 use App\OrderItems;
 use App\Ads;
@@ -1362,6 +1363,12 @@ $subject = $data['subject'];
                   $temp['current_tracking'] = $this->getCurrentTracking($o->reference);
                   $temp['items'] = $this->getOrderItems($o->id);
                   $temp['totals'] = $this->getOrderTotals( $temp['items']);
+				  if($o->user_id == "anon")
+				  {
+						$anon = $this->getAnonOrder($o->reference,false);
+						$temp['totals']['delivery'] = $this->getDeliveryFee($anon['state'],"state");
+                        $temp['anon'] = $anon;						
+				  }
                   $temp['date'] = $o->created_at->format("jS F, Y");
                   $ret = $temp; 
                }                                 
@@ -1436,18 +1443,18 @@ $subject = $data['subject'];
 		   
 		   function confirmPayment($id)
            {
-           	$o = Orders::where('id',$id)
-			           ->OrWhere('reference',$id)->first();
-               
-               if($o != null)
+            $o = $this->getOrder($id);
+              #dd($o);
+               if(count($o) > 0)
                {
-				   $u = $this->getUser($o->user_id);
-				   //dd($u);
+				   $u = $o['user_id'] == "anon" ? $o['anon'] : $this->getUser($o->user_id);
+				   #dd($u);
                	//We have the user, update the status and notify the customer
-               	$o->update(['status' => 'paid']);
+				$oo = Orders::where('reference',$o['reference'])->first();
+               	if(!is_null($oo)) $oo->update(['status' => 'paid']);
 				$ret = $this->smtp;
 				$ret['order'] = $o;
-				$ret['user'] = $u;
+				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname'];
 				$ret['subject'] = "Your payment for order ".$o['payment_code']." has been confirmed!";
 		        $ret['em'] = $u['email'];
 		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
@@ -1578,6 +1585,83 @@ $subject = $data['subject'];
 			  
 			  return "ok";
 		  }		
+		  
+		  
+		   function getAnonOrder($id,$all=true)
+           {
+           	$ret = [];
+			if($all)
+			{
+				$o = AnonOrders::where('reference',$id)
+			            ->orWhere('id',$id)->first();
+						
+               $o2 = Orders::where('reference',$id)
+			            ->orWhere('id',$id)->first();
+						#dd([$o,$o2]);
+              if($o != null || $o2 != null)
+               {
+				   if($o != null)
+				   {
+					 $temp['name'] = $o->name; 
+                       $temp['reference'] = $o->reference; 
+                       //$temp['wallet'] = $this->getWallet($u);
+                       $temp['phone'] = $o->phone; 
+                       $temp['email'] = $o->email; 
+                       $temp['address'] = $o->address; 
+                       $temp['city'] = $o->city; 
+                       $temp['state'] = $o->state; 
+                       $temp['id'] = $o->id; 
+                       $temp['date'] = $o->created_at->format("jS F, Y"); 
+                       $ret = $temp;  
+				   }
+				   else if($o2 != null)
+				   {
+					   $u = $this->getUser($o2->user_id);
+					   $sd = $this->getShippingDetails($u['id']);
+					   $shipping = $sd[0];
+					   
+					  if(count($u) > 0)
+					   {
+						 $temp['name'] = $u['fname']." ".$u['lname']; 
+                         $temp['reference'] = $o2->reference;                 
+                         $temp['phone'] = $u['phone']; 
+                         $temp['email'] = $u['email']; 
+                         $temp['address'] = $shipping['address']; 
+                         $temp['city'] = $shipping['city']; 
+                         $temp['state'] = $shipping['state']; 
+                         $temp['id'] = $o2->id; 
+                         $temp['date'] = $o2->created_at->format("jS F, Y"); 
+                         $ret = $temp;  
+					   }  
+				   }
+                   	 
+               }
+			}
+			
+			else
+			{
+				$o = AnonOrders::where('reference',$id)
+			            ->orWhere('id',$id)->first();
+						
+				if($o != null)
+				   {
+					 $temp['name'] = $o->name; 
+                       $temp['reference'] = $o->reference; 
+                       //$temp['wallet'] = $this->getWallet($u);
+                       $temp['phone'] = $o->phone; 
+                       $temp['email'] = $o->email; 
+                       $temp['address'] = $o->address; 
+                       $temp['city'] = $o->city; 
+                       $temp['state'] = $o->state; 
+                       $temp['id'] = $o->id; 
+                       $temp['date'] = $o->created_at->format("jS F, Y"); 
+                       $ret = $temp;  
+				   }
+			}
+                                         
+                                                      
+                return $ret;
+           }
 		
            
            
