@@ -84,4 +84,6 @@ Route::get('bcp', 'MainController@getBulkConfirmPayment');
 Route::post('bcp', 'MainController@postBulkConfirmPayment');
 Route::get('bup', 'MainController@getBulkUpdateProducts');
 Route::post('bup', 'MainController@postBulkUpdateProducts');
+Route::get('buup', 'MainController@getBulkUploadProducts');
+Route::post('buup', 'MainController@postBulkUploadProducts');
 

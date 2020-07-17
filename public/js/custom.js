@@ -395,3 +395,7 @@ function hideSelectErrors(){
 function showSelectError(type,err){
 	$(`#${type}-select-${err}-error`).fadeIn();
 }
+
+function addBUUpRow(){
+	
+}

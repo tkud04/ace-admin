@@ -1993,6 +1993,35 @@ class MainController extends Controller {
 					
          }       
     }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postBulkUploadProducts(Request $request)
+    {	
+       $req = $request->all();
+		  # dd($req); 
+		  $ret = ['status' => "ok","message"=>"nothing happened"];
+        $validator = Validator::make($req, [
+                             'dt' => 'required',
+                             
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+            $ret = ['status' => "error",'message' => "validation error"];
+         }
+         
+         else
+         {
+					
+         }
+
+         return json_encode($ret);		 
+    }
     
     
     /****************
@@ -2080,6 +2109,31 @@ class MainController extends Controller {
 		$ps = $this->helpers->getProducts();
 		 $products = collect($ps);
        return view('bup',compact(['user','products','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getBulkUploadProducts()
+    {
+       	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$signals = $this->helpers->signals;
+       return view('buup',compact(['user','signals']));
     }
     
     

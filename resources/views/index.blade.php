@@ -146,33 +146,16 @@
 				
 				<div class="block block-drop-shadow">                    
                    <div class="head bg-dot20">
-                      <h2>Update Stock</h2>  
-                      <div class="head-subtitle">Update stock for multiple products</div>                        
+                      <h2>Upload Products</h2>  
+                      <div class="head-subtitle text-warning">Pro tips:</div>                        
                         
                       <div class="head-panel nm">
-						<br>
-						  <?php
-						  $pcount = count($products);
-						  
-						   $pt = "product";
-						   
-						   if($pcount > 1)
-						   {
-							   $pt = "products";
-						   }
-						  ?>	  
-						  <h4>{{$pcount." ".$pt}} currently on your website.</h4>
-						  <?php
-						  $lsp = count($lowStockProducts);
-						  
-						  if($lsp > 0)
-						  {
-						  ?>
-						  <h5 style="color:red;">{{$lsp}} product(s) have below 10 pieces left.</h5>
-					      <?php
-						  }
-						  ?>             
-                          <a href="{{url('bup')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Update {{$pt}}</a>						  
+						  <p>
+						  Upload at least 2 images for each product.<br>
+						  A good product description should be between 30 to 100 characters long.
+						  </p>
+					                   
+                          <a href="{{url('buup')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Upload products</a>						  
                         </div>    
 					
                     </div>                    
@@ -256,6 +239,42 @@
 						  }
                           ?>               
                         </div>                      
+                    </div>                    
+                                       
+                    
+                </div>
+				
+				<div class="block block-drop-shadow">                    
+                   <div class="head bg-dot20">
+                      <h2>Update Stock</h2>  
+                      <div class="head-subtitle">Update stock for multiple products</div>                        
+                        
+                      <div class="head-panel nm">
+						<br>
+						  <?php
+						  $pcount = count($products);
+						  
+						   $pt = "product";
+						   
+						   if($pcount > 1)
+						   {
+							   $pt = "products";
+						   }
+						  ?>	  
+						  <h4>{{$pcount." ".$pt}} currently on your website.</h4>
+						  <?php
+						  $lsp = count($lowStockProducts);
+						  
+						  if($lsp > 0)
+						  {
+						  ?>
+						  <h5 style="color:red;">{{$lsp}} product(s) have below 10 pieces left.</h5>
+					      <?php
+						  }
+						  ?>             
+                          <a href="{{url('bup')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Update {{$pt}}</a>						  
+                        </div>    
+					
                     </div>                    
                                        
                     
