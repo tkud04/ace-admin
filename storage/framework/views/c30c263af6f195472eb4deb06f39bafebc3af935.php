@@ -9,6 +9,13 @@
 
 
 <?php $__env->startSection('scripts'); ?>
+<script>
+ $(document).ready(() =>{
+ $('.buup-hide').hide();
+ 
+ });
+ </script>
+
     <!-- DataTables js -->
        <script src="lib/datatables/js/datatables.min.js"></script>
     <script src="lib/datatables/js/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
@@ -50,6 +57,22 @@
                         </table>                                        
 
                     </div><br>
+					
+					 <div class="hp-info hp-simple pull-left">
+					       <button onclick="BUUPAddRow()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add new product</button>
+							<form action="<?php echo e(url('buup')); ?>" id="buup-form" method="post" enctype="multipart/form-data">
+							  <?php echo csrf_field(); ?>
+
+							  <input type="hidden" id="buup-dt" name="dt">
+							  </form>
+                                <div class="hp-sm">
+								 <h3 id="buup-select-product-error" class="label label-danger text-uppercase buup-hide mr-5 mb-5">Please add a new product</h3>
+								 <h3 id="buup-select-qty-error" class="label label-danger text-uppercase buup-hide">All fields are required</h3>
+								 <br>
+								 <button onclick="BUUP()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+								</div>                                
+                            </div>
+					
                    </div>  
                </div>				
            </div>

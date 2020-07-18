@@ -1974,8 +1974,7 @@ class MainController extends Controller {
        $req = $request->all();
 		  # dd($req); 
         $validator = Validator::make($req, [
-                             'dt' => 'required',
-                             'action' => 'required|not_in:none'
+                             'dt' => 'required'
          ]);
          
          if($validator->fails())

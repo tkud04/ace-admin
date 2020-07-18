@@ -1565,21 +1565,17 @@ $subject = $data['subject'];
 		 function bulkUpdateProducts($data)
 		  {
 			$dt = json_decode($data['dt']);
-			$action = $data['action'];
 			
 			#dd($dt);
 			 
 			foreach($dt as $p)
             {
-            	if($p->selected)
-                {
                 	$product = Products::where('sku',$p->sku)->first();
 					
 					if($product != null)
 					{
-						$product->update(['qty' => $action]);
+						$product->update(['qty' => $p->qty]);
 					}
-                }
             }
 			  
 			  

@@ -9,6 +9,13 @@
 
 
 <?php $__env->startSection('scripts'); ?>
+ <script>
+ $(document).ready(() =>{
+ $('.bup-hide').hide();
+ 
+ });
+ </script>
+
     <!-- DataTables js -->
        <script src="lib/datatables/js/datatables.min.js"></script>
     <script src="lib/datatables/js/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
@@ -37,10 +44,7 @@
                                 <tr>
                                     <th width="70%">Product</th>
                                     <th width="20%">Quantity</th>
-                                    <th width="10%">
-									 <button id="pq-select-all" onclick="pqSelectAllProducts()" class="btn btn-success">Select all</button>
-									 <button id="pq-unselect-all" onclick="pqUnselectAllProducts()" class="btn btn-success">Unselect all</button>
-									</th>                                                                                                      
+                                                                                                                                          
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,13 +76,22 @@
 
 						 </span><br>
 									</td>
-                                    <td><span class="label label-info sink"><?php echo e($qty); ?></span></td>
-									<td>
-									 <div class="btn-group" role="group">
-									 <button onclick="pqSelectProduct({sku: '<?php echo e($sku); ?>'})" id="pq-<?php echo e($sku); ?>" class="btn btn-info p"><span class="icon-check"></span></button>
-									 <button onclick="pqUnselectProduct({sku: '<?php echo e($sku); ?>'})" id="pq-unselect_<?php echo e($sku); ?>" class="btn btn-warning pq-unselect"><span class="icon-check-empty"></span></button>
+                                    <td>
+									<div id="bup-<?php echo e($sku); ?>-side1">
+									  <span class="label label-info sink"><?php echo e($qty); ?></span>
+									  <div class="btn-group" role="group">
+									 <button onclick="BUPEditStock({sku: '<?php echo e($sku); ?>',qty: '<?php echo e($qty); ?>'})" class="btn btn-warning p">Edit</button>
 									 </div>
-									</td>                                                                     
+									</div>
+									<div id="bup-<?php echo e($sku); ?>-side2" class="bup-hide">
+									  <input type="number" class="form-control" placeholder="New stock">
+									  <div class="btn-group" role="group">
+									 <button onclick="BUPCancelEditStock({sku: '<?php echo e($sku); ?>'})" class="btn btn-warning p">Cancel</button>
+									 </div>
+									</div>
+									
+									</td>
+									                                                                     
                                 </tr>
                                <?php
 							   }
@@ -87,23 +100,20 @@
                             </tbody>
                         </table>                                        
 
-                    </div>
+                    </div><br>
 						   
 						   
                             <div class="hp-info hp-simple pull-left">
 							<form action="<?php echo e(url('bup')); ?>" id="bup-form" method="post" enctype="multipart/form-data">
 							  <?php echo csrf_field(); ?>
 
-							  <input type="hidden" id="pq-dt" name="dt">
-							  <input type="hidden" id="pq-action" name="action">
-							</form>
-                                <span class="hp-main">Enter quantity:</span>
+							  <input type="hidden" id="bup-dt" name="dt">
+							  </form>
                                 <div class="hp-sm">
-								 <input type="number" class="form-control" placeholder="Enter quantity" id="pq-qty" aria-label="Username" aria-describedby="basic-addon1"><br>
-								 <h3 id="pq-select-product-error" class="label label-danger text-uppercase">Please select a product</h3>
-								 <h3 id="pq-select-qty-error" class="label label-danger text-uppercase">Please enter quantity</h3>
+								 <h3 id="bup-select-product-error" class="label label-danger text-uppercase bup-hide mr-5 mb-5">Please select a product</h3>
+								 <h3 id="bup-select-qty-error" class="label label-danger text-uppercase bup-hide">Please enter quantity for one or more products</h3>
 								 <br>
-								 <button onclick="updateProducts()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+								 <button onclick="BUP()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>                                
                             </div>
                    </div>  
