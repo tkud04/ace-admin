@@ -488,17 +488,17 @@ function BUUPAddRow(){
 	let str = `
 	 <tr id="buup-${buupCounter}">
 	 <td>Will be generated</td>
-	   <td width="40%"><input type="text" placeholder="Product description" class="form-control desc"></td>
-	   <td><input type="number" placeholder="Price in NGN" class="form-control price"></td>
-	   <td><input type="number" placeholder="Stock" class="form-control stock"></td>
+	   <td width="40%"><input type="text" name="buup-${buupCounter}-desc" placeholder="Product description" class="form-control desc"></td>
+	   <td><input type="number" name="buup-${buupCounter}-price" placeholder="Price in NGN" class="form-control price"></td>
+	   <td><input type="number" name="buup-${buupCounter}-stock" placeholder="Stock" class="form-control stock"></td>
 	   <td>
-	     <select class="category">
+	     <select class="category" name="buup-${buupCounter}-category">
 		 <option value="none">Select category</option>
 		  ${categories.map(k => "<option value='" + k + "'>" + k.toUpperCase() + "</option>").join("")}
 		 </select>
 	   </td>
 	   <td>
-	    <select class="status">
+	    <select class="status" name="buup-${buupCounter}-status">
 		<option value="none">Select status</option>
 		 <option value="in_stock">In stock</option>
 		 <option value="new">New</option>
@@ -506,7 +506,7 @@ function BUUPAddRow(){
 		</select>
 	   </td>
 	   <td width="20%">
-	    <input type="file" id="buup-${buupCounter}-image" placeholder="Upload images" class="form-control images" multiple>
+	    <input type="file" id="buup-${buupCounter}-image" placeholder="Upload images" class="form-control images" name="buup-${buupCounter}-images[]" multiple>
 	   </td>
 	   <td>
 	   <button onclick="BUUPRemoveRow('${buupCounter}')" class="btn btn-danger">Cancel</button>
@@ -547,7 +547,7 @@ function BUUP(){
 		status = $(`${BUPitem} select.status`).val();
 		
 		imgs = [];
-		imgs = $(`buup-${BUPitem}-image`).files;
+		imgs = $(`${BUPitem}-image`)[0].files;
 		
 			if(desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
 				ret.push({
@@ -560,17 +560,27 @@ function BUUP(){
 			}
 			else{
 				hasUnfilledQty = true;
-			}
-			
+			}		
 	}
 	
 	   if(hasUnfilledQty){
-		   showSelectError('bup','validation');
+		   showSelectError('buup','validation');
 	   }
 	   else{
 		 console.log("ret: ",ret);
+		 console.log("imgs: ",imgs);
+		 
+		 /**
+		 let fd = new FormData();
+		 fd.append("ret",ret);
+		 fd.append("imgs",imgs);
+		 fd.append("__token",$('#tk').val());
+		 console.log("fd: ",fd);
+		 **/
 		//$('#bup-dt').val(JSON.stringify(ret));
-		//$('#bup-form').submit();   
+		$('#buup-form').submit();
+		
+    
 	   }
   }
 }

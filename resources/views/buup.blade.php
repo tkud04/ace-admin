@@ -41,12 +41,14 @@ let categories = [], buupCounter = 0;
  @endforeach
 </script>
 			<div class="col-md-12">
-				{!! csrf_field() !!}
+				<input type="hidden" id="tk" value="{{csrf_token()}}">
                 <div class="block">
                     <div class="header">
                         <h2>Update stock for multiple products</h2>
                     </div>
                    <div class="content">
+				    <form action="{{url('buup')}}" id="buup-form" method="post" enctype="multipart/form-data">
+					  {!! csrf_field() !!}
 					 <div class="table-responsive" role="grid">
 					     
                         <table id="buup-table" cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered">
@@ -70,19 +72,19 @@ let categories = [], buupCounter = 0;
                     </div><br>
 					
 					 <div class="hp-info hp-simple pull-left">
-					       <button onclick="BUUPAddRow()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add new product</button>
-							<form action="{{url('buup')}}" id="buup-form" method="post" enctype="multipart/form-data">
-							  {!! csrf_field() !!}
+					       <button onclick="BUUPAddRow(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add new product</button>
+							
+							
 							  <input type="hidden" id="buup-dt" name="dt">
-							  </form>
+							 
                                 <div class="hp-sm">
 								 <h3 id="buup-select-product-error" class="label label-danger text-uppercase buup-hide mr-5 mb-5">Please add a new product</h3>
 								 <h3 id="buup-select-validation-error" class="label label-danger text-uppercase buup-hide">All fields are required</h3>
 								 <br>
-								 <button onclick="BUUP()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+								 <button onclick="BUUP(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>                                
-                            </div>
-					
+                       </div>
+					  </form>
                    </div>  
                </div>				
            </div>

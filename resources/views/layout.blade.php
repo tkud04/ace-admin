@@ -139,7 +139,6 @@
                             </li>
 							<li>
                                 <a href="#"><span class="icon-pencil"></span> help</a>
-                                                               
                             </li>
                                                        
                         </ul>

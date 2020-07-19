@@ -31,7 +31,7 @@
     <script type='text/javascript' src='js/actions.js'></script>    
     <script type='text/javascript' src='js/charts.js'></script>
     <script type='text/javascript' src='js/settings.js'></script>
-    <script type='text/javascript' src='js/custom.js'></script>
+    <script type='text/javascript' src='js/custom.js?rtrtrt'></script>
 	
 	<?php echo $__env->yieldContent('scripts'); ?>
     
@@ -139,7 +139,6 @@
                             </li>
 							<li>
                                 <a href="#"><span class="icon-pencil"></span> help</a>
-                                                               
                             </li>
                                                        
                         </ul>
