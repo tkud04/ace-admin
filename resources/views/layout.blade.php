@@ -31,7 +31,7 @@
     <script type='text/javascript' src='js/actions.js'></script>    
     <script type='text/javascript' src='js/charts.js'></script>
     <script type='text/javascript' src='js/settings.js'></script>
-    <script type='text/javascript' src='js/custom.js'></script>
+    <script type='text/javascript' src='js/custom.js?rtrtrt'></script>
 	
 	@yield('scripts')
     
