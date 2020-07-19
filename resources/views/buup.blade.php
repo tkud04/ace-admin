@@ -31,6 +31,15 @@
 @stop
 
 @section('content')
+<script>
+let categories = [], buupCounter = 0;
+ 
+ @foreach($c as $cc)
+ 	@if($cc['status'] == "enabled")
+	  categories.push("{{$cc['category']}}");
+	@endif
+ @endforeach
+</script>
 			<div class="col-md-12">
 				{!! csrf_field() !!}
                 <div class="block">
@@ -40,15 +49,16 @@
                    <div class="content">
 					 <div class="table-responsive" role="grid">
 					     
-                        <table id="buup-table" cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered ace-table">
+                        <table id="buup-table" cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>SKU</th>
-                                    <th width="40%">Description</th>
-                                    <th width="10%">Price(&#8358;)</th>
-                                    <th>Stock</th>
+                                    <th width="30%">Description</th>
+                                    <th>Price(&#8358;)</th>
+                                    <th>Current stock</th>
                                     <th>Category</th>
-                                    <th>Status</th>
+									<th>Status</th>
+                                    <th width="20%">Images</th>
                                     <th>Actions</th>                                                                                                      
                                 </tr>
                             </thead>
@@ -67,7 +77,7 @@
 							  </form>
                                 <div class="hp-sm">
 								 <h3 id="buup-select-product-error" class="label label-danger text-uppercase buup-hide mr-5 mb-5">Please add a new product</h3>
-								 <h3 id="buup-select-qty-error" class="label label-danger text-uppercase buup-hide">All fields are required</h3>
+								 <h3 id="buup-select-validation-error" class="label label-danger text-uppercase buup-hide">All fields are required</h3>
 								 <br>
 								 <button onclick="BUUP()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>                                

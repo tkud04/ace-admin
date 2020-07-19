@@ -2130,9 +2130,9 @@ class MainController extends Controller {
 		{
 			return redirect()->intended('login');
 		}
-		
+		$c = $this->helpers->getCategories();
 		$signals = $this->helpers->signals;
-       return view('buup',compact(['user','signals']));
+       return view('buup',compact(['user','c','signals']));
     }
     
     

@@ -397,9 +397,6 @@ function showSelectError(type,err){
 	$(`#${type}-select-${err}-error`).fadeIn();
 }
 
-function BUUPAddRow(){
-	
-}
 
 function BUPEditStock(dt){
 	$(`#bup-${dt.sku}-side1`).hide();
@@ -477,41 +474,104 @@ function BUP(){
   }
 }
 
+function BUUPAddRow(){
+	/**
+	<th>SKU</th>
+                                    <th width="40%">Description</th>
+                                    <th width="10%">Price(&#8358;)</th>
+                                    <th>Stock</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>                                                                                                      
+	**/
+	++buupCounter;
+	let str = `
+	 <tr id="buup-${buupCounter}">
+	 <td>Will be generated</td>
+	   <td width="40%"><input type="text" placeholder="Product description" class="form-control desc"></td>
+	   <td><input type="number" placeholder="Price in NGN" class="form-control price"></td>
+	   <td><input type="number" placeholder="Stock" class="form-control stock"></td>
+	   <td>
+	     <select class="category">
+		 <option value="none">Select category</option>
+		  ${categories.map(k => "<option value='" + k + "'>" + k.toUpperCase() + "</option>").join("")}
+		 </select>
+	   </td>
+	   <td>
+	    <select class="status">
+		<option value="none">Select status</option>
+		 <option value="in_stock">In stock</option>
+		 <option value="new">New</option>
+		 <option value="out_of_stock">Out of stock</option>
+		</select>
+	   </td>
+	   <td width="20%">
+	    <input type="file" id="buup-${buupCounter}-image" placeholder="Upload images" class="form-control images" multiple>
+	   </td>
+	   <td>
+	   <button onclick="BUUPRemoveRow('${buupCounter}')" class="btn btn-danger">Cancel</button>
+	  
+	   </td>
+	 </tr>
+	`;
+	$('#buup-table').append(str);
+}
+
+function BUUPRemoveRow(ctr){
+	let r = $(`#buup-${ctr}`);
+	console.log(r);
+	r.remove();
+	--buupCounter;
+}
+
+function BUUPAddImage(ctr){
+	let i = $(`#buup-${ctr}-image`);
+	i.append(`<input type="file" placeholder="Upload images" class="form-control images">`);
+}
+
 function BUUP(){
 	hideElems('buup');
-	console.log("BUUPlist length: ",BUUPlist.length);
-	if(BUUPlist.length < 1){
+	console.log("BUUPlist length: ",buupCounter);
+	if(buupCounter < 1){
 		showSelectError('buup','product');
 	}
 	else{
 	ret = [], hasUnfilledQty = false;
-	/**
-	for(let i = 0; i < BUPlist.length; i++){
-		let BUPitem = BUPlist[i];
-		if(BUPitem.selected){
-			let BUPItemQty = $(`#bup-${BUPitem.sku}-side2 > input[type=number]`).val();
-			console.log("qty: ",BUPItemQty);
-			if(BUPItemQty && parseInt(BUPItemQty) > 0){
-				ret.push({sku: BUPitem.sku,qty: BUPItemQty});
+
+	for(let i = 1; i <= buupCounter; i++){
+		let BUPitem = `#buup-${buupCounter}`;
+		desc = $(`${BUPitem} input.desc`).val();
+		price = $(`${BUPitem} input.price`).val();
+		stock = $(`${BUPitem} input.stock`).val();
+		category = $(`${BUPitem} select.category`).val();
+		status = $(`${BUPitem} select.status`).val();
+		
+		imgs = [];
+		imgs = $(`buup-${BUPitem}-image`).files;
+		
+			if(desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
+				ret.push({
+					  desc: desc,
+					  price: price,
+					  stock: stock,
+					  category: category,
+					  status: status,
+					});
 			}
 			else{
 				hasUnfilledQty = true;
 			}
-			BUPIsAllUnselected = false;
-		}
+			
 	}
+	
 	   if(hasUnfilledQty){
-		   showSelectError('bup','qty');
-	   }
-	   else if(BUPIsAllUnselected){
-		showSelectError('bup','product');
+		   showSelectError('bup','validation');
 	   }
 	   else{
 		 console.log("ret: ",ret);
-		$('#bup-dt').val(JSON.stringify(ret));
-		$('#bup-form').submit();   
+		//$('#bup-dt').val(JSON.stringify(ret));
+		//$('#bup-form').submit();   
 	   }
-	   **/
   }
 }
 
