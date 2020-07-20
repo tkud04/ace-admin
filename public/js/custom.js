@@ -539,7 +539,7 @@ function BUUP(){
 	ret = [], hasUnfilledQty = false;
 
 	for(let i = 1; i <= buupCounter; i++){
-		let BUPitem = `#buup-${buupCounter}`;
+		let BUPitem = `#buup-${i}`;
 		desc = $(`${BUPitem} input.desc`).val();
 		price = $(`${BUPitem} input.price`).val();
 		stock = $(`${BUPitem} input.stock`).val();
@@ -550,13 +550,17 @@ function BUUP(){
 		imgs = $(`${BUPitem}-image`)[0].files;
 		
 			if(desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
-				ret.push({
+				let temp = {
+					id: BUPitem,
+					data:{
 					  desc: desc,
 					  price: price,
 					  stock: stock,
 					  category: category,
 					  status: status,
-					});
+					}
+				};
+				ret.push(temp);
 			}
 			else{
 				hasUnfilledQty = true;
@@ -568,7 +572,6 @@ function BUUP(){
 	   }
 	   else{
 		 console.log("ret: ",ret);
-		 console.log("imgs: ",imgs);
 		 
 		 /**
 		 let fd = new FormData();
@@ -577,7 +580,7 @@ function BUUP(){
 		 fd.append("__token",$('#tk').val());
 		 console.log("fd: ",fd);
 		 **/
-		//$('#bup-dt').val(JSON.stringify(ret));
+		$('#buup-dt').val(JSON.stringify(ret));
 		$('#buup-form').submit();
 		
     

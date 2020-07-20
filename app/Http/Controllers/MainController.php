@@ -2000,8 +2000,14 @@ class MainController extends Controller {
 	 */
     public function postBulkUploadProducts(Request $request)
     {	
+	  $user = null;
+	  
+	  if(Auth::check())
+	  {
+		  $user = Auth::user();
+	  }
        $req = $request->all();
-		   dd($req); 
+		 #dd($req);
 		  $ret = ['status' => "ok","message"=>"nothing happened"];
         $validator = Validator::make($req, [
                              'dt' => 'required',
@@ -2011,15 +2017,52 @@ class MainController extends Controller {
          if($validator->fails())
          {
              $messages = $validator->messages();
-            $ret = ['status' => "error",'message' => "validation error"];
+          return redirect()->withInput()->with("errors",$messages);
          }
          
          else
          {
-					
-         }
-
-         return json_encode($ret);		 
+			$dt = json_decode($req['dt']);
+			#dd($dt);
+			
+			foreach($dt as $dtt)
+			{
+				#dd($dtt);
+				$id = substr($dtt->id,1);
+				$p = $dtt->data;
+				
+				$rr = [
+				  'category' => $p->category,
+                             'description' => $p->desc,                        
+                             'in_stock' => $p->status,                        
+                             'amount' => $p->price,
+                             'qty' => $p->stock,
+				];
+				
+				$img = $request->file($id.'-images');
+                $ird = [];
+				
+				 if(!is_null($img))
+				 {
+                    for($i = 0; $i < count($img); $i++)
+                    {           
+             	      $imgg = $this->helpers->uploadCloudImage($img[$i]->getRealPath());
+			          #dd($ret);
+			          array_push($ird, $imgg['public_id']);
+                    } 
+				 }
+				 
+				 $rr['ird'] = $ird;
+                 $rr['user_id'] = $user->id;
+                 $rr['name'] = "";
+			
+                 $product = $this->helpers->createProduct($rr);
+                 
+			}
+			
+			session()->flash("bulk-upload-products-status", "success");
+			return redirect()->back();
+         } 
     }
     
     
