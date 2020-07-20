@@ -73,7 +73,7 @@ class Helper implements HelperContract
                      "delete-order-status" => "Order deleted",
                      "bulk-update-tracking-status" => "Trackings updated",
                      "bulk-confirm-payment-status" => "Payments confirmed",
-                     "bulk-update-products-status" => "Products updated"
+                     "bulk-upload-products-status" => "Products uploaded"
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -97,7 +97,8 @@ class Helper implements HelperContract
 					 "delete-discount-status-error" => "There was a problem deleting the discount, please try again.",
 					"bulk-update-tracking-status-error" => "There was a problem updating trackings, please try again.",
 					"bulk-confirm-payment-status-error" => "There was a problem confirming payments, please try again.",
-					"bulk-update-products-status-error" => "There was a problem updating products, please try again."
+					"bulk-update-products-status-error" => "There was a problem updating products, please try again.",
+					"bulk-upload-products-status-error" => "There was a problem uploading products, please try again."
                     ]
                    ];
 				   
@@ -1580,7 +1581,7 @@ $subject = $data['subject'];
 			  
 			  
 			  return "ok";
-		  }		
+		  }		  
 		  
 		  
 		   function getAnonOrder($id,$all=true)
