@@ -21,6 +21,12 @@ $(document).ready(function(){
 			cpAction = cc;
 		});
 		
+		$("input.form-control.images").change((e) =>{
+			e.preventDefault();
+			let cc = $(this)[0].files;
+			console.log(cc);
+		});
+		
         $("#toggle-discount-btn").click(function(e){            
 		   e.preventDefault();
             let hasDiscountField = $('#add_discount');
@@ -486,30 +492,33 @@ function BUUPAddRow(){
 	**/
 	++buupCounter;
 	let str = `
-	 <tr id="buup-${buupCounter}">
+	 <tr id="buup-${buupCounter}" style="margin-bottom: 10px;">
 	 <td>Will be generated</td>
-	   <td width="40%"><input type="text" name="buup-${buupCounter}-desc" placeholder="Product description" class="form-control desc"></td>
-	   <td><input type="number" name="buup-${buupCounter}-price" placeholder="Price in NGN" class="form-control price"></td>
-	   <td><input type="number" name="buup-${buupCounter}-stock" placeholder="Stock" class="form-control stock"></td>
+	   <td width="40%"><input type="text" placeholder="Product description" class="form-control desc"></td>
+	   <td><input type="number"  placeholder="Price in NGN" class="form-control price"></td>
+	   <td><input type="number"  placeholder="Stock" class="form-control stock"></td>
 	   <td>
-	     <select class="category" name="buup-${buupCounter}-category">
+	     <select class="category" >
 		 <option value="none">Select category</option>
 		  ${categories.map(k => "<option value='" + k + "'>" + k.toUpperCase() + "</option>").join("")}
 		 </select>
 	   </td>
 	   <td>
-	    <select class="status" name="buup-${buupCounter}-status">
+	    <select class="status" >
 		<option value="none">Select status</option>
 		 <option value="in_stock">In stock</option>
 		 <option value="new">New</option>
 		 <option value="out_of_stock">Out of stock</option>
 		</select>
 	   </td>
-	   <td width="20%">
-	    <input type="file" id="buup-${buupCounter}-image" placeholder="Upload images" class="form-control images" name="buup-${buupCounter}-images[]" multiple>
+	   <td width="20%" style="margin-top: 20px;">
+	    <div id="buup-${buupCounter}-images-div">
+	    <input type="file" placeholder="Upload image" class="form-control images" name="buup-${buupCounter}-images[]">
+	    </div>
 	   </td>
 	   <td>
-	   <button onclick="BUUPRemoveRow('${buupCounter}')" class="btn btn-danger">Cancel</button>
+	   <button onclick="BUUPAddImage('${buupCounter}'); return false;" class="btn btn-primary">Add image</button>
+	   <button onclick="BUUPRemoveRow('${buupCounter}'); return false;" class="btn btn-danger">Cancel</button>
 	  
 	   </td>
 	 </tr>
@@ -525,8 +534,8 @@ function BUUPRemoveRow(ctr){
 }
 
 function BUUPAddImage(ctr){
-	let i = $(`#buup-${ctr}-image`);
-	i.append(`<input type="file" placeholder="Upload images" class="form-control images">`);
+	let i = $(`#buup-${ctr}-images-div`);
+	i.append(`<input type="file" placeholder="Upload image" class="form-control images" name="buup-${buupCounter}-images[]">`);
 }
 
 function BUUP(){
@@ -547,7 +556,9 @@ function BUUP(){
 		status = $(`${BUPitem} select.status`).val();
 		
 		imgs = [];
-		imgs = $(`${BUPitem}-image`)[0].files;
+		//imgs = $(`${BUPitem}-image`)[0].files;
+		imgs = $(`${BUPitem}-image-div input[type=file]`);
+		console.log(imgs);
 		
 			if(desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
 				let temp = {
