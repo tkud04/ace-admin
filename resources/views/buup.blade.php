@@ -44,7 +44,8 @@ let categories = [], buupCounter = 0;
 				<input type="hidden" id="tk" value="{{csrf_token()}}">
                 <div class="block">
                     <div class="header">
-                        <h2>Update stock for multiple products</h2>
+                        <h2>Update stock for multiple products</h2><br>
+                        <h4 style="margin:20px; padding: 10px; border: 1px dashed #fff; with: 50%;"><span class="label label-success text-uppercase">Tip:</span> Click the radio button beside an image to set it as the cover image</h4>
                     </div>
                    <div class="content">
 				    <form action="{{url('buup')}}" id="buup-form" method="post" enctype="multipart/form-data">

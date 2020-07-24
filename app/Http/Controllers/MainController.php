@@ -2007,7 +2007,7 @@ class MainController extends Controller {
 		  $user = Auth::user();
 	  }
        $req = $request->all();
-		 #dd($req);
+		 dd($req);
 		  $ret = ['status' => "ok","message"=>"nothing happened"];
         $validator = Validator::make($req, [
                              'dt' => 'required',

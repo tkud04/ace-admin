@@ -492,7 +492,7 @@ function BUUPAddRow(){
 	**/
 	++buupCounter;
 	let str = `
-	 <tr id="buup-${buupCounter}" style="margin-bottom: 10px;">
+	 <tr id="buup-${buupCounter}" style="margin-bottom: 20px; border-bottom: 1px solid #fff;">
 	 <td>Will be generated</td>
 	   <td width="40%"><input type="text" placeholder="Product description" class="form-control desc"></td>
 	   <td><input type="number"  placeholder="Price in NGN" class="form-control price"></td>
@@ -511,9 +511,23 @@ function BUUPAddRow(){
 		 <option value="out_of_stock">Out of stock</option>
 		</select>
 	   </td>
-	   <td width="20%" style="margin-top: 20px;">
-	    <div id="buup-${buupCounter}-images-div">
-	    <input type="file" placeholder="Upload image" class="form-control images" name="buup-${buupCounter}-images[]">
+	   <td style="margin-top: 20px;">
+	    <div>
+		  <div id="buup-${buupCounter}-images-div" class="row">
+	        <div class="col-md-6">
+	         <input type="file" placeholder="Upload image"  data-ic="0" class="form-control images" onchange="readURL(this,'${buupCounter}')" name="buup-${buupCounter}-images[]">
+		    </div>
+			<div class="col-md-6">
+			    <div class="row">
+			      <div class="col-md-7">
+	                <img id="buup-${buupCounter}-preview-0" src="#" alt="preview" style="width: 50px; height: 50px;"/>
+			      </div>
+			      <div class="col-md-5">
+			        <input type="radio" name="buup-0-cover[]" value="${buupCounter}">
+			      </div>
+			    </div>
+			  </div>
+		  </div>
 	    </div>
 	   </td>
 	   <td>
@@ -533,9 +547,40 @@ function BUUPRemoveRow(ctr){
 	--buupCounter;
 }
 
+function readURL(input,ctr) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+		let pv = input.getAttribute("data-ic");
+      $(`#buup-${ctr}-preview-${pv}`).attr({
+	      'src': e.target.result,
+	      'width': "50",
+	      'height': "50"
+	  });
+    }
+    
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
+
 function BUUPAddImage(ctr){
-	let i = $(`#buup-${ctr}-images-div`);
-	i.append(`<input type="file" placeholder="Upload image" class="form-control images" name="buup-${buupCounter}-images[]">`);
+	let i = $(`#buup-${ctr}-images-div`), imgCount = $(`input[type=file]`).length;
+	console.log(imgCount);
+	i.append(`<div class="col-md-6">
+	          <input type="file" placeholder="Upload image" data-ic="${imgCount}" onchange="readURL(this,'${ctr}')" class="form-control images" name="buup-${ctr}-images[]">
+			  </div>
+			  <div class="col-md-6">
+			    <div class="row">
+			      <div class="col-md-7">
+	                <img id="buup-${ctr}-preview-${imgCount}" src="#" alt="preview" style="width: 50px; height: 50px;"/>
+			      </div>
+			      <div class="col-md-5">
+			        <input type="radio" name="buup-${ctr}-cover[]" value="${ctr}">
+			      </div>
+			    </div>
+			  </div>
+	  `);
 }
 
 function BUUP(){
