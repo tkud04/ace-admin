@@ -810,11 +810,11 @@ $subject = $data['subject'];
                 return "ok";
            }
 
-		   function disableProduct($data)
+		   function disableProduct($id,$def=false)
            {
            	$ret = [];
-              $p = Products::where('id',$data['id'])
-			                 ->orWhere('sku',$data['id'])->first();
+              $p = Products::where('id',$id)
+			                 ->orWhere('sku',$id)->first();
               
 			  //dd($data);
               if($p != null)
