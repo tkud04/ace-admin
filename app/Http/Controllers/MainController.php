@@ -345,6 +345,49 @@ class MainController extends Controller {
          } 	  
     }
 	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getDisableProduct(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+			$req = $request->all();
+			
+            $validator = Validator::make($req, [                            
+                             'id' => 'required',
+            ]);
+         
+            if($validator->fails())
+            {
+               return redirect()->intended('products');
+            }
+         
+            else
+            {
+              $this->helpers->disableProduct($req['id'],true);
+              session()->flash("update-product-status", "success");
+			return redirect()->back();
+            }
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}	
+    }
+	
 	  /**
 	 * Show the application welcome screen to the user.
 	 *
@@ -2007,7 +2050,7 @@ class MainController extends Controller {
 		  $user = Auth::user();
 	  }
        $req = $request->all();
-		 dd($req);
+		 #dd($req);
 		  $ret = ['status' => "ok","message"=>"nothing happened"];
         $validator = Validator::make($req, [
                              'dt' => 'required',
@@ -2039,6 +2082,7 @@ class MainController extends Controller {
                              'qty' => $p->stock,
 				];
 				
+				$coverImg = $req[$id."-cover"];
 				$img = $request->file($id.'-images');
                 $ird = [];
 				
@@ -2048,7 +2092,9 @@ class MainController extends Controller {
                     {           
              	      $imgg = $this->helpers->uploadCloudImage($img[$i]->getRealPath());
 			          #dd($ret);
-			          array_push($ird, $imgg['public_id']);
+					  $ci = ($coverImg != null && $coverImg == $i) ? "yes": "no";
+					  $temp = ['public_id' => $imgg['public_id'],'ci' => $ci];
+			          array_push($ird, $temp);
                     } 
 				 }
 				 

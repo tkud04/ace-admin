@@ -490,7 +490,7 @@ function BUUPAddRow(){
                                     <th>Status</th>
                                     <th>Actions</th>                                                                                                      
 	**/
-	++buupCounter;
+	
 	let str = `
 	 <tr id="buup-${buupCounter}" style="margin-bottom: 20px; border-bottom: 1px solid #fff;">
 	 <td>Will be generated</td>
@@ -523,7 +523,7 @@ function BUUPAddRow(){
 	                <img id="buup-${buupCounter}-preview-0" src="#" alt="preview" style="width: 50px; height: 50px;"/>
 			      </div>
 			      <div class="col-md-5">
-			        <input type="radio" name="buup-0-cover[]" value="${buupCounter}">
+			        <input type="radio" name="buup-${buupCounter}-cover" value="0">
 			      </div>
 			    </div>
 			  </div>
@@ -537,6 +537,7 @@ function BUUPAddRow(){
 	   </td>
 	 </tr>
 	`;
+	++buupCounter;
 	$('#buup-table').append(str);
 }
 
@@ -565,7 +566,7 @@ function readURL(input,ctr) {
 }
 
 function BUUPAddImage(ctr){
-	let i = $(`#buup-${ctr}-images-div`), imgCount = $(`input[type=file]`).length;
+	let i = $(`#buup-${ctr}-images-div`), imgCount = $(`#buup-${ctr}-images-div input[type=file]`).length;
 	console.log(imgCount);
 	i.append(`<div class="col-md-6">
 	          <input type="file" placeholder="Upload image" data-ic="${imgCount}" onchange="readURL(this,'${ctr}')" class="form-control images" name="buup-${ctr}-images[]">
@@ -576,7 +577,7 @@ function BUUPAddImage(ctr){
 	                <img id="buup-${ctr}-preview-${imgCount}" src="#" alt="preview" style="width: 50px; height: 50px;"/>
 			      </div>
 			      <div class="col-md-5">
-			        <input type="radio" name="buup-${ctr}-cover[]" value="${ctr}">
+			        <input type="radio" name="buup-${ctr}-cover" value="${imgCount}">
 			      </div>
 			    </div>
 			  </div>
@@ -592,7 +593,7 @@ function BUUP(){
 	else{
 	ret = [], hasUnfilledQty = false;
 
-	for(let i = 1; i <= buupCounter; i++){
+	for(let i = 0; i < buupCounter; i++){
 		let BUPitem = `#buup-${i}`;
 		desc = $(`${BUPitem} input.desc`).val();
 		price = $(`${BUPitem} input.price`).val();
@@ -604,7 +605,13 @@ function BUUP(){
 		//imgs = $(`${BUPitem}-image`)[0].files;
 		imgs = $(`${BUPitem}-image-div input[type=file]`);
 		console.log(imgs);
-		
+		console.log({
+			desc: desc,
+			price: price,
+			stock: stock,
+			category: category,
+			status: status
+		});
 			if(desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
 				let temp = {
 					id: BUPitem,

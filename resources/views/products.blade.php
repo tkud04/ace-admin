@@ -27,6 +27,7 @@
 							   <?php
 							   $sku = $p['sku'];
 							    $uu = url('edit-product')."?id=".$sku;
+							    $du = url('disable-product')."?id=".$sku;
 							   $pd = $p['pd'];
 							    $img = $p['imggs'][0];
 							   $status = $p['status'];
@@ -44,6 +45,7 @@
                                     <td><span class="driver-status label label-{{$ss}}">{{$status}}</span></td>                                                                     
                                     <td>
 									  <a href="{{$uu}}" class="btn btn-primary">View</button>									  
+									  <a href="{{$du}}" class="btn btn-danger">Disable</button>									  
 									</td>                                                                     
                                 </tr>
                                @endforeach                       

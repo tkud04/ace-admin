@@ -650,9 +650,9 @@ $subject = $data['subject'];
 				$irdc = 0;
 				if(isset($data['ird']) && count($data['ird']) > 0)
 				{
-					foreach($data['ird'] as $url)
+					foreach($data['ird'] as $i)
                     {
-                    	$this->createProductImage(['sku' => $data['sku'], 'url' => $url, 'irdc' => "1"]);
+                    	$this->createProductImage(['sku' => $data['sku'], 'url' => $i['public_id'], 'cover' => $i['ci'], 'irdc' => "1"]);
                     }
 				}
                 
@@ -674,10 +674,11 @@ $subject = $data['subject'];
          
            function createProductImage($data)
            {
+			   $cover = isset($data['cover']) ? $data['cover'] : "no";
            	$ret = ProductImages::create(['sku' => $data['sku'],                                                                                                          
                                                       'url' => $data['url'], 
                                                       'irdc' => $data['irdc'], 
-                                                      'cover' => "no", 
+                                                      'cover' => $cover, 
                                                       ]);
                                                       
                 return $ret;
@@ -804,6 +805,23 @@ $subject = $data['subject'];
 					  $discount = $this->createDiscount($disc);
 				  }				  
 				 
+               }                         
+                                                      
+                return "ok";
+           }
+
+		   function disableProduct($data)
+           {
+           	$ret = [];
+              $p = Products::where('id',$data['xf'])
+			                 ->orWhere('sku',$data['xf'])->first();
+              
+			  //dd($data);
+              if($p != null)
+               {
+				  $p->update([		
+				    'status' => "disabled"
+				  ]);
                }                         
                                                       
                 return "ok";
