@@ -4,6 +4,8 @@
 
 $(document).ready(function(){
 	$('#add-discount-input').hide();
+	$('#result-box').hide();
+	$('#finish-box').hide();
 	
 	hideUnselects();
 	hideSelectErrors();
@@ -565,6 +567,7 @@ function readURL(input,ctr) {
   }
 }
 
+
 function BUUPAddImage(ctr){
 	let i = $(`#buup-${ctr}-images-div`), imgCount = $(`#buup-${ctr}-images-div input[type=file]`).length;
 	console.log(imgCount);
@@ -587,6 +590,8 @@ function BUUPAddImage(ctr){
 function BUUP(){
 	hideElems('buup');
 	console.log("BUUPlist length: ",buupCounter);
+	localStorage.removeItem("buupCtr");
+	
 	if(buupCounter < 1){
 		showSelectError('buup','product');
 	}
@@ -601,17 +606,6 @@ function BUUP(){
 		category = $(`${BUPitem} select.category`).val();
 		status = $(`${BUPitem} select.status`).val();
 		
-		imgs = [];
-		//imgs = $(`${BUPitem}-image`)[0].files;
-		imgs = $(`${BUPitem}-image-div input[type=file]`);
-		console.log(imgs);
-		console.log({
-			desc: desc,
-			price: price,
-			stock: stock,
-			category: category,
-			status: status
-		});
 			if(desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
 				let temp = {
 					id: BUPitem,
@@ -623,7 +617,7 @@ function BUUP(){
 					  status: status,
 					}
 				};
-				ret.push(temp);
+				BUUPlist.push(temp);
 			}
 			else{
 				hasUnfilledQty = true;
@@ -634,20 +628,99 @@ function BUUP(){
 		   showSelectError('buup','validation');
 	   }
 	   else{
-		 console.log("ret: ",ret);
+		 //console.log("ret: ",ret);
 		 
 		 /**
-		 let fd = new FormData();
-		 fd.append("ret",ret);
-		 fd.append("imgs",imgs);
-		 fd.append("__token",$('#tk').val());
-		 console.log("fd: ",fd);
-		 **/
-		$('#buup-dt').val(JSON.stringify(ret));
+		 $('#buup-dt').val(JSON.stringify(ret));
 		$('#buup-form').submit();
 		
-    
+		 **/
+		 $('#button-box').hide();
+		 $('#result-box').fadeIn();
+		 
+		 buupFire();
 	   }
   }
+}
+
+function buupFire(){
+	 let bc = localStorage.getItem("buupCtr");
+	     if(!bc) bc = "0";
+		 
+		 
+		
+		 let fd = new FormData();
+		 fd.append("dt",JSON.stringify(BUUPlist[bc]));
+		 imgs = []; covers = [];
+		
+		//imgs = $(`${BUPitem}-image`)[0].files;
+		imgs = $(`${BUUPlist[bc].id}-images-div input[type=file]`);
+		cover = $(`${BUUPlist[bc].id}-images-div input[type=radio]:checked`);
+		console.log("imgs: ",imgs);
+		console.log("cover: ",cover);
+		
+		for(let r = 0; r < imgs.length; r++)
+		 {
+		    let imgg = imgs[r];
+			let imgName = imgg.getAttribute("name");
+            console.log("imgg name: ",imgName);			
+            console.log("cover: ",cover.val());
+            fd.append(imgName,imgg.files[0]);   			   			
+		 }
+		 
+		 fd.append(cover.attr("name"),cover.val());
+		 
+		 
+		 fd.append("_token",$('#tk').val());
+		 console.log("fd: ",fd);
+         
+	
+	//create request
+	const req = new Request("buup",{method: 'POST', body: fd});
+	//console.log(req);
+	
+	
+	//fetch request
+	fetch(req)
+	   .then(response => {
+		   if(response.status === 200){
+			   //console.log(response);
+			   
+			   return response.json();
+		   }
+		   else{
+			   return {status: "error:", message: "Network error"};
+		   }
+	   })
+	   .catch(error => {
+		    alert("Failed to upload product: " + error);			
+	   })
+	   .then(res => {
+		   console.log(res);
+          bc = parseInt(bc) + 1;
+			     localStorage.setItem("buupCtr",bc);
+				 
+		   if(res.status == "ok"){
+                  $('#result-ctr').html(bc);
+		   }
+		   else if(res.status == "error"){
+				     alert("An unknown network error has occured. Please refresh the app or try again later");			   
+		   }
+		   
+		    setTimeout(function(){
+			       if(bc >= buupCounter){
+					  $('#result-box').hide();
+					  $("#finish-box").fadeIn();
+					  window.location = "buup";
+				  }
+                  else{
+					 buupFire();
+				  }				  
+		    },4000);
+		   
+		  
+	   }).catch(error => {
+		    alert("Failed to send message: " + error);			
+	   });
 }
 

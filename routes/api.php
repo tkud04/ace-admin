@@ -20,10 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /*******************************************
          MOBILE APP ROUTES
 *******************************************/
-Route::get('/', 'MobileAppController@getIndex');
-Route::get('login', 'MobileAppController@getLogin');
-Route::get('signup', 'MobileAppController@getSignup');
-Route::get('logout', 'MobileAppController@getLogout');
-Route::post('sync', 'MobileAppController@postAppSync');
-Route::get('check-number', 'MobileAppController@getCheckNumber');
-Route::get('decode-points', 'MobileAppController@getDecodePoints');
+Route::post('/', 'MobileAppController@getIndex');
+//Route::post('buup', 'MainController@postBulkUploadProducts');

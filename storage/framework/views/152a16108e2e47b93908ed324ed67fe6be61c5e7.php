@@ -26,6 +26,7 @@
 							   <?php
 							   $sku = $p['sku'];
 							    $uu = url('edit-product')."?id=".$sku;
+							    $du = url('disable-product')."?id=".$sku;
 							   $pd = $p['pd'];
 							    $img = $p['imggs'][0];
 							   $status = $p['status'];
@@ -43,6 +44,7 @@
                                     <td><span class="driver-status label label-<?php echo e($ss); ?>"><?php echo e($status); ?></span></td>                                                                     
                                     <td>
 									  <a href="<?php echo e($uu); ?>" class="btn btn-primary">View</button>									  
+									  <a href="<?php echo e($du); ?>" class="btn btn-danger">Disable</button>									  
 									</td>                                                                     
                                 </tr>
                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                       

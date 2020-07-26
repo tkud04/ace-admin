@@ -73,16 +73,24 @@ let categories = [], buupCounter = 0;
                     </div><br>
 					
 					 <div class="hp-info hp-simple pull-left">
-					       <button onclick="BUUPAddRow(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add new product</button>
-							
+					      
 							
 							  <input type="hidden" id="buup-dt" name="dt">
 							 
-                                <div class="hp-sm">
+                                <div class="hp-sm" id="button-box">
+								 <button onclick="BUUPAddRow(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add new product</button>
+							
 								 <h3 id="buup-select-product-error" class="label label-danger text-uppercase buup-hide mr-5 mb-5">Please add a new product</h3>
 								 <h3 id="buup-select-validation-error" class="label label-danger text-uppercase buup-hide">All fields are required</h3>
 								 <br>
 								 <button onclick="BUUP(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+								</div>
+								<div class="hp-sm" id="result-box">
+								 <h4 id="buup-loading">Uploading products <img src="img/loading.gif" class="img img-fluid" alt="Loading" width="50" height="50"></h4><br>
+								 <h5>Products uploaded: <span class="label label-success" id="result-ctr">0</span></h5>
+								</div>
+                                <div class="hp-sm" id="finish-box">
+								 <h4>Upload complete!</h4>
 								</div>                                
                        </div>
 					  </form>

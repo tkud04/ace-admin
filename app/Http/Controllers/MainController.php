@@ -2050,6 +2050,7 @@ class MainController extends Controller {
 		  $user = Auth::user();
 	  }
        $req = $request->all();
+	   
 		 #dd($req);
 		  $ret = ['status' => "ok","message"=>"nothing happened"];
         $validator = Validator::make($req, [
@@ -2060,16 +2061,17 @@ class MainController extends Controller {
          if($validator->fails())
          {
              $messages = $validator->messages();
-          return redirect()->withInput()->with("errors",$messages);
+          //return redirect()->withInput()->with("errors",$messages);
+		  $ret = ['status' => "error","message"=>"validation"];
          }
          
          else
          {
-			$dt = json_decode($req['dt']);
+			$dtt = json_decode($req['dt']);
 			#dd($dt);
 			
-			foreach($dt as $dtt)
-			{
+			//foreach($dt as $dtt)
+			//{
 				#dd($dtt);
 				$id = substr($dtt->id,1);
 				$p = $dtt->data;
@@ -2082,8 +2084,8 @@ class MainController extends Controller {
                              'qty' => $p->stock,
 				];
 				
-				$coverImg = $req[$id."-cover"];
-				$img = $request->file($id.'-images');
+				$coverImg = isset($req[$id."-cover"]) ? $req[$id."-cover"] : null;
+				$img = isset($req[$id.'-images']) ? $request->file($id.'-images') : null;
                 $ird = [];
 				
 				 if(!is_null($img))
@@ -2092,10 +2094,12 @@ class MainController extends Controller {
                     {           
              	      $imgg = $this->helpers->uploadCloudImage($img[$i]->getRealPath());
 			          #dd($ret);
+					 // $imgg = ['public_id' => "default"];
 					  $ci = ($coverImg != null && $coverImg == $i) ? "yes": "no";
 					  $temp = ['public_id' => $imgg['public_id'],'ci' => $ci];
 			          array_push($ird, $temp);
                     } 
+					
 				 }
 				 
 				 $rr['ird'] = $ird;
@@ -2103,12 +2107,14 @@ class MainController extends Controller {
                  $rr['name'] = "";
 			
                  $product = $this->helpers->createProduct($rr);
-                 
-			}
+                 $ret = ['status' => "ok","message"=>"product uploaded"];
+					 
+			//}
 			
-			session()->flash("bulk-upload-products-status", "success");
-			return redirect()->back();
+			//session()->flash("bulk-upload-products-status", "success");
+			//return redirect()->back();
          } 
+		 return json_encode($ret);
     }
     
     
