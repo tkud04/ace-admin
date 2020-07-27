@@ -1466,8 +1466,23 @@ $subject = $data['subject'];
               #dd($o);
                if(count($o) > 0)
                {
-				   $u = $o['user_id'] == "anon" ? $o['anon'] : $this->getUser($o->user_id);
-				   #dd($u);
+				   if($o['user_id'] == "anon")
+				   {
+					   $u = $o['anon'];
+					   $shipping = [
+					     'address' => $u['address'],
+					     'city' => $u['city'],
+					     'state' => $u['state']
+					   ];
+				   }
+				   else
+				   {
+					   $u = $this->getUser($o->user_id);
+					   $sd = $this->getShippingDetails($u['id']);
+					   $shipping = $sd[0];
+				   }
+				   
+				  # dd($u);
                	//We have the user, update the status and notify the customer
 				$oo = Orders::where('reference',$o['reference'])->first();
                	if(!is_null($oo)) $oo->update(['status' => 'paid']);
@@ -1477,6 +1492,16 @@ $subject = $data['subject'];
 				$ret['subject'] = "Your payment for order ".$o['payment_code']." has been confirmed!";
 		        $ret['em'] = $u['email'];
 		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
+				
+				$ret = $this->smtp;
+				$ret['order'] = $o;
+				$ret['user'] = $u['email'];
+		        $ret['subject'] = "URGENT: Received payment for order ".$o['payment_code'];
+		        $ret['shipping'] = $shipping;
+		        $ret['em'] = $this->adminEmail;
+		        $this->helpers->sendEmailSMTP($ret,"emailspayment-alert");
+				$ret['em'] = $this->suEmail;
+		        $this->sendEmailSMTP($ret,"emails.payment-alert");
                }
                
                return $o; 
