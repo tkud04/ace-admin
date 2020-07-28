@@ -9,6 +9,7 @@ use Auth;
 use \Swift_Mailer;
 use \Swift_SmtpTransport;
 use App\User;
+use App\ShippingDetails;
 use App\Products;
 use App\ProductData;
 use App\ProductImages;
@@ -317,6 +318,31 @@ $subject = $data['subject'];
                                                       'verified' => "yes", 
                                                       'password' => bcrypt($data['pass']), 
                                                       ]);
+                                                      
+                return $ret;
+           }
+           
+           function getShippingDetails($user)
+           {
+           	$ret = [];
+			$uid = isset($user->id) ? $user->id: $user;
+               $sdd = ShippingDetails::where('user_id',$uid)->get();
+ 
+              if($sdd != null)
+               {
+				   foreach($sdd as $sd)
+				   {
+				      $temp = [];
+                   	   $temp['company'] = $sd->company; 
+                       $temp['address'] = $sd->address; 
+                       $temp['city'] = $sd->city;
+                       $temp['state'] = $sd->state; 
+                       $temp['zipcode'] = $sd->zipcode; 
+                       $temp['id'] = $sd->id; 
+                       $temp['date'] = $sd->created_at->format("jS F, Y"); 
+                       array_push($ret,$temp); 
+				   }
+               }                         
                                                       
                 return $ret;
            }
