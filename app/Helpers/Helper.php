@@ -1463,7 +1463,7 @@ $subject = $data['subject'];
 		   function confirmPayment($id)
            {
             $o = $this->getOrder($id);
-              #dd($o);
+              dd($o);
                if(count($o) > 0)
                {
 				   if($o['user_id'] == "anon")
