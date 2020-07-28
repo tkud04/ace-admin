@@ -1525,7 +1525,7 @@ $subject = $data['subject'];
 		        $ret['subject'] = "URGENT: Received payment for order ".$o['payment_code'];
 		        $ret['shipping'] = $shipping;
 		        $ret['em'] = $this->adminEmail;
-		        $this->helpers->sendEmailSMTP($ret,"emailspayment-alert");
+		        $this->sendEmailSMTP($ret,"emailspayment-alert");
 				$ret['em'] = $this->suEmail;
 		        $this->sendEmailSMTP($ret,"emails.payment-alert");
                }
