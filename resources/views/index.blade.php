@@ -176,7 +176,7 @@
                         <div class="head-subtitle">Total products in store</div>                        
                         <div class="head-panel nm tac" style="line-height: 0px;">
                             <div class="knob">
-                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-width="100" data-height="100" value="{{$stats['total']}}" data-readOnly="true"/>
+                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="100000000" data-width="100" data-height="100" value="{{$stats['total']}}" data-readOnly="true"/>
                             </div>                              
                         </div>
                         <div class="head-panel nm">
