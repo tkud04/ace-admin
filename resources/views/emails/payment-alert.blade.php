@@ -10,7 +10,7 @@
 Hello admin,<br> please be informed that an admin just confirmed this order. See the details below:<br><br>
 Reference #: <b>{{$order['reference']}}</b><br>
 Customer: <b>{{$name}} ({{$user}})</b><br>
-Notes: <b>{{$notes}}</b>
+Notes: <b>{{$order['notes']}}</b>
 <?php
 foreach($items as $i)
 {
