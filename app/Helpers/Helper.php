@@ -1522,6 +1522,7 @@ $subject = $data['subject'];
 				$ret = $this->smtp;
 				$ret['order'] = $o;
 				$ret['user'] = $u['email'];
+				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
 		        $ret['subject'] = "URGENT: Received payment for order ".$o['payment_code'];
 		        $ret['shipping'] = $shipping;
 		        $ret['em'] = $this->adminEmail;
