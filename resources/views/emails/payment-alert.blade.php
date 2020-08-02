@@ -9,7 +9,8 @@
 <h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">New order {{$order['payment_code']}} paid via bank!</h3>
 Hello admin,<br> please be informed that an admin just confirmed this order. See the details below:<br><br>
 Reference #: <b>{{$order['reference']}}</b><br>
-Customer: <b>{{$user}}</b><br>
+Customer: <b>{{$name}} ({{$user}})</b><br>
+Notes: <b>{{$notes}}</b>
 <?php
 foreach($items as $i)
 {
@@ -42,4 +43,3 @@ Total: <b>&#8358;{{number_format($order['amount'],2)}}</b><br><br>
 <a href="{{$uu}}" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px; margin-right: 10px;">View order</a>
 <a href="{{$tu}}" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px; margin-right: 10px;">Track order</a>
 <br><br>
-
