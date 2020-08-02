@@ -1932,7 +1932,7 @@ class MainController extends Controller {
          else
          {
 			$order = $this->helpers->getOrder($req['o']);
-			//dd($order);
+			dd($order);
 			if(count($order) > 0 && $order['status'] == "unpaid" && $order['type'] == "bank")
 			{
 				$this->helpers->confirmPayment($req['o']);
