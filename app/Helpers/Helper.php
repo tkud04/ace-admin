@@ -1579,7 +1579,7 @@ $subject = $data['subject'];
                     {
                     	if($order['user_id'] == "anon")
                         {
-                        	$u = order['anon'];
+                        	$u = $order['anon'];
                         }
                         else
                         {
