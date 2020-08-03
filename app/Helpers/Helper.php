@@ -1597,7 +1597,7 @@ $subject = $data['subject'];
 				         $ret['order'] = $order;
 				        $ret['tracking'] = $this->deliveryStatuses[$action];
 				       $ret['name'] = $order['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
-		               $ret['subject'] = "New update for order #".$o['reference'];
+		               $ret['subject'] = "New update for order #".$o->reference;
 		        $ret['em'] = $u['email'];
 		        $this->sendEmailSMTP($ret,"emails.tracking-alert");
                     }
