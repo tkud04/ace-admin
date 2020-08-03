@@ -1571,6 +1571,37 @@ $subject = $data['subject'];
 			  
 			  return "ok";
 		  }
+		
+		  function updateTracking($o,$action)
+         {
+         	$order = $this->getOrder($o->reference);
+                    if(count($order) > 0)
+                    {
+                    	if($order['user_id'] == "anon")
+                        {
+                        	$u = order['anon'];
+                        }
+                        else
+                        {
+                        	$u = $this->getUser($order['user_id']);
+                        }
+                    	$t = [
+                         'user_id' => $order['user_id'],
+                         'reference' => $o->reference,
+                         'status' => $action
+                         ];
+                         
+                         $this->createTracking($t);
+                         
+                         $ret = $this->smtp;
+				         $ret['order'] = $order;
+				        $ret['tracking'] = $this->deliveryStatuses[$action];
+				       $ret['name'] = $order['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
+		               $ret['subject'] = "New update for order #".$o['reference'];
+		        $ret['em'] = $u['email'];
+		        $this->sendEmailSMTP($ret,"emails.tracking-alert");
+                    }
+         }
 
           function bulkUpdateTracking($data)
 		  {
@@ -1583,17 +1614,7 @@ $subject = $data['subject'];
             {
             	if($o->selected)
                 {
-                	$order = $this->getOrder($o->reference);
-                    if(count($order) > 0)
-                    {
-                    	$t = [
-                         'user_id' => $order['user_id'],
-                         'reference' => $o->reference,
-                         'status' => $action
-                         ];
-                         
-                         $this->createTracking($t);
-                    }
+                	$this->updateTracking($o,$action);
                 }
             }
 			  
