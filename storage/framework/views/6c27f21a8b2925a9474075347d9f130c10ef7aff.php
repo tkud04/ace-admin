@@ -10,7 +10,7 @@
 Hello admin,<br> please be informed that an admin just confirmed this order. See the details below:<br><br>
 Reference #: <b><?php echo e($order['reference']); ?></b><br>
 Customer: <b><?php echo e($name); ?> (<?php echo e($user); ?>)</b><br>
-Notes: <b><?php echo e($order['notes']); ?></b>
+Notes: <b><?php echo e($order['notes']); ?></b><br><br>
 <?php
 foreach($items as $i)
 {

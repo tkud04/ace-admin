@@ -1538,6 +1538,9 @@ $subject = $data['subject'];
            {
 			  $o = Orders::where('id',$id)
 			           ->OrWhere('reference',$id)->first();
+					   
+			  $a = AnonOrders::where('id',$id)
+			           ->OrWhere('reference',$id)->first();
 			 
 			 
 			if($o != null)
@@ -1552,6 +1555,7 @@ $subject = $data['subject'];
                 }
                 
                 $o->delete();
+				if($a != null) $a->delete();
 			}
 
                 return "ok";
