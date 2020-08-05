@@ -9,7 +9,8 @@
 <h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">New order <?php echo e($order['payment_code']); ?> paid via bank!</h3>
 Hello admin,<br> please be informed that an admin just confirmed this order. See the details below:<br><br>
 Reference #: <b><?php echo e($order['reference']); ?></b><br>
-Customer: <b><?php echo e($user); ?></b><br>
+Customer: <b><?php echo e($name); ?> (<?php echo e($user); ?>)</b><br>
+Notes: <b><?php echo e($order['notes']); ?></b>
 <?php
 foreach($items as $i)
 {
@@ -43,5 +44,4 @@ Total: <b>&#8358;<?php echo e(number_format($order['amount'],2)); ?></b><br><br>
 <a href="<?php echo e($uu); ?>" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px; margin-right: 10px;">View order</a>
 <a href="<?php echo e($tu); ?>" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px; margin-right: 10px;">Track order</a>
 <br><br>
-
 <?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/emails/payment-alert.blade.php ENDPATH**/ ?>

@@ -77,7 +77,7 @@
                         <div class="head-subtitle">Total orders on Ace Luxury Stores</div>                        
                         <div class="head-panel nm tac" style="line-height: 0px;">
                             <div class="knob">
-                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="100" data-width="100" data-height="100" value="<?php echo e($stats['o_total']); ?>" data-readOnly="true"/>
+                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="100000000" data-width="100" data-height="100" value="<?php echo e($stats['o_total']); ?>" data-readOnly="true" style="font: bold 20px Arial !important;"/>
                             </div>                              
                         </div>
                         <div class="head-panel nm">
@@ -175,7 +175,7 @@
                         <div class="head-subtitle">Total products in store</div>                        
                         <div class="head-panel nm tac" style="line-height: 0px;">
                             <div class="knob">
-                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="100" data-width="100" data-height="100" value="<?php echo e($stats['total']); ?>" data-readOnly="true"/>
+                                <input type="text" data-fgColor="#3F97FE" data-min="0" data-max="100000000" data-width="100" data-height="100" value="<?php echo e($stats['total']); ?>" data-readOnly="true" style="font: bold 20px Arial !important;"/>
                             </div>                              
                         </div>
                         <div class="head-panel nm">
