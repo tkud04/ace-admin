@@ -1328,6 +1328,7 @@ class MainController extends Controller {
          } 	  
     }
 	
+	
 	/**
 	 * Show the application welcome screen to the user.
 	 *
@@ -1362,6 +1363,34 @@ class MainController extends Controller {
 	    #dd($ads);
 		
     	return view('orders',compact(['user','categories','orders','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddOrder()
+    {
+       	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		$c = $this->helpers->getCategories();
+		$products = $this->helpers->getProducts();
+		$users = $this->helpers->getUsers();
+		$signals = $this->helpers->signals;
+		#dd($users);
+       return view('bao',compact(['user','c','products','users','signals']));
     }
 	
 	/**

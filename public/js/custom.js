@@ -724,3 +724,73 @@ function buupFire(){
 	   });
 }
 
+
+function BAOAddRow(){
+	/**
+	<th>SKU</th>
+                                    <th width="40%">Description</th>
+                                    <th width="10%">Price(&#8358;)</th>
+                                    <th>Stock</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>                                                                                                      
+	**/
+	
+	let str = `
+	 <tr id="bao-${baoCounter}" style="margin-bottom: 20px; border-bottom: 1px solid #fff;">
+	 <td>Will be generated</td>
+	   <td width="40%"><input type="text" placeholder="Product description" class="form-control desc"></td>
+	   <td><input type="number"  placeholder="Price in NGN" class="form-control price"></td>
+	   <td><input type="number"  placeholder="Stock" class="form-control stock"></td>
+	   <td>
+	     <select class="category" >
+		 <option value="none">Select category</option>
+		  ${categories.map(k => "<option value='" + k + "'>" + k.toUpperCase() + "</option>").join("")}
+		 </select>
+	   </td>
+	   <td>
+	    <select class="status" >
+		<option value="none">Select status</option>
+		 <option value="in_stock">In stock</option>
+		 <option value="new">New</option>
+		 <option value="out_of_stock">Out of stock</option>
+		</select>
+	   </td>
+	   <td style="margin-top: 20px;">
+	    <div>
+		  <div id="bao-${baoCounter}-images-div" class="row">
+	        <div class="col-md-6">
+	         <input type="file" placeholder="Upload image"  data-ic="0" class="form-control images" onchange="readURL(this,'${baoCounter}')" name="bao-${baoCounter}-images[]">
+		    </div>
+			<div class="col-md-6">
+			    <div class="row">
+			      <div class="col-md-7">
+	                <img id="bao-${baoCounter}-preview-0" src="#" alt="preview" style="width: 50px; height: 50px;"/>
+			      </div>
+			      <div class="col-md-5">
+			        <input type="radio" name="bao-${baoCounter}-cover" value="0">
+			      </div>
+			    </div>
+			  </div>
+		  </div>
+	    </div>
+	   </td>
+	   <td>
+	   <button onclick="BUUPAddImage('${baoCounter}'); return false;" class="btn btn-primary">Add image</button>
+	   <button onclick="BUUPRemoveRow('${baoCounter}'); return false;" class="btn btn-danger">Cancel</button>
+	  
+	   </td>
+	 </tr>
+	`;
+	++baoCounter;
+	$('#bao-table').append(str);
+}
+
+function BAORemoveRow(ctr){
+	let r = $(`#bao-${ctr}`);
+	console.log(r);
+	r.remove();
+	--baoCounter;
+}
+
+
