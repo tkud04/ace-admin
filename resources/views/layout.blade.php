@@ -17,7 +17,11 @@
 	    <script type='text/javascript' src='js/plugins/bootstrap/bootstrap.min.js'></script>
     <script type='text/javascript' src='js/plugins/jquery/jquery-migrate.min.js'></script>
     <script type='text/javascript' src='js/plugins/jquery/globalize.js'></script>    
-    
+    <script type='text/javascript' src='lib/ddSlick/jquery.ddslick.min.js'></script>    
+    <!--SweetAlert--> 
+    <link href="lib/sweet-alert/sweetalert2.css" rel="stylesheet">
+    <script src="lib/sweet-alert/sweetalert2.js"></script>
+
     <script type='text/javascript' src='js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js'></script>
     <script type='text/javascript' src='js/plugins/uniform/jquery.uniform.min.js'></script>
         <script type='text/javascript' src='js/plugins/fancybox/jquery.fancybox.pack.js'></script>
@@ -31,6 +35,7 @@
     <script type='text/javascript' src='js/actions.js'></script>    
     <script type='text/javascript' src='js/charts.js'></script>
     <script type='text/javascript' src='js/settings.js'></script>
+    <script type='text/javascript' src='js/helper.js?rtrtrt'></script>
     <script type='text/javascript' src='js/custom.js?rtrtrt'></script>
 	
 	@yield('scripts')
@@ -138,7 +143,7 @@
                                 </ul>                                
                             </li>
 							<li>
-                                <a href="#"><span class="icon-pencil"></span> help</a>
+                                <a href="{{url('settings')}}"><span class="icon-pencil"></span> settings</a>
                             </li>
                                                        
                         </ul>

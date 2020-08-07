@@ -1398,6 +1398,49 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
+    public function postAddOrder(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		dd($req);
+        $validator = Validator::make($req, [                          
+                            'xf' => 'required',
+                             'status' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+            $this->helpers->updateOrder($req);
+			session()->flash("edit-order-status", "success");
+			return redirect()->back();
+         } 	  
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
 	public function getEditOrder(Request $request)
     {
        $user = null;

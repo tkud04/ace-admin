@@ -1319,23 +1319,82 @@ $subject = $data['subject'];
 		   }	
 
 
+            function addOrder($user,$data,$gid=null)
+           {
+			   $cart = [];
+			   $gid = isset($_COOKIE['gid']) ? $_COOKIE['gid'] : "";  
+           	   $order = $this->createOrder($user, $data);
+			   
+                if($user == null && $gid != null) $cart = $this->getCart($user,$gid);
+			 else $cart = $this->getCart($user);
+			 #dd($cart);
+			 
+               #create order details
+               foreach($cart as $c)
+               {
+				   $dt = [];
+                   $dt['sku'] = $c['product']['sku'];
+				   $dt['qty'] = $c['qty'];
+				   $dt['order_id'] = $order->id;
+				   $this->updateStock($dt['sku'],$dt['qty']);
+                   $oi = $this->createOrderItems($dt);                    
+               }
 
-            function createOrder($user, $dt)
+               #send transaction email to admin
+               //$this->sendEmail("order",$order);  
+               
+			   
+			   //clear cart
+			   $this->clearCart($user);
+			   
+			   //if new user, clear discount
+			   $this->clearNewUserDiscount($user);
+			   return $order;
+           }
+
+           function createOrder($user, $dt)
 		   {
-			   $ret = Orders::create(['user_id' => $user->id,
+			   #dd($dt);
+			   //$ref = $this->helpers->getRandomString(5);
+			   $psref = isset($dt['ps_ref']) ? $dt['ps_ref'] : "";
+			   
+			   if(is_null($user))
+			   {
+				   $gid = isset($_COOKIE['gid']) ? $_COOKIE['gid'] : "";
+				   $anon = AnonOrders::create(['email' => $dt['email'],
+				                     'reference' => $dt['ref'],
+				                     'name' => $dt['name'],
+				                     'phone' => $dt['phone'],
+				                     'address' => $dt['address'],
+				                     'city' => $dt['city'],
+				                     'state' => $dt['state'],
+				             ]);
+				   
+				   $ret = Orders::create(['user_id' => "anon",
 			                          'reference' => $dt['ref'],
+			                          'ps_ref' => $psref,
 			                          'amount' => $dt['amount'],
 			                          'type' => $dt['type'],
 			                          'payment_code' => $dt['payment_code'],
 			                          'notes' => $dt['notes'],
 			                          'status' => $dt['status'],
-			                 ]);
+			                 ]); 
+			   }
+			   
+			   else
+			   {
+				 $ret = Orders::create(['user_id' => $user->id,
+			                          'reference' => $dt['ref'],
+			                          'ps_ref' => $psref,
+			                          'amount' => $dt['amount'],
+			                          'type' => $dt['type'],
+			                          'payment_code' => $dt['payment_code'],
+			                          'notes' => $dt['notes'],
+			                          'status' => $dt['status'],
+			                 ]);   
+			   }
+			   
 			  return $ret;
-		   }
-		   
-		    function getDeliveryFee()
-		   {
-			   return 1000;
 		   }
 
 		   function createOrderItems($dt)
@@ -1346,6 +1405,37 @@ $subject = $data['subject'];
 			                 ]);
 			  return $ret;
 		   }
+		   
+		    function getDeliveryFee($u=null,$type="user")
+		   {
+			   $ret = 2000;
+			   $state = "";
+			   
+			   switch($type)
+			   {
+				 case "user":
+				 if(!is_null($u))
+			     {
+				   $shipping = $this->getShippingDetails($u);
+                   $s = $shipping[0];				  
+                   $state = $s['state'];
+			     }
+                 break;
+
+                 case "state":
+				  $state = $u;
+                 break;				 
+			   }
+			   
+			   if($state != null && $state != "")
+			   {
+				 if($state == "ekiti" || $state == "lagos" || $state == "ogun" || $state == "ondo" || $state == "osun" || $state == "oyo") $ret = 1000;   
+			   }
+			   
+			    
+			   return $ret;
+		   }
+			
 
            function getOrderTotals($items)
            {
@@ -1679,7 +1769,7 @@ $subject = $data['subject'];
 		  }		  
 		  
 		  
-		   function getAnonOrder($id,$all=true)
+	 function getAnonOrder($id,$all=true)
            {
            	$ret = [];
 			if($all)
@@ -1703,6 +1793,8 @@ $subject = $data['subject'];
                        $temp['city'] = $o->city; 
                        $temp['state'] = $o->state; 
                        $temp['id'] = $o->id; 
+                       #dd($o2);
+                       if($o2 != null) $temp['order'] = $this->getOrder($id);
                        $temp['date'] = $o->created_at->format("jS F, Y"); 
                        $ret = $temp;  
 				   }
@@ -1722,6 +1814,7 @@ $subject = $data['subject'];
                          $temp['city'] = $shipping['city']; 
                          $temp['state'] = $shipping['state']; 
                          $temp['id'] = $o2->id; 
+                         $temp['order'] = $this->getOrder($id);
                          $temp['date'] = $o2->created_at->format("jS F, Y"); 
                          $ret = $temp;  
 					   }  

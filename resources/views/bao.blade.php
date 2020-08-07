@@ -32,7 +32,8 @@
 
 @section('content')
 <script>
-let categories = [], products = [], users = [], baoCounter = 0;
+let categories = [], products = [], orders = [],
+   customerTypes = [], users = [], baoCounter = 0;
  
  @foreach($c as $cc)
  	@if($cc['status'] == "enabled")
@@ -61,13 +62,31 @@ let categories = [], products = [], users = [], baoCounter = 0;
 		  });
 	@endif
  @endforeach
+ 
+ customerTypes = [
+  {key:"user",value:"Registered user"},
+  {key:"anon",value:"Guest"}
+ ];
+ 
+ let ddData = [];
+	
+	 products.map(p => {
+		ddData.push({
+		   text: p.sku,
+           value: p.sku,
+		   qty: p.qty,
+           selected: false,
+           description: p.sku + " (N" + p.amount + ") | " + p.qty + " pcs left",
+           imageSrc: p.img
+		});
+	 });
 </script>
 			<div class="col-md-12">
 				<input type="hidden" id="tk" value="{{csrf_token()}}">
                 <div class="block">
                     <div class="header">
-                        <h2>Update stock for multiple products</h2><br>
-                        <h4 style="margin:20px; padding: 10px; border: 1px dashed #fff; with: 50%;"><span class="label label-success text-uppercase">Tip:</span> Click the radio button beside an image to set it as the cover image</h4>
+                        <h2>Add new orders</h2><br>
+                        <h4 style="margin:20px; padding: 10px; border: 1px dashed #fff; with: 50%;"><span class="label label-success text-uppercase">Tip:</span> When you click <em>Select product</em>, scroll down to view and select the desired product</h4>
                     </div>
                    <div class="content">
 				    <form action="{{url('new-order')}}" id="bao-form" method="post" enctype="multipart/form-data">
@@ -77,13 +96,11 @@ let categories = [], products = [], users = [], baoCounter = 0;
                         <table id="bao-table" cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>SKU</th>
-                                    <th width="30%">Description</th>
-                                    <th>Price(&#8358;)</th>
-                                    <th>Current stock</th>
-                                    <th>Category</th>
-									<th>Status</th>
-                                    <th width="20%">Images</th>
+                                    <th>Reference</th>
+                                    <th width="30%">Customer</th>
+                                    <th>Products</th>
+                                    <th>Notes</th>
+                                    <th>Total(&#8358;)</th>
                                     <th>Actions</th>                                                                                                      
                                 </tr>
                             </thead>
@@ -100,19 +117,19 @@ let categories = [], products = [], users = [], baoCounter = 0;
 							  <input type="hidden" id="bao-dt" name="dt">
 							 
                                 <div class="hp-sm" id="button-box">
-								 <button onclick="BAOAddRow(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add new product</button>
+								 <button onclick="BAOAddRow(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add new order</button>
 							
-								 <h3 id="buup-select-product-error" class="label label-danger text-uppercase bao-hide mr-5 mb-5">Please add a new product</h3>
-								 <h3 id="buup-select-validation-error" class="label label-danger text-uppercase bao-hide">All fields are required</h3>
+								 <h3 id="bao-select-product-error" class="label label-danger text-uppercase bao-hide mr-5 mb-5">Please add a new order</h3>
+								 <h3 id="bao-select-validation-error" class="label label-danger text-uppercase bao-hide">All fields are required</h3>
 								 <br>
 								 <button onclick="BAO(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>
 								<div class="hp-sm" id="result-box">
-								 <h4 id="bao-loading">Uploading products <img src="img/loading.gif" class="img img-fluid" alt="Loading" width="50" height="50"></h4><br>
+								 <h4 id="bao-loading">Adding orders.. <img src="img/loading.gif" class="img img-fluid" alt="Loading" width="50" height="50"></h4><br>
 								 <h5>Orders added: <span class="label label-success" id="result-ctr">0</span></h5>
 								</div>
                                 <div class="hp-sm" id="finish-box">
-								 <h4>Upload complete!</h4>
+								 <h4>Processing complete!</h4>
 								</div>                                
                        </div>
 					  </form>
