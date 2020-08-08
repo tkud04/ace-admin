@@ -839,6 +839,10 @@ function BOASelectUser(dt,type){
 	}
 	//console.log("fu: ",fu);
 	localStorage.setItem(saveName,JSON.stringify(fu));
+	 Swal.fire({
+			   icon: 'success',
+             title: `User added`
+           });
 }
 
 function BAOAddProduct(b){
@@ -943,6 +947,7 @@ function BAORemoveRow(ctr){
 	--baoCounter;
 	localStorage.removeItem(`ctr_${ctr}`);
 	localStorage.removeItem(`items_${ctr}`);
+	localStorage.removeItem(`user_${ctr}`);
 }
 
 
