@@ -1606,6 +1606,7 @@ $subject = $data['subject'];
 				$ret['order'] = $o;
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname'];
 				$ret['subject'] = "Your payment for order ".$o['payment_code']." has been confirmed!";
+		        $ret['phone'] = $u['phone'];
 		        $ret['em'] = $u['email'];
 		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
 				
@@ -1613,6 +1614,7 @@ $subject = $data['subject'];
 				$ret['order'] = $o;
 				$ret['user'] = $u['email'];
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
+				$ret['phone'] = $u['phone'];
 		        $ret['subject'] = "URGENT: Received payment for order ".$o['payment_code'];
 		        $ret['shipping'] = $shipping;
 		        $ret['em'] = $this->adminEmail;
