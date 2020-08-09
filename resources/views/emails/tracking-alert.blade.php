@@ -1,4 +1,7 @@
 <?php
+ $totals = $order['totals'];
+ $items = $order['items'];
+ $itemCount = $totals['items'];
  $tu = "http://www.aceluxurystore.com/track?o=".$order['reference'];
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
