@@ -742,17 +742,86 @@ function BOAAddOrderItem(o,dt){
 				 BOAItem.qty = qty;
 			 }
 			 else{
+				 ctr = localStorage.getItem(`ctr_${o}`);
+				 if(!ctr){
+					 ctr = 0;
+				 }
+				
 			   items.push({
+				  ctr: ctr,
 				 sku: dtt.value,
 				 qty: qty
-			   });	 
+			   });
+               localStorage.setItem(`ctr_${o}`, parseInt(ctr) + 1);			   
 			 }
 			 
    localStorage.setItem(`items_${o}`,JSON.stringify(items));
 			 
 }
 
+function computeTotal(i){
+	let ret = {
+		id: i,
+		displays: [],
+		subtotal: 0, 
+		delivery: 0 
+	};
+	
+	let itemsJSON = localStorage.getItem(`items_${i}`);
+    if(!itemsJSON){
+	   itemsJSON = "[]";
+	}
+	let items = JSON.parse(itemsJSON);
+	
+	if(items.length > 0){
+		for(let ii = 0; ii < items.length; ii++){
+			let item = items[ii];
+			let p = products.find(pp => pp.sku == item.sku);
+			if(p){
+				ret.displays.push({
+					sku: p.sku,
+					ctr: item.ctr,
+					qty: item.qty,
+					amount: parseInt(p.amount)
+				});
+				ret.subtotal += (parseInt(item.qty) * parseInt(p.amount));
+			}
+		}
+		console.log("displays",ret);
+	}
+	
+	return ret;
+			 
+}
+
+function displayTotal(dt){
+	/**
+	delivery: 0
+displays: Array(3)
+0: {sku: "ACE3676LX685", qty: "3", amount: 3500}
+1: {sku: "ACE9151LX254", qty: "2", amount: 1400}
+2: {sku: "ACE6870LX226", qty: "3", amount: 1000}
+length: 3
+__proto__: Array(0)
+subtotal: 16300
+	**/
+	
+	if(dt){
+	  if(parseInt(dt.subtotal) > 0 && dt.displays.length > 0){
+		 str = ``;
+		 for(let x = 0; x < dt.displays.length; x++){
+			 let item = dt.displays[x];
+			 str += `<p id="bao-${dt.id}-totals-${item.ctr}">${item.sku} <b>(x${item.qty})</b>: <em>N${parseInt(item.qty) * item.amount}</em>
+  			 <a href="javascript:void(0)" onclick="cancelProduct({b: ${dt.id},ctr: ${item.ctr}})">Cancel</a>
+			 </p> `;
+		 }
+		 document.querySelector(`#bao-${dt.id} .total`).innerHTML = str;
+	  }
+	}
+}
+
 function BAOAddProductQty(o,dt){
+	
 	if(dt.selectedData){
 		let dtt = dt.selectedData;
 		Swal.fire({
@@ -765,7 +834,7 @@ function BAOAddProductQty(o,dt){
          confirmButtonText: 'Add to order',
          showLoaderOnConfirm: true,
          preConfirm: (qty) => {
-			 console.log([qty,dt]);
+			 //console.log([qty,dt]);
           if(isNaN(qty) || parseInt(qty) > parseInt(dtt.qty)){
 			  msg = ``;
 			  if(isNaN(qty)) msg = `Please enter a valid number`;
@@ -775,6 +844,10 @@ function BAOAddProductQty(o,dt){
 		  else{
 			 // console.log([qty,dtt]);
 			  BOAAddOrderItem(o,[dtt,qty]);
+			  
+			  //Add to total <tr>
+			  let totals = computeTotal(o);
+			  displayTotal(totals);
 			  return {status: "ok",value:[qty,dtt]};
 		  }
         },
@@ -863,7 +936,7 @@ function BAOAddProduct(b){
       }
     });
 	
-	localStorage.setItem(`ctr_${b}`, ctr + 1);
+	
 }
 
 function BAOAddRow(){
@@ -920,12 +993,11 @@ function BAOAddRow(){
 	   </td>
 	   <td><textarea class="form-control notes"></textarea></td>
 	   <td>
-	    
+	    <div class="total"></div>
 	   </td>
 	   <td>
 	   <input type="hidden" class="sku" value="1">
 	   <input type="hidden" class="qty" value="1">
-	   <button onclick="BAOAddProduct('${baoCounter}'); return false;" class="btn btn-primary">Add product</button>
 	   <button onclick="BAORemoveRow('${baoCounter}'); return false;" class="btn btn-danger">Remove</button>
 	  
 	   </td>
@@ -938,6 +1010,35 @@ function BAOAddRow(){
 	BAOAddProduct(baoCounter);
 	
 	++baoCounter;
+	++orderCount;
+}
+
+function cancelProduct(dt){
+	
+	//update items
+	let itemsJSON = localStorage.getItem(`items_${dt.b}`);
+    if(!itemsJSON){
+	   itemsJSON = "[]";
+	}
+	let items = JSON.parse(itemsJSON);
+	
+	if(items.length > 0){
+		temp = [];
+		x = items.find(pp => pp.ctr == dt.ctr);
+		if(x){
+		  for(let ii = 0; ii < items.length; ii++){
+			if(items[ii] != x) temp.push(items[ii]);
+		  }	
+		}
+		 localStorage.setItem(`items_${dt.b}`,JSON.stringify(temp));
+		 let t = $(`#bao-${dt.b}-totals-${dt.ctr}`);
+		 console.log(t);
+		 t.remove();
+		 
+		 //Refresh total <tr>
+	     let totals = computeTotal(dt.b);
+		 displayTotal(totals);
+	}
 }
 
 function BAORemoveRow(ctr){
@@ -948,6 +1049,147 @@ function BAORemoveRow(ctr){
 	localStorage.removeItem(`ctr_${ctr}`);
 	localStorage.removeItem(`items_${ctr}`);
 	localStorage.removeItem(`user_${ctr}`);
+}
+
+function BAO(){
+	hideElems('bao');
+	console.log("order count: ",orderCount);
+	//localStorage.removeItem("buupCtr");
+	
+	//let user = localStorage.getItem("");
+	
+	if(orderCount < 1){
+		showSelectError('bao','order');
+	}
+	
+	else{
+	ret = [], hasUnfilledQty = false;
+
+	for(let i = 0; i < orderCount; i++){
+		let BAOitem = `#bao-${i}`;
+		notes = $(`${BAOitem}-notes`).val();
+		price = $(`${BAOitem} input.price`).val();
+		stock = $(`${BAOitem} input.stock`).val();
+		category = $(`${BAOitem} select.category`).val();
+		status = $(`${BAOitem} select.status`).val();
+		
+			if(desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
+				let temp = {
+					id: BUPitem,
+					data:{
+					  desc: desc,
+					  price: price,
+					  stock: stock,
+					  category: category,
+					  status: status,
+					}
+				};
+				BUUPlist.push(temp);
+			}
+			else{
+				hasUnfilledQty = true;
+			}		
+	}
+	
+	   if(hasUnfilledQty){
+		   showSelectError('bao','validation');
+	   }
+	   else{
+		 //console.log("ret: ",ret);
+		 
+		 /**
+		 $('#buup-dt').val(JSON.stringify(ret));
+		$('#buup-form').submit();
+		
+		 **/
+		 $('#button-box').hide();
+		 $('#result-box').fadeIn();
+		
+		 baoFire();
+	   }
+  }
+   
+}
+
+function baoFire(){
+	 let bc = localStorage.getItem("buupCtr");
+	     if(!bc) bc = "0";
+		 
+		 
+		
+		 let fd = new FormData();
+		 fd.append("dt",JSON.stringify(BUUPlist[bc]));
+		 imgs = []; covers = [];
+		
+		//imgs = $(`${BUPitem}-image`)[0].files;
+		imgs = $(`${BUUPlist[bc].id}-images-div input[type=file]`);
+		cover = $(`${BUUPlist[bc].id}-images-div input[type=radio]:checked`);
+		console.log("imgs: ",imgs);
+		console.log("cover: ",cover);
+		
+		for(let r = 0; r < imgs.length; r++)
+		 {
+		    let imgg = imgs[r];
+			let imgName = imgg.getAttribute("name");
+            console.log("imgg name: ",imgName);			
+            console.log("cover: ",cover.val());
+            fd.append(imgName,imgg.files[0]);   			   			
+		 }
+		 
+		 fd.append(cover.attr("name"),cover.val());
+		 
+		 
+		 fd.append("_token",$('#tk').val());
+		 console.log("fd: ",fd);
+         
+	
+	//create request
+	const req = new Request("buup",{method: 'POST', body: fd});
+	//console.log(req);
+	
+	
+	//fetch request
+	fetch(req)
+	   .then(response => {
+		   if(response.status === 200){
+			   //console.log(response);
+			   
+			   return response.json();
+		   }
+		   else{
+			   return {status: "error:", message: "Network error"};
+		   }
+	   })
+	   .catch(error => {
+		    alert("Failed to upload product: " + error);			
+	   })
+	   .then(res => {
+		   console.log(res);
+          bc = parseInt(bc) + 1;
+			     localStorage.setItem("buupCtr",bc);
+				 
+		   if(res.status == "ok"){
+                  $('#result-ctr').html(bc);
+		   }
+		   else if(res.status == "error"){
+				     alert("An unknown network error has occured. Please refresh the app or try again later");			   
+		   }
+		   
+		    setTimeout(function(){
+			       if(bc >= buupCounter){
+					  $('#result-box').hide();
+					  $("#finish-box").fadeIn();
+					  window.location = "buup";
+				  }
+                  else{
+					 buupFire();
+				  }				  
+		    },4000);
+		   
+		  
+	   }).catch(error => {
+		    alert("Failed to send message: " + error);			
+	   });
 }
 
 

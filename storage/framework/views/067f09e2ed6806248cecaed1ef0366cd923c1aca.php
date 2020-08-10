@@ -31,7 +31,7 @@
 <?php $__env->startSection('content'); ?>
 <script>
 let categories = [], products = [], orders = [],
-   customerTypes = [], users = [], baoCounter = 0;
+   customerTypes = [], users = [], baoCounter = 0, orderCount = 0;
  
  <?php $__currentLoopData = $c; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
  	<?php if($cc['status'] == "enabled"): ?>
@@ -84,7 +84,7 @@ let categories = [], products = [], orders = [],
                 <div class="block">
                     <div class="header">
                         <h2>Add new orders</h2><br>
-                        <h4 style="margin:20px; padding: 10px; border: 1px dashed #fff; with: 50%;"><span class="label label-success text-uppercase">Tip:</span> When you click <em>Select product</em>, scroll down to view and select the desired product</h4>
+                        <h4 style="margin:20px; padding: 10px; border: 1px dashed #fff; with: 50%;"><span class="label label-success text-uppercase">Tip:</span> Use the <em>Products</em> widget to add products to your order. It can be used mutliple times.</h4>
                     </div>
                    <div class="content">
 				    <form action="<?php echo e(url('new-order')); ?>" id="bao-form" method="post" enctype="multipart/form-data">
@@ -118,7 +118,7 @@ let categories = [], products = [], orders = [],
                                 <div class="hp-sm" id="button-box">
 								 <button onclick="BAOAddRow(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add new order</button>
 							
-								 <h3 id="bao-select-product-error" class="label label-danger text-uppercase bao-hide mr-5 mb-5">Please add a new order</h3>
+								 <h3 id="bao-select-order-error" class="label label-danger text-uppercase bao-hide mr-5 mb-5">Please add a new order</h3>
 								 <h3 id="bao-select-validation-error" class="label label-danger text-uppercase bao-hide">All fields are required</h3>
 								 <br>
 								 <button onclick="BAO(); return false;" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
