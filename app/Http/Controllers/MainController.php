@@ -1356,7 +1356,24 @@ class MainController extends Controller {
 		}
 		
 		
-		$ccarts = $this->helpers->getCarts();
+		$carts = $this->helpers->getCarts();
+		$ccarts = [];
+	    
+        if(count($carts) > 0)
+        {
+		    foreach($carts as $c)
+		    {
+			  $uid = $c['user_id'];
+			  if(isset($ccarts[$uid]))
+              {
+              	array_push($ccarts[$uid],$c);
+              }
+              else
+              {
+              	$ccarts[$uid] = [$c];
+              }
+           }
+        }
 		dd($ccarts);
 		$categories = $this->helpers->getCategories();
 		
