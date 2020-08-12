@@ -39,7 +39,7 @@
 				    ?>
                       <tr>
 					   
-					   <td>{{$u}}</td>
+					   <td>{!! $u !!}</td>
 					    <td>
 						<?php
 						 foreach($cart as $c)
