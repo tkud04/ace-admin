@@ -57,6 +57,38 @@ class MainController extends Controller {
 		#dd($lowStockProducts);
     	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','lowStockProducts','ccarts','signals']));
     }
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSettings()
+    {
+       $user = null;
+
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$signals = $this->helpers->signals;
+		//$accounts = $this->helpers->getUsers();
+		$accounts = [];
+		$settings = $this->helpers->getSettings();
+		$senders = $this->helpers->getSenders();
+		
+    	return view('settings',compact(['user','settings','senders','signals']));
+    }
 
      /**
 	 * Show the application welcome screen to the user.
@@ -2397,7 +2429,7 @@ class MainController extends Controller {
     }
     
     
-
+   
 	
 	
 	
