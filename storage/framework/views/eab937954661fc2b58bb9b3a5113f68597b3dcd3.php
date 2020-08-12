@@ -124,13 +124,15 @@
 						  else
 						  {
 						    $ct = "cart";
+						    $prepo = "is";
 						   
 						   if($cartsCount > 1)
 						   {
 							   $ct = "carts";
+							   $prepo = "are";
 						   }
 						  ?>
-							<h4><?php echo e($cartsCount); ?> <?php echo e($ct); ?> are currently filled with items.</h4>
+							<h4><?php echo e($cartsCount); ?> <?php echo e($ct); ?> <?php echo e($prepo); ?> currently filled with items.</h4>
                             <a href="<?php echo e(url('carts')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View <?php echo e($ct); ?></a> 
 						  <?php						
 						  }

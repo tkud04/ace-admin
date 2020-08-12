@@ -1224,4 +1224,61 @@ function baoFire(){
 	   });
 }
 
+function updateDeliveryFees(dt){
+		
+		 let fd = new FormData();
+		 fd.append("dt",JSON.stringify(dt));
+		 fd.append("_token",$('#tk').val());
+		 
+	
+	//create request
+	const req = new Request("settings-delivery",{method: 'POST', body: fd});
+	//console.log(req);
+	
+	
+	//fetch request
+	fetch(req)
+	   .then(response => {
+		   if(response.status === 200){
+			   //console.log(response);
+			   
+			   return response.json();
+		   }
+		   else{
+			   return {status: "error", message: "Technical error"};
+		   }
+	   })
+	   .catch(error => {
+		    alert("Failed to update delivery: " + error);			
+			$('#settings-delivery-loading').hide();
+		     $('#settings-delivery-submit').fadeIn();
+	   })
+	   .then(res => {
+		   console.log(res);
+          
+				 
+		   if(res.status == "ok"){
+                  $('#settings-d1').html(dt.d1);
+                  $('#settings-d2').html(dt.d2);
+				  $('#settings-delivery-side2').hide();
+				  $('#settings-delivery-loading').hide();
+		     $('#settings-delivery-submit').fadeIn();		
+              $('#settings-delivery-side1').fadeIn();
+		   }
+		   else if(res.status == "error"){
+				     alert("An unknown error has occured. Please refresh the app or try again later");
+                   $('#settings-delivery-loading').hide();
+		     $('#settings-delivery-submit').fadeIn();					 
+		   }
+		   
+		  
+		   
+		  
+	   }).catch(error => {
+		    alert("Failed to update delivery: " + error);	
+            $('#settings-delivery-loading').hide();
+		     $('#settings-delivery-submit').fadeIn();			
+	   });
+}
+
 

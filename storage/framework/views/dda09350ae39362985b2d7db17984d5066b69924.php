@@ -1,8 +1,6 @@
-@extends('layout')
+<?php $__env->startSection('title',"Settings"); ?>
 
-@section('title',"Settings")
-
-@section('content')
+<?php $__env->startSection('content'); ?>
    <?php
 								 $statuses = ['none' => "Select tracking status",
 								              'pickup' => "Scheduled for Pickup",
@@ -18,18 +16,19 @@
                     <div class="user bg-default bg-light-rtl">
                         <div class="info">                                                                                
                             <a href="#" class="informer informer-three">
-                                <span>{{$user->fname}}</span>
-									{{$user->lname}}
+                                <span><?php echo e($user->fname); ?></span>
+									<?php echo e($user->lname); ?>
+
                             </a>                            
                             <a href="#" class="informer informer-four">
-                                <span>{{strtoupper($user->role)}}</span>
+                                <span><?php echo e(strtoupper($user->role)); ?></span>
                                 Role
                             </a>                                                        
                             <img src="img/icon.png" class="img-circle img-thumbnail"/>
                         </div>
                     </div>
                     <div class="content list-group list-group-icons">
-                        <a href="{{url('logout')}}" class="list-group-item"><span class="icon-off"></span>Logout<i class="icon-angle-right pull-right"></i></a>
+                        <a href="<?php echo e(url('logout')); ?>" class="list-group-item"><span class="icon-off"></span>Logout<i class="icon-angle-right pull-right"></i></a>
                     </div>
                 </div> 
                 
@@ -54,7 +53,7 @@
 						   {
 						  ?>	  
 						  <h4>No senders added yet.</h4>
-						  <a href="{{url('add-sender')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add one now</a> 
+						  <a href="<?php echo e(url('add-sender')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add one now</a> 
 					      <?php
 						   }
 						  else
@@ -68,12 +67,12 @@
 							
 						   }
 						  ?>
-							<h4>{{$sendersCount}} {{$ct}} added.</h4>
-							@if(count($sender) > 0) 
-							<h5>Current Sender: {{$sender['sn']}} ({{$sender['se']}}).</h5>
-							<h6>Last updated: {{$settings['smtp']['updated']}} </h6>
-							@endif
-                            <a href="{{url('senders')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View {{$ct}}</a> 
+							<h4><?php echo e($sendersCount); ?> <?php echo e($ct); ?> added.</h4>
+							<?php if(count($sender) > 0): ?> 
+							<h5>Current Sender: <?php echo e($sender['sn']); ?> (<?php echo e($sender['se']); ?>).</h5>
+							<h6>Last updated: <?php echo e($settings['smtp']['updated']); ?> </h6>
+							<?php endif; ?>
+                            <a href="<?php echo e(url('senders')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View <?php echo e($ct); ?></a> 
 						  <?php						
 						  }
                           ?>               
@@ -98,13 +97,13 @@
 						  ?>	  
 						  <div id="settings-delivery-side1">
 						  
-							<h4>Southwest states (Lagos, Ondo, Ekiti, Osun, Oyo, Ogun): &#8358;<span id="settings-d1">{{$delivery1}}</span></h4>
-							<h4>Other states: &#8358;<span id="settings-d2">{{$delivery2}}</span></h4>
+							<h4>Southwest states (Lagos, Ondo, Ekiti, Osun, Oyo, Ogun): &#8358;<span id="settings-d1"><?php echo e($delivery1); ?></span></h4>
+							<h4>Other states: &#8358;<span id="settings-d2"><?php echo e($delivery2); ?></span></h4>
                             <a href="javascript:void(0)" id="settings-delivery-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a> 
 						 </div>
 						 <div id = "settings-delivery-side2">
 						   <form id="settings-delivery-form">
-						   	<input type="hidden" id="tk" value="{{csrf_token()}}">
+						   	<input type="hidden" id="tk" value="<?php echo e(csrf_token()); ?>">
 						    <div class="form-group">
 							  <span class="control-label">Fee for Southwest states</span>
 							  <input type="number" class="form-control" id="settings-delivery-d1" placeholder="Lagos, Ondo, Ekiti, Osun, Oyo, Ogun" required>
@@ -167,4 +166,5 @@
                 </div>
 				 
 		</div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/settings.blade.php ENDPATH**/ ?>

@@ -13,6 +13,6 @@ class Settings extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'value'
+        'name', 'value','status'
     ];
 }

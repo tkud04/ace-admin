@@ -85,10 +85,15 @@ class MainController extends Controller {
 		//$accounts = $this->helpers->getUsers();
 		$accounts = [];
 		$smtp = $this->helpers->getSetting('smtp');
+		$d1 = $this->helpers->getSetting('delivery1');
+		$d2 = $this->helpers->getSetting('delivery2');
+		#dd($smtp);
 		$sender = $this->helpers->getSender($smtp['value']);
 		$senders = $this->helpers->getSenders();
 		$settings = [
 		   'smtp' => $smtp,
+		   'd1' => $d1,
+		   'd2' => $d2,
 		   
         ];
     	return view('settings',compact(['user','settings','senders','sender','signals']));
@@ -133,6 +138,38 @@ class MainController extends Controller {
 		}
 		
         return json_encode($ret);	
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postSettingsDelivery(Request $request)
+    {	
+       $req = $request->all();
+		  # dd($req); 
+        $validator = Validator::make($req, [
+                             'dt' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			$dt = json_decode($req['dt']);
+			foreach($dt as $key => $value)
+			{
+              $this->helpers->updateSetting($key,$value);			
+			}
+			
+			return json_encode(['status' => "ok"]);
+         }       
     }
 
      /**

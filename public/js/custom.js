@@ -4,6 +4,9 @@ $(document).ready(function(){
 	$('#result-box').hide();
 	$('#finish-box').hide();
 	
+	$('#settings-delivery-side2').hide();
+	$('#settings-delivery-loading').hide();
+	
 	hideUnselects();
 	hideSelectErrors();
 	if($("#add-discount-type").val() == "single"){} 
@@ -62,6 +65,27 @@ $(document).ready(function(){
 			   else{
 			    $('#sku-form-row').hide();			 
 			   }
+		  });
+		  
+		  $("#settings-delivery-btn").click(function(e){            
+		       e.preventDefault();
+              $('#settings-delivery-side1').hide();
+              $('#settings-delivery-side2').fadeIn();
+		  });
+
+		  $("#settings-delivery-form").submit(function(e){            
+		       e.preventDefault();
+			   let d1 = $('#settings-delivery-d1').val(), d2 = $('#settings-delivery-d2').val();
+			   
+			   if(d1 == "" || parseInt(d1) < 1 || d2 == "" || parseInt(d2) < 1){
+				   alert("All fields are required");
+			   }
+			   else{
+				   
+			   }
+             $('#settings-delivery-submit').hide();
+		     $('#settings-delivery-loading').fadeIn();
+			 updateDeliveryFees({d1: d1, d2: d2});
 		  });
 		  
 });

@@ -1981,7 +1981,8 @@ function getRandomString($length_of_string)
 	function getSetting($id)
 	{
 		$temp = [];
-		$s = Settings::where('id',$id)->first();
+		$s = Settings::where('id',$id)
+		             ->orWhere('name',$id)->first();
  
               if($s != null)
                {
@@ -2010,6 +2011,21 @@ function getRandomString($length_of_string)
                }                         
                                                       
                 return $ret;
+           }
+		   
+	  function updateSetting($a,$b)
+           {
+			
+				 $s = Settings::where('name',$a)
+				              ->orWhere('id',$a)->first();
+			 
+			 
+			 if(!is_null($s))
+			 {
+				 $s->update(['value' => $b]);
+			  
+			 }
+           	
            }
            
            
