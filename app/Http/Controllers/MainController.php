@@ -84,10 +84,14 @@ class MainController extends Controller {
 		$signals = $this->helpers->signals;
 		//$accounts = $this->helpers->getUsers();
 		$accounts = [];
-		$settings = $this->helpers->getSettings();
+		$smtp = $this->helpers->getSetting('smtp');
+		$sender = $this->helpers->getSender($smtp['value']);
 		$senders = $this->helpers->getSenders();
-		
-    	return view('settings',compact(['user','settings','senders','signals']));
+		$settings = [
+		   'smtp' => $smtp,
+		   
+        ];
+    	return view('settings',compact(['user','settings','senders','sender','signals']));
     }
     
     /**
