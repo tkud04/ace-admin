@@ -92,13 +92,13 @@
                         <div class="head-panel nm">
 						<br>
 						  <?php
-						  $delivery1 = 1000;
-						  $delivery2 = 2000;
+						  $delivery1 = $settings['d1']['value'];
+						  $delivery2 = $settings['d2']['value'];
 						
 						  ?>	  
 						  
-							<h4>Lagos, Ondo, Ekiti, Osun, Oyo, Ogun: <span id="settings-d1">{{$delivery1}}</span></h4>
-							<h4>Other states: <span id="settings-d2">{{$delivery2}}</span></h4>
+							<h4>Lagos, Ondo, Ekiti, Osun, Oyo, Ogun: &#8358;<span id="settings-d1">{{$delivery1}}</span></h4>
+							<h4>Other states: &#8358;<span id="settings-d2">{{$delivery2}}</span></h4>
                             <a href="javascript:void(0)" id="settings-delivery-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a> 
 						           
                         </div>                        
