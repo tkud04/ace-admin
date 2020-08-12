@@ -14,11 +14,10 @@
 					     
                         <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable">
                             <thead>
-                                <tr>
-                                    <th width="20%">Date added</th>
+                                <tr>                                  
                                     <th width="20%">User</th>
                                     <th width="20%">Items</th>                                                                       
-                                    <th width="20%">Status</th>                                                                    
+                                    <th width="20%">Date added</th>                                                  
                                 </tr>
                             </thead>
                             <tbody>
@@ -26,28 +25,31 @@
 							  
 					  if(count($ccarts) > 0)
 					  {
-						 foreach($ccarts as $c)
+						 foreach($ccarts as $cc)
 						 {
-							 $items = $o['items'];
-							 $totals = $o['totals'];
-							 $statusClass = $o['status'] == "paid" ? "success" : "danger";
-							 $uu = "#";
+							 $uuser = $cc['user'];
+							 $cart = $cc['data'];
+							 
+							$u = "Guest";
+							
+							if(count($uuser) > 0)
+                            {
+                            	$u = $uuser['fname']." ".$uuser['lname'];
+                                $u .= "<br> Contact details: ".$uuser['phone']." | ".$user['email'];
+                           }
 				    ?>
                       <tr>
-					   <td>{{$c['date']}}</td>
-					   <td>{{$o['reference']}}</td>
+					   
+					   <td>{{$u}}</td>
 					    <td>
 						<?php
-						 foreach($items as $i)
+						 foreach($cart as $c)
 						 {
-							 $product = $i['product'];
+							 $product = $c['product'];
 							 $sku = $product['sku'];
 							  $img = $product['imggs'][0];
-							 $qty = $i['qty'];
+							 $qty = $c['qty'];
 							 $pu = url('edit-product')."?id=".$product['sku'];
-							 $tu = url('edit-order')."?r=".$o['reference'];
-							 $ttu = url('track')."?o=".$o['reference'];
-							$du = url('delete-order')."?o=".$o['reference'];
 						 ?>
 						 <span>
 						 <a href="{{$pu}}" target="_blank">
@@ -58,14 +60,9 @@
 						 <?php
 						 }
 						?>
-						<b>Total: &#8358;{{number_format($o['amount'],2)}}</b>
+						<b>Added on {{$c['date']}}</b>
 					   </td>	  
-					   <td><span class="label label-{{$statusClass}}">{{strtoupper($o['status'])}}</span></td>
-					   <td>
-					     <a class="btn btn-primary" href="{{$tu}}">View</span>&nbsp;&nbsp;
-					     <a class="btn btn-warning" href="{{$ttu}}">Track</span>&nbsp;&nbsp;
-					     <a class="btn btn-danger" href="{{$du}}">Delete</span>
-					   </td>
+					
 					 </tr>
 					<?php
 						 }  
