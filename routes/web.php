@@ -87,7 +87,7 @@ Route::post('bcp', 'MainController@postBulkConfirmPayment');
 Route::get('bup', 'MainController@getBulkUpdateProducts');
 Route::post('bup', 'MainController@postBulkUpdateProducts');
 Route::get('buup', 'MainController@getBulkUploadProducts');
-Route::post('buup', 'MainController@postBulkUploadProducts')
+Route::post('buup', 'MainController@postBulkUploadProducts');
 
 Route::get('add-setting', 'MainController@getAddSetting');
 Route::get('settings', 'MainController@getSettings');
