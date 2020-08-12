@@ -1364,13 +1364,15 @@ class MainController extends Controller {
 		    foreach($carts as $c)
 		    {
 			  $uid = $c['user_id'];
+			  
 			  if(isset($ccarts[$uid]))
               {
-              	array_push($ccarts[$uid],$c);
+              	array_push($ccarts[$uid]['data'],$c);
               }
               else
               {
-              	$ccarts[$uid] = [$c];
+              	$u = $this->helpers->getUser($uid);
+              	$ccarts[$uid] = [ 'user' => $u, 'data' => [$c] ];
               }
            }
         }
