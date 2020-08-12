@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Settings extends Model
+class Senders extends Model
 {
 
     /**
@@ -13,6 +13,7 @@ class Settings extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'value'
+        'ss', 'sp', 'sec', 'sa', 'su', 'spp', 'sn', 'se', 'status'
     ];
+    
 }
