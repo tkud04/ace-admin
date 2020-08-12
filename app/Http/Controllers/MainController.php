@@ -1376,7 +1376,7 @@ class MainController extends Controller {
               }
            }
         }
-		dd($ccarts);
+		#dd($ccarts);
 		$categories = $this->helpers->getCategories();
 		
 		$signals = $this->helpers->signals;
