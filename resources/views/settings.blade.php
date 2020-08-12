@@ -48,9 +48,9 @@
                         <div class="head-panel nm">
 						<br>
 						  <?php
-						   $smtpCount = count($smtp);
+						   $sendersCount = count($senders);
 						   
-						  if($smtpCount < 1)
+						  if($sendersCount < 1)
 						   {
 						  ?>	  
 						  <h4>No senders added yet.</h4>
@@ -62,13 +62,13 @@
 						    $ct = "sender";
 						    
 						   
-						   if($smtpCount > 1)
+						   if($sendersCount > 1)
 						   {
 							   $ct = "senders";
 							
 						   }
 						  ?>
-							<h4>{{$smtpCount}} {{$ct}} added.</h4>
+							<h4>{{$sendersCount}} {{$ct}} added.</h4>
 							@if(count($sender) > 0) 
 							<h5>Current Sender: {{$sender['sn']}} ({{$sender['se']}}).</h5>
 							<h6>Last updated: {{$settings['smtp']['updated']}} </h6>
