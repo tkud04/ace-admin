@@ -1965,6 +1965,19 @@ function getRandomString($length_of_string)
 		}
 	}
 	
+	function createSetting($data)
+           {
+			   #dd($data);
+			 $ret = null;
+			 
+			 
+				 $ret = Settings::create(['name' => $data['k'], 
+                                                      'value' => $data['v'],                                                      
+                                                      'status' => "enabled", 
+                                                      ]);
+			  return $ret;
+           }
+	
 	function getSetting($id)
 	{
 		$temp = [];
