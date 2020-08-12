@@ -89,6 +89,47 @@ class MainController extends Controller {
 		
     	return view('settings',compact(['user','settings','senders','signals']));
     }
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddSetting(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       $ret = ['status' => "ok",'data' => "nothing happened"];
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if($this->helpers->isAdmin($user))
+			{
+				
+			
+			$req = $request->all();
+			
+            $validator = Validator::make($req, [                            
+                             'k' => 'required',
+                             'v' => 'required',
+            ]);
+         
+            if($validator->fails())
+            {
+               $ret = ['status' => "error",'message' => "validation"];
+            }
+         
+            else
+            {
+              $s = $this->helpers->createSetting($req);
+              $ret = ['status' => "ok",'data' => "settings updated"];
+            }
+          }
+		}
+		
+        return json_encode($ret);	
+    }
 
      /**
 	 * Show the application welcome screen to the user.
