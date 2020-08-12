@@ -16,8 +16,7 @@
                             <thead>
                                 <tr>                                  
                                     <th width="20%">User</th>
-                                    <th width="20%">Items</th>                                                                       
-                                    <th width="20%">Date added</th>                                                  
+                                    <th width="20%">Items</th>
                                 </tr>
                             </thead>
                             <tbody>
