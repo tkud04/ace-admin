@@ -15,7 +15,7 @@
                         <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable">
                             <thead>
                                 <tr>
-                                    <th width="20%">Date</th>
+                                    <th width="20%">Date added</th>
                                     <th width="20%">User</th>
                                     <th width="20%">Items</th>                                                                       
                                     <th width="20%">Status</th>                                                                    
@@ -23,7 +23,7 @@
                             </thead>
                             <tbody>
 							  <?php
-							  $ccarts = [];
+							  
 					  if(count($ccarts) > 0)
 					  {
 						 foreach($ccarts as $c)
@@ -34,7 +34,7 @@
 							 $uu = "#";
 				    ?>
                       <tr>
-					   <td>{{$o['date']}}</td>
+					   <td>{{$c['date']}}</td>
 					   <td>{{$o['reference']}}</td>
 					    <td>
 						<?php

@@ -125,13 +125,15 @@
 						  else
 						  {
 						    $ct = "cart";
+						    $prepo = "is";
 						   
 						   if($cartsCount > 1)
 						   {
 							   $ct = "carts";
+							   $prepo = "are";
 						   }
 						  ?>
-							<h4>{{$cartsCount}} {{$ct}} are currently filled with items.</h4>
+							<h4>{{$cartsCount}} {{$ct}} {{$prepo}} currently filled with items.</h4>
                             <a href="{{url('carts')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View {{$ct}}</a> 
 						  <?php						
 						  }
