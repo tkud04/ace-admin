@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title',"Dashboard")
+@section('title',"Settings")
 
 @section('content')
    <?php
@@ -34,35 +34,6 @@
                 </div> 
                 
                
-                <div class="block block-drop-shadow">                    
-                    <div class="head bg-dot20">
-                        <h2>Total profit (&#8358;)</h2>
-                        <div class="side pull-right">               
-                            <ul class="buttons">                                
-                                <li><a href="#"><span class="icon-cogs"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="head-subtitle">Total amount generated from sales </div>                        
-                        <div class="head-panel tac" style="line-height: 0px;">
-                                                    
-                        </div>
-                        <div class="head-panel nm">
-                            <div class="hp-info hp-simple pull-left hp-inline">
-                                <span class="hp-main">Total profit</span>
-                                <span class="hp-sm">Amount: &#8358;{{number_format($profits['total'],2)}} </span>
-                            </div>   
-							<div class="hp-info hp-simple pull-left hp-inline">
-                                <span class="hp-main">Total profit today</span>
-                                <span class="hp-sm">Amount: &#8358;{{number_format($profits['today'],2)}} </span>
-                            </div>                 
-                            <div class="hp-info hp-simple pull-left hp-inline">
-                                <span class="hp-main">Total profit this month</span>
-                                 <span class="hp-sm">Amount: &#8358;{{number_format($profits['month'],2)}} </span>
-                            </div>                 
-                        </div>                        
-                    </div>                    
-                    
-                </div>                
                 
             </div>
             
@@ -70,34 +41,39 @@
                
                 <div class="block block-drop-shadow">                    
                         <div class="head bg-dot20">
-                        <h2>Confirm payments</h2>
+                        <h2>SMTP Senders</h2>
                         
-                        <div class="head-subtitle">Confirm bank payment for multiple orders</div>                        
+                        <div class="head-subtitle">SMTP details used by the system to send emails</div>                        
                         
                         <div class="head-panel nm">
 						<br>
 						  <?php
-						  $unpaidOrders = $ordersCollection->where('status',"unpaid");
-						   $uocount = count($unpaidOrders);
+						   $smtpCount = count($smtp);
 						   
-						  if($uocount < 1)
+						  if($smtpCount < 1)
 						   {
 						  ?>	  
-						  <h4>No unpaid orders to confirm today.</h4>
+						  <h4>No senders added yet.</h4>
+						  <a href="{{url('add-sender')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add one now</a> 
 					      <?php
 						   }
 						  else
 						  {
-						   $ot = "order"; $ct = "payment";
+						    $ct = "sender";
+						    
 						   
-						   if($uocount > 1)
+						   if($smtpCount > 1)
 						   {
-							   $ot = "orders";
-							   $ct = "payments";
+							   $ct = "senders";
+							
 						   }
 						  ?>
-							<h4>{{$uocount}} unpaid {{$ot}} on your website.</h4>
-                            <a href="{{url('bcp')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Confirm {{$ct}}</a> 
+							<h4>{{$smtpCount}} {{$ct}} added.</h4>
+							@if(count($sender) > 0) 
+							<h5>Current Sender: {{$sender['sn']}} ({{$sender['se']}}).</h5>
+							<h6>Last updated: {{$settings['smtp']['updated']}} </h6>
+							@endif
+                            <a href="{{url('senders')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View {{$ct}}</a> 
 						  <?php						
 						  }
                           ?>               
@@ -108,70 +84,47 @@
                 </div> 
 				
 				<div class="block block-drop-shadow">                    
-                   <div class="head bg-dot20">
-                      <h2>Upload Products</h2>  
-                      <div class="head-subtitle text-warning">Pro tips:</div>                        
+                        <div class="head bg-dot20">
+                        <h2>Delivery fees</h2>
                         
-                      <div class="head-panel nm">
-						  <p>
-						  Upload at least 2 images for each product.<br>
-						  A good product description should be between 30 to 100 characters long.
-						  </p>
-					                   
-                          <a href="{{url('buup')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Upload products</a>						  
-                        </div>    
-					
-                    </div>                    
-                                       
-                    
-                </div>
-
-            </div> 
-			<div class="col-md-5">
-             	
-				<div class="block block-drop-shadow">                    
-                    <div class="head bg-dot20">
-                        <h2>Track orders</h2>
-                        
-                        <div class="head-subtitle">Update tracking info for multiple orders</div>                        
+                        <div class="head-subtitle">Current delivery fees used by the system</div>                        
                         
                         <div class="head-panel nm">
 						<br>
 						  <?php
-						  $paidOrders = $ordersCollection->where('status',"paid");
-						   $pocount = count($paidOrders);
-						   
-						  if($pocount < 1)
-						   {
+						  $delivery1 = 1000;
+						  $delivery2 = 2000;
+						
 						  ?>	  
-						  <h4>No paid orders to track today.</h4>
-					      <?php
-						   }
-						  else
-						  {
-						   $ot = "order"; 
-						   
-						   if($pocount > 1)
-						   {
-							   $ot = "orders";
-						   }
-						  ?>
-							<h4>{{$pocount}} paid {{$ot}} on your website.</h4>
-							<?php
-							 $untrackedOrders = $paidOrders->where('current_tracking',null);
-						  $uto = count($untrackedOrders);
 						  
-						  if($uto > 0)
-						  {
-						  ?>
-						  <h5 style="color:red;">{{$uto}} order(s) have not been tracked yet.</h5>
-					      <?php
-						  }
-						  ?>             
-                            <a href="{{url('but')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Track {{$ot}}</a> 
-						  <?php						
-						  }
-                          ?>               
+							<h4>Lagos, Ondo, Ekiti, Osun, Oyo, Ogun: <span id="settings-d1">{{$delivery1}}</span></h4>
+							<h4>Other states: <span id="settings-d2">{{$delivery2}}</span></h4>
+                            <a href="javascript:void(0)" id="settings-delivery-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a> 
+						           
+                        </div>                        
+                    </div>                    
+                                       
+                    
+                </div> 
+				
+				
+
+            </div> 
+			<div class="col-md-5">
+         
+				
+				
+				<div class="block block-drop-shadow">                    
+                    <div class="head bg-dot20">
+                        <h2>Bank Account</h2>
+                        
+                        <div class="head-subtitle">Update payment info for bank payments</div>                        
+                        
+                        <div class="head-panel nm">
+						<br>
+						  
+							<h4>working..</h4>
+							   <a href="javascript:void(0)" id="settings-bank-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a>  
                         </div>                      
                     </div>                    
                                        
@@ -180,33 +133,15 @@
 				
 				<div class="block block-drop-shadow">                    
                    <div class="head bg-dot20">
-                      <h2>Update Stock</h2>  
-                      <div class="head-subtitle">Update stock for multiple products</div>                        
+                      <h2>Something</h2>  
+                      <div class="head-subtitle">Something will be here</div>                        
                         
                       <div class="head-panel nm">
 						<br>
-						  <?php
-						  $pcount = count($products);
-						  
-						   $pt = "product";
-						   
-						   if($pcount > 1)
-						   {
-							   $pt = "products";
-						   }
-						  ?>	  
-						  <h4>{{$pcount." ".$pt}} currently on your website.</h4>
-						  <?php
-						  $lsp = count($lowStockProducts);
-						  
-						  if($lsp > 0)
-						  {
-						  ?>
-						  <h5 style="color:red;">{{$lsp}} product(s) have below 10 pieces left.</h5>
-					      <?php
-						  }
-						  ?>             
-                          <a href="{{url('bup')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Update {{$pt}}</a>						  
+						  	  
+						  <h4>Current data.</h4>
+						           
+                          <a href="javascript:void(0)" id="settings-bankh-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a>  
                         </div>    
 					
                     </div>                    
