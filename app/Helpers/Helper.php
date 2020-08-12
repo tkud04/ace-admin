@@ -9,6 +9,7 @@ use Auth;
 use \Swift_Mailer;
 use \Swift_SmtpTransport;
 use App\User;
+use App\Carts;
 use App\ShippingDetails;
 use App\Products;
 use App\ProductData;
@@ -395,7 +396,7 @@ $subject = $data['subject'];
               return $ret; 
            }
 		   
-		   function getUsers()
+		   function getUsers($all=false)
            {
            	$ret = [];
               $users = User::where('id','>',"0")->get();
@@ -404,7 +405,7 @@ $subject = $data['subject'];
                {
 				  foreach($users as $u)
 				  {
-					  $uu = $this->getUser($u->id);
+					  $uu = $this->getUser($u->id,$all);
 					  array_push($ret,$uu);
 				  }
                }                         
@@ -412,7 +413,7 @@ $subject = $data['subject'];
                 return $ret;
            }
 		   
-		   function getUser($id)
+		   function getUser($id,$all=false)
            {
            	$ret = [];
                $u = User::where('email',$id)
@@ -425,7 +426,12 @@ $subject = $data['subject'];
                        //$temp['wallet'] = $this->getWallet($u);
                        $temp['phone'] = $u->phone; 
                        $temp['email'] = $u->email; 
-                       $temp['role'] = $u->role; 
+                       $temp['role'] = $u->role;
+                       if($all)
+					   {
+						   $sd =  $this->getShippingDetails($u);
+						   $temp['sd'] =  $sd[0];
+					   }					   
                        $temp['status'] = $u->status; 
                        $temp['verified'] = $u->verified; 
                        $temp['id'] = $u->id; 
@@ -433,6 +439,30 @@ $subject = $data['subject'];
                        $ret = $temp; 
                }                          
                                                       
+                return $ret;
+           }
+		   
+		   
+		    function getCarts()
+           {
+           	$ret = [];
+
+			  $carts = Carts::where('id','>',"0")->get();
+			  #dd($uu);
+              if($carts != null)
+               {
+               	foreach($carts as $c) 
+                    {
+                    	$temp = [];
+               	     $temp['id'] = $c->id; 
+               	     $temp['user_id'] = $c->user_id; 
+                        $temp['product'] = $this->getProduct($c->sku); 
+                        $temp['qty'] = $c->qty; 
+                        $temp['date'] = $c->created_at->format("jS F,Y h:i A"); 
+                        array_push($ret, $temp); 
+                   }
+               }                                 
+              			  
                 return $ret;
            }
 		   
@@ -1316,7 +1346,36 @@ $subject = $data['subject'];
 			   }
 			   
 			   return $ret;
-		   }	
+		   }
+
+		   function updateStock($s,$q)
+		   {
+			   $p = Products::where('sku',$s)->first();
+			   
+			   if($p != null)
+			   {
+				   $oldQty = ($p->qty == "" || $p->qty < 0) ? 0: $p->qty;
+				   $qty = $p->qty - $q;
+				   if($qty < 0) $qty = 0;
+				   $p->update(['qty' => $qty]);
+			   }
+		   }
+		   
+		   function clearNewUserDiscount($u)
+		   {
+			  # dd($user);
+			  if(!is_null($u))
+			  {
+			     $d = Discounts::where('sku',$u->id)
+			                 ->where('type',"user")
+							 ->where('discount',$this->newUserDiscount)->first();
+			   
+			     if(!is_null($d))
+			     {
+				   $d->delete();
+			     }
+			  }
+		   }		   
 
 
             function addOrder($user,$data,$gid=null)
@@ -1345,7 +1404,7 @@ $subject = $data['subject'];
                
 			   
 			   //clear cart
-			   $this->clearCart($user);
+			   //$this->clearCart($user);
 			   
 			   //if new user, clear discount
 			   $this->clearNewUserDiscount($user);
@@ -1849,6 +1908,60 @@ $subject = $data['subject'];
                                                       
                 return $ret;
            }
+		   
+function getRandomString($length_of_string) 
+           { 
+  
+              // String of all alphanumeric character 
+              $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; 
+  
+              // Shufle the $str_result and returns substring of specified length 
+              return substr(str_shuffle($str_result),0, $length_of_string); 
+            } 
+		   
+		   function getPaymentCode($r=null)
+		   {
+			   $ret = "";
+			   
+			   if(is_null($r))
+			   {
+				   $ret = "ACE_".rand(1,99)."LX".rand(1,99);
+			   }
+			   else
+			   {
+				   $ret = "ACE_".$r;
+			   }
+			   return $ret;
+		   }		
+		
+	function bulkAddOrder($order)
+	{
+		$dt = [];
+		$u = $order->user;
+		$items = $order->items;
+		$notes = $order->notes;
+		
+		$dt['ref'] = $this->getRandomString(5);
+		$dt['amount'] = $order->amount;
+		$dt['notes'] = isset($md['notes']) ? $md['notes'] : "";
+		$dt['payment_code'] = $this->getPaymentCode($ref);
+		$dt['type'] = "admin";
+		$dt['status'] = "paid";
+		
+		if($u->id == "anon")
+		{
+			$dt['name'] = $user->name;
+					$dt['email'] = $user->email;
+					$dt['phone'] = $user->phone;
+					$dt['address'] = $user->address;
+					$dt['city'] = $user->city;
+					$dt['state'] = $user->state;
+		}
+		else
+		{
+			
+		}
+	}
 		
            
            

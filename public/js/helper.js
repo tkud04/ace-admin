@@ -1,5 +1,5 @@
 	let trackingOrders = [], trackingAction = "none", cpOrders = [], cpAction = "none", pqProducts = [], pqAction = "0";
-	let BUPlist = [], BUUPlist = [];
+	let BUPlist = [], BUUPlist = [], BAOlist = [];
 	
 const addClass = (elem,name) => {
 	let el = document.querySelector(elem);
@@ -889,6 +889,50 @@ function changeCustomerType(event){
 	}
 }
 
+
+
+
+/**YOU ARE HERE **/
+
+function getDeliveryFee(dt){
+
+	//create request
+	const req = `gdf?s=${dt}&st=${subtotal}`;
+	//console.log(req);
+	
+	
+	//fetch request
+	fetch(req)
+	   .then(response => {
+		   if(response.status === 200){
+			   //console.log(response);
+			   
+			   return response.json();
+		   }
+		   else{
+			   return {status: "error:", message: "Network error"};
+		   }
+	   })
+	   .catch(error => {
+		    alert("Failed to get delivery fee: " + error);			
+	   })
+	   .then(res => {
+		   console.log(res);
+		   
+		   if(res.status == "ok"){
+			      $('#deliv').html("&#8358;" + res.message[1]);
+				  if(parseInt(res.total) > 0){
+					$('#checkout-total').html("&#8358;" + res.total[1]);  
+					$('#ca-amount').val(res.total[0] * 100);  //for paystack
+				  } 
+                  $('#checkout-methods').fadeIn();				  
+				}
+		  
+	   }).catch(error => {
+		    alert("Failed to send message: " + error);			
+	   });
+}
+
 function BOASelectUser(dt,type){
    let fu = {};
     if(type == "user"){
@@ -899,6 +943,7 @@ function BOASelectUser(dt,type){
 			fu.id = u.id;
 			fu.name = u.name;
 			fu.email = u.email;
+			fu.state = u.state;
 		}
 		saveName = `user_${dt.getAttribute('data-ctr')}`;
 	}   
@@ -906,12 +951,19 @@ function BOASelectUser(dt,type){
 		fu = {
 			id: "anon",
 			name: document.querySelector(`#bao-${dt}-name`).value,
-			email: document.querySelector(`#bao-${dt}-email`).value
+			email: document.querySelector(`#bao-${dt}-email`).value,
+			phone: document.querySelector(`#bao-${dt}-phone`).value,
+			address: document.querySelector(`#bao-${dt}-address`).value,
+			city: document.querySelector(`#bao-${dt}-city`).value,
+			state: document.querySelector(`#bao-${dt}-state`).value,
 		};
 		saveName = `user_${dt}`;
 	}
 	//console.log("fu: ",fu);
 	localStorage.setItem(saveName,JSON.stringify(fu));
+	
+	getDeliveryFee(fu.state);  
+	
 	 Swal.fire({
 			   icon: 'success',
              title: `User added`
@@ -963,7 +1015,7 @@ function BAOAddRow(){
 		     <div class="col-md-8">
 		       <select class="" data-ctr="${baoCounter}" onchange="BOASelectUser(this,'user')">
 		        <option value="none">Select user</option>
-		         ${users.map(u => "<option value='" + u.id + "'>" + u.name + " (" + u.email + ")" + "</option>").join("")}
+		         ${users.map(u => "<option value='" + u.id + "'>" + u.name + " (" + u.email + ") | " + u.state + "</option>").join("")}
 		       </select>
 		     </div>
 		     <div class="col-md-2"></div>
@@ -1063,35 +1115,32 @@ function BAO(){
 	}
 	
 	else{
-	ret = [], hasUnfilledQty = false;
+	ret = [], hasUnfilledVals = false;
 
 	for(let i = 0; i < orderCount; i++){
 		let BAOitem = `#bao-${i}`;
-		notes = $(`${BAOitem}-notes`).val();
-		price = $(`${BAOitem} input.price`).val();
-		stock = $(`${BAOitem} input.stock`).val();
-		category = $(`${BAOitem} select.category`).val();
-		status = $(`${BAOitem} select.status`).val();
-		
-			if(desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
+		hasUnfilledVals = false;
+		notes = $(`${BAOitem} textarea.notes`).val();
+		user = localStorage.getItem(`user_${i}`);
+		items = localStorage.getItem(`items_${i}`);
+		console.log("notes :",notes);
+			if(notes != "" && user && items){
 				let temp = {
-					id: BUPitem,
+					id: i,
 					data:{
-					  desc: desc,
-					  price: price,
-					  stock: stock,
-					  category: category,
-					  status: status,
+					  notes: notes,
+					  user: user,
+					  items: items
 					}
 				};
-				BUUPlist.push(temp);
+				BAOlist.push(temp);
 			}
 			else{
-				hasUnfilledQty = true;
+				hasUnfilledVals = true;
 			}		
 	}
 	
-	   if(hasUnfilledQty){
+	   if(hasUnfilledVals){
 		   showSelectError('bao','validation');
 	   }
 	   else{
@@ -1104,7 +1153,7 @@ function BAO(){
 		 **/
 		 $('#button-box').hide();
 		 $('#result-box').fadeIn();
-		
+		console.log("BAOlist: ",BAOlist);
 		 baoFire();
 	   }
   }
@@ -1112,39 +1161,18 @@ function BAO(){
 }
 
 function baoFire(){
-	 let bc = localStorage.getItem("buupCtr");
-	     if(!bc) bc = "0";
+	 let bac = localStorage.getItem("baoCtr");
+	     if(!bac) bac = "0";
 		 
 		 
 		
 		 let fd = new FormData();
-		 fd.append("dt",JSON.stringify(BUUPlist[bc]));
-		 imgs = []; covers = [];
-		
-		//imgs = $(`${BUPitem}-image`)[0].files;
-		imgs = $(`${BUUPlist[bc].id}-images-div input[type=file]`);
-		cover = $(`${BUUPlist[bc].id}-images-div input[type=radio]:checked`);
-		console.log("imgs: ",imgs);
-		console.log("cover: ",cover);
-		
-		for(let r = 0; r < imgs.length; r++)
-		 {
-		    let imgg = imgs[r];
-			let imgName = imgg.getAttribute("name");
-            console.log("imgg name: ",imgName);			
-            console.log("cover: ",cover.val());
-            fd.append(imgName,imgg.files[0]);   			   			
-		 }
-		 
-		 fd.append(cover.attr("name"),cover.val());
-		 
-		 
+		 fd.append("dt",JSON.stringify(BAOlist[bac]));
 		 fd.append("_token",$('#tk').val());
-		 console.log("fd: ",fd);
-         
+		 
 	
 	//create request
-	const req = new Request("buup",{method: 'POST', body: fd});
+	const req = new Request("new-order",{method: 'POST', body: fd});
 	//console.log(req);
 	
 	
@@ -1161,28 +1189,32 @@ function baoFire(){
 		   }
 	   })
 	   .catch(error => {
-		    alert("Failed to upload product: " + error);			
+		    alert("Failed to add order: " + error);			
+			$('#result-box').hide();
+			$("#button-box").fadeIn();
 	   })
 	   .then(res => {
 		   console.log(res);
-          bc = parseInt(bc) + 1;
-			     localStorage.setItem("buupCtr",bc);
+          bac = parseInt(bac) + 1;
+			     localStorage.setItem("baoCtr",bac);
 				 
 		   if(res.status == "ok"){
-                  $('#result-ctr').html(bc);
+                  $('#result-ctr').html(bac);
 		   }
 		   else if(res.status == "error"){
-				     alert("An unknown network error has occured. Please refresh the app or try again later");			   
+				     alert("An unknown network error has occured. Please refresh the app or try again later");
+                   $('#result-box').hide();
+			$("#button-box").fadeIn();					 
 		   }
 		   
 		    setTimeout(function(){
-			       if(bc >= buupCounter){
+			       if(bac >= orderCount){
 					  $('#result-box').hide();
 					  $("#finish-box").fadeIn();
-					  window.location = "buup";
+					  window.location = "bao";
 				  }
                   else{
-					 buupFire();
+					 baoFire();
 				  }				  
 		    },4000);
 		   

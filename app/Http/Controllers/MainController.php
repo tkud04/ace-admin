@@ -49,12 +49,13 @@ class MainController extends Controller {
 		$profits = $this->helpers->getProfits();
 		$orders = $this->helpers->getOrders();
 		$ordersCollection = collect($orders);
+		$ccarts = $this->helpers->getCarts();
         #dd($ordersCollection);
 		 $products = $this->helpers->getProducts();
 		 $productsCollection = collect($products);
 		 $lowStockProducts = $productsCollection->where('qty','<',"10");
 		#dd($lowStockProducts);
-    	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','lowStockProducts','signals']));
+    	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','lowStockProducts','ccarts','signals']));
     }
 
      /**
@@ -1334,6 +1335,42 @@ class MainController extends Controller {
 	 *
 	 * @return Response
 	 */
+	public function getUserCarts(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$ccarts = $this->helpers->getCarts();
+		dd($ccarts);
+		$categories = $this->helpers->getCategories();
+		
+		$signals = $this->helpers->signals;
+	    #dd($ads);
+		
+    	return view('carts',compact(['user','categories','ccarts','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
 	public function getOrders(Request $request)
     {
        $user = null;
@@ -1365,6 +1402,36 @@ class MainController extends Controller {
     	return view('orders',compact(['user','categories','orders','signals']));
     }
 	
+	public function getDeliveryFee(Request $request)
+	{
+		$req = $request->all();
+        //dd($req);
+        
+        $validator = Validator::make($req, [
+                             's' => 'required'
+         ]);
+		 
+         if($validator->fails())
+         {
+             return json_encode(['status' => "error", 'message' => "validation"]);
+         }
+         
+         else
+         {
+			 $total = 0;
+             $ret = $this->helpers->getDeliveryFee($req['s'],"state");
+			
+			if(isset($req['st']) && is_numeric($req['st']))
+			{
+				$tt = $ret + $req['st'];
+				$total = number_format($tt,2);
+			}
+           return json_encode(['status' => "ok", 'message' => [$ret,number_format($ret,2)],'total' => [$tt,$total]]);
+         } 
+         
+		
+	}
+	
 	/**
 	 * Show the application welcome screen to the user.
 	 *
@@ -1387,7 +1454,7 @@ class MainController extends Controller {
 		}
 		$c = $this->helpers->getCategories();
 		$products = $this->helpers->getProducts();
-		$users = $this->helpers->getUsers();
+		$users = $this->helpers->getUsers(true);
 		$signals = $this->helpers->signals;
 		#dd($users);
        return view('bao',compact(['user','c','products','users','signals']));
@@ -1399,41 +1466,49 @@ class MainController extends Controller {
 	 * @return Response
 	 */
     public function postAddOrder(Request $request)
-    {
-    	if(Auth::check())
-		{
-			$user = Auth::user();
-			if(!$this->helpers->isAdmin($user))
-			{
-				Auth::logout();
-				 return redirect()->intended('/');
-			} 
-		}
-		else
-        {
-        	return redirect()->intended('login');
-        }
-        
-        $req = $request->all();
-		dd($req);
-        $validator = Validator::make($req, [                          
-                            'xf' => 'required',
-                             'status' => 'required|not_in:none'
+    {	
+	  $user = null;
+	  
+	  if(Auth::check())
+	  {
+		  $user = Auth::user();
+	  }
+       $req = $request->all();
+	   
+		 #dd($req);
+		  $ret = ['status' => "ok","message"=>"nothing happened"];
+        $validator = Validator::make($req, [
+                             'dt' => 'required',
+                             
          ]);
          
          if($validator->fails())
          {
              $messages = $validator->messages();
-             return redirect()->back()->withInput()->with('errors',$messages);
-             //dd($messages);
+          //return redirect()->withInput()->with("errors",$messages);
+		  $ret = ['status' => "error","message"=>"validation"];
          }
          
          else
          {
-            $this->helpers->updateOrder($req);
-			session()->flash("edit-order-status", "success");
-			return redirect()->back();
-         } 	  
+			$dtt = json_decode($req['dt']);
+			#dd($dtt);
+			
+			//foreach($dt as $dtt)
+			//{
+				#dd($dtt);
+				$id = substr($dtt->id,1);
+				$o = $dtt->data;
+				
+                 $order = $this->helpers->bulkAddOrder($o);
+                 $ret = ['status' => "ok","message"=>"product uploaded"];
+					 
+			//}
+			
+			//session()->flash("bulk-upload-products-status", "success");
+			//return redirect()->back();
+         } 
+		 return json_encode($ret);
     }
 	
 	/**

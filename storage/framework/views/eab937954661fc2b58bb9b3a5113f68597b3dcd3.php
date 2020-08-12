@@ -106,6 +106,43 @@
 
                 <div class="block block-drop-shadow">                    
                         <div class="head bg-dot20">
+                        <h2>User carts</h2>
+                        
+                        <div class="head-subtitle">View user carts that are currently filled with products</div>                        
+                        
+                        <div class="head-panel nm">
+						<br>
+						  <?php
+						   $cartsCount = count($ccarts);
+						   
+						  if($cartsCount < 1)
+						   {
+						  ?>	  
+						  <h4>No filled carts yet today.</h4>
+					      <?php
+						   }
+						  else
+						  {
+						    $ct = "cart";
+						   
+						   if($cartsCount > 1)
+						   {
+							   $ct = "carts";
+						   }
+						  ?>
+							<h4><?php echo e($cartsCount); ?> <?php echo e($ct); ?> are currently filled with items.</h4>
+                            <a href="<?php echo e(url('carts')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View <?php echo e($ct); ?></a> 
+						  <?php						
+						  }
+                          ?>               
+                        </div>                        
+                    </div>                    
+                                       
+                    
+                </div> 
+				
+				<div class="block block-drop-shadow">                    
+                        <div class="head bg-dot20">
                         <h2>Confirm payments</h2>
                         
                         <div class="head-subtitle">Confirm bank payment for multiple orders</div>                        

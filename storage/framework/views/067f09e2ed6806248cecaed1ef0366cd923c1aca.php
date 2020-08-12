@@ -56,7 +56,8 @@ let categories = [], products = [], orders = [],
 	  users.push({
 		  id: "<?php echo e($u['id']); ?>", 
 		  name: "<?php echo e($u['fname']); ?> <?php echo e($u['lname']); ?>", 
-		  email: "<?php echo e($u['email']); ?>" 
+		  email: "<?php echo e($u['email']); ?>" ,
+		  state: "<?php echo e(ucwords($u['sd']['state'])); ?>" 
 		  });
 	<?php endif; ?>
  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

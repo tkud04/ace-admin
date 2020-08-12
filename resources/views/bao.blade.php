@@ -58,7 +58,8 @@ let categories = [], products = [], orders = [],
 	  users.push({
 		  id: "{{$u['id']}}", 
 		  name: "{{$u['fname']}} {{$u['lname']}}", 
-		  email: "{{$u['email']}}" 
+		  email: "{{$u['email']}}" ,
+		  state: "{{ucwords($u['sd']['state'])}}" 
 		  });
 	@endif
  @endforeach
