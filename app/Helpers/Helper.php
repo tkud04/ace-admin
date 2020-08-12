@@ -23,6 +23,8 @@ use App\AnonOrders;
 use App\Orders;
 use App\OrderItems;
 use App\Ads;
+use App\Settings;
+use App\Senders;
 use \Cloudinary\Api;
 use \Cloudinary\Api\Response;
 use GuzzleHttp\Client;
@@ -1962,8 +1964,168 @@ function getRandomString($length_of_string)
 			
 		}
 	}
+	
+	function getSetting($id)
+	{
+		$temp = [];
+		$s = Settings::where('id',$id)->first();
+ 
+              if($s != null)
+               {
+				      $temp['name'] = $s->name; 
+                       $temp['value'] = $s->value;                  
+                       $temp['id'] = $s->id; 
+                       $temp['date'] = $s->created_at->format("jS F, Y"); 
+                       $temp['updated'] = $s->updated_at->format("jS F, Y"); 
+                   
+               }      
+       return $temp;            	   
+   }
 		
+    function getSettings()
+           {
+           	$ret = [];
+			  $settings = Settings::where('id','>',"0")->get();
+ 
+              if($settings != null)
+               {
+				   foreach($settings as $s)
+				   {
+				      $temp = $this->getSetting($s->id);
+                       array_push($ret,$temp); 
+				   }
+               }                         
+                                                      
+                return $ret;
+           }
            
+           
+           function createSender($data)
+           {
+			   #dd($data);
+			 $ret = null;
+			 
+			 
+				 $ret = Senders::create(['ss' => $data['ss'], 
+                                                      'sp' => $data['sp'], 
+                                                      'sec' => $data['sec'], 
+                                                      'sa' => $data['sa'], 
+                                                      'su' => $data['su'], 
+                                                      'spp' => $data['spp'], 
+                                                      'sn' => $data['sn'], 
+                                                      'se' => $data['se'], 
+                                                      'status' => "enabled", 
+                                                      ]);
+			  return $ret;
+           }
+
+   function getSenders()
+   {
+	   $ret = [];
+	   
+	   $senders = Senders::where('id','>',"0")->get();
+	   
+	   if(!is_null($senders))
+	   {
+		   foreach($senders as $s)
+		   {
+		     $temp = $this->getSender($s->id);
+		     array_push($ret,$temp);
+	       }
+	   }
+	   
+	   return $ret;
+   }
+   
+   function getSender($id)
+           {
+           	$ret = [];
+               $s = Senders::where('id',$id)->first();
+ 
+              if($s != null)
+               {
+                   	$temp['ss'] = $s->ss; 
+                       $temp['sp'] = $s->sp; 
+                       $temp['se'] = $s->se;
+                       $temp['sec'] = $s->sec; 
+                       $temp['sa'] = $s->sa; 
+                       $temp['su'] = $s->su; 
+                       $temp['spp'] = $s->spp; 
+                       $sn = $s->sn;
+                       $temp['sn'] = $sn;
+                        $snn = explode(" ",$sn);					   
+                       $temp['snf'] = $snn[0]; 
+                       $temp['snl'] = count($snn) > 0 ? $snn[1] : ""; 
+					   
+                       $temp['status'] = $s->status; 
+                       $temp['id'] = $s->id; 
+                       $temp['date'] = $s->created_at->format("jS F, Y"); 
+                       $ret = $temp; 
+               }                          
+                                                      
+                return $ret;
+           }
+		   
+		   
+		  function updateSender($data,$user=null)
+           {
+			   #dd($data);
+			 $ret = "error";
+			 if($user == null)
+			 {
+				 $s = Senders::where('id',$data['xf'])->first();
+			 }
+			 else
+			 {
+				$s = Senders::where('id',$data['xf'])
+			             ->where('user_id',$user->id)->first(); 
+			 }
+			 
+			 
+			 if(!is_null($s))
+			 {
+				 $s->update(['ss' => $data['ss'], 
+                                                      'user_id' => $data['user_id'], 
+                                                      'sp' => $data['sp'], 
+                                                      'sec' => $data['sec'], 
+                                                      'sa' => $data['sa'], 
+                                                      'su' => $data['su'], 
+                                                      'spp' => $data['spp'], 
+                                                      'sn' => $data['sn'], 
+                                                      'se' => $data['se'], 
+                                                      'status' => "enabled", 
+                                                      ]);
+			   $ret = "ok";
+			 }
+           	
+                                                      
+                return $ret;
+           }
+
+		   function removeSender($xf,$user=null)
+           {
+			   #dd($data);
+			 $ret = "error";
+			 if($user == null)
+			 {
+				 $s = Senders::where('id',$xf)->first();
+			 }
+			 else
+			 {
+				$s = Senders::where('id',$xf)
+			             ->where('user_id',$user->id)->first(); 
+			 }
+			 
+			 
+			 if(!is_null($s))
+			 {
+				 $s->delete();
+			   $ret = "ok";
+			 }
+           	
+                                                      
+                return $ret;
+           }
            
 }
 ?>
