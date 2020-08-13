@@ -244,7 +244,7 @@ class MainController extends Controller {
          
          else
          {
-         	$dt = ['sn' => $req['name'],'su' => $req['username'],'spp' => $req['password']];
+         	$dt = ['type' => $req['server'],'sn' => $req['name'],'su' => $req['username'],'spp' => $req['password']];
          
 			 if($req['server'] == "other")
 			 {
@@ -271,6 +271,7 @@ class MainController extends Controller {
             
             $dt['se'] = $dt['su'];
             $dt['sa'] = "yes";
+            $dt['current'] = "no";
             $this->helpers->createSender($dt);
 			session()->flash("add-sender-status", "success");
 			return redirect()->intended('settings');
@@ -336,7 +337,7 @@ class MainController extends Controller {
 		}
 		
 		$req = $request->all();
-		dd($req);
+		#dd($req);
         $validator = Validator::make($req, [                          
                              's' => 'required'
          ]);
@@ -348,8 +349,8 @@ class MainController extends Controller {
          else
 		 {
 			$signals = $this->helpers->signals;
-			$sender = $this->helpers->getSender($req['s']);
-		    return view('sender',compact(['user','sender','signals']));	
+			$s = $this->helpers->getSender($req['s']);
+		    return view('sender',compact(['user','s','signals']));	
          } 
 		
     }
@@ -423,6 +424,94 @@ class MainController extends Controller {
 			session()->flash("add-sender-status", "success");
 			return redirect()->intended('settings');
          } 	  
+    }
+	
+	
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getRemoveSender(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                             's' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+         	return redirect()->intended('senders');
+         }
+         else
+		 {
+			$this->helpers->removeSender($req['s']);
+		    session()->flash("remove-sender-status", "success");
+			return redirect()->intended('senders');
+         } 
+		
+    }
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getMarkSender(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                             's' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+         	return redirect()->intended('senders');
+         }
+         else
+		 {
+			$this->helpers->setAsCurrentSender($req['s']);
+		    session()->flash("mark-sender-status", "success");
+			return redirect()->intended('senders');
+         } 
+		
     }
 	
 

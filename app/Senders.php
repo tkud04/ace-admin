@@ -13,7 +13,7 @@ class Senders extends Model
      * @var array
      */
     protected $fillable = [
-        'ss', 'sp', 'sec', 'sa', 'su', 'spp', 'sn', 'se', 'status'
+        'type','ss', 'sp', 'sec', 'sa', 'su', 'current', 'spp', 'sn', 'se', 'status'
     ];
     
 }

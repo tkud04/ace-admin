@@ -80,6 +80,8 @@ class Helper implements HelperContract
                      "bulk-upload-products-status" => "Products uploaded",
                      "no-validation-status" => "Please fill all required fields",
                      "add-sender-status" => "Sender added",
+                     "remove-sender-status" => "Sender removed",
+                     "mark-sender-status" => "Sender updated",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -1678,7 +1680,8 @@ $subject = $data['subject'];
                	//We have the user, update the status and notify the customer
 				$oo = Orders::where('reference',$o['reference'])->first();
                	if(!is_null($oo)) $oo->update(['status' => 'paid']);
-				$ret = $this->smtp;
+				//$ret = $this->smtp;
+				$ret = $this->getCurrentSender();
 				$ret['order'] = $o;
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname'];
 				$ret['subject'] = "Your payment for order ".$o['payment_code']." has been confirmed!";
@@ -1686,7 +1689,8 @@ $subject = $data['subject'];
 		        $ret['em'] = $u['email'];
 		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
 				
-				$ret = $this->smtp;
+				//$ret = $this->smtp;
+				$ret = $this->getCurrentSender();
 				$ret['order'] = $o;
 				$ret['user'] = $u['email'];
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
@@ -1765,7 +1769,8 @@ $subject = $data['subject'];
                          
                          $this->createTracking($t);
                          
-                         $ret = $this->smtp;
+                         //$ret = $this->smtp;
+						 $ret = $this->getCurrentSender();
 				         $ret['order'] = $order;
 				        $ret['tracking'] = $this->deliveryStatuses[$action];
 				       $ret['name'] = $order['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
@@ -2051,10 +2056,12 @@ function getRandomString($length_of_string)
 			 
 			 
 				 $ret = Senders::create(['ss' => $data['ss'], 
+                                                      'type' => $data['type'], 
                                                       'sp' => $data['sp'], 
                                                       'sec' => $data['sec'], 
                                                       'sa' => $data['sa'], 
                                                       'su' => $data['su'], 
+                                                      'current' => $data['current'], 
                                                       'spp' => $data['spp'], 
                                                       'sn' => $data['sn'], 
                                                       'se' => $data['se'], 
@@ -2094,7 +2101,9 @@ function getRandomString($length_of_string)
                        $temp['sec'] = $s->sec; 
                        $temp['sa'] = $s->sa; 
                        $temp['su'] = $s->su; 
+                       $temp['current'] = $s->current; 
                        $temp['spp'] = $s->spp; 
+					   $temp['type'] = $s->type;
                        $sn = $s->sn;
                        $temp['sn'] = $sn;
                         $snn = explode(" ",$sn);					   
@@ -2129,7 +2138,7 @@ function getRandomString($length_of_string)
 			 if(!is_null($s))
 			 {
 				 $s->update(['ss' => $data['ss'], 
-                                                      'user_id' => $data['user_id'], 
+                                                      'type' => $data['type'], 
                                                       'sp' => $data['sp'], 
                                                       'sec' => $data['sec'], 
                                                       'sa' => $data['sa'], 
@@ -2166,10 +2175,30 @@ function getRandomString($length_of_string)
 				 $s->delete();
 			   $ret = "ok";
 			 }
-           	
-                                                      
-                return $ret;
+           
            }
+		   
+		   function setAsCurrentSender($id)
+		   {
+			   $s = Senders::where('id',$id)->first();
+			   
+			   if($s != null)
+			   {
+				   $prev = Senders::where('current',"yes")->first();
+				   if($prev != null) $prev->update(['current' => "no"]);
+				   $s->update(['current' => "yes"]);
+			   }
+		   }
+		   
+		   function getCurrentSender()
+		   {
+			   $s = Senders::where('current',"yes")->first();;
+			   
+			   if($s != null)
+			   {
+				   $ret = $this->getSender($s['id']);
+			   }
+		   }
            
 }
 ?>

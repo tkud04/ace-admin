@@ -1,14 +1,13 @@
-@extends('layout')
+<?php $__env->startSection('title',"Senders"); ?>
 
-@section('title',"Senders")
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 			<div class="col-md-12">
-				{!! csrf_field() !!}
+				<?php echo csrf_field(); ?>
+
                 <div class="block">
                     <div class="header">
                         <h2>List of SMTP senders used by the system</h2>
-                        <a class="pull-right btn btn-clean" href="{{url('add-sender')}}">Add</a>
+                        <a class="pull-right btn btn-clean" href="<?php echo e(url('add-sender')); ?>">Add</a>
                     </div>
                     <div class="content">
                        <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
@@ -40,18 +39,18 @@
 				    ?>
                       <tr>
 					   
-					   <td>{!! $ss !!}</td>
-					  <td>{!! $su !!}</td>
+					   <td><?php echo $ss; ?></td>
+					  <td><?php echo $su; ?></td>
 					  <td>
-					   @if($s['current'] == "yes")
+					   <?php if($s['current'] == "yes"): ?>
 					    <h3 class="label label-info">CURRENT</h3>
-					   @else
-						 <a class="btn btn-default btn-block btn-clean" href="{{$mu}}">Set as current</a>
-				       @endif
+					   <?php else: ?>
+						 <a class="btn btn-default btn-block btn-clean" href="<?php echo e($mu); ?>">Set as current</a>
+				       <?php endif; ?>
 					  </td>
 					   <td>
-						<a class="btn btn-default btn-block btn-clean" href="{{$vu}}">View</a>
-						<a class="btn btn-default btn-block btn-clean" href="{{$ru}}">Remove</a>
+						<a class="btn btn-default btn-block btn-clean" href="<?php echo e($vu); ?>">View</a>
+						<a class="btn btn-default btn-block btn-clean" href="<?php echo e($ru); ?>">Remove</a>
                        </td>
 					
 					 </tr>
@@ -66,4 +65,5 @@
                 </div>  
             </div>				
            </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/senders.blade.php ENDPATH**/ ?>
