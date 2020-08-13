@@ -7,6 +7,8 @@ $(document).ready(function(){
 	$('#settings-delivery-side2').hide();
 	$('#settings-delivery-loading').hide();
 	
+	$('#as-other').hide();
+	
 	hideUnselects();
 	hideSelectErrors();
 	if($("#add-discount-type").val() == "single"){} 
@@ -16,6 +18,19 @@ $(document).ready(function(){
 			e.preventDefault();
 			let ct = $(this).val();
 			console.log("ct: ",ct);
+		});
+		$("#server").change((e) =>{
+			e.preventDefault();
+			let server = $(this).val();
+			//console.log("ct: ",ct);
+			
+			if(server == "other"){
+				$('#as-other').fadeIn();     
+            }
+            else{
+				$('#as-other').hide();     
+            }
+			
 		});
 		$("#update-tracking-btn").change((e) =>{
 			e.preventDefault();
