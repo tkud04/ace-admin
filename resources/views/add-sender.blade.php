@@ -6,7 +6,7 @@
 			<div class="col-md-12">
 			<form method="post" action="{{url('add-sender')}}" id="add-sender-form" enctype="multipart/form-data">
 				{!! csrf_field() !!}
-				<input type="hidden" id="dt" name="dt" value="">
+				<input type="hidden" id="spp-s" value="">
                 <div class="block">
                     <div class="header">
                         <h2>Add new SMTP sender (to power the system's email)</h2>
@@ -85,7 +85,7 @@
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
 							  <center>
-							    <button type="submit" class="btn btn-default btn-block btn-clean">Submit</button>
+							    <button type="submit" id="add-sender-submit" class="btn btn-default btn-block btn-clean">Submit</button>
 							  </center>
 							</div>
                             <div class="col-md-4"></div>							
