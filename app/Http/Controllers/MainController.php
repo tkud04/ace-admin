@@ -276,6 +276,155 @@ class MainController extends Controller {
 			return redirect()->intended('settings');
          } 	  
     }
+    
+         /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSenders(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$senders = $this->helpers->getSenders();
+		
+		$signals = $this->helpers->signals;
+		//dd($drivers);
+    	return view('senders',compact(['user','senders','signals']));
+    }
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getSender(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$req = $request->all();
+		dd($req);
+        $validator = Validator::make($req, [                          
+                             's' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+         	return redirect()->intended('senders');
+         }
+         else
+		 {
+			$signals = $this->helpers->signals;
+			$sender = $this->helpers->getSender($req['s']);
+		    return view('sender',compact(['user','sender','signals']));	
+         } 
+		
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postSender(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		dd($req);
+        $validator = Validator::make($req, [                          
+                             'server' => 'required|not_in:none',
+                             'name' => 'required',
+                             'username' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+         	$dt = ['sn' => $req['name'],'su' => $req['username'],'spp' => $req['password']];
+         
+			 if($req['server'] == "other")
+			 {
+				$v = isset($req['ss']) && isset($req['sp']) && isset($req['sec']) && $req['sec'] != "nonee";
+				if($v)
+				{
+					$dt['ss'] = $req['ss'];
+					$dt['sp'] = $req['sp'];
+					$dt['sec'] = $req['sec'];
+				}
+				else
+				{
+					session()->flash("no-validation-status", "success"); 
+					return redirect()->back()->withInput();
+				}
+			 }
+			else
+            {
+            	$smtp = $this->helpers->smtpp[$req['server']];
+                $dt['ss'] = $smtp['ss'];
+					$dt['sp'] = $smtp['sp'];
+					$dt['sec'] = $smtp['sec'];
+            }
+            
+            $dt['se'] = $dt['su'];
+            $dt['sa'] = "yes";
+            $this->helpers->createSender($dt);
+			session()->flash("add-sender-status", "success");
+			return redirect()->intended('settings');
+         } 	  
+    }
+	
 
      /**
 	 * Show the application welcome screen to the user.
