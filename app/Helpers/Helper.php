@@ -77,7 +77,9 @@ class Helper implements HelperContract
                      "delete-order-status" => "Order deleted",
                      "bulk-update-tracking-status" => "Trackings updated",
                      "bulk-confirm-payment-status" => "Payments confirmed",
-                     "bulk-upload-products-status" => "Products uploaded"
+                     "bulk-upload-products-status" => "Products uploaded",
+                     "no-validation-status" => "Please fill all required fields",
+                     "add-sender-status" => "Sender added",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -124,6 +126,19 @@ class Helper implements HelperContract
        'spp' => "Ace12345$",
        'sn' => "Ace Luxury Store",
        'se' => "aceluxurystoree@gmail.com"
+  ];
+  
+  public $smtpp = [
+       'gmail' => [
+       'ss' => "smtp.gmail.com",
+       'sp' => "587",
+       'sec' => "tls",
+       ],
+       'yahoo' => [
+       'ss' => "smtp.mail.yahoo.com",
+       'sp' => "587",
+       'sec' => "ssl",
+       ],
   ];
   
   
