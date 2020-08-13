@@ -39,13 +39,13 @@
 						<div class="form-row">
 							   <div class="col-md-3">SMTP host:</div>
 							   <div class="col-md-9">
-							      <input type="text" class="form-control" name="ss" id="as-server" placeholder="Server address e.g smtp.gmail.com" required>
+							      <input type="text" class="form-control" name="ss" id="as-server" placeholder="Server address e.g smtp.gmail.com"/>
 								 </div>
 								</div>
 								<div class="form-row">
 							   <div class="col-md-3">SMTP port:</div>
 							   <div class="col-md-9">
-							      <input type="number" class="form-control" name="sp" id="as-sp" placeholder="Port e.g 587" value="587" required/>
+							      <input type="number" class="form-control" name="sp" id="as-sp" placeholder="Port e.g 587" value="587"/>
 								 </div>
 								</div>
 								<div class="form-row">
