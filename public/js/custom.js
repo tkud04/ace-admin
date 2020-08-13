@@ -40,7 +40,7 @@ $(document).ready(function(){
 			   pass = $('#as-password').val(), s = $('#server').val(),
 			   ss = $('#as-server').val(), sp = $('#as-sp').val(), sec = $('#as-sec').val();
 			   
-			   if(name == "" || username == "" || pass == "" || s == ""){
+			   if(name == "" || username == "" || pass == "" || s == "none"){
 				   valid = false;
 			   }
 			   else{
@@ -50,9 +50,8 @@ $(document).ready(function(){
 			   }
 			   
 			   if(valid){
-				 $('#settings-delivery-submit').hide();
-		     $('#settings-delivery-loading').fadeIn();
-			 //updateDeliveryFees({d1: d1, d2: d2});  
+				 $('#add-sender-form'). submit();
+			    //updateDeliveryFees({d1: d1, d2: d2});  
 			   }
 			   else{
 				   alert("Please fill all required fields");
