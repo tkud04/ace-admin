@@ -228,12 +228,11 @@ class MainController extends Controller {
         }
         
         $req = $request->all();
-		dd($req);
+		#dd($req);
         $validator = Validator::make($req, [                          
-                             'discount_type' => 'required|not_in:none',
-                             'discount' => 'required',
-                             'type' => 'required|not_in:none',
-                             'status' => 'required|not_in:none'
+                             'server' => 'required|not_in:none',
+                             'name' => 'required',
+                             'username' => 'required'
          ]);
          
          if($validator->fails())
@@ -245,21 +244,36 @@ class MainController extends Controller {
          
          else
          {
-			 if($req['type'] == "single")
+         	$dt = ['sn' => $req['name'],'su' => $req['username'],'spp' => $req['password']];
+         
+			 if($req['server'] == "other")
 			 {
-				if(isset($req['sku']) && $req['sku'] != "none")
+				$v = isset($req['ss']) && isset($req['sp']) && isset($req['sec']) && $req['sec'] != "nonee";
+				if($v)
 				{
-					
+					$dt['ss'] = $req['ss'];
+					$dt['sp'] = $req['sp'];
+					$dt['sec'] = $req['sec'];
 				}
 				else
 				{
-					session()->flash("no-sku-status", "success"); 
-					return redirect()->back();
+					session()->flash("no-validation-status", "success"); 
+					return redirect()->back()->withInput();
 				}
 			 }
-            $this->helpers->createDiscount($req);
-			session()->flash("create-discount-status", "success");
-			return redirect()->intended('discounts');
+			else
+            {
+            	$smtp = $this->helpers->smtpp[$req['server']];
+                $dt['ss'] = $smtp['ss'];
+					$dt['sp'] = $smtp['sp'];
+					$dt['sec'] = $smtp['sec'];
+            }
+            
+            $dt['se'] = $dt['su'];
+            $dt['sa'] = "yes";
+            $this->helpers->createSender($dt);
+			session()->flash("add-sender-status", "success");
+			return redirect()->intended('settings');
          } 	  
     }
 
