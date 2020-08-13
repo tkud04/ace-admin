@@ -171,6 +171,96 @@ class MainController extends Controller {
 			return json_encode(['status' => "ok"]);
          }       
     }
+    
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddSender(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		 $signals = $this->helpers->signals;
+		 
+		return view('add-sender',compact(['user','signals']));	
+		
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddSender(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		dd($req);
+        $validator = Validator::make($req, [                          
+                             'discount_type' => 'required|not_in:none',
+                             'discount' => 'required',
+                             'type' => 'required|not_in:none',
+                             'status' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			 if($req['type'] == "single")
+			 {
+				if(isset($req['sku']) && $req['sku'] != "none")
+				{
+					
+				}
+				else
+				{
+					session()->flash("no-sku-status", "success"); 
+					return redirect()->back();
+				}
+			 }
+            $this->helpers->createDiscount($req);
+			session()->flash("create-discount-status", "success");
+			return redirect()->intended('discounts');
+         } 	  
+    }
 
      /**
 	 * Show the application welcome screen to the user.
