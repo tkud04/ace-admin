@@ -6,7 +6,7 @@
 			<div class="col-md-12">
 			<form method="post" action="{{url('add-sender')}}" id="add-sender-form" enctype="multipart/form-data">
 				{!! csrf_field() !!}
-				<input type="hidden" id="spp-s" value="">
+				<input type="hidden" id="spp-s" value="show">
                 <div class="block">
                     <div class="header">
                         <h2>Add new SMTP sender (to power the system's email)</h2>
