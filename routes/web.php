@@ -93,5 +93,7 @@ Route::get('add-setting', 'MainController@getAddSetting');
 Route::get('settings', 'MainController@getSettings');
 Route::get('senders', 'MainController@getSenders');
 Route::get('add-sender', 'MainController@getAddSender');
+Route::post('add-sender', 'MainController@postAddSender');
 
 Route::post('settings-delivery', 'MainController@postSettingsDelivery');
+
