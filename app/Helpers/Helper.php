@@ -2193,12 +2193,15 @@ function getRandomString($length_of_string)
 		   
 		   function getCurrentSender()
 		   {
-			   $s = Senders::where('current',"yes")->first();;
+			   $ret = [];
+			   $s = Senders::where('current',"yes")->first();
 			   
 			   if($s != null)
 			   {
 				   $ret = $this->getSender($s['id']);
 			   }
+			   
+			   return $ret;
 		   }
            
 }
