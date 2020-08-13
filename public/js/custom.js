@@ -20,6 +20,22 @@ $(document).ready(function(){
 			console.log("ct: ",ct);
 		});
 		
+		$('#spp-show').click((e) => {
+	   e.preventDefault();
+	   let spps = $('#spp-s').val();
+	   
+	   if(spps == "hide"){
+		   $('#as-password"').attr('type',"password");
+		   $('#spp-show').html("Show");
+		   $('#spp-s').val("show");
+	   }
+	   else{
+		   $('#as-password"').attr('type',"text");
+		   $('#spp-show').html("Hide");
+		   $('#spp-s').val("hide");
+	   }
+   });
+		
 		$("#server").change((e) =>{
 			e.preventDefault();
 			let server = $("#server").val();
@@ -33,7 +49,7 @@ $(document).ready(function(){
             }
 			
 		});
-		 $("#add-sender-form").submit(function(e){            
+		 $("#add-sender-submit").click(function(e){            
 		       e.preventDefault();
 			   let valid = true;
 			   let name = $('#as-name').val(), username = $('#as-username').val(),
