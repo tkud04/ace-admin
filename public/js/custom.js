@@ -25,12 +25,12 @@ $(document).ready(function(){
 	   let spps = $('#spp-s').val();
 	   
 	   if(spps == "hide"){
-		   $('#as-password"').attr('type',"password");
+		   $('#as-password').attr('type',"password");
 		   $('#spp-show').html("Show");
 		   $('#spp-s').val("show");
 	   }
 	   else{
-		   $('#as-password"').attr('type',"text");
+		   $('#as-password').attr('type',"text");
 		   $('#spp-show').html("Hide");
 		   $('#spp-s').val("hide");
 	   }
