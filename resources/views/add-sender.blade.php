@@ -4,8 +4,9 @@
 
 @section('content')
 			<div class="col-md-12">
-			<form method="post" action="{{url('add-sender')}}" enctype="multipart/form-data">
+			<form method="post" action="{{url('add-sender')}}" id="add-sender-form" enctype="multipart/form-data">
 				{!! csrf_field() !!}
+				<input type="hidden" id="dt" name="dt" value="">
                 <div class="block">
                     <div class="header">
                         <h2>Add new SMTP sender (to power the system's email)</h2>
@@ -38,7 +39,7 @@
 						<div class="form-row">
 							   <div class="col-md-3">SMTP host:</div>
 							   <div class="col-md-9">
-							      <input type="text" class="form-control" name="ss" id="as-ss" placeholder="Server address e.g smtp.gmail.com" value="none" required/>
+							      <input type="text" class="form-control" name="ss" id="as-server" placeholder="Server address e.g smtp.gmail.com" required>
 								 </div>
 								</div>
 								<div class="form-row">

@@ -19,10 +19,11 @@ $(document).ready(function(){
 			let ct = $(this).val();
 			console.log("ct: ",ct);
 		});
+		
 		$("#server").change((e) =>{
 			e.preventDefault();
-			let server = $(this).val();
-			//console.log("ct: ",ct);
+			let server = $("#server").val();
+			console.log("server: ",server);
 			
 			if(server == "other"){
 				$('#as-other').fadeIn();     
@@ -32,6 +33,33 @@ $(document).ready(function(){
             }
 			
 		});
+		 $("#add-sender-form").submit(function(e){            
+		       e.preventDefault();
+			   let valid = true;
+			   let name = $('#as-name').val(), username = $('#as-username').val(),
+			   pass = $('#as-password').val(), s = $('#server').val(),
+			   ss = $('#as-server').val(), sp = $('#as-sp').val(), sec = $('#as-sec').val();
+			   
+			   if(name == "" || username == "" || pass == "" || s == ""){
+				   valid = false;
+			   }
+			   else{
+				   if(s == "other"){
+					   if(ss == "" || sp == "" || sec == "nonee") valid = false;
+				   }
+			   }
+			   
+			   if(valid){
+				 $('#settings-delivery-submit').hide();
+		     $('#settings-delivery-loading').fadeIn();
+			 //updateDeliveryFees({d1: d1, d2: d2});  
+			   }
+			   else{
+				   alert("Please fill all required fields");
+			   }
+             
+		  });
+		
 		$("#update-tracking-btn").change((e) =>{
 			e.preventDefault();
 			let vv = $("#update-tracking-btn").val();

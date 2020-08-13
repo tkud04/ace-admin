@@ -87,7 +87,7 @@ class MainController extends Controller {
 		$smtp = $this->helpers->getSetting('smtp');
 		$d1 = $this->helpers->getSetting('delivery1');
 		$d2 = $this->helpers->getSetting('delivery2');
-		#dd($smtp);
+		
 		$sender = $this->helpers->getSender($smtp['value']);
 		$senders = $this->helpers->getSenders();
 		$settings = [
@@ -96,6 +96,7 @@ class MainController extends Controller {
 		   'd2' => $d2,
 		   
         ];
+		#dd($settings);
     	return view('settings',compact(['user','settings','senders','sender','signals']));
     }
     
