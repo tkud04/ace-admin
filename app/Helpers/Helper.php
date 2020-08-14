@@ -143,6 +143,33 @@ class Helper implements HelperContract
        ],
   ];
   
+   public $banks = [
+      'access' => "Access Bank", 
+      'citibank' => "Citibank", 
+      'diamond-access' => "Diamond-Access Bank", 
+      'ecobank' => "Ecobank", 
+      'fidelity' => "Fidelity Bank", 
+      'fbn' => "First Bank", 
+      'fcmb' => "FCMB", 
+      'globus' => "Globus Bank", 
+      'gtb' => "GTBank", 
+      'heritage' => "Heritage Bank", 
+      'jaiz' => "Jaiz Bank", 
+      'keystone' => "KeyStone Bank", 
+      'polaris' => "Polaris Bank", 
+      'providus' => "Providus Bank", 
+      'stanbic' => "Stanbic IBTC Bank", 
+      'standard-chartered' => "Standard Chartered Bank", 
+      'sterling' => "Sterling Bank", 
+      'suntrust' => "SunTrust Bank", 
+      'titan-trust' => "Titan Trust Bank", 
+      'union' => "Union Bank", 
+      'uba' => "UBA", 
+      'unity' => "Unity Bank", 
+      'wema' => "Wema Bank", 
+      'zenith' => "Zenith Bank"
+ ];			
+  
   
   public $adminEmail = "aceluxurystore@yahoo.com";
   public $suEmail = "kudayisitobi@gmail.com";
@@ -2199,6 +2226,24 @@ function getRandomString($length_of_string)
 			   if($s != null)
 			   {
 				   $ret = $this->getSender($s['id']);
+			   }
+			   
+			   return $ret;
+		   }
+		   
+		   function getCurrentBank()
+		   {
+			   $ret = [];
+			   $s = Settings::where('name',"bank")->first();
+			   
+			   if($s != null)
+			   {
+				   $val = explode(',',$s->value);
+				   $ret = [
+				     'bname' => $ret[0],
+					 'acname' => $ret[1],
+					 'acnum' => $ret[2]
+				   ];
 			   }
 			   
 			   return $ret;

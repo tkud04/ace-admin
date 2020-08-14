@@ -139,9 +139,53 @@
                         
                         <div class="head-panel nm">
 						<br>
-						  
-							<h4>working..</h4>
-							   <a href="javascript:void(0)" id="settings-bank-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a>  
+                         <div id="settings-bank-side1">
+						   <?php
+						      $bank = $settings['bank'];
+							  
+							  if(count($bank) < 1)
+							  {
+								  $bank = [
+								    'bname' => "not filled",
+								    'acname' => "not filled",
+								    'acnum' => "not filled",
+								  ];
+							  }
+						   ?>
+							<h4>Bank name: <span id="settings-bname">{{$bank['bname']}}</span></h4>
+							<h4>Account name: <span id="settings-acname">{{$bank['acname']}}</span></h4>
+							<h4>Account number: <span id="settings-acnum">{{$bank['acnum']}}</span></h4>
+							<a href="javascript:void(0)" id="settings-bank-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a> 
+						 </div>
+						 <div id = "settings-bank-side2">
+						   <form id="settings-bank-form">
+						   	<input type="hidden" id="tk-bank" value="{{csrf_token()}}">
+						    <div class="form-group">
+							  <span class="control-label">Select bank</span>
+							  <select class="form-control" id="settings-bank-bname">
+							    <option value="none">Select bank</option>
+							<?php
+							 foreach($banks as $key => $value)
+							 {
+							?>
+							 <option value="{{$key}}">{{$value}}</option>
+							<?php
+							 }
+							?>
+							  </select>
+							</div>
+							<div class="form-group">
+							  <span class="control-label">Account name</span>
+							  <input type="text" class="form-control" id="settings-bank-acname" placeholder="Account name">
+							</div>
+							<div class="form-group">
+							  <span class="control-label">Account number</span>
+							  <input type="number" class="form-control" id="settings-bank-acnum" placeholder="Account number">
+							</div>
+						    <button type="submit" id="settings-bank-submit" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+						    <h4 id="settings-bank-loading">Updating bank account.. <img src="img/loading.gif" class="img img-fluid" alt="Loading" width="50" height="50"></h4><br>
+						   </form>
+                        </div>   
                         </div>                      
                     </div>                    
                                        

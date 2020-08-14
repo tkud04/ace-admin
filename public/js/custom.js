@@ -6,6 +6,8 @@ $(document).ready(function(){
 	
 	$('#settings-delivery-side2').hide();
 	$('#settings-delivery-loading').hide();
+	$('#settings-bank-side2').hide();
+	$('#settings-bank-loading').hide();
 	
 	$('#as-other').hide();
 	
@@ -144,6 +146,27 @@ $(document).ready(function(){
              $('#settings-delivery-submit').hide();
 		     $('#settings-delivery-loading').fadeIn();
 			 updateDeliveryFees({d1: d1, d2: d2});
+		  });
+		  
+		  $("#settings-bank-btn").click(function(e){            
+		       e.preventDefault();
+              $('#settings-bank-side1').hide();
+              $('#settings-bank-side2').fadeIn();
+		  });
+
+		  $("#settings-bank-form").submit(function(e){            
+		       e.preventDefault();
+			   let bname = $('#settings-bank-bname').val(), acname = $('#settings-bank-acname').val(), acnum = $('#settings-bank-acnum').val();
+			   
+			   if(bname == "none" || parseInt(acnum) < 1 || acname == ""){
+				   alert("All fields are required");
+			   }
+			   else{
+				   
+			   }
+             $('#settings-bank-submit').hide();
+		     $('#settings-bank-loading').fadeIn();
+			 updateBank({bname: bname, acname: acname, acnum: acnum});
 		  });
 		  
 });

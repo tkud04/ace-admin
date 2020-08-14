@@ -82,22 +82,29 @@ class MainController extends Controller {
 		}
 		
 		$signals = $this->helpers->signals;
+		$banks = $this->helpers->banks;
 		//$accounts = $this->helpers->getUsers();
 		$accounts = [];
 		$smtp = $this->helpers->getSetting('smtp');
 		$d1 = $this->helpers->getSetting('delivery1');
 		$d2 = $this->helpers->getSetting('delivery2');
+		$bank = $this->helpers->getCurrentBank();
 		
+		if(count($b) > 0)
+		{
+			$arr = explode(",",$b->value);
+		}
 		$sender = $this->helpers->getSender($smtp['value']);
 		$senders = $this->helpers->getSenders();
 		$settings = [
 		   'smtp' => $smtp,
 		   'd1' => $d1,
 		   'd2' => $d2,
+		   'bank' => $bank,
 		   
         ];
 		#dd($settings);
-    	return view('settings',compact(['user','settings','senders','sender','signals']));
+    	return view('settings',compact(['user','settings','senders','sender','banks','signals']));
     }
     
     /**
