@@ -90,10 +90,7 @@ class MainController extends Controller {
 		$d2 = $this->helpers->getSetting('delivery2');
 		$bank = $this->helpers->getCurrentBank();
 		
-		if(count($b) > 0)
-		{
-			$arr = explode(",",$b->value);
-		}
+		
 		$sender = $this->helpers->getSender($smtp['value']);
 		$senders = $this->helpers->getSenders();
 		$settings = [
@@ -178,6 +175,37 @@ class MainController extends Controller {
 			
 			return json_encode(['status' => "ok"]);
          }       
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postSettingsBank(Request $request)
+    {	
+	  $ret = ['status' => 'ok','message' => "nothing happened"];
+       $req = $request->all();
+		  # dd($req); 
+        $validator = Validator::make($req, [
+                             'dt' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+			 $ret = ['status' => "error"];
+         }
+         
+         else
+         {
+			$dt = json_decode($req['dt']);
+			$this->helpers->updateBank($dt);			
+			
+			$ret = ['status' => "ok"];
+         }
+ 
+        return json_encode($ret); 
     }
     
     

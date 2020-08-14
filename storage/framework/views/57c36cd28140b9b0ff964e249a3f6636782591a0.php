@@ -165,7 +165,7 @@
             <div class="page-footer">
                 <div class="page-footer-wrap">
                     <div class="side pull-left">
-                        copyright &copy;<?php echo e(date("Y")); ?> Ace Luxury Stores, all rights reserved.
+                        copyright &copy;<?php echo e(date("Y")); ?> Ace Luxury Store, all rights reserved.
                     </div>
                 </div>
             </div>

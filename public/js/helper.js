@@ -1317,24 +1317,25 @@ function updateBank(dt){
 		   if(res.status == "ok"){
                   $('#settings-bname').html(dt.bname);
                   $('#settings-acname').html(dt.acname);
-				  $('#settings-delivery-side2').hide();
-				  $('#settings-delivery-loading').hide();
-		     $('#settings-delivery-submit').fadeIn();		
-              $('#settings-delivery-side1').fadeIn();
+                  $('#settings-acnum').html(dt.acnum);
+				  $('#settings-bank-side2').hide();
+				  $('#settings-bank-loading').hide();
+		     $('#settings-bank-submit').fadeIn();		
+              $('#settings-bank-side1').fadeIn();
 		   }
 		   else if(res.status == "error"){
 				     alert("An unknown error has occured. Please refresh the app or try again later");
-                   $('#settings-delivery-loading').hide();
-		     $('#settings-delivery-submit').fadeIn();					 
+                   $('#settings-bank-loading').hide();
+		     $('#settings-bank-submit').fadeIn();					 
 		   }
 		   
 		  
 		   
 		  
 	   }).catch(error => {
-		    alert("Failed to update delivery: " + error);	
-            $('#settings-delivery-loading').hide();
-		     $('#settings-delivery-submit').fadeIn();			
+		    alert("Failed to update bank: " + error);	
+            $('#settings-bank-loading').hide();
+		     $('#settings-bank-submit').fadeIn();			
 	   });
 }
 

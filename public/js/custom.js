@@ -162,11 +162,11 @@ $(document).ready(function(){
 				   alert("All fields are required");
 			   }
 			   else{
-				   
+				   $('#settings-bank-submit').hide();
+		           $('#settings-bank-loading').fadeIn();
+			       updateBank({bname: bname, acname: acname, acnum: acnum});   
 			   }
-             $('#settings-bank-submit').hide();
-		     $('#settings-bank-loading').fadeIn();
-			 updateBank({bname: bname, acname: acname, acnum: acnum});
+
 		  });
 		  
 });

@@ -2075,6 +2075,25 @@ function getRandomString($length_of_string)
 			 }
            	
            }
+		   
+		function updateBank($data)
+           {
+			 $ret = $data->bname.",".$data->acname.",".$data->acnum;
+				 $b = Settings::where('name',"bank")->first();
+			 
+			 
+			 if(is_null($b))
+			 {
+				 Settings::create(['name' => "bank",'value' => $ret]);
+				 
+			  
+			 }
+			 else
+			 {
+				 $b->update(['value' => $ret]);
+			 }
+           	
+           }
            
            
            function createSender($data)
@@ -2240,9 +2259,9 @@ function getRandomString($length_of_string)
 			   {
 				   $val = explode(',',$s->value);
 				   $ret = [
-				     'bname' => $ret[0],
-					 'acname' => $ret[1],
-					 'acnum' => $ret[2]
+				     'bname' => $val[0],
+					 'acname' => $val[1],
+					 'acnum' => $val[2]
 				   ];
 			   }
 			   
