@@ -457,7 +457,7 @@ function BUP(){
 		let BUPitem = BUPlist[i];
 		if(BUPitem.selected){
 			
-			if(BUPitem.qty == "" || BUPitem.qty < 0){
+			if(!BUPitem.qty || BUPitem.qty == "" || BUPitem.qty < 0){
 				hasUnfilledQty = true;
 			}
 			ret.push({sku: BUPitem.sku,qty: BUPitem.qty});
