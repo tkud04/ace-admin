@@ -448,7 +448,7 @@ function BUP(){
 		if(BUPitem.selected){
 			let BUPItemQty = $(`#bup-${BUPitem.sku}-side2 > input[type=number]`).val();
 			console.log("qty: ",BUPItemQty);
-			if(BUPItemQty && parseInt(BUPItemQty) > 0){
+			if(BUPItemQty && parseInt(BUPItemQty) >= 0){
 				ret.push({sku: BUPitem.sku,qty: BUPItemQty});
 			}
 			else{
