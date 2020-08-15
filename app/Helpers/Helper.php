@@ -77,6 +77,7 @@ class Helper implements HelperContract
                      "delete-order-status" => "Order deleted",
                      "bulk-update-tracking-status" => "Trackings updated",
                      "bulk-confirm-payment-status" => "Payments confirmed",
+                     "bulk-update-products-status" => "Products updated",
                      "bulk-upload-products-status" => "Products uploaded",
                      "no-validation-status" => "Please fill all required fields",
                      "add-sender-status" => "Sender added",

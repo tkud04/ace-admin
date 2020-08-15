@@ -84,7 +84,7 @@
 									  </div>
 									</div>
 									<div id="bup-<?php echo e($sku); ?>-side2" class="bup-hide">
-									  <input type="number" class="form-control" placeholder="New stock">
+									  <input type="number" class="form-control" onchange="BUPSaveEdit({sku: '<?php echo e($sku); ?>',value: this.value})" placeholder="New stock">
 									  <div class="btn-group" role="group">
 									   <button onclick="BUPCancelEditStock({sku: '<?php echo e($sku); ?>'})" class="btn btn-warning p">Cancel</button>
 									  </div>

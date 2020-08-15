@@ -84,7 +84,7 @@
 									  </div>
 									</div>
 									<div id="bup-{{$sku}}-side2" class="bup-hide">
-									  <input type="number" class="form-control" placeholder="New stock">
+									  <input type="number" class="form-control" onchange="BUPSaveEdit({sku: '{{$sku}}',value: this.value})" placeholder="New stock">
 									  <div class="btn-group" role="group">
 									   <button onclick="BUPCancelEditStock({sku: '{{$sku}}'})" class="btn btn-warning p">Cancel</button>
 									  </div>

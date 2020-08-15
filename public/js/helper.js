@@ -409,6 +409,16 @@ function BUPEditStock(dt){
 		  }
 }
 
+function BUPSaveEdit(dt){
+	console.log('dt: ',dt);
+	let BUPitem = BUPlist.find(i => i.sku == dt.sku);
+		  console.log('BUPitem: ',BUPitem);
+		 
+		  if(BUPitem){
+			 BUPitem.qty = dt.value;  
+		  }
+}
+
 function BUPCancelEditStock(dt){
 	$(`#bup-${dt.sku}-side2`).hide();
 	$(`#bup-${dt.sku}-side1`).fadeIn();
@@ -446,14 +456,12 @@ function BUP(){
 	for(let i = 0; i < BUPlist.length; i++){
 		let BUPitem = BUPlist[i];
 		if(BUPitem.selected){
-			let BUPItemQty = $(`#bup-${BUPitem.sku}-side2 > input[type=number]`).val();
-			console.log("qty: ",BUPItemQty);
-			if(BUPItemQty && parseInt(BUPItemQty) >= 0){
-				ret.push({sku: BUPitem.sku,qty: BUPItemQty});
-			}
-			else{
+			
+			if(BUPitem.qty == "" || BUPitem.qty < 0){
 				hasUnfilledQty = true;
 			}
+			ret.push({sku: BUPitem.sku,qty: BUPitem.qty});
+			
 			BUPIsAllUnselected = false;
 		}
 	}
