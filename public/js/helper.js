@@ -1245,23 +1245,24 @@ function baoFire(){
 				 
 		   if(res.status == "ok"){
                   $('#result-ctr').html(bac);
+				  
+				  
+				   setTimeout(function(){
+			       if(bac >= orderCount){
+					  $('#result-box').hide();
+					  $("#finish-box").fadeIn();
+					  window.location = "new-order";
+				  }
+                  else{
+					 baoFire();
+				  }				  
+		    },4000);
 		   }
 		   else if(res.status == "error"){
 				     alert("An unknown network error has occured. Please refresh the app or try again later");
                    $('#result-box').hide();
 			$("#button-box").fadeIn();					 
 		   }
-		   
-		    setTimeout(function(){
-			       if(bac >= orderCount){
-					  $('#result-box').hide();
-					  $("#finish-box").fadeIn();
-					  window.location = "bao";
-				  }
-                  else{
-					 baoFire();
-				  }				  
-		    },4000);
 		   
 		  
 	   }).catch(error => {

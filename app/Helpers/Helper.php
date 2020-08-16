@@ -2064,7 +2064,7 @@ function getRandomString($length_of_string)
                     {
 						$product = $this->getProduct($i->sku);
 						$amount = $product['pd']['amount'];
-						$discounts = $c['product']['discounts'];
+						$discounts = $product['discounts'];
 						#dd($discounts);
 						$dsc = $this->getDiscountPrices($amount,$discounts);
 						
@@ -2105,30 +2105,45 @@ function getRandomString($length_of_string)
                     user: "{"id":"anon","name":"Tobi Hay","email":"aquarius4tkud@yahoo.com","phone":"08079284917","address":"6 alfred rewane rd","city":"lokoja","state":"kogi"}" 
 				 }
 		**/
-		$u = $order->user;
-		$items = $order->items;
+		$u = json_decode($order->user);
+		$items = json_decode($order->items);
 		$notes = $order->notes;
 		
-		$dt['ref'] = $this->getRandomString(5);
-		$dt['amount'] = $order->amount;
-		$dt['notes'] = isset($md['notes']) ? $md['notes'] : "";
+		$ref = $this->getRandomString(5);
+		$dt['ref'] = $ref;
+		$dt['amount'] = $this->computeTotals($items);
+		$dt['notes'] = is_null($notes) ? "" : $notes;
 		$dt['payment_code'] = $this->getPaymentCode($ref);
 		$dt['type'] = "admin";
 		$dt['status'] = "paid";
 		
 		if($u->id == "anon")
 		{
-			$dt['name'] = $user->name;
-					$dt['email'] = $user->email;
-					$dt['phone'] = $user->phone;
-					$dt['address'] = $user->address;
-					$dt['city'] = $user->city;
-					$dt['state'] = $user->state;
+			$dt['name'] = $u->name;
+					$dt['email'] = $u->email;
+					$dt['phone'] = $u->phone;
+					$dt['address'] = $u->address;
+					$dt['city'] = $u->city;
+					$dt['state'] = $u->state;
 		}
 		else
 		{
-			
+			//"{"id":"16","name":"Tobi Lay","email":"testing2@yahoo.com","state":"Lagos"}",
 		}
+		
+		 $o = $this->createOrder($u, $data);
+		 
+		 #create order details
+               foreach($items as $i)
+               {
+				   $dt = [];
+                   $dt['sku'] = $i->sku;
+				   $dt['qty'] = $i->qty;
+				   $dt['order_id'] = $o->id;
+				   $this->updateStock($i->sku,$i->qty);
+                   $oi = $this->createOrderItems($dt);                    
+               }
+	     return $o;
 	}
 	
 	function createSetting($data)
