@@ -32,7 +32,7 @@
 
 @section('content')
 <script>
-let categories = [], products = [], orders = [],
+let categories = [], products = [], orders = [], states = [],
    customerTypes = [], users = [], baoCounter = 0, orderCount = 0;
  
  @foreach($c as $cc)
@@ -62,6 +62,13 @@ let categories = [], products = [], orders = [],
 		  state: "{{ucwords($u['sd']['state'])}}" 
 		  });
 	@endif
+ @endforeach
+ 
+ @foreach($states as $key => $value)
+	  states.push({
+		  key: "{{$key}}", 
+		  name: "{{$value}}" 
+		  });
  @endforeach
  
  customerTypes = [

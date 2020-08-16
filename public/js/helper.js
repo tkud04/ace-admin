@@ -1,5 +1,5 @@
 	let trackingOrders = [], trackingAction = "none", cpOrders = [], cpAction = "none", pqProducts = [], pqAction = "0";
-	let BUPlist = [], BUUPlist = [], BAOlist = [];
+	let BUPlist = [], BUUPlist = [], BAOlist = [], BAODelivery = 0;
 	
 const addClass = (elem,name) => {
 	let el = document.querySelector(elem);
@@ -775,6 +775,7 @@ function computeTotal(i){
 		delivery: 0 
 	};
 	
+	
 	let itemsJSON = localStorage.getItem(`items_${i}`);
     if(!itemsJSON){
 	   itemsJSON = "[]";
@@ -820,8 +821,11 @@ subtotal: 16300
 		 for(let x = 0; x < dt.displays.length; x++){
 			 let item = dt.displays[x];
 			 str += `<p id="bao-${dt.id}-totals-${item.ctr}">${item.sku} <b>(x${item.qty})</b>: <em>N${parseInt(item.qty) * item.amount}</em>
-  			 <a href="javascript:void(0)" onclick="cancelProduct({b: ${dt.id},ctr: ${item.ctr}})">Cancel</a>
+  			 <a href="javascript:void(0)" class="btn btn-warning" onclick="cancelProduct({b: ${dt.id},ctr: ${item.ctr}})">Cancel</a>
 			 </p> `;
+		 }
+		 if(BAODelivery.length > 0){
+			  str += `<p id="bao-${dt.id}-delivery"><b>Delivery</b>: <em>N${BAODelivery[1]}</em></p> `;
 		 }
 		 document.querySelector(`#bao-${dt.id} .total`).innerHTML = str;
 	  }
@@ -903,9 +907,9 @@ function changeCustomerType(event){
 /**YOU ARE HERE **/
 
 function getDeliveryFee(dt){
-
+    console.log(dt);
 	//create request
-	const req = `gdf?s=${dt}&st=${subtotal}`;
+	const req = `gdf?s=${dt}`;
 	//console.log(req);
 	
 	
@@ -928,16 +932,11 @@ function getDeliveryFee(dt){
 		   console.log(res);
 		   
 		   if(res.status == "ok"){
-			      $('#deliv').html("&#8358;" + res.message[1]);
-				  if(parseInt(res.total) > 0){
-					$('#checkout-total').html("&#8358;" + res.total[1]);  
-					$('#ca-amount').val(res.total[0] * 100);  //for paystack
-				  } 
-                  $('#checkout-methods').fadeIn();				  
+			      BAODelivery = res.message;				  
 				}
 		  
 	   }).catch(error => {
-		    alert("Failed to send message: " + error);			
+		    alert("Failed to get delivery fee: " + error);			
 	   });
 }
 
@@ -1032,14 +1031,52 @@ function BAOAddRow(){
 		     <div class="col-md-2"></div>
 		     <div class="col-md-8">
 		       <form>
+			   <div class="row">
+			   <div class="col-md-6">
 			     <div class="form-group">
 			       <span class="control-label">Name</span>
 				   <input type="text" id="bao-${baoCounter}-name" class="form-control">
-			     </div><br>
+			     </div>
+			   </div>
+			   <div class="col-md-6">
 				 <div class="form-group">
 			       <span class="control-label">Email address</span>
 				   <input type="text" id="bao-${baoCounter}-email" class="form-control">
-			     </div><br>
+			     </div>
+			   </div>
+			   </div>
+			   <div class="row">
+			   <div class="col-md-6">
+				 <div class="form-group">
+			       <span class="control-label">Phone number</span>
+				   <input type="text" id="bao-${baoCounter}-phone" class="form-control">
+			     </div>
+			   </div>
+			   <div class="col-md-6">
+				 <div class="form-group">
+			       <span class="control-label">Address</span>
+				   <input type="text" id="bao-${baoCounter}-address" class="form-control">
+			     </div>
+			   </div>
+			  </div>
+			  <div class="row">
+			    <div class="col-md-6">
+				 <div class="form-group">
+			       <span class="control-label">City</span>
+				   <input type="text" id="bao-${baoCounter}-city" class="form-control">
+			     </div>
+			   </div>
+			   <div class="col-md-6">
+				 <div class="form-group">
+			       <span class="control-label">State</span>
+				   <select id="bao-${baoCounter}-state" class="form-control">
+				     <option value="none">Select state</option>
+					 ${states.map(s => "<option value='" + s.key + "'>" + s.name + "</option>")}
+				   </select>
+			     </div>
+			   </div>
+			   </div>
+				 <br>
 				 <button onclick="BOASelectUser(${baoCounter},'anon'); return false;" class="btn btn-primary">Add user</button>
 			   </form>
 		     </div>

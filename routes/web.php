@@ -99,6 +99,7 @@ Route::post('sender', 'MainController@postSender');
 Route::get('remove-sender', 'MainController@getRemoveSender');
 Route::get('mark-sender', 'MainController@getMarkSender');
 
+Route::get('gdf', 'MainController@getDeliveryFee');
 Route::post('settings-delivery', 'MainController@postSettingsDelivery');
 Route::post('settings-sender', 'MainController@postSettingsSender');
 Route::post('settings-bank', 'MainController@postSettingsBank');

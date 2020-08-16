@@ -169,7 +169,48 @@ class Helper implements HelperContract
       'unity' => "Unity Bank", 
       'wema' => "Wema Bank", 
       'zenith' => "Zenith Bank"
- ];			
+ ];		
+
+ public $states = [
+			                       'abia' => 'Abia',
+			                       'adamawa' => 'Adamawa',
+			                       'akwa-ibom' => 'Akwa Ibom',
+			                       'anambra' => 'Anambra',
+			                       'bauchi' => 'Bauchi',
+			                       'bayelsa' => 'Bayelsa',
+			                       'benue' => 'Benue',
+			                       'borno' => 'Borno',
+			                       'cross-river' => 'Cross River',
+			                       'delta' => 'Delta',
+			                       'ebonyi' => 'Ebonyi',
+			                       'enugu' => 'Enugu',
+			                       'edo' => 'Edo',
+			                       'ekiti' => 'Ekiti',
+			                       'gombe' => 'Gombe',
+			                       'imo' => 'Imo',
+			                       'jigawa' => 'Jigawa',
+			                       'kaduna' => 'Kaduna',
+			                       'kano' => 'Kano',
+			                       'katsina' => 'Katsina',
+			                       'kebbi' => 'Kebbi',
+			                       'kogi' => 'Kogi',
+			                       'kwara' => 'Kwara',
+			                       'lagos' => 'Lagos',
+			                       'nasarawa' => 'Nasarawa',
+			                       'niger' => 'Niger',
+			                       'ogun' => 'Ogun',
+			                       'ondo' => 'Ondo',
+			                       'osun' => 'Osun',
+			                       'oyo' => 'Oyo',
+			                       'plateau' => 'Plateau',
+			                       'rivers' => 'Rivers',
+			                       'sokoto' => 'Sokoto',
+			                       'taraba' => 'Taraba',
+			                       'yobe' => 'Yobe',
+			                       'zamfara' => 'Zamfara',
+			                       'fct' => 'FCT'  
+			];  
+ 
   
   
   public $adminEmail = "aceluxurystore@yahoo.com";
@@ -1512,10 +1553,37 @@ $subject = $data['subject'];
 			  return $ret;
 		   }
 		   
+		   function isSouthWestState($s)
+		   {
+			   $ret = false;
+			   $sw = ["ekiti","lagos","ogun","ondo","osun","oyo"];
+			   
+			   foreach($sw as $sww)
+			   {
+				   if(strtolower($s) == $sww) $ret = true;
+			   }
+			   
+			   return $ret;
+		   }
+		   
 		    function getDeliveryFee($u=null,$type="user")
 		   {
-			   $ret = 2000;
+			    $s1 = Settings::where('name',"delivery1")->first();
+			    $s2 = Settings::where('name',"delivery2")->first();
+			   
 			   $state = "";
+			   
+			   if($s1 == null || $s2 == null)
+			   {
+				   if($s1 == null) $delivery1 = 1000;
+				   if($s2 == null) $delivery2 = 2000;
+			   }
+			   else
+			   {
+				   $delivery1 = $s1->value;
+				   $delivery2 = $s2->value;
+			   }
+			   $ret = $delivery2;
 			   
 			   switch($type)
 			   {
@@ -1535,7 +1603,7 @@ $subject = $data['subject'];
 			   
 			   if($state != null && $state != "")
 			   {
-				 if($state == "ekiti" || $state == "lagos" || $state == "ogun" || $state == "ondo" || $state == "osun" || $state == "oyo") $ret = 1000;   
+				 if($this->isSouthWestState($state)) $ret = $delivery1;   
 			   }
 			   
 			    

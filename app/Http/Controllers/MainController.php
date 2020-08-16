@@ -1929,7 +1929,7 @@ class MainController extends Controller {
          
          else
          {
-			 $total = 0;
+			 $total = 0; $tt = 0;
              $ret = $this->helpers->getDeliveryFee($req['s'],"state");
 			
 			if(isset($req['st']) && is_numeric($req['st']))
@@ -1967,8 +1967,9 @@ class MainController extends Controller {
 		$products = $this->helpers->getProducts();
 		$users = $this->helpers->getUsers(true);
 		$signals = $this->helpers->signals;
+		$states = $this->helpers->states;
 		#dd($users);
-       return view('bao',compact(['user','c','products','users','signals']));
+       return view('bao',compact(['user','c','products','users','states','signals']));
     }
 	
 	/**
@@ -2003,6 +2004,17 @@ class MainController extends Controller {
          else
          {
 			$dtt = json_decode($req['dt']);
+			/**	
+			 {
+				 id: 0,
+				 data: 
+				 {
+					items: "[{"ctr":0,"sku":"ACE6870LX226","qty":"5"},{"ctr":"1","sku":"ACE281LX516","qty":"4"}]",
+                    notes: "test notes",
+                    user: "{"id":"anon","name":"Tobi Hay","email":"aquarius4tkud@yahoo.com","phone":"08079284917","address":"6 alfred rewane rd","city":"lokoja","state":"kogi"}" 
+				 }
+			 }
+			**/
 			#dd($dtt);
 			
 			//foreach($dt as $dtt)
@@ -2012,7 +2024,7 @@ class MainController extends Controller {
 				$o = $dtt->data;
 				
                  $order = $this->helpers->bulkAddOrder($o);
-                 $ret = ['status' => "ok","message"=>"product uploaded"];
+                 $ret = ['status' => "ok","message"=>"order added"];
 					 
 			//}
 			

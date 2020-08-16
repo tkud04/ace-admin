@@ -30,7 +30,7 @@
 
 <?php $__env->startSection('content'); ?>
 <script>
-let categories = [], products = [], orders = [],
+let categories = [], products = [], orders = [], states = [],
    customerTypes = [], users = [], baoCounter = 0, orderCount = 0;
  
  <?php $__currentLoopData = $c; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -60,6 +60,13 @@ let categories = [], products = [], orders = [],
 		  state: "<?php echo e(ucwords($u['sd']['state'])); ?>" 
 		  });
 	<?php endif; ?>
+ <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+ 
+ <?php $__currentLoopData = $states; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+	  states.push({
+		  key: "<?php echo e($key); ?>", 
+		  name: "<?php echo e($value); ?>" 
+		  });
  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
  
  customerTypes = [
