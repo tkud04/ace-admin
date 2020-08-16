@@ -2051,11 +2051,60 @@ function getRandomString($length_of_string)
 				   $ret = "ACE_".$r;
 			   }
 			   return $ret;
-		   }		
+		   }
+
+    function computeTotals($items)
+           {
+			   //	items: "[{"ctr":0,"sku":"ACE6870LX226","qty":"5"},{"ctr":"1","sku":"ACE281LX516","qty":"4"}]",
+           	$ret = 0;
+			  
+              if($items != null && count($items) > 0)
+               {           	
+               	foreach($items as $i) 
+                    {
+						$product = $this->getProduct($i->sku);
+						$amount = $product['pd']['amount'];
+						$discounts = $c['product']['discounts'];
+						#dd($discounts);
+						$dsc = $this->getDiscountPrices($amount,$discounts);
+						
+						$newAmount = 0;
+						if(count($dsc) > 0)
+			            {
+				          foreach($dsc as $d)
+				          {
+					        if($newAmount < 1)
+					        {
+						      $newAmount = $amount - $d;
+					        }
+					        else
+					        {
+						      $newAmount -= $d;
+					        }
+				          }
+					      $amount = $newAmount;
+			            }
+						$qty = $i->qty;
+                    	$ret += ($amount * $qty);
+                       					
+                    }
+					
+               }                                 
+                   #dd($ret);                                  
+                return $ret;
+           }		   
 		
 	function bulkAddOrder($order)
 	{
 		$dt = [];
+		/**
+		order: 
+				 {
+					items: "[{"ctr":0,"sku":"ACE6870LX226","qty":"5"},{"ctr":"1","sku":"ACE281LX516","qty":"4"}]",
+                    notes: "test notes",
+                    user: "{"id":"anon","name":"Tobi Hay","email":"aquarius4tkud@yahoo.com","phone":"08079284917","address":"6 alfred rewane rd","city":"lokoja","state":"kogi"}" 
+				 }
+		**/
 		$u = $order->user;
 		$items = $order->items;
 		$notes = $order->notes;
