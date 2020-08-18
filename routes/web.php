@@ -104,3 +104,4 @@ Route::post('settings-delivery', 'MainController@postSettingsDelivery');
 Route::post('settings-sender', 'MainController@postSettingsSender');
 Route::post('settings-bank', 'MainController@postSettingsBank');
 
+
