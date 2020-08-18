@@ -518,7 +518,7 @@ $subject = $data['subject'];
                        if($all)
 					   {
 						   $sd =  $this->getShippingDetails($u);
-						   $temp['sd'] =  $sd[0];
+						   $temp['sd'] = count($sd) > 0 ? $sd[0] : $sd;
 					   }					   
                        $temp['status'] = $u->status; 
                        $temp['verified'] = $u->verified; 
