@@ -54,12 +54,15 @@ let categories = [], products = [], orders = [], states = [],
  @endforeach
 
  @foreach($users as $u)
+ <?php
+  $state = (count($u['sd']) < 1) ? "lagos" : $u['sd']['state'];
+ ?>
  	@if($u['status'] == "enabled")
 	  users.push({
 		  id: "{{$u['id']}}", 
 		  name: "{{$u['fname']}} {{$u['lname']}}", 
 		  email: "{{$u['email']}}" ,
-		  state: "{{ucwords($u['sd']['state'])}}" 
+		  state: "{{ucwords($state)}}" 
 		  });
 	@endif
  @endforeach
