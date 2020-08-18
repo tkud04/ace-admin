@@ -587,6 +587,7 @@ $subject = $data['subject'];
 				  $temp['qty'] = $product->qty;
 				  $temp['status'] = $product->status;
 				  $temp['pd'] = $this->getProductData($product->sku);
+				  $temp['discounts'] = $this->getDiscounts($product->sku);
 				  $imgs = $this->getImages($product->sku);
 				  if($imgId) $temp['imgs'] = $imgs;
 				  $temp['imggs'] = $this->getCloudinaryImages($imgs);
@@ -842,45 +843,68 @@ $subject = $data['subject'];
                 return $ret;
            }
 		   
-		   function getDiscounts($id="")
+		   function getDiscounts($id,$type="product")
            {
            	$ret = [];
-			if($id == "")
-			{
-				$discounts = Discounts::where('id','>',"0")->get();
-			}
-			else
-			{
-				$product = Products::where('id',$id)
-			                 ->orWhere('sku',$id)->first();
-				
-				if($product != null)
+             if($type == "product")
+			 {
+				$discounts = Discounts::where('sku',$id)
+			                 ->orWhere('type',"general")
+							 ->where('status',"enabled")->get(); 
+			 }
+			 elseif($type == "user")
+			 {
+				 $discounts = Discounts::where('sku',$id)
+			                 ->where('type',"user")
+							 ->where('status',"enabled")->get();
+             }
+			 
+              if($discounts != null)
                {
-				    $discounts = Discounts::where('sku',$id)
-			                 ->orWhere('type',"all")->get();
-			   }
-			}
-              
- 
-              
-							 
-					if($discounts != null)
-					{
-						foreach($discounts as $disc)
-						{
-							$temp = [];
-				            $temp['id'] = $disc->id;
-				            $temp['sku'] = $disc->sku;
-				            $temp['discount_type'] = $disc->discount_type;
-				            $temp['discount'] = $disc->discount;
-				            $temp['type'] = $disc->type;
-				            $temp['status'] = $disc->status;
-							array_push($ret,$temp);
-						}
-					}                      
+				  foreach($discounts as $d)
+				  {
+					$temp = [];
+				    $temp['id'] = $d->id;
+				    $temp['sku'] = $d->sku;
+				    $temp['discount_type'] = $d->discount_type;
+				    $temp['discount'] = $d->discount;
+				    $temp['type'] = $d->type;
+				    $temp['status'] = $d->status;
+				    array_push($ret,$temp);  
+				  }
+               }                         
                                                       
                 return $ret;
            }
+		   
+		     function getDiscountPrices($amount,$discounts)
+		   {
+			   $newAmount = 0;
+						$dsc = [];
+                     
+					 if(count($discounts) > 0)
+					 { 
+						 foreach($discounts as $d)
+						 {
+							 $temp = 0;
+							 $val = $d['discount'];
+							 
+							 switch($d['discount_type'])
+							 {
+								 case "percentage":
+								   $temp = floor(($val / 100) * $amount);
+								 break;
+								 
+								 case "flat":
+								   $temp = $val;
+								 break;
+							 }
+							 
+							 array_push($dsc,$temp);
+						 }
+					 }
+				   return $dsc;
+		   }
 
 		   function getDiscount($id)
            {
@@ -2125,13 +2149,15 @@ function getRandomString($length_of_string)
 					$dt['address'] = $u->address;
 					$dt['city'] = $u->city;
 					$dt['state'] = $u->state;
+			$uu = null;
 		}
 		else
 		{
 			//"{"id":"16","name":"Tobi Lay","email":"testing2@yahoo.com","state":"Lagos"}",
+			$uu = $u;
 		}
 		
-		 $o = $this->createOrder($u, $data);
+		 $o = $this->createOrder($uu, $dt);
 		 
 		 #create order details
                foreach($items as $i)

@@ -1143,6 +1143,7 @@ function BAORemoveRow(ctr){
 	//console.log(r);
 	r.remove();
 	--baoCounter;
+	--orderCount;
 	localStorage.removeItem(`ctr_${ctr}`);
 	localStorage.removeItem(`items_${ctr}`);
 	localStorage.removeItem(`user_${ctr}`);
@@ -1230,7 +1231,7 @@ function baoFire(){
 			   return response.json();
 		   }
 		   else{
-			   return {status: "error:", message: "Network error"};
+			   return {status: "error", message: "Network error"};
 		   }
 	   })
 	   .catch(error => {
@@ -1245,13 +1246,15 @@ function baoFire(){
 				 
 		   if(res.status == "ok"){
                   $('#result-ctr').html(bac);
-				  
+				  	localStorage.removeItem(`ctr_${bac-1}`);
+	               localStorage.removeItem(`items_${bac-1}`);
+	                localStorage.removeItem(`user_${bac-1}`);
 				  
 				   setTimeout(function(){
 			       if(bac >= orderCount){
 					  $('#result-box').hide();
 					  $("#finish-box").fadeIn();
-					  window.location = "new-order";
+					  window.location = "orders";
 				  }
                   else{
 					 baoFire();
@@ -1259,14 +1262,14 @@ function baoFire(){
 		    },4000);
 		   }
 		   else if(res.status == "error"){
-				     alert("An unknown network error has occured. Please refresh the app or try again later");
+				     alert("An unknown error has occured. Please try again");
                    $('#result-box').hide();
 			$("#button-box").fadeIn();					 
 		   }
 		   
 		  
 	   }).catch(error => {
-		    alert("Failed to send message: " + error);			
+		    alert("Failed to add order: " + error);			
 	   });
 }
 
