@@ -1968,7 +1968,7 @@ class MainController extends Controller {
 		$users = $this->helpers->getUsers(true);
 		$signals = $this->helpers->signals;
 		$states = $this->helpers->states;
-		#dd($users);
+		dd($users);
        return view('bao',compact(['user','c','products','users','states','signals']));
     }
 	
