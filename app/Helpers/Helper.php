@@ -1012,7 +1012,7 @@ $subject = $data['subject'];
 					foreach($pis as $pi) $pi->delete();  
 				  }
 				  
-				  $pd = ProductData::where('sku',$id)->get();
+				  $pd = ProductData::where('sku',$id)->first();
 				  
 				  if($pd != null) $pd->delete();
 				  
