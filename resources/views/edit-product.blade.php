@@ -158,7 +158,7 @@
 								  $imggs = $product['imggs'];
 								  $imgs = $product['imgs'];
 								  
-								  if()
+								  if(count($imggs) < 1)
 								  {
 								?>
                                     <li>
