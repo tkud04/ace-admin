@@ -28,6 +28,7 @@
 							   $sku = $p['sku'];
 							    $uu = url('edit-product')."?id=".$sku;
 							    $du = url('disable-product')."?id=".$sku;
+							    $ddu = url('delete-product')."?id=".$sku;
 							   $pd = $p['pd'];
 							    $img = $p['imggs'][0];
 							   $status = $p['status'];
@@ -46,6 +47,7 @@
                                     <td>
 									  <a href="{{$uu}}" class="btn btn-primary">View</button>									  
 									  <a href="{{$du}}" class="btn btn-danger">Disable</button>									  
+									  <a href="{{$ddu}}" class="btn btn-danger">Delete</button>									  
 									</td>                                                                     
                                 </tr>
                                @endforeach                       

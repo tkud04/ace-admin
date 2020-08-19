@@ -28,6 +28,7 @@ Route::post('add-product', 'MainController@postAddProduct');
 Route::get('edit-product', 'MainController@getEditProduct');
 Route::post('edit-product', 'MainController@postEditProduct');
 Route::get('disable-product', 'MainController@getDisableProduct');
+Route::get('delete-product', 'MainController@getDeleteProduct');
 
 Route::get('users', 'MainController@getUsers');
 Route::get('user', 'MainController@getUser');
