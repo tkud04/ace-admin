@@ -56,6 +56,7 @@ class Helper implements HelperContract
                      "create-product-status" => "Product added!",
                      "create-category-status" => "Category added!",
                      "update-product-status" => "Product updated!",
+                     "delete-product-status" => "Product deleted!",
                      "edit-category-status" => "Category updated!",
                      "update-status" => "Account updated!",
                      "update-user-status" => "User account updated!",
@@ -990,6 +991,32 @@ $subject = $data['subject'];
 				  $p->update([		
 				    'status' => "disabled"
 				  ]);
+               }                         
+                                                      
+                return "ok";
+           } 
+		   
+		   function deleteProduct($id,$def=false)
+           {
+           	$ret = [];
+              $p = Products::where('id',$id)
+			                 ->orWhere('sku',$id)->first();
+              
+			  //dd($data);
+              if($p != null)
+               {
+				  $pis = ProductImages::where('sku',$id)->get();
+				  
+				  if($pis != null)
+				  {
+					foreach($pis as $pi) $pi->delete();  
+				  }
+				  
+				  $pd = ProductData::where('sku',$id)->get();
+				  
+				  if($pd != null) $pd->delete();
+				  
+				  $p->delete();
                }                         
                                                       
                 return "ok";
