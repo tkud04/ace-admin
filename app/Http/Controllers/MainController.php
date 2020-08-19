@@ -757,7 +757,7 @@ class MainController extends Controller {
 			  $categories = $this->helpers->getCategories();
 			  $signals = $this->helpers->signals;
 			  $xf = $req['id'];
-			  dd($product);
+			  #dd($product);
 		      return view('edit-product',compact(['user','product','discounts','categories','xf','signals']));
             }
 		}
