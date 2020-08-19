@@ -46,7 +46,7 @@
                                     <td><span class="driver-status label label-{{$ss}}">{{$status}}</span></td>                                                                     
                                     <td>
 									  <a href="{{$uu}}" class="btn btn-primary">View</button>									  
-									  <a href="{{$du}}" class="btn btn-danger">Disable</button>									  
+									  <a href="{{$du}}" class="btn btn-waarning">Disable</button>									  
 									  <a href="{{$ddu}}" class="btn btn-danger">Delete</button>									  
 									</td>                                                                     
                                 </tr>
