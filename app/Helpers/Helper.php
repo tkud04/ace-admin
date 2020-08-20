@@ -2182,10 +2182,12 @@ function getRandomString($length_of_string)
 		{
 			//"{"id":"16","name":"Tobi Lay","email":"testing2@yahoo.com","state":"Lagos"}",
 			$uu = $u;
+			$uuu = $this->getUser($u->id);
+			$sd = $this->getShippingDetails($u->id);
 		}
 		
 		 $o = $this->createOrder($uu, $dt);
-		 
+		 $oo = $this->getOrder($o->reference);
 		 #create order details
                foreach($items as $i)
                {
@@ -2196,6 +2198,34 @@ function getRandomString($length_of_string)
 				   $this->updateStock($i->sku,$i->qty);
                    $oi = $this->createOrderItems($dt);                    
                }
+			   
+		/*******************************************************/
+         //We have the user, update the status and notify the customer
+				if(!is_null($o)) $o->update(['status' => 'paid']);
+				//$ret = $this->smtp;
+				$ret = $this->getCurrentSender();
+				$ret['order'] = $oo;
+				$ret['name'] = $u->name;
+				$ret['subject'] = "Your payment for order ".$o->payment_code." has been confirmed!";
+		        $ret['phone'] = $u->id == "anon" ? $u->phone : $uuu['phone'];
+		        $ret['em'] = $u->email;
+		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
+				
+				//$ret = $this->smtp;
+				$ret = $this->getCurrentSender();
+				$ret['order'] = $oo;
+				$ret['user'] = $u->email;
+				$ret['name'] = $u->name;
+				 $ret['phone'] = $u->id == "anon" ? $u->phone : $uuu['phone'];
+		        $ret['subject'] = "URGENT: Received payment for order ".$o->payment_code;
+		        $ret['shipping'] = $u->id == "anon" ? ['address' =>$u->address,'city' =>$u->city,'state' =>$u->state] : $sd[0];
+		        //$ret['em'] = $this->adminEmail;
+		        //$this->sendEmailSMTP($ret,"emails.bao-alert");
+				$ret['em'] = $this->suEmail;
+		        $this->sendEmailSMTP($ret,"emails.bao-alert");		
+		/*******************************************************/ 
+			   
+			   
 	     return $o;
 	}
 	

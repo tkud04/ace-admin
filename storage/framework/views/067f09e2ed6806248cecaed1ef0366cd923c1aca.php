@@ -52,12 +52,15 @@ let categories = [], products = [], orders = [], states = [],
  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
  <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $u): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+ <?php
+  $state = (count($u['sd']) < 1) ? "lagos" : $u['sd']['state'];
+ ?>
  	<?php if($u['status'] == "enabled"): ?>
 	  users.push({
 		  id: "<?php echo e($u['id']); ?>", 
 		  name: "<?php echo e($u['fname']); ?> <?php echo e($u['lname']); ?>", 
 		  email: "<?php echo e($u['email']); ?>" ,
-		  state: "<?php echo e(ucwords($u['sd']['state'])); ?>" 
+		  state: "<?php echo e(ucwords($state)); ?>" 
 		  });
 	<?php endif; ?>
  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

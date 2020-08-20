@@ -98,7 +98,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> products</a>
                                 <ul class="dropdown-menu">                                    
                                     <li><a href="<?php echo e(url('products')); ?>"> View products</a></li>
-                                    <li><a href="<?php echo e(url('add-product')); ?>"> Add new product</a></li>
+                                    <li><a href="<?php echo e(url('buup')); ?>"> Add new product</a></li>
                                 </ul>                                
                             </li>
 							<li class="dropdown">

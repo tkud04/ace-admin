@@ -98,7 +98,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> products</a>
                                 <ul class="dropdown-menu">                                    
                                     <li><a href="{{url('products')}}"> View products</a></li>
-                                    <li><a href="{{url('add-product')}}"> Add new product</a></li>
+                                    <li><a href="{{url('buup')}}"> Add new product</a></li>
                                 </ul>                                
                             </li>
 							<li class="dropdown">

@@ -23,7 +23,7 @@ const showElem = (name) => {
 	let names = [];
 	
 	if(Array.isArray(name)){
-	  name = names;
+	  names = name;
 	}
 	else{
 		names.push(name);
@@ -39,7 +39,7 @@ const hideElem = (name) => {
 	let names = [];
 	
 	if(Array.isArray(name)){
-	  name = names;
+	  names = name;
 	}
 	else{
 		names.push(name);
