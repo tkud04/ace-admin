@@ -35,7 +35,7 @@
 				{!! csrf_field() !!}
                 <div class="block">
                     <div class="header">
-                        <h2>Update stock for multiple products</h2>
+                        <h2>Update stock and product name for multiple products</h2>
                     </div>
                    <div class="content">
 					 <div class="table-responsive" role="grid">
@@ -44,7 +44,7 @@
                             <thead>
                                 <tr>
                                     <th width="70%">Product</th>
-                                    <th width="20%">Quantity</th>
+                                    <th width="20%">Details</th>
                                                                                                                                           
                                 </tr>
                             </thead>
@@ -57,6 +57,7 @@
 								 if($p['status'] == "enabled")
 								 {
 								   $sku = $p['sku'];
+								   $name = $p['name'];
 								   $pd = $p['pd'];
 							       $img = $p['imggs'][0];
 							       $qty = $p['qty'];
@@ -65,7 +66,7 @@
 							   ?>
                                 <tr>
                                     <td>
-									<h6>{{$sku}}</h6>
+									<h6>{{$name}}</h6>
 									  
 						 
 						 <span>
@@ -73,7 +74,7 @@
 						   <img class="img img-fluid" src="{{$img}}" alt="{{$sku}}" height="40" width="40" style="margin-bottom: 5px;" />
 							   
 						 </a> (&#8358;{{number_format($pd['amount'],2)}})<br>
-							 {!! $pd['description'] !!}
+							 {{$sku}}<br> {!! $pd['description'] !!}
 						 </span><br>
 									</td>
                                     <td>
@@ -84,7 +85,8 @@
 									  </div>
 									</div>
 									<div id="bup-{{$sku}}-side2" class="bup-hide">
-									  <input type="number" class="form-control" onchange="BUPSaveEdit({sku: '{{$sku}}',value: this.value})" placeholder="New stock">
+									  <input type="text" class="form-control" onchange="BUPSaveEdit('name',{sku: '{{$sku}}',value: this.value})" placeholder="Name" value="{{$name}}">
+									  <input type="number" class="form-control" onchange="BUPSaveEdit('qty',{sku: '{{$sku}}',value: this.value})" placeholder="New stock">
 									  <div class="btn-group" role="group">
 									   <button onclick="BUPCancelEditStock({sku: '{{$sku}}'})" class="btn btn-warning p">Cancel</button>
 									  </div>
@@ -110,7 +112,7 @@
 							  </form>
                                 <div class="hp-sm">
 								 <h3 id="bup-select-product-error" class="label label-danger text-uppercase bup-hide mr-5 mb-5">Please select a product</h3>
-								 <h3 id="bup-select-qty-error" class="label label-danger text-uppercase bup-hide">Please enter quantity for one or more products</h3>
+								 <h3 id="bup-select-qty-error" class="label label-danger text-uppercase bup-hide">Some required details are missing</h3>
 								 <br>
 								 <button onclick="BUP()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>                                

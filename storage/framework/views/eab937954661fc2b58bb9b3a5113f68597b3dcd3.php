@@ -284,8 +284,8 @@
 				
 				<div class="block block-drop-shadow">                    
                    <div class="head bg-dot20">
-                      <h2>Update Stock</h2>  
-                      <div class="head-subtitle">Update stock for multiple products</div>                        
+                      <h2>Update Products</h2>  
+                      <div class="head-subtitle">Update info for multiple products</div>                        
                         
                       <div class="head-panel nm">
 						<br>

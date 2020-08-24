@@ -88,6 +88,7 @@ class MainController extends Controller {
 		$smtp = $this->helpers->getSetting('smtp');
 		$d1 = $this->helpers->getSetting('delivery1');
 		$d2 = $this->helpers->getSetting('delivery2');
+		$plugins = $this->helpers->getPlugins();
 		$bank = $this->helpers->getCurrentBank();
 		
 		
@@ -97,11 +98,10 @@ class MainController extends Controller {
 		   'smtp' => $smtp,
 		   'd1' => $d1,
 		   'd2' => $d2,
-		   'bank' => $bank,
-		   
+		   'bank' => $bank
         ];
 		#dd($settings);
-    	return view('settings',compact(['user','settings','senders','sender','banks','signals']));
+    	return view('settings',compact(['user','settings','senders','sender','plugins','banks','signals']));
     }
     
     /**
@@ -548,6 +548,252 @@ class MainController extends Controller {
          } 
 		
     }
+	
+	
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAddPlugin(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		 $signals = $this->helpers->signals;
+		 
+		return view('add-plugin',compact(['user','signals']));	
+		
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postAddPlugin(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                             'status' => 'required|not_in:none',
+                             'name' => 'required',
+                             'value' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+         	
+            $this->helpers->createPlugin($req);
+			session()->flash("add-plugin-status", "success");
+			return redirect()->intended('plugins');
+         } 	  
+    }
+    
+         /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getPlugins(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$plugins = $this->helpers->getPlugins();
+		
+		$signals = $this->helpers->signals;
+		//dd($drivers);
+    	return view('plugins',compact(['user','plugins','signals']));
+    }
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getPlugin(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                             's' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+         	return redirect()->intended('senders');
+         }
+         else
+		 {
+			$signals = $this->helpers->signals;
+			$p = $this->helpers->getPlugin($req['s']);
+		    return view('plugin',compact(['user','p','signals']));	
+         } 
+		
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postPlugin(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+        $validator = Validator::make($req, [                          
+                             'status' => 'required|not_in:none',
+                             'xf' => 'required|numeric',
+                             'name' => 'required',
+                             'value' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+            $this->helpers->updatePlugin($req);
+			session()->flash("update-plugin-status", "success");
+			return redirect()->intended('plugins');
+         } 	  
+    }
+	
+	
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getRemovePlugin(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		$req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                             's' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+         	return redirect()->intended('senders');
+         }
+         else
+		 {
+			$this->helpers->removePlugin($req['s']);
+		    session()->flash("remove-plugin-status", "success");
+			return redirect()->intended('plugins');
+         } 
+		
+    }
+	
+	
 	
 
      /**
@@ -2013,6 +2259,45 @@ class MainController extends Controller {
 		$states = $this->helpers->states;
 		#dd($users);
        return view('bao',compact(['user','c','products','users','states','signals']));
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function getTestAddOrder(Request $request)
+    {	
+	  $user = null;
+	  
+	  if(Auth::check())
+	  {
+		  $user = Auth::user();
+	  }
+       $req = $request->all();
+	   
+		 #dd($req);
+		  $ret = ['status' => "ok","message"=>"nothing happened"];
+           $dt = <<<EOD
+{id: 0,data:{items: [{"ctr":0,"sku":"ACE6870LX226","qty":"5"},{"ctr":"1","sku":"ACE281LX516","qty":"4"}],notes: "test notes",user: {"id":"anon","name":"Tobi Hay","email":"aquarius4tkud@yahoo.com","phone":"08079284917","address":"6 alfred rewane rd","city":"lokoja","state":"kogi"}}}
+EOD;
+			$dtt = json_decode($dt);
+			dd($dtt);
+			
+			//foreach($dt as $dtt)
+			//{
+				#dd($dtt);
+				$id = substr($dtt->id,1);
+				$o = $dtt->data;
+				
+                 $order = $this->helpers->bulkAddOrder($o);
+                 $ret = ['status' => "ok","message"=>"order added"];
+					 
+			//}
+			
+			//session()->flash("bulk-upload-products-status", "success");
+			//return redirect()->back();
+		 return json_encode($ret);
     }
 	
 	/**

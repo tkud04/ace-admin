@@ -191,18 +191,29 @@
                     
                 </div>
 				
+				<?php
+				  $pc = count($plugins);
+				?>
 				<div class="block block-drop-shadow">                    
                    <div class="head bg-dot20">
-                      <h2>Something</h2>  
-                      <div class="head-subtitle">Something will be here</div>                        
+                      <h2>Plugins</h2>  
+                      <div class="head-subtitle">Install your plugins by adding their code snippets here</div>                        
                         
                       <div class="head-panel nm">
 						<br>
 						  	  
-						  <h4>Current data.</h4>
-						           
-                          <a href="javascript:void(0)" id="settings-bankh-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a>  
-                        </div>    
+						  <h4>Current plugins installed: <b><?php echo e($pc); ?></b></h4>
+						   <?php if($pc < 1): ?>
+							   <a href="<?php echo e(url('add-plugin')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add one now</a>
+						   <?php else: ?>
+						   <div>
+						   <?php $__currentLoopData = $plugins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+						   <blockquote><?php echo e($p['name']); ?> - last updated: <em><?php echo e($p['updated']); ?></em></blockquote>
+						   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+						   </div>       
+                          <a href="<?php echo e(url('plugins')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View plugins</a>  
+                          <?php endif; ?>                      
+  						</div>    
 					
                     </div>                    
                                        

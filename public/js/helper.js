@@ -409,13 +409,14 @@ function BUPEditStock(dt){
 		  }
 }
 
-function BUPSaveEdit(dt){
+function BUPSaveEdit(edit,dt){
 	console.log('dt: ',dt);
 	let BUPitem = BUPlist.find(i => i.sku == dt.sku);
 		  console.log('BUPitem: ',BUPitem);
 		 
 		  if(BUPitem){
-			 BUPitem.qty = dt.value;  
+			 if(edit == "qty") BUPitem.qty = dt.value;  
+			 else if(edit == "name") BUPitem.name = dt.value;  
 		  }
 }
 
@@ -457,10 +458,10 @@ function BUP(){
 		let BUPitem = BUPlist[i];
 		if(BUPitem.selected){
 			
-			if(!BUPitem.qty || BUPitem.qty == "" || BUPitem.qty < 0){
+			if(!BUPitem.qty || BUPitem.qty == "" || BUPitem.qty < 0 || !BUPitem.name || BUPitem.name == ""){
 				hasUnfilledQty = true;
 			}
-			ret.push({sku: BUPitem.sku,qty: BUPitem.qty});
+			ret.push({sku: BUPitem.sku,qty: BUPitem.qty,name: BUPitem.name});
 			
 			BUPIsAllUnselected = false;
 		}
@@ -493,6 +494,7 @@ function BUUPAddRow(){
 	let str = `
 	 <tr id="buup-${buupCounter}" style="margin-bottom: 20px; border-bottom: 1px solid #fff;">
 	 <td>Will be generated</td>
+	 <td><input type="text" placeholder="Product name" class="form-control name"></td>
 	   <td width="40%"><input type="text" placeholder="Product description" class="form-control desc"></td>
 	   <td><input type="number"  placeholder="Price in NGN" class="form-control price"></td>
 	   <td><input type="number"  placeholder="Stock" class="form-control stock"></td>
@@ -597,16 +599,18 @@ function BUUP(){
 
 	for(let i = 0; i < buupCounter; i++){
 		let BUPitem = `#buup-${i}`;
+		name = $(`${BUPitem} input.name`).val();
 		desc = $(`${BUPitem} input.desc`).val();
 		price = $(`${BUPitem} input.price`).val();
 		stock = $(`${BUPitem} input.stock`).val();
 		category = $(`${BUPitem} select.category`).val();
 		status = $(`${BUPitem} select.status`).val();
 		
-			if(desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
+			if(name != "" && desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
 				let temp = {
 					id: BUPitem,
 					data:{
+					  name: name,
 					  desc: desc,
 					  price: price,
 					  stock: stock,
@@ -730,7 +734,7 @@ function displayProductSelect(product){
 	     <img src="${product.img}" alt="preview" style="width: 50px; height: 50px;"/>
 	  </div>
 	  <div class="col-md-7">
-		<p>${product.sku} (N${product.amount}) | ${product.qty} pcs left</p>
+		<p>${product.name} (N${product.amount}) | ${product.qty} pcs left</p>
 	  </div>
 	</div>
 	</option>
@@ -973,7 +977,7 @@ function BOASelectUser(dt,type){
 	
 	 Swal.fire({
 			   icon: 'success',
-             title: `User added`
+             title: `User added to order`
            });
 }
 
@@ -1077,7 +1081,7 @@ function BAOAddRow(){
 			   </div>
 			   </div>
 				 <br>
-				 <button onclick="BOASelectUser(${baoCounter},'anon'); return false;" class="btn btn-primary">Add user</button>
+				 <button onclick="BOASelectUser(${baoCounter},'anon'); return false;" class="btn btn-primary">Add to order</button>
 			   </form>
 		     </div>
 			 <div class="col-md-2"></div>
@@ -1254,6 +1258,7 @@ function baoFire(){
 			       if(bac >= orderCount){
 					  $('#result-box').hide();
 					  $("#finish-box").fadeIn();
+					  
 					  window.location = "orders";
 				  }
                   else{

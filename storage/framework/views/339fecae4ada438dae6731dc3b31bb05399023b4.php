@@ -56,6 +56,7 @@
 								 if($p['status'] == "enabled")
 								 {
 								   $sku = $p['sku'];
+								   $name = $p['name'];
 								   $pd = $p['pd'];
 							       $img = $p['imggs'][0];
 							       $qty = $p['qty'];
@@ -64,7 +65,7 @@
 							   ?>
                                 <tr>
                                     <td>
-									<h6><?php echo e($sku); ?></h6>
+									<h6><?php echo e($name); ?></h6>
 									  
 						 
 						 <span>
@@ -72,7 +73,7 @@
 						   <img class="img img-fluid" src="<?php echo e($img); ?>" alt="<?php echo e($sku); ?>" height="40" width="40" style="margin-bottom: 5px;" />
 							   
 						 </a> (&#8358;<?php echo e(number_format($pd['amount'],2)); ?>)<br>
-							 <?php echo $pd['description']; ?>
+							 <?php echo e($sku); ?><br> <?php echo $pd['description']; ?>
 
 						 </span><br>
 									</td>
@@ -84,7 +85,8 @@
 									  </div>
 									</div>
 									<div id="bup-<?php echo e($sku); ?>-side2" class="bup-hide">
-									  <input type="number" class="form-control" onchange="BUPSaveEdit({sku: '<?php echo e($sku); ?>',value: this.value})" placeholder="New stock">
+									  <input type="text" class="form-control" onchange="BUPSaveEdit('name',{sku: '<?php echo e($sku); ?>',value: this.value})" placeholder="Name" value="<?php echo e($name); ?>">
+									  <input type="number" class="form-control" onchange="BUPSaveEdit('qty',{sku: '<?php echo e($sku); ?>',value: this.value})" placeholder="New stock">
 									  <div class="btn-group" role="group">
 									   <button onclick="BUPCancelEditStock({sku: '<?php echo e($sku); ?>'})" class="btn btn-warning p">Cancel</button>
 									  </div>
@@ -111,7 +113,7 @@
 							  </form>
                                 <div class="hp-sm">
 								 <h3 id="bup-select-product-error" class="label label-danger text-uppercase bup-hide mr-5 mb-5">Please select a product</h3>
-								 <h3 id="bup-select-qty-error" class="label label-danger text-uppercase bup-hide">Please enter quantity for one or more products</h3>
+								 <h3 id="bup-select-qty-error" class="label label-danger text-uppercase bup-hide">Some required details are missing</h3>
 								 <br>
 								 <button onclick="BUP()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>                                

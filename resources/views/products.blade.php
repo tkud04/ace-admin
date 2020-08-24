@@ -26,6 +26,7 @@
 							   @foreach($products as $p)
 							   <?php
 							   $sku = $p['sku'];
+							   $name = $p['name'];
 							    $uu = url('edit-product')."?id=".$sku;
 							    $du = url('disable-product')."?id=".$sku;
 							    $ddu = url('delete-product')."?id=".$sku;
@@ -38,7 +39,7 @@
                                     <td>
 									<a href="{{$uu}}" target="_blank">
 						             <img class="img img-fluid" src="{{$img}}" alt="{{$sku}}" height="50" width="50" style="margin-bottom: 5px;" />
-							         <span>{{$sku}}<br>{{$pd['description']}}</span>
+							         <span>{{$name}}<br>{{$pd['description']}}</span>
 						            </a><br>
 									</td>
                                     <td>{{$p['qty']}}</td>

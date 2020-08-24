@@ -42,6 +42,7 @@
 						 {
 							 $product = $i['product'];
 							 $sku = $product['sku'];
+							 $name = $product['name'];
 							  $img = $product['imggs'][0];
 							 $qty = $i['qty'];
 							 $pu = url('edit-product')."?id=".$product['sku'];
@@ -52,7 +53,7 @@
 						 <span>
 						 <a href="{{$pu}}" target="_blank">
 						   <img class="img img-fluid" src="{{$img}}" alt="{{$sku}}" height="80" width="80" style="margin-bottom: 5px;" />
-							   {{$sku}}
+							   {{$name}}
 						 </a> (x{{$qty}})
 						 </span><br>
 						 <?php

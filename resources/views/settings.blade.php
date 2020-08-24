@@ -192,18 +192,29 @@
                     
                 </div>
 				
+				<?php
+				  $pc = count($plugins);
+				?>
 				<div class="block block-drop-shadow">                    
                    <div class="head bg-dot20">
-                      <h2>Something</h2>  
-                      <div class="head-subtitle">Something will be here</div>                        
+                      <h2>Plugins</h2>  
+                      <div class="head-subtitle">Install your plugins by adding their code snippets here</div>                        
                         
                       <div class="head-panel nm">
 						<br>
 						  	  
-						  <h4>Current data.</h4>
-						           
-                          <a href="javascript:void(0)" id="settings-bankh-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a>  
-                        </div>    
+						  <h4>Current plugins installed: <b>{{$pc}}</b></h4>
+						   @if($pc < 1)
+							   <a href="{{url('add-plugin')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add one now</a>
+						   @else
+						   <div>
+						   @foreach($plugins as $p)
+						   <blockquote>{{$p['name']}} - last updated: <em>{{$p['updated']}}</em></blockquote>
+						   @endforeach
+						   </div>       
+                          <a href="{{url('plugins')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View plugins</a>  
+                          @endif                      
+  						</div>    
 					
                     </div>                    
                                        

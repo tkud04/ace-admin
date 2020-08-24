@@ -66,6 +66,7 @@ Route::post('new-tracking', 'MainController@postAddTracking');
 
 Route::get('orders', 'MainController@getOrders');
 Route::get('new-order', 'MainController@getAddOrder');
+Route::get('aba', 'MainController@getTestAddOrder');
 Route::post('new-order', 'MainController@postAddOrder');
 Route::get('edit-order', 'MainController@getEditOrder');
 Route::post('edit-order', 'MainController@postEditOrder');
@@ -105,4 +106,10 @@ Route::post('settings-delivery', 'MainController@postSettingsDelivery');
 Route::post('settings-sender', 'MainController@postSettingsSender');
 Route::post('settings-bank', 'MainController@postSettingsBank');
 
+Route::get('plugins', 'MainController@getPlugins');
+Route::get('add-plugin', 'MainController@getAddPlugin');
+Route::post('add-plugin', 'MainController@postAddPlugin');
+Route::get('plugin', 'MainController@getPlugin');
+Route::post('plugin', 'MainController@postPlugin');
+Route::get('remove-plugin', 'MainController@getRemovePlugin');
 
