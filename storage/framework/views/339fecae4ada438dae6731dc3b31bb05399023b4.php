@@ -34,7 +34,7 @@
 
                 <div class="block">
                     <div class="header">
-                        <h2>Update stock for multiple products</h2>
+                        <h2>Update stock and product name for multiple products</h2>
                     </div>
                    <div class="content">
 					 <div class="table-responsive" role="grid">
@@ -43,7 +43,7 @@
                             <thead>
                                 <tr>
                                     <th width="70%">Product</th>
-                                    <th width="20%">Quantity</th>
+                                    <th width="20%">Details</th>
                                                                                                                                           
                                 </tr>
                             </thead>

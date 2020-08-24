@@ -1832,6 +1832,9 @@ $subject = $data['subject'];
                	//We have the user, update the status and notify the customer
 				$oo = Orders::where('reference',$o['reference'])->first();
                	if(!is_null($oo)) $oo->update(['status' => 'paid']);
+				
+				//UPDATE EACH PRODUCT STOCK HERE
+				
 				//$ret = $this->smtp;
 				$ret = $this->getCurrentSender();
 				$ret['order'] = $o;
