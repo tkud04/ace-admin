@@ -9,14 +9,15 @@
     "type": "project",
     "require": {
         "php": "^7.2",
+        "ext-gd": "*",
         "cloudinary/cloudinary_php": "dev-master",
         "fideloper/proxy": "~4.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.0",
         "laravel/helpers": "^1.1",
         "laravel/tinker": "~1.0",
-        "unicodeveloper/laravel-paystack": "1.0.*",
-		"ext-gd": "*"
+        "spatie/laravel-analytics": "^3.10",
+        "unicodeveloper/laravel-paystack": "1.0.*"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
