@@ -26,6 +26,8 @@ use App\Ads;
 use App\Settings;
 use App\Plugins;
 use App\Senders;
+use Analytics;
+use Spatie\Analytics\Period;
 use \Cloudinary\Api;
 use \Cloudinary\Api\Response;
 use GuzzleHttp\Client;
@@ -2592,6 +2594,15 @@ function getRandomString($length_of_string)
 			 }
            
            }
+           
+           
+           function getAnalytics($dt)
+           {
+            //retrieve visitors and pageview data for the current day and the last seven days
+             $ret = Analytics::fetchVisitorsAndPageViews(Period::days(7));
+             return $ret;
+           }
+		   
            
 }
 ?>
