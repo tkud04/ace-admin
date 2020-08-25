@@ -44,6 +44,7 @@
 						 {
 							 $product = $i['product'];
 							 $sku = $product['sku'];
+							 $name = $product['name'];
 							   $img = $product['imggs'][0];
 							 $pd = $product['pd'];
 							 $qty = $i['qty'];
@@ -53,7 +54,7 @@
 						 <span>
 						 <a href="{{$pu}}" target="_blank">
 						   <img class="img img-fluid" src="{{$img}}" alt="{{$sku}}" height="50" width="50" style="margin-bottom: 5px;" />
-							   {{$sku}} - &#8358;{{number_format($pd['amount'],2)}}
+							   {{$name}} - &#8358;{{number_format($pd['amount'],2)}}
 						 </a> (x{{$qty}})
 						  </span><br>
 						 <?php

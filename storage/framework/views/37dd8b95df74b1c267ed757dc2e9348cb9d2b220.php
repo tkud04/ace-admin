@@ -43,6 +43,7 @@
 						 {
 							 $product = $i['product'];
 							 $sku = $product['sku'];
+							 $name = $product['name'];
 							   $img = $product['imggs'][0];
 							 $pd = $product['pd'];
 							 $qty = $i['qty'];
@@ -52,7 +53,7 @@
 						 <span>
 						 <a href="<?php echo e($pu); ?>" target="_blank">
 						   <img class="img img-fluid" src="<?php echo e($img); ?>" alt="<?php echo e($sku); ?>" height="50" width="50" style="margin-bottom: 5px;" />
-							   <?php echo e($sku); ?> - &#8358;<?php echo e(number_format($pd['amount'],2)); ?>
+							   <?php echo e($name); ?> - &#8358;<?php echo e(number_format($pd['amount'],2)); ?>
 
 						 </a> (x<?php echo e($qty); ?>)
 						  </span><br>
