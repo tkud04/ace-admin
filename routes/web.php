@@ -112,3 +112,6 @@ Route::post('add-plugin', 'MainController@postAddPlugin');
 Route::get('plugin', 'MainController@getPlugin');
 Route::post('plugin', 'MainController@postPlugin');
 Route::get('remove-plugin', 'MainController@getRemovePlugin');
+
+Route::get('analytics', 'MainController@getAnalytics');
+
