@@ -2343,14 +2343,26 @@ EOD;
 				 }
 			 }
 			**/
-			#dd($dtt);
-			
+			//dd([$req['dt'],$dtt]);
+			/**
+			array:2 [▼
+  0 => "{"id":0,"data":{"notes":"test","user":"{\"id\":\"16\",\"name\":\"Tobi Lay\",\"email\":\"testing2@yahoo.com\",\"state\":\"Lagos\"}","items":"[{\"ctr\":0,\"sku\": ▶"
+  1 => {#1233 ▼
+    +"id": 0
+    +"data": {#1235 ▼
+      +"notes": "test"
+      +"user": "{"id":"16","name":"Tobi Lay","email":"testing2@yahoo.com","state":"Lagos"}"
+      +"items": "[{"ctr":0,"sku":"ACE2072LX87","qty":"1"}]"
+    }
+  }
+]
+			**/
 			//foreach($dt as $dtt)
 			//{
 				#dd($dtt);
-				$id = substr($dtt->id,1);
+				$id = $dtt->id;
 				$o = $dtt->data;
-				
+
                  $order = $this->helpers->bulkAddOrder($o);
                  $ret = ['status' => "ok","message"=>"order added"];
 					 

@@ -1230,9 +1230,9 @@ function baoFire(){
 	fetch(req)
 	   .then(response => {
 		   if(response.status === 200){
-			   //console.log(response);
+			  // console.log(response);
 			   
-			   return response.json();
+			   return response.text();
 		   }
 		   else{
 			   return {status: "error", message: "Network error"};
@@ -1245,14 +1245,15 @@ function baoFire(){
 	   })
 	   .then(res => {
 		   console.log(res);
+		   let bac2 = bac;
           bac = parseInt(bac) + 1;
 			     localStorage.setItem("baoCtr",bac);
 				 
 		   if(res.status == "ok"){
                   $('#result-ctr').html(bac);
-				  	localStorage.removeItem(`ctr_${bac-1}`);
-	               localStorage.removeItem(`items_${bac-1}`);
-	                localStorage.removeItem(`user_${bac-1}`);
+				  	localStorage.removeItem(`ctr_${bac2}`);
+	               localStorage.removeItem(`items_${bac2}`);
+	                localStorage.removeItem(`user_${bac2}`);
 				  
 				   setTimeout(function(){
 			       if(bac >= orderCount){
