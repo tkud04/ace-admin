@@ -1809,9 +1809,12 @@ $subject = $data['subject'];
 		   function confirmPayment($id)
            {
             $o = $this->getOrder($id);
+            $items = [];
+            
              # dd($o);
                if(count($o) > 0)
                {
+               	$items = $o['items'];
 				   if($o['user_id'] == "anon")
 				   {
 					   $u = $o['anon'];
@@ -1833,8 +1836,14 @@ $subject = $data['subject'];
 				$oo = Orders::where('reference',$o['reference'])->first();
                	if(!is_null($oo)) $oo->update(['status' => 'paid']);
 				
-				//UPDATE EACH PRODUCT STOCK HERE
-				
+				//update each product stock
+				foreach($items as $i)
+               {
+                   $sku = $i['product']['sku'];
+				   $qty = $i['qty'];
+				   $this->updateStock($sku,$qty);                   
+               }
+               
 				//$ret = $this->smtp;
 				$ret = $this->getCurrentSender();
 				$ret['order'] = $o;
