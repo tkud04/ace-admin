@@ -3278,6 +3278,26 @@ EOD;
 		];
     	return $this->helpers->bomb($dt);
     }   
+    
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAnalytics(Request $request)
+    {
+    	$user = null;
+	  
+	  if(Auth::check())
+	  {
+		  $user = Auth::user();
+	  }
+       $req = $request->all();
+       
+		$results = $this->helpers->getAnalytics($req);
+		dd($results);
+    	#return $this->helpers->bomb($dt);
+    }   
 
 
 }
