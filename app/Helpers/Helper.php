@@ -1677,10 +1677,13 @@ $subject = $data['subject'];
                {           	
                	foreach($items as $i) 
                     {
-						$amount = $i['product']['pd']['amount'];
-						$qty = $i['qty'];
-                    	$ret['items'] += $qty;
-						$ret['subtotal'] += ($amount * $qty);	
+                    	if(count($i) > 0)
+                        {
+						  $amount = $i['product']['pd']['amount'];
+						  $qty = $i['qty'];
+                      	$ret['items'] += $qty;
+						  $ret['subtotal'] += ($amount * $qty);
+                       }	
                     }
                    
                    $ret['delivery'] = $this->getDeliveryFee();
@@ -1841,9 +1844,13 @@ $subject = $data['subject'];
 				//update each product stock
 				foreach($items as $i)
                {
-                   $sku = $i['product']['sku'];
-				   $qty = $i['qty'];
-				   $this->updateStock($sku,$qty);                   
+               	if(count($i) > 0)
+                   {
+                   	$sku = $i['product']['sku'];
+				       $qty = $i['qty'];
+				      $this->updateStock($sku,$qty);                   
+                   }
+                   
                }
                
 				//$ret = $this->smtp;
