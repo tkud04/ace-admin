@@ -55,7 +55,11 @@ class MainController extends Controller {
 		 $productsCollection = collect($products);
 		 $lowStockProducts = $productsCollection->where('qty','<',"10");
 		#dd($lowStockProducts);
-    	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','lowStockProducts','ccarts','signals']));
+		
+		//Analytics
+		$mostVisitedPages = $this->helpers->getAnalytics(['type' => "most-visited-pages",'days' => 7]);
+		
+    	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','lowStockProducts','mostVisitedPages','ccarts','signals']));
     }
     
     /**
@@ -3294,6 +3298,8 @@ EOD;
 	  }
        $req = $request->all();
        
+	   $req['type'] = "most-visited-pages";
+	   $req['days'] = 7;
 		$results = $this->helpers->getAnalytics($req);
 		dd($results);
     	#return $this->helpers->bomb($dt);

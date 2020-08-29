@@ -66,6 +66,47 @@
             </div>
             
             <div class="col-md-5">
+               <div class="block block-drop-shadow">
+			      <div class="head bg-dot20">
+                        <h2>Most viewed pages</h2>
+                  </div>
+				  <div class="content">
+				    <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
+					     
+                        <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable">
+                            <thead>
+                                <tr>                                  
+                                    <th>URL</th>
+                                    <th>Page views</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+							  <?php
+							  
+					  if(count($mostVisitedPages) > 0)
+					  {
+						 for($i = 0; $i < 7; $i++)
+						 {
+							 $mvp = $mostVisitedPages[$i];
+							 $u = $mvp['url'];
+							$c = $mvp['pageViews'];
+				    ?>
+                      <tr>
+					   
+					   <td><em><?php echo e($u); ?></em></td>
+					  <td><b><?php echo e($c); ?></b></td>
+					  
+					 </tr>
+					<?php
+						 }  
+					  }
+                    ?>				               
+                            </tbody>
+                        </table>                                        
+
+                    </div>
+				  </div>
+			   </div>                    
                <div class="block block-drop-shadow">                    
                     <div class="head bg-dot20">
                         <h2>Total orders</h2>
@@ -203,6 +244,11 @@
 
             </div> 
 			<div class="col-md-5">
+			   <div class="block block-drop-shadow">
+			      <div class="head bg-dot20">
+                        <h2>Analytics 2</h2>
+                  </div>
+			   </div>  
                <div class="block block-drop-shadow">                    
                         <div class="head bg-dot20">
                         <h2>Total products</h2>

@@ -1677,7 +1677,7 @@ $subject = $data['subject'];
                {           	
                	foreach($items as $i) 
                     {
-                    	if(count($i) > 0)
+                    	if(count($i['product']) > 0)
                         {
 						  $amount = $i['product']['pd']['amount'];
 						  $qty = $i['qty'];
@@ -1844,7 +1844,7 @@ $subject = $data['subject'];
 				//update each product stock
 				foreach($items as $i)
                {
-               	if(count($i) > 0)
+               	if(count($i['product']) > 0)
                    {
                    	$sku = $i['product']['sku'];
 				       $qty = $i['qty'];
@@ -2605,9 +2605,31 @@ function getRandomString($length_of_string)
            
            function getAnalytics($dt)
            {
+			$ret = [];
+			$days = $dt['days'];
+			
+			try
+			{
+				switch($dt['type'])
+				{
+					case "most-visited-pages":
+					  //fetch most visited pages for 7 days
+         			  $ret = Analytics::fetchMostVisitedPages(Period::days($days));
+					break;
+				}
             //retrieve visitors and pageview data for the current day and the last seven days
-             $ret = Analytics::fetchVisitorsAndPageViews(Period::days(7));
-             return $ret;
+            //$ret = Analytics::fetchVisitorsAndPageViews(Period::days(7));
+             
+			
+            }
+			catch(Exception $e)
+			{
+				$ret = ['status' => "error"];
+			}
+		   finally
+		   {
+			   return $ret;
+		   }
            }
 		   
            
