@@ -69,11 +69,29 @@
                <div class="block block-drop-shadow">
 			      <div class="head bg-dot20">
                         <h2>Most viewed pages</h2>
-                  </div>
-				  <div class="content">
-				    <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
+						<input type="hidden" id="tk-analytics-1" value="<?php echo e(csrf_token()); ?>">
+						<div style="margin-bottom: 5px;">
+						  <select id="analytics-1-period">
+						   <option value="none">Select period</option>
+						   <option value="days" selected="selected">Days</option>
+						   <option value="months">Months</option>
+						  </select>
+						  <span class="label label-danger" id="analytics-1-period-error">Select a period</span>
+						</div>
+						<div style="margin-bottom: 5px;">
+						  <input type="number" id="analytics-1-num" style="margin-bottom: 5px;" placeholder="Number of days/months" value="7">
+						  <span class="label label-danger" id="analytics-1-num-error">A value of at least 1 is required</span>
+						</div>
+						<div style="margin-bottom: 5px;" id="analytics-1-submit">
+						  <a href="javascript:void(0)" id="analytics-1-btn" class="btn btn-default btn-block btn-clean" style="margin-bottom: 10px;">Submit</a>
+				        </div>
+						<div style="margin-bottom: 5px;" id="analytics-1-loading">
+						  <h4>Fetching latest data.. <img src="img/loading.gif" class="img img-fluid" alt="Loading" width="50" height="50"></h4>
+				        </div>
+						 
+				<div id="DataTables_Table_2_wrapper" class="dataTables_wrapper table-responsive" role="grid">
 					     
-                        <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable">
+                        <table cellpadding="0" cellspacing="0" width="100%" data-idl="2" id="analytics-1-table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>                                  
                                     <th>URL</th>
@@ -100,12 +118,22 @@
 					<?php
 						 }  
 					  }
+					  else
+					  {
+					?>
+					 <tr>
+                      <td colspan="5">NO DATA AVAILABLE</td>
+					  <td></td>
+					 </td>
+                    <?php					
+					  }
                     ?>				               
                             </tbody>
                         </table>                                        
 
-                    </div>
+                    </div>				  
 				  </div>
+				
 			   </div>                    
                <div class="block block-drop-shadow">                    
                     <div class="head bg-dot20">

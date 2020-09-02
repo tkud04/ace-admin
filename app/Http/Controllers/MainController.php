@@ -57,7 +57,7 @@ class MainController extends Controller {
 		#dd($lowStockProducts);
 		
 		//Analytics
-		$mostVisitedPages = $this->helpers->getAnalytics(['type' => "most-visited-pages",'days' => 7]);
+		$mostVisitedPages = $this->helpers->getAnalytics(['type' => "most-visited-pages",'period' => "days",'num' => 7]);
 		
     	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','lowStockProducts','mostVisitedPages','ccarts','signals']));
     }
@@ -3299,10 +3299,39 @@ EOD;
        $req = $request->all();
        
 	   $req['type'] = "most-visited-pages";
-	   $req['days'] = 7;
+	   $req['period'] = "days";
+	   $req['num'] = 7;
 		$results = $this->helpers->getAnalytics($req);
 		dd($results);
     	#return $this->helpers->bomb($dt);
+    }  
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function postAnalytics(Request $request)
+    {
+    	$req = $request->all();
+		 $ret = ['status' => "error", 'message' => "nothing happened"];
+		 
+        $validator = Validator::make($req, [
+                             'dt' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+            $ret = ['status' => "error",'message'=>"validation"];
+         }
+         
+         else
+         {
+			$dt = $this->helpers->fetchAnalytics($req['dt']);
+			$ret = ['status' => "ok","data"=>json_encode($dt)];				
+         } 
+
+        return $ret;		 
     }   
 
 

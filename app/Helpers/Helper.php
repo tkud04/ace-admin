@@ -220,7 +220,8 @@ class Helper implements HelperContract
  
   
   
-  public $adminEmail = "aceluxurystore@yahoo.com";
+ // public $adminEmail = "aceluxurystore@yahoo.com";
+  public $adminEmail = "aquarius4tkud@yahoo.com";
   public $suEmail = "kudayisitobi@gmail.com";
 	
 	
@@ -2606,15 +2607,18 @@ function getRandomString($length_of_string)
            function getAnalytics($dt)
            {
 			$ret = [];
-			$days = $dt['days'];
+			//$days = $dt['days'];
 			
 			try
 			{
+				if($dt['period'] == "days") $period = Period::days($dt['num']);
+				else if($dt['period'] == "months") $period = Period::months($dt['num']);
+				
 				switch($dt['type'])
 				{
 					case "most-visited-pages":
-					  //fetch most visited pages for 7 days
-         			  $ret = Analytics::fetchMostVisitedPages(Period::days($days));
+					  //fetch most visited pages for
+         			  $ret = Analytics::fetchMostVisitedPages($period);
 					break;
 				}
             //retrieve visitors and pageview data for the current day and the last seven days
@@ -2631,6 +2635,23 @@ function getRandomString($length_of_string)
 			   return $ret;
 		   }
            }
+		   
+		   
+		   function fetchAnalytics($dt)
+		   {
+			   $data = json_decode($dt);
+			   $ret = ['status' => "error",'message' => "type not set"];
+			   
+			   if(isset($data->type))
+			   {
+				 $ret = $this->getAnalytics([
+				                    'type' => $data->type,
+				                    'period' => $data->period,
+				                    'num' => $data->num
+									]);
+			   }
+			   return $ret;
+		   }
 		   
            
 }

@@ -11,6 +11,10 @@ $(document).ready(function(){
 	
 	$('#as-other').hide();
 	
+	$('#analytics-1-period-error').hide();
+	$('#analytics-1-num-error').hide();
+	$('#analytics-1-loading').hide();
+	
 	hideUnselects();
 	hideSelectErrors();
 	if($("#add-discount-type").val() == "single"){} 
@@ -165,6 +169,25 @@ $(document).ready(function(){
 				   $('#settings-bank-submit').hide();
 		           $('#settings-bank-loading').fadeIn();
 			       updateBank({bname: bname, acname: acname, acnum: acnum});   
+			   }
+
+		  });
+
+		  $("#analytics-1-btn").click(function(e){            
+		       e.preventDefault();
+			   $('#analytics-1-period-error').hide();
+	           $('#analytics-1-num-error').hide();
+			   
+			   let period = $('#analytics-1-period').val(), num = $('#analytics-1-num').val();
+			   
+			   if(period == "none" || num == "" || parseInt(num) < 1){
+				   if(period == "none") $('#analytics-1-period-error').fadeIn();
+				   if(num == "" || parseInt(num) < 1) $('#analytics-1-num-error').fadeIn();
+			   }
+			   else{
+				   $('#analytics-1-submit').hide();
+		           $('#analytics-1-loading').fadeIn();
+			       fetchAnalytics({type: "most-visited-pages", period: period, num: num});   
 			   }
 
 		  });

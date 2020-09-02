@@ -1394,4 +1394,79 @@ function updateBank(dt){
 	   });
 }
 
+function fetchAnalytics(dt){
+		
+		 let fd = new FormData();
+		 fd.append("dt",JSON.stringify(dt));
+		 fd.append("_token",$('#tk-analytics-1').val());
+		 
+	
+	//create request
+	const req = new Request("analytics",{method: 'POST', body: fd});
+	//console.log(req);
+	
+	
+	//fetch request
+	fetch(req)
+	   .then(response => {
+		   if(response.status === 200){
+			   //console.log(response);
+			   
+			   return response.json();
+		   }
+		   else{
+			   return {status: "error", message: "Technical error"};
+		   }
+	   })
+	   .catch(error => {
+		    alert("Failed to update bank: " + error);			
+			$('#analytics-1-loading').hide();
+		     $('#analytics-1-submit').fadeIn();
+	   })
+	   .then(res => {
+		   console.log("res:",res);
+          
+				 
+		   if(res.status == "ok"){
+                let dt = JSON.parse(res.data);
+				
+				console.log("data:",dt);
+				
+				if(dt || dt.length > 0){
+					$('#analytics-1-table').hide();
+					let newData = ``;
+					
+					for(let i = 0; i < dt.length; i++){
+						let item = dt[i];
+						newData += `
+						 <tr>
+						   <td>${item.url}</td>
+						   <td>${item.pageViews}</td>
+						 </tr>
+						`;
+					}
+					$('#analytics-1-table tbody').html(newData);
+					$('#analytics-1-table').fadeIn();
+				}
+				
+				
+		      $('#analytics-1-loading').hide();
+		     $('#analytics-1-submit').fadeIn();		
+		   }
+		   else if(res.status == "error"){
+				     alert("An unknown error has occured. Please refresh the app or try again later");
+                   $('#analytics-1-loading').hide();
+		     $('#analytics-1-submit').fadeIn();					 
+		   }
+		   
+		  
+		   
+		  
+	   }).catch(error => {
+		    alert("Failed to fetch data: " + error);	
+            $('#analytics-1-loading').hide();
+		     $('#analytics-1-submit').fadeIn();		
+	   });
+}
+
 
