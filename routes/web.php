@@ -105,6 +105,7 @@ Route::get('gdf', 'MainController@getDeliveryFee');
 Route::post('settings-delivery', 'MainController@postSettingsDelivery');
 Route::post('settings-sender', 'MainController@postSettingsSender');
 Route::post('settings-bank', 'MainController@postSettingsBank');
+Route::post('settings-discount', 'MainController@postSettingsDiscount');
 
 Route::get('plugins', 'MainController@getPlugins');
 Route::get('add-plugin', 'MainController@getAddPlugin');

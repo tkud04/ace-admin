@@ -84,6 +84,42 @@
 				
 				<div class="block block-drop-shadow">                    
                         <div class="head bg-dot20">
+                        <h2>Discounts</h2>
+                        
+                        <div class="head-subtitle">The discounts used by the system</div>                        
+                        
+                        <div class="head-panel nm">
+						<br>
+						  <?php
+						  $nud = $settings['nud']['value'];
+						
+						  ?>	  
+						  <div id="settings-discount-side1">
+						  
+							<h4>New user signup: &#8358;<span id="settings-nud"><?php echo e(number_format($nud,2)); ?></span></h4>
+                            <a href="javascript:void(0)" id="settings-discount-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a> 
+						 </div>
+						 <div id = "settings-discount-side2">
+						   <form id="settings-discount-form">
+						   	<input type="hidden" id="tk-discount" value="<?php echo e(csrf_token()); ?>">
+						    <div class="form-group">
+							  <span class="control-label">New user signup discount (&#8358;)</span>
+							  <input type="number" class="form-control" id="settings-discount-nud" placeholder="Enter amount" required>
+							   <span class="label label-danger" id="settings-discount-nud-error">A value of at least 1 is required</span>
+							</div>
+							
+						    <button type="submit" id="settings-discount-submit" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+						    <h4 id="settings-discount-loading">Updating discount.. <img src="img/loading.gif" class="img img-fluid" alt="Loading" width="50" height="50"></h4><br>
+						   </form>
+                        </div>                        
+                    </div>                    
+                                       
+                    
+                </div> 
+                </div>
+				
+				<div class="block block-drop-shadow">                    
+                        <div class="head bg-dot20">
                         <h2>Delivery fees</h2>
                         
                         <div class="head-subtitle">Current delivery fees used by the system</div>                        
@@ -97,8 +133,8 @@
 						  ?>	  
 						  <div id="settings-delivery-side1">
 						  
-							<h4>Southwest states (Lagos, Ondo, Ekiti, Osun, Oyo, Ogun): &#8358;<span id="settings-d1"><?php echo e($delivery1); ?></span></h4>
-							<h4>Other states: &#8358;<span id="settings-d2"><?php echo e($delivery2); ?></span></h4>
+							<h4>Southwest states (Lagos, Ondo, Ekiti, Osun, Oyo, Ogun): &#8358;<span id="settings-d1"><?php echo e(number_format($delivery1,2)); ?></span></h4>
+							<h4>Other states: &#8358;<span id="settings-d2"><?php echo e(number_format($delivery2,2)); ?></span></h4>
                             <a href="javascript:void(0)" id="settings-delivery-btn" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Edit</a> 
 						 </div>
 						 <div id = "settings-delivery-side2">

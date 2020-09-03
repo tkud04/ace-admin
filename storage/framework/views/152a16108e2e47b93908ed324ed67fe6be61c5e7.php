@@ -25,8 +25,10 @@
 							   <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 							   <?php
 							   $sku = $p['sku'];
+							   $name = $p['name'];
 							    $uu = url('edit-product')."?id=".$sku;
 							    $du = url('disable-product')."?id=".$sku;
+							    $ddu = url('delete-product')."?id=".$sku;
 							   $pd = $p['pd'];
 							    $img = $p['imggs'][0];
 							   $status = $p['status'];
@@ -36,7 +38,7 @@
                                     <td>
 									<a href="<?php echo e($uu); ?>" target="_blank">
 						             <img class="img img-fluid" src="<?php echo e($img); ?>" alt="<?php echo e($sku); ?>" height="50" width="50" style="margin-bottom: 5px;" />
-							         <span><?php echo e($sku); ?><br><?php echo e($pd['description']); ?></span>
+							         <span><?php echo e($name); ?><br><?php echo e($pd['description']); ?></span>
 						            </a><br>
 									</td>
                                     <td><?php echo e($p['qty']); ?></td>
@@ -44,7 +46,8 @@
                                     <td><span class="driver-status label label-<?php echo e($ss); ?>"><?php echo e($status); ?></span></td>                                                                     
                                     <td>
 									  <a href="<?php echo e($uu); ?>" class="btn btn-primary">View</button>									  
-									  <a href="<?php echo e($du); ?>" class="btn btn-danger">Disable</button>									  
+									  <a href="<?php echo e($du); ?>" class="btn btn-waarning">Disable</button>									  
+									  <a href="<?php echo e($ddu); ?>" class="btn btn-danger">Delete</button>									  
 									</td>                                                                     
                                 </tr>
                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                       

@@ -1313,8 +1313,8 @@ function updateDeliveryFees(dt){
           
 				 
 		   if(res.status == "ok"){
-                  $('#settings-d1').html(dt.d1);
-                  $('#settings-d2').html(dt.d2);
+                  $('#settings-d1').html(res.data['d1']);
+                  $('#settings-d2').html(res.data['d2']);
 				  $('#settings-delivery-side2').hide();
 				  $('#settings-delivery-loading').hide();
 		     $('#settings-delivery-submit').fadeIn();		
@@ -1469,4 +1469,60 @@ function fetchAnalytics(dt){
 	   });
 }
 
+
+function updateDiscounts(dt){
+		
+		 let fd = new FormData();
+		 fd.append("dt",JSON.stringify(dt));
+		 fd.append("_token",$('#tk-discount').val());
+		 
+	
+	//create request
+	const req = new Request("settings-discount",{method: 'POST', body: fd});
+	//console.log(req);
+	
+	
+	//fetch request
+	fetch(req)
+	   .then(response => {
+		   if(response.status === 200){
+			   //console.log(response);
+			   
+			   return response.json();
+		   }
+		   else{
+			   return {status: "error", message: "Technical error"};
+		   }
+	   })
+	   .catch(error => {
+		    alert("Failed to update discount: " + error);			
+			$('#settings-discount-loading').hide();
+		     $('#settings-discount-submit').fadeIn();
+	   })
+	   .then(res => {
+		   console.log(res);
+          
+				 
+		   if(res.status == "ok"){
+                  $('#settings-nud').html(res.data);
+				  $('#settings-discount-side2').hide();
+				  $('#settings-discount-loading').hide();
+		     $('#settings-discount-submit').fadeIn();		
+              $('#settings-discount-side1').fadeIn();
+		   }
+		   else if(res.status == "error"){
+				     alert("An unknown error has occured. Please refresh the app or try again later");
+                   $('#settings-discount-loading').hide();
+		     $('#settings-discount-submit').fadeIn();					 
+		   }
+		   
+		  
+		   
+		  
+	   }).catch(error => {
+		    alert("Failed to update bank: " + error);	
+            $('#settings-discount-loading').hide();
+		     $('#settings-discount-submit').fadeIn();			
+	   });
+}
 

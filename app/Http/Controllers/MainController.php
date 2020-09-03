@@ -92,6 +92,7 @@ class MainController extends Controller {
 		$smtp = $this->helpers->getSetting('smtp');
 		$d1 = $this->helpers->getSetting('delivery1');
 		$d2 = $this->helpers->getSetting('delivery2');
+		$nud = $this->helpers->getSetting('nud');
 		$plugins = $this->helpers->getPlugins();
 		$bank = $this->helpers->getCurrentBank();
 		
@@ -102,7 +103,9 @@ class MainController extends Controller {
 		   'smtp' => $smtp,
 		   'd1' => $d1,
 		   'd2' => $d2,
-		   'bank' => $bank
+		   'bank' => $bank,
+		   'nud' => $nud
+		   
         ];
 		#dd($settings);
     	return view('settings',compact(['user','settings','senders','sender','plugins','banks','signals']));
@@ -172,12 +175,14 @@ class MainController extends Controller {
          else
          {
 			$dt = json_decode($req['dt']);
+			$dtt = [];
 			foreach($dt as $key => $value)
 			{
-              $this->helpers->updateSetting($key,$value);			
+              $this->helpers->updateSetting($key,$value);
+              $dtt[$key] = number_format($value,2);			  
 			}
 			
-			return json_encode(['status' => "ok"]);
+			return json_encode(['status' => "ok",'data' => $dtt]);
          }       
     }
 	
@@ -210,6 +215,38 @@ class MainController extends Controller {
          }
  
         return json_encode($ret); 
+    }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function postSettingsDiscount(Request $request)
+    {	
+       $req = $request->all();
+		  # dd($req); 
+        $validator = Validator::make($req, [
+                             'dt' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+			$dt = json_decode($req['dt']);
+			if($dt != null)
+			{
+              $this->helpers->updateSetting($dt->type,$dt->value);			
+			}
+			
+			return json_encode(['status' => "ok",'data' => number_format($dt->value,2)]);
+         }       
     }
     
     

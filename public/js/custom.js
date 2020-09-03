@@ -9,6 +9,10 @@ $(document).ready(function(){
 	$('#settings-bank-side2').hide();
 	$('#settings-bank-loading').hide();
 	
+	$('#settings-discount-nud-error').hide();
+	$('#settings-discount-side2').hide();
+	$('#settings-discount-loading').hide();
+	
 	$('#as-other').hide();
 	
 	$('#analytics-1-period-error').hide();
@@ -150,6 +154,28 @@ $(document).ready(function(){
              $('#settings-delivery-submit').hide();
 		     $('#settings-delivery-loading').fadeIn();
 			 updateDeliveryFees({d1: d1, d2: d2});
+		  }); 
+		  
+		  $("#settings-discount-btn").click(function(e){            
+		       e.preventDefault();
+              $('#settings-discount-side1').hide();
+              $('#settings-discount-side2').fadeIn();
+		  });
+
+		  $("#settings-discount-form").submit(function(e){ 		  
+		       e.preventDefault();
+			   $('#settings-discount-nud-error').hide();
+			   let nud = $('#settings-discount-nud').val();
+			   
+			   if(nud == "" || parseInt(nud) < 1){
+				  $('#settings-discount-nud-error').fadeIn();
+			   }
+			   else{
+				   
+			   }
+             $('#settings-discount-submit').hide();
+		     $('#settings-discount-loading').fadeIn();
+			 updateDiscounts({type: "nud", value: nud});
 		  });
 		  
 		  $("#settings-bank-btn").click(function(e){            
