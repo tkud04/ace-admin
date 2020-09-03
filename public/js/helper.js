@@ -457,11 +457,13 @@ function BUP(){
 	for(let i = 0; i < BUPlist.length; i++){
 		let BUPitem = BUPlist[i];
 		if(BUPitem.selected){
+			let nn = BUPitem.name;
+			if(!nn) nn = "";
 			
-			if(!BUPitem.qty || BUPitem.qty == "" || BUPitem.qty < 0 || !BUPitem.name || BUPitem.name == ""){
+			if(!BUPitem.qty || BUPitem.qty == "" || BUPitem.qty < 0){
 				hasUnfilledQty = true;
 			}
-			ret.push({sku: BUPitem.sku,qty: BUPitem.qty,name: BUPitem.name});
+			ret.push({sku: BUPitem.sku,qty: BUPitem.qty,name: nn});
 			
 			BUPIsAllUnselected = false;
 		}
