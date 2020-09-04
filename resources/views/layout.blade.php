@@ -35,8 +35,8 @@
     <script type='text/javascript' src='js/actions.js'></script>    
     <script type='text/javascript' src='js/charts.js'></script>
     <script type='text/javascript' src='js/settings.js'></script>
-    <script type='text/javascript' src='js/helper.js?rtrtrt'></script>
-    <script type='text/javascript' src='js/custom.js?rtrtrt'></script>
+    <script type='text/javascript' src="js/helper.js?ver={{rand(99,9999)}}"></script>
+    <script type='text/javascript' src='js/custom.js?ver={{rand(99,9999)}}'></script>
 	
 	@yield('scripts')
     
