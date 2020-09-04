@@ -396,6 +396,12 @@ function showSelectError(type,err){
 
 
 function BUPEditStock(dt){
+		console.log('dt: ',dt);
+	if(dt.origName){
+				  //BUPitem.name = dt.origName;
+				  BUPlist.push({sku: dt.sku,name: origName,selected: true});  
+			  }
+			  
 	$(`#bup-${dt.sku}-side1`).hide();
 	$(`#bup-${dt.sku}-side2`).fadeIn();
 	let BUPitem = BUPlist.find(i => i.sku == dt.sku);
@@ -410,17 +416,10 @@ function BUPEditStock(dt){
 }
 
 function BUPSaveEdit(edit,dt){
-	console.log('dt: ',dt);
-	if(dt.origName){
-				  //BUPitem.name = dt.origName;
-				  BUPlist.push({sku: dt.sku,name: origName,selected: true});  
-			  }
-			  
 	let BUPitem = BUPlist.find(i => i.sku == dt.sku);
 		  console.log('BUPitem: ',BUPitem);
 		 
-		  if(BUPitem){
-			  
+		  if(BUPitem){			  
 			 if(edit == "qty") BUPitem.qty = dt.value;  
 			 else if(edit == "name") BUPitem.name = dt.value;           			 
 		  }

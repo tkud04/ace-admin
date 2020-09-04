@@ -81,12 +81,12 @@
 									<div id="bup-{{$sku}}-side1">
 									  <span class="label label-info sink">{{$qty}}</span>
 									  <div class="btn-group" role="group">
-									    <button onclick="BUPEditStock({sku: '{{$sku}}',qty: '{{$qty}}'})" class="btn btn-warning p">Edit</button>
+									    <button onclick="BUPEditStock({sku: '{{$sku}}',qty: '{{$qty}}',origName: '{{$name}}'})" class="btn btn-warning p">Edit</button>
 									  </div>
 									</div>
 									<div id="bup-{{$sku}}-side2" class="bup-hide">
 									  <input type="text" class="form-control" onchange="BUPSaveEdit('name',{sku: '{{$sku}}',value: this.value})" onload="BUPSaveEdit('name',{sku: '{{$sku}}',value: this.value})" placeholder="Name" value="{{$name}}">
-									  <input type="number" class="form-control" onchange="BUPSaveEdit('qty',{sku: '{{$sku}}',value: this.value,origName: '{{$name}}'})" placeholder="New stock">
+									  <input type="number" class="form-control" onchange="BUPSaveEdit('qty',{sku: '{{$sku}}',value: this.value})" placeholder="New stock">
 									  <div class="btn-group" role="group">
 									   <button onclick="BUPCancelEditStock({sku: '{{$sku}}'})" class="btn btn-warning p">Cancel</button>
 									  </div>
