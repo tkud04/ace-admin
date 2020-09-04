@@ -413,7 +413,7 @@ function BUPEditStock(dt){
 			BUPitem.name = name;  
 		  }
 		  else{
-			BUPlist.push({sku: dt.sku, name: dt.origName, selected: true});  
+			BUPlist.push({sku: dt.sku, name: name, selected: true});  
 		  }
 }
 
