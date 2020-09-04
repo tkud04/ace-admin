@@ -415,9 +415,13 @@ function BUPSaveEdit(edit,dt){
 		  console.log('BUPitem: ',BUPitem);
 		 
 		  if(BUPitem){
+			  if(dt.origName){
+				  BUPitem.name = dt.origName;
+			  }
 			 if(edit == "qty") BUPitem.qty = dt.value;  
-			 else if(edit == "name") BUPitem.name = dt.value;  
+			 else if(edit == "name") BUPitem.name = dt.value;           			 
 		  }
+		  
 }
 
 function BUPCancelEditStock(dt){
