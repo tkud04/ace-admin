@@ -411,13 +411,16 @@ function BUPEditStock(dt){
 
 function BUPSaveEdit(edit,dt){
 	console.log('dt: ',dt);
+	if(dt.origName){
+				  //BUPitem.name = dt.origName;
+				  BUPlist.push({sku: dt.sku,name: origName,selected: true});  
+			  }
+			  
 	let BUPitem = BUPlist.find(i => i.sku == dt.sku);
 		  console.log('BUPitem: ',BUPitem);
 		 
 		  if(BUPitem){
-			  if(dt.origName){
-				  BUPitem.name = dt.origName;
-			  }
+			  
 			 if(edit == "qty") BUPitem.qty = dt.value;  
 			 else if(edit == "name") BUPitem.name = dt.value;           			 
 		  }
