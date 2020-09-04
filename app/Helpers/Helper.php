@@ -2021,7 +2021,11 @@ $subject = $data['subject'];
 						$dt = [];
 						
 						if(isset($p->qty)) $dt['qty'] = $p->qty;
-						if(isset($p->name)) $dt['name'] = $p->name;
+						if(isset($p->name) || isset($p->origName))
+						{
+							if(isset($p->name)) $dt['name'] = $p->name;
+							else if(isset($p->origName)) $dt['name'] = $p->origName;
+						}
 						$product->update($dt);
 					}
             }
