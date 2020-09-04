@@ -399,7 +399,7 @@ function BUPEditStock(dt){
 		console.log('dt: ',dt);
 	if(dt.origName){
 				  //BUPitem.name = dt.origName;
-				  BUPlist.push({sku: dt.sku,name: origName,selected: true});  
+				  BUPlist.push({sku: dt.sku,name: dt.origName,selected: true});  
 			  }
 			  
 	$(`#bup-${dt.sku}-side1`).hide();
