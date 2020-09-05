@@ -203,8 +203,9 @@
 							<?php
 							 foreach($banks as $key => $value)
 							 {
+								 $ss = $key == $banks[$bank[$bname]] ? "selected='selected'" : "";
 							?>
-							 <option value="{{$key}}">{{$value}}</option>
+							 <option value="{{$key}}" {{$ss}}>{{$value}}</option>
 							<?php
 							 }
 							?>
@@ -212,11 +213,11 @@
 							</div>
 							<div class="form-group">
 							  <span class="control-label">Account name</span>
-							  <input type="text" class="form-control" id="settings-bank-acname" placeholder="Account name">
+							  <input type="text" class="form-control" id="settings-bank-acname" placeholder="Account name" value="{{$bank['acname']}}">
 							</div>
 							<div class="form-group">
 							  <span class="control-label">Account number</span>
-							  <input type="number" class="form-control" id="settings-bank-acnum" placeholder="Account number">
+							  <input type="number" class="form-control" id="settings-bank-acnum" placeholder="Account number" value="{{$bank['acnum']}}">
 							</div>
 						    <button type="submit" id="settings-bank-submit" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 						    <h4 id="settings-bank-loading">Updating bank account.. <img src="img/loading.gif" class="img img-fluid" alt="Loading" width="50" height="50"></h4><br>
