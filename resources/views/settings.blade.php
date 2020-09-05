@@ -105,7 +105,7 @@
 						   	<input type="hidden" id="tk-discount" value="{{csrf_token()}}">
 						    <div class="form-group">
 							  <span class="control-label">New user signup discount (&#8358;)</span>
-							  <input type="number" class="form-control" id="settings-discount-nud" placeholder="Enter amount" required>
+							  <input type="number" class="form-control" id="settings-discount-nud" placeholder="Enter amount" value="{{$nud}}" required>
 							   <span class="label label-danger" id="settings-discount-nud-error">A value of at least 1 is required</span>
 							</div>
 							
@@ -143,11 +143,11 @@
 						   	<input type="hidden" id="tk" value="{{csrf_token()}}">
 						    <div class="form-group">
 							  <span class="control-label">Fee for Southwest states</span>
-							  <input type="number" class="form-control" id="settings-delivery-d1" placeholder="Lagos, Ondo, Ekiti, Osun, Oyo, Ogun" required>
+							  <input type="number" class="form-control" id="settings-delivery-d1" placeholder="Lagos, Ondo, Ekiti, Osun, Oyo, Ogun" value="{{$delivery1}}" required>
 							</div>
 							<div class="form-group">
 							  <span class="control-label">Fee for other states</span>
-							  <input type="number" class="form-control" id="settings-delivery-d2" placeholder="Other states" required>
+							  <input type="number" class="form-control" id="settings-delivery-d2" placeholder="Other states" value="{{$delivery2}}" required>
 							</div>
 						    <button type="submit" id="settings-delivery-submit" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 						    <h4 id="settings-delivery-loading">Updating delivery fees.. <img src="img/loading.gif" class="img img-fluid" alt="Loading" width="50" height="50"></h4><br>
