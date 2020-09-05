@@ -105,7 +105,6 @@ class MainController extends Controller {
 		   'd2' => $d2,
 		   'bank' => $bank,
 		   'nud' => $nud
-		   
         ];
 		#dd($settings);
     	return view('settings',compact(['user','settings','senders','sender','plugins','banks','signals']));
