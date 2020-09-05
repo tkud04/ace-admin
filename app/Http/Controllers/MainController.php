@@ -107,7 +107,7 @@ class MainController extends Controller {
 		   'nud' => $nud
 		   
         ];
-		#dd($settings);
+		dd($settings);
     	return view('settings',compact(['user','settings','senders','sender','plugins','banks','signals']));
     }
     
