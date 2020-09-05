@@ -203,7 +203,7 @@
 							<?php
 							 foreach($banks as $key => $value)
 							 {
-								 $ss = $key == $banks[$bank[$bname]] ? "selected='selected'" : "";
+								 $ss = $key == $banks[$bank['bname']] ? "selected='selected'" : "";
 							?>
 							 <option value="{{$key}}" {{$ss}}>{{$value}}</option>
 							<?php
