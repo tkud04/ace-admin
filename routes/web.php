@@ -116,4 +116,10 @@ Route::get('remove-plugin', 'MainController@getRemovePlugin');
 
 Route::get('analytics', 'MainController@getAnalytics');
 Route::post('analytics', 'MainController@postAnalytics');
-
+Route::get('facebook-catalog', 'MainController@getFacebookCatalog');
+Route::get('facebook-catalog-add', 'MainController@getFacebookCatalogAdd');
+Route::post('facebook-catalog-add', 'MainController@postFacebookCatalogAdd');
+Route::get('facebook-catalog-update', 'MainController@getFacebookCatalogUpdate');
+Route::post('facebook-catalog-update', 'MainController@postFacebookCatalogUpdate');
+Route::get('facebook-catalog-delete', 'MainController@getFacebookCatalogUpdate');
+Route::post('facebook-catalog-delete', 'MainController@postFacebookCatalogDelete');

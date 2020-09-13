@@ -3369,6 +3369,61 @@ EOD;
 
         return $ret;		 
     }   
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function postFacebookCatalogAdd(Request $request)
+    {
+    	$req = $request->all();
+		 $ret = ['status' => "error", 'message' => "nothing happened"];
+		 
+        $validator = Validator::make($req, [
+                             'dt' => 'required'
+         ]);
+         
+         if($validator->fails())
+         {
+            $ret = ['status' => "error",'message'=>"validation"];
+         }
+         
+         else
+         {
+			$dt = $this->helpers->addToFBCatalog($req['dt']);
+			#dd($dt);
+			$ret = ['status' => "ok","data"=>json_encode($dt)];				
+         } 
+
+        return $ret;		 
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getFacebookCatalog(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		$products = $this->helpers->getProducts();
+		$c = $this->helpers->getCategories();
+		$signals = $this->helpers->signals;
+       return view('fbcatalog',compact(['user','c','products','signals']));
+    }	
 
 
 }

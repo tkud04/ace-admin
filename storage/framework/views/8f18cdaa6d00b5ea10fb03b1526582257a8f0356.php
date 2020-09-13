@@ -157,6 +157,17 @@
 								  $imggs = $product['imggs'];
 								  $imgs = $product['imgs'];
 								  
+								  if(count($imgs) < 1)
+								  {
+								?>
+                                    <li>
+								  <img class="img img-responsive" src="img/no-image.png" width="200" height="300" style="margin-bottom: 3px;">
+									
+								</li>
+                                <?php								
+								  }
+								  else
+								  {
 								  for($ii = 0; $ii < count($imggs); $ii++){
 									  $i = $imggs[$ii];
 									  $i2 = $imgs[$ii];
@@ -171,6 +182,7 @@
 								  <a href="<?php echo e($diu); ?>" class="btn btn-default btn-block btn-clean">Delete</a>
 								</li>
                                 <?php
+								  }
 								  }
                                 ?>
                                </ul>

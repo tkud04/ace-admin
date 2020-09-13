@@ -274,7 +274,36 @@
 			<div class="col-md-5">
 			   <div class="block block-drop-shadow">
 			      <div class="head bg-dot20">
-                        <h2>Analytics 2</h2>
+                        <h2>Facebook Catalog</h2>
+				  <div class="head-panel nm">
+						<br>
+						  <?php
+						   $catalog = 0;
+						   
+						  if($catalog < 1)
+						   {
+						  ?>	  
+						  <h4>No items in your catalog.</h4>
+						  <a href="<?php echo e(url('facebook-catalog')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add products to catalog</a> 
+					      <?php
+						   }
+						  else
+						  {
+						    $cct = "item";
+						    $prepo = "is";
+						   
+						   if($catalog > 1)
+						   {
+							   $cct = "items";
+							   $prepo = "are";
+						   }
+						  ?>
+							<h4><?php echo e($catalog); ?> <?php echo e($cct); ?> in your catalog.</h4>
+                            <a href="<?php echo e(url('facebook-catalog')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View <?php echo e($cct); ?></a> 
+						  <?php						
+						  }
+                          ?>               
+                        </div>
                   </div>
 			   </div>  
                <div class="block block-drop-shadow">                    

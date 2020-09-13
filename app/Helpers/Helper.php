@@ -223,7 +223,17 @@ class Helper implements HelperContract
   //public $adminEmail = "aceluxurystore@yahoo.com";
   public $adminEmail = "aquarius4tkud@yahoo.com";
   public $suEmail = "kudayisitobi@gmail.com";
-	
+  
+  public $googleProductCategories = [
+				              'bracelets' => "191",
+							  'brooches' => "197",
+							  'earrings' => "194",
+							  'necklaces' => "196",
+							  'rings' => "200",
+							  'anklets' => "189",
+							  'scarfs' => "177",
+							  'Hair Accessories' => "171"
+							  ];
 	
 /**
  * Polyline encoding & decoding methods
@@ -2655,6 +2665,13 @@ function getRandomString($length_of_string)
 									]);
 			   }
 			   return $ret;
+		   }
+		   
+		   
+		   function addToFBCatalog($dt)
+		   {
+			   $products = json_decode($dt);
+			   dd($products);
 		   }
 		   
            
