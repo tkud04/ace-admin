@@ -279,7 +279,7 @@
 				  <div class="head-panel nm">
 						<br>
 						  <?php
-						   $catalog = 0;
+						   $catalog = count($catalogs);
 						   
 						  if($catalog < 1)
 						   {

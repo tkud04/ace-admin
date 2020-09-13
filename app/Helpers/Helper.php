@@ -26,6 +26,7 @@ use App\Ads;
 use App\Settings;
 use App\Plugins;
 use App\Senders;
+use App\Catalogs;
 use Analytics;
 use Spatie\Analytics\Period;
 use \Cloudinary\Api;
@@ -90,6 +91,9 @@ class Helper implements HelperContract
                      "add-sender-status" => "Sender added",
                      "remove-sender-status" => "Sender removed",
                      "mark-sender-status" => "Sender updated",
+					 "add-catalog-status" => "Item(s) added to catalog",
+                     "remove-catalog-status" => "Item(s) removed from catalog",
+                     "update-catalog-status" => "Catalog updated",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -2667,11 +2671,119 @@ function getRandomString($length_of_string)
 			   return $ret;
 		   }
 		   
+		    function createCatalog($data)
+           {
+			   #dd($data);
+			 $ret = null;
+			 
+			 
+				 $ret = Catalogs::create(['sku' => $data['sku'],
+                                                      'status' => $data['status'], 
+                                                      ]);
+			  return $ret;
+           }
+
+   function getCatalogs()
+   {
+	   $ret = [];
+	   
+	   $catalogs = Catalogs::where('id','>',"0")->get();
+	   
+	   if(!is_null($catalogs))
+	   {
+		   foreach($catalogs as $c)
+		   {
+		     $temp = $this->getCatalog($c->id);
+		     array_push($ret,$temp);
+	       }
+	   }
+	   
+	   return $ret;
+   }
+   
+   function getCatalog($id)
+           {
+           	$ret = [];
+               $c = Catalogs::where('id',$id)->first();
+ 
+              if($c != null)
+               {
+                   	$temp['sku'] = $c->sku;  
+                       $temp['status'] = $c->status; 
+                       $temp['id'] = $c->id; 
+                       $temp['date'] = $c->created_at->format("jS F, Y"); 
+                       $temp['updated'] = $c->updated_at->format("jS F, Y"); 
+                       $ret = $temp; 
+               }                          
+                                                      
+                return $ret;
+           }
+		   
+		   
+		  function updateCatalog($data,$user=null)
+           {
+			   #dd($data);
+			 $ret = "error";
+			  $c = Catalogs::where('id',$data['xf'])->first();
+			 
+			 
+			 if(!is_null($c))
+			 {
+				 /**
+				 $c->update(['name' => $data['name'], 
+                                                      'value' => $data['value'], 
+                                                      'status' => $data['status']
+                                                      ]);
+			     **/
+				 $c->touch();
+			   $ret = "ok";
+			 }
+           	
+                                                      
+                return $ret;
+           }
+
+		   function removeCatalog($xf,$user=null)
+           {
+			   #dd($data);
+			 $ret = "error";
+			 $c = Catalogs::where('id',$xf)
+			              ->orWhere('sku',$xf)->first();
+
+			 
+			 if(!is_null($c))
+			 {
+				 $c->delete();
+			   $ret = "ok";
+			 }
+           
+           }
+		   
 		   
 		   function addToFBCatalog($dt)
 		   {
 			   $products = json_decode($dt);
-			   dd($products);
+			   #dd($products);
+			   
+			   foreach($products as $p)
+			   {
+				   $this->createCatalog(['sku' => $p->sku,'status' => "enabled"]);
+			   }
+			   
+			   return true;
+		   }
+		   
+		   function removeFromFBCatalog($dt)
+		   {
+			   $products = json_decode($dt);
+			   #dd($products);
+			   
+			   foreach($products as $p)
+			   {
+				   $this->removeCatalog($p->sku);
+			   }
+			   
+			   return true;
 		   }
 		   
            

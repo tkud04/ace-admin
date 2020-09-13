@@ -39,8 +39,10 @@
                                     <th width="70%">Order</th>
                                     <th width="20%">Status</th>
                                     <th width="10%">
+									<div class="btn-group" role="group">
 									 <button id="cp-select-all" onclick="cpSelectAllOrders()" class="btn btn-success">Select all</button>
-									 <button id="cp-unselect-all" onclick="cpUnselectAllOrders()" class="btn btn-success">Unselect all</button>
+									 <button id="cp-unselect-all" onclick="cpUnselectAllOrders()" class="btn btn-warning">Unselect all</button>
+									 </div>
 									</th>                                                                                                      
                                 </tr>
                             </thead>

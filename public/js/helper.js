@@ -1536,3 +1536,88 @@ function updateDiscounts(dt){
 	   });
 }
 
+function FCASelectAllProducts(){
+	console.log("selecting all products");
+    bs = $('button.fca');
+	
+	if(bs){
+		for(let i = 0; i < bs.length; i++){
+			b = bs[i];
+			//console.log(b);
+			FCASelectProduct({id: b.id.substring(3),sku: b.getAttribute('data-sku')});
+		}
+	    showBulkSelectButton("fca","selectAll");
+	
+	}
+}
+
+function FCAUnselectAllProducts(){
+	console.log("unselecting all products");
+     bs = $('button.fca');
+	
+	if(bs){
+		for(let i = 0; i < bs.length; i++){
+			b = bs[i];
+			FCAUnselectProduct({id: b.id.substring(3),sku: b.getAttribute('data-sku')});
+		}
+		showBulkSelectButton("fca","unselectAll");
+	}
+}
+
+function FCASelectProduct(dt){
+	if(dt.sku){
+	  console.log(`fca selecting product ${dt.sku}`);
+	  p = $(`button#fca-${dt.id}`);
+	  if(p){
+		   p.attr('disabled',true);
+		   
+		   $(`#fca-unselect_${dt.id}`).fadeIn();
+		  let pp = fcaList.find(i => i.sku == dt.sku);
+		  console.log('pp: ',pp);
+		 
+		  if(pp){
+			pp.selected = true;  
+		  }
+		  else{
+			fcaList.push({sku: dt.sku,selected: true});  
+		  } 
+	  }
+	  
+	}
+}
+
+function FCAUnselectProduct(dt){
+	if(dt.sku){
+	  console.log(`unselecting product ${dt.sku}`);
+	  p = $(`button#fca-${dt.id}`);
+	  
+	  if(p){
+		  p.attr('disabled',false);
+		  $(`#fca-unselect_${dt.id}`).hide();
+		  let us = fcaList.find(i => i.sku == dt.sku);
+		  //console.log('us: ',us);
+		  
+		  if(us){
+		    us.selected = false;
+		  }
+	  }
+	  
+	}
+}
+
+function FCA(){
+	hideElems('fca');
+	console.log("fcaList length: ",fcaList.length);
+	let fcAction = $('#fca-action').val();
+	if(fcaList.length < 1 || fcAction == "none"){
+		if(fcaList.length < 1) showSelectError('fca','product');
+		if(fcAction == "none") showSelectError('fca','action');
+	}
+	else{
+		$('#fca-dt').val(JSON.stringify(fcaList));
+		$('#fca-form').submit();   
+	}
+}
+
+
+

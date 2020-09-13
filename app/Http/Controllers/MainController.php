@@ -51,6 +51,7 @@ class MainController extends Controller {
 		$ordersCollection = collect($orders);
 		$ccarts = $this->helpers->getCarts();
         #dd($ordersCollection);
+		 $catalogs = $this->helpers->getCatalogs();
 		 $products = $this->helpers->getProducts();
 		 $productsCollection = collect($products);
 		 $lowStockProducts = $productsCollection->where('qty','<',"10");
@@ -59,7 +60,7 @@ class MainController extends Controller {
 		//Analytics
 		$mostVisitedPages = $this->helpers->getAnalytics(['type' => "most-visited-pages",'period' => "days",'num' => 7]);
 		
-    	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','lowStockProducts','mostVisitedPages','ccarts','signals']));
+    	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','catalogs','lowStockProducts','mostVisitedPages','ccarts','signals']));
     }
     
     /**
@@ -3370,34 +3371,7 @@ EOD;
         return $ret;		 
     }   
 	
-	/**
-	 * Show the application welcome screen to the user.
-	 *
-	 * @return Response
-	 */
-	public function postFacebookCatalogAdd(Request $request)
-    {
-    	$req = $request->all();
-		 $ret = ['status' => "error", 'message' => "nothing happened"];
-		 
-        $validator = Validator::make($req, [
-                             'dt' => 'required'
-         ]);
-         
-         if($validator->fails())
-         {
-            $ret = ['status' => "error",'message'=>"validation"];
-         }
-         
-         else
-         {
-			$dt = $this->helpers->addToFBCatalog($req['dt']);
-			#dd($dt);
-			$ret = ['status' => "ok","data"=>json_encode($dt)];				
-         } 
-
-        return $ret;		 
-    }
+	
 
     /**
 	 * Show the application welcome screen to the user.
@@ -3420,9 +3394,57 @@ EOD;
 			return redirect()->intended('login');
 		}
 		$products = $this->helpers->getProducts();
+		$products = collect($products);
 		$c = $this->helpers->getCategories();
+		$catalogs = $this->helpers->getCatalogs();
+		$catalogs = collect($catalogs);
 		$signals = $this->helpers->signals;
-       return view('fbcatalog',compact(['user','c','products','signals']));
+       return view('fbcatalog',compact(['user','c','products','catalogs','signals']));
+    }
+
+    /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function postFacebookCatalogAdd(Request $request)
+    {
+    	$req = $request->all();
+		 $ret = ['status' => "error", 'message' => "nothing happened"];
+		 
+        $validator = Validator::make($req, [
+                             'dt' => 'required',
+                             'action' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+            $messages = $validator->messages();
+            return redirect()->withInput()->with("errors",$messages);
+         }
+         
+         else
+         {
+			 $dt = false;
+			 
+			 switch($req['action'])
+			 {
+				 case "add":
+				   $dt = $this->helpers->addToFBCatalog($req['dt']);
+				   session()->flash("add-catalog-status", "success");
+				 break;
+				 case "remove":
+				   $dt = $this->helpers->removeFromFBCatalog($req['dt']);
+				   session()->flash("remove-catalog-status", "success");
+				 break;
+			 }
+			
+			#dd($dt);
+            
+			return redirect()->intended('facebook-catalog');
+         } 
+
+        return $ret;		 
     }	
 
 
