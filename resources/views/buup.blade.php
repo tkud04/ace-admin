@@ -14,6 +14,7 @@
 <script>
  $(document).ready(() =>{
  $('.buup-hide').hide();
+ localStorage.clear();
  
  });
  </script>

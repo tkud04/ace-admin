@@ -599,7 +599,7 @@ function BUUPAddImage(ctr){
 function BUUP(){
 	hideElems('buup');
 	console.log("BUUPlist length: ",buupCounter);
-	localStorage.clear();
+	
 	
 	if(buupCounter < 1){
 		showSelectError('buup','product');
@@ -1166,7 +1166,7 @@ function BAORemoveRow(ctr){
 function BAO(){
 	hideElems('bao');
 	console.log("order count: ",orderCount);
-	localStorage.clear();
+	
 	
 	//let user = localStorage.getItem("");
 	
