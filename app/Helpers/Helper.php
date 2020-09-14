@@ -2236,7 +2236,7 @@ function getRandomString($length_of_string)
 		}
 		
 		 $o = $this->createOrder($uu, $dt);
-		 $oo = $this->getOrder($o->reference);
+		 
 		 #dd($oo);
 		 #create order details
                foreach($items as $i)
@@ -2248,6 +2248,7 @@ function getRandomString($length_of_string)
 				   $this->updateStock($i->sku,$i->qty);
                    $oi = $this->createOrderItems($dt);                    
                }
+               $oo = $this->getOrder($o->reference);
 			   
 		/*******************************************************/
          //We have the user, update the status and notify the customer
