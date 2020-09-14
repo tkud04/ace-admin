@@ -123,3 +123,5 @@ Route::get('facebook-catalog-update', 'MainController@getFacebookCatalogUpdate')
 Route::post('facebook-catalog-update', 'MainController@postFacebookCatalogUpdate');
 Route::get('facebook-catalog-delete', 'MainController@getFacebookCatalogUpdate');
 Route::post('facebook-catalog-delete', 'MainController@postFacebookCatalogDelete');
+
+Route::get('apitest', 'MainController@getAPITest');

@@ -2787,39 +2787,37 @@ function getRandomString($length_of_string)
 			   return true;
 		   }
 		   
-		    function callAPI($url,$method,$data) 
+		    function callAPI($url,$method,$params) 
            {
-           	//form query string
-               $qs = "sn=".$data['sn']."&sa=".$data['sa']."&subject=".$data['subject'];
-
+           	
                $lead = $data['em'];
 			   
-			   if($lead == null)
+		   if($params == null || count($params) < 1)
 			   {
-				    $ret = json_encode(["status" => "ok","message" => "Invalid recipient email"]);
+				    $ret = json_encode(["status" => "ok","message" => "Invalid data"]);
 			   }
 			   else
 			    { 
-                  $qs .= "&receivers=".$lead."&ug=deal"; 
-               
-                  $config = $this->emailConfig;
-                  $qs .= "&host=".$config['ss']."&port=".$config['sp']."&user=".$config['su']."&pass=".$config['spp'];
-                  $qs .= "&message=".$data['message'];
-               
-			      //Send request to nodemailer
-			      $url = "https://radiant-island-62350.herokuapp.com/?".$qs;
-			   
+                  $dt = $params['data'];
+			      
+				  $guzzleData = [];
+				  
+				  switch($params['type'])
+				  {
+					 case "json":
+					   $guzzleData = [
+				        'json' => $dt
+				       ];
+                     break;					 
+				  }
+				  
+				  
 			
-			     $client = new Client([
-                 // Base URI is used with relative requests
-                 'base_uri' => 'http://httpbin.org',
-                 // You can set any number of default request options.
-                 //'timeout'  => 2.0,
-                 ]);
-			     $res = $client->request('GET', $url);
+			     $client = new Client();
+			     $res = $client->request('POST', $url, $guzzleData);
 			  
                  $ret = $res->getBody()->getContents(); 
-			 
+			     dd($ret);
 			     $rett = json_decode($ret);
 			     if($rett->status == "ok")
 			     {

@@ -3430,6 +3430,65 @@ EOD;
          } 
 
         return $ret;		 
+    }
+
+ /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAPITest(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		$p = "ACE2700LX437";
+		$product = $this->getProduct($p);
+		 $iss = ['in_stock' => "in stock",'out_of_stock' => "out of stock",'new' => "available for order"];
+		 $pd = $product['pd'];
+			   $description = $pd['description'];
+			   $category = $pd['category'];
+			   $in_stock = $pd['in_stock'];
+			   $amount = $pd['amount'];
+			    $imggs = $product['imggs'];
+				
+		$url = "https://graph.facebook.com/<API_VERSION>/<CATALOG_ID>/batch";
+		$dt = [
+		  'requests' => [
+		    'method' => "CREATE",
+			'retailer_id' => $product['sku'],
+			'data' => [
+			  'availability' => "in stock",
+			  'brand' => "Ace Luxury Store",
+			  'category' => $this->helpers->googleProductCategories[$category],
+			  'description' => $description,
+			  'image_url' => $imggs[0],
+			  'price' => $amount,
+			  'name' => $product['name'],
+			  'currency' => "NGN",
+			  'condition' => "new",
+			  'url' => url('product')."?sku=".$product['sku']
+			  
+			]
+		  ]
+		];
+		$data = [
+		  'type' => "json",
+		  'data' => $dt
+		];
+		$ret = $this->helpers->callAPI($url,"POST",$data);
+		
+       //return view('fbcatalog',compact(['user','c','products','catalogs','signals']));
     }	
 
 
