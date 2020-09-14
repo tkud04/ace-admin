@@ -1241,7 +1241,7 @@ function baoFire(){
 	   .then(response => {
 		   if(response.status === 200){
 			  // console.log(response);
-			   
+			   console.log("xs success: ",response.text());
 			   return response.text();
 		   }
 		   else{
