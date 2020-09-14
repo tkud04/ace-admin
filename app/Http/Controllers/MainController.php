@@ -2373,7 +2373,7 @@ EOD;
          else
          {
 			$dtt = json_decode($req['dt']);
-			dd($dtt);
+			dd($req['dt']);
 			/**	
 			 {
 				 id: 0,
