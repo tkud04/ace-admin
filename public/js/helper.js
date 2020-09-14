@@ -1166,7 +1166,7 @@ function BAORemoveRow(ctr){
 function BAO(){
 	hideElems('bao');
 	console.log("order count: ",orderCount);
-	//localStorage.removeItem("buupCtr");
+	localStorage.removeItem("baoCtr");
 	
 	//let user = localStorage.getItem("");
 	
