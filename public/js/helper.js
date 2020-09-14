@@ -599,7 +599,7 @@ function BUUPAddImage(ctr){
 function BUUP(){
 	hideElems('buup');
 	console.log("BUUPlist length: ",buupCounter);
-	localStorage.removeItem("buupCtr");
+	localStorage.clear();
 	
 	if(buupCounter < 1){
 		showSelectError('buup','product');
@@ -1166,7 +1166,7 @@ function BAORemoveRow(ctr){
 function BAO(){
 	hideElems('bao');
 	console.log("order count: ",orderCount);
-	localStorage.removeItem("baoCtr");
+	localStorage.clear();
 	
 	//let user = localStorage.getItem("");
 	
@@ -1258,11 +1258,12 @@ function baoFire(){
 	   })
 	   .then(res => {
 		   console.log(res);
+		   let rr = JSON.parse(res);
 		   let bac2 = bac;
           bac = parseInt(bac) + 1;
 			     localStorage.setItem("baoCtr",bac);
 				 
-		   if(res.status == "ok"){
+		   if(rr.status == "ok"){
                   $('#result-ctr').html(bac);
 				  	localStorage.removeItem(`ctr_${bac2}`);
 	               localStorage.removeItem(`items_${bac2}`);
@@ -1280,7 +1281,7 @@ function baoFire(){
 				  }				  
 		    },4000);
 		   }
-		   else if(res.status == "error"){
+		   else if(rr.status == "error"){
 				     alert("An unknown error has occured. Please try again");
                    $('#result-box').hide();
 			$("#button-box").fadeIn();	
