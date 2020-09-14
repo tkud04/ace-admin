@@ -1245,6 +1245,7 @@ function baoFire(){
 			   return response.text();
 		   }
 		   else{
+			    console.log("xs: ",response.text());
 			   return {status: "error", message: "Network error"};
 		   }
 	   })
@@ -1252,6 +1253,7 @@ function baoFire(){
 		    alert("Failed to add order: " + error);			
 			$('#result-box').hide();
 			$("#button-box").fadeIn();
+			BAOlist = [];
 	   })
 	   .then(res => {
 		   console.log(res);
@@ -1280,7 +1282,8 @@ function baoFire(){
 		   else if(res.status == "error"){
 				     alert("An unknown error has occured. Please try again");
                    $('#result-box').hide();
-			$("#button-box").fadeIn();					 
+			$("#button-box").fadeIn();	
+            BAOlist = [];			
 		   }
 		   
 		  
