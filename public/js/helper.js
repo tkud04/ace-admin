@@ -1239,13 +1239,14 @@ function baoFire(){
 	//fetch request
 	fetch(req)
 	   .then(response => {
+		   txt = response.text();
 		   if(response.status === 200){
 			  // console.log(response);
-			   console.log("xs success: ",response.text());
-			   return response.text();
+			   console.log("xs success: ",txt);
+			   return txt;
 		   }
 		   else{
-			    console.log("xs: ",response.text());
+			    console.log("xs error: ", txt);
 			   return {status: "error", message: "Network error"};
 		   }
 	   })
