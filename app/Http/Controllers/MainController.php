@@ -3465,20 +3465,21 @@ EOD;
 		$url = "https://graph.facebook.com/v8.0/".$cid."/batch";
 		$dt = [
 		  'requests' => [
-		    'method' => "CREATE",
-			'retailer_id' => $product['sku'],
-			'data' => [
-			  'availability' => "in stock",
-			  'brand' => "Ace Luxury Store",
-			  'category' => $this->helpers->googleProductCategories[$category],
-			  'description' => $description,
-			  'image_url' => $imggs[0],
-			  'price' => $amount,
-			  'name' => $product['name'],
-			  'currency' => "NGN",
-			  'condition' => "new",
-			  'url' => url('product')."?sku=".$product['sku']
-			  
+		    [
+		      'method' => "CREATE",
+			  'retailer_id' => $product['sku'],
+			  'data' => [
+			    'availability' => "in stock",
+			    'brand' => "Ace Luxury Store",
+			    'category' => $this->helpers->googleProductCategories[$category],
+			    'description' => $description,
+			    'image_url' => $imggs[0],
+			    'price' => $amount,
+			    'name' => $product['name'],
+			    'currency' => "NGN",
+			    'condition' => "new",
+			    'url' => url('product')."?sku=".$product['sku'] 
+			  ]
 			]
 		  ]
 		];
