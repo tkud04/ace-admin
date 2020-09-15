@@ -2799,7 +2799,7 @@ function getRandomString($length_of_string)
 			   else
 			    { 
                   $dt = $params['data'];
-			      
+			      dd($dt);
 				  $guzzleData = [];
 				  
 				  switch($params['type'])
