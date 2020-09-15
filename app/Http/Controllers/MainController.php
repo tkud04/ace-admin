@@ -3461,8 +3461,8 @@ EOD;
 			   $in_stock = $pd['in_stock'];
 			   $amount = $pd['amount'];
 			    $imggs = $product['imggs'];
-				
-		$url = "https://graph.facebook.com/<API_VERSION>/<CATALOG_ID>/batch";
+				$cid = env('FACEBOOK_CATALOG_ID');
+		$url = "https://graph.facebook.com/v8.0/".$cid."/batch";
 		$dt = [
 		  'requests' => [
 		    'method' => "CREATE",
