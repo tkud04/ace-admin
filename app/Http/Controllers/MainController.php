@@ -3464,7 +3464,8 @@ EOD;
 				$cid = env('FACEBOOK_CATALOG_ID');
 		$url = "https://graph.facebook.com/v8.0/".$cid."/batch";
 		$dt = [
-		  'access_token' => env('FACEBOOK_APP_ID')."|".env('FACEBOOK_APP_SECRET'),
+		  //'access_token' => env('FACEBOOK_APP_ID')."|".env('FACEBOOK_APP_SECRET'),
+		  'access_token' => "759072534891668|MW_INQ2r2ou_8EFSO9chY0kc5d0",
 		  'requests' => [
 		    [
 		      'method' => "CREATE",
