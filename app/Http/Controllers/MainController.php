@@ -3453,7 +3453,7 @@ EOD;
 			return redirect()->intended('login');
 		}
 		$p = "ACE2700LX437";
-		$product = $this->getProduct($p);
+		$product = $this->helpers->getProduct($p);
 		 $iss = ['in_stock' => "in stock",'out_of_stock' => "out of stock",'new' => "available for order"];
 		 $pd = $product['pd'];
 			   $description = $pd['description'];
