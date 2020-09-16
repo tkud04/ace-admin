@@ -2769,7 +2769,7 @@ function getRandomString($length_of_string)
 			   foreach($products as $p)
 			   {
 		        $pu = "www.aceluxurystore.com/product";
-		        $product = $this->helpers->getProduct($p);
+		        $product = $this->getProduct($p);
 		        $iss = ['in_stock' => "in stock",'out_of_stock' => "out of stock",'new' => "available for order"];
 		        $pd = $product['pd'];
 			    $description = $pd['description'];
@@ -2788,7 +2788,7 @@ function getRandomString($length_of_string)
 			              'data' => [
 			                'availability' => "in stock",
 			                'brand' => "Ace Luxury Store",
-			                'category' => $this->helpers->googleProductCategories[$category],
+			                'category' => $this->googleProductCategories[$category],
 			                'description' => $description,
 			                'image_url' => $imggs[0],
 			                'price' => $amount,
