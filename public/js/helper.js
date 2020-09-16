@@ -1620,7 +1620,7 @@ function FCA(dt){
 	}
 	else{
 		//get fb permission
-		let  fbp = localStorage.getItem('ace_fbp'), uu = "admin.aceluxurystore.com/facebook-catalog";
+		let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/facebook-catalog";
 		if(fbp){
 		   $('#fca-dt').val(JSON.stringify(fcaList));
 		   $('#fca-form').submit();
@@ -1631,12 +1631,12 @@ function FCA(dt){
 			Swal.fire({
              title: `Your permission is required`,
              imageUrl: "img/facebook.png",
-             imageWidth: 512,
-             imageHeight: 512,
+             imageWidth: 64,
+             imageHeight: 64,
              imageAlt: `Grant the app catalog permissions`,
              showCloseButton: true,
              html:
-             "<h4 class='text-warning'>To manage your Catalog Facebook <b>requires</b> your permission.</h4><p class='text-primary'>Click OK below to redirect to Facebook to grant the app access to your catalog.</p>"
+             "<h4 class='text-warning'>Facebook <b>requires your permission</b> to make any changes to your Catalog.</h4><p class='text-primary'>Click OK below to redirect to Facebook to grant this app access.</p>"
            }).then((result) => {
                if (result.value) {
                  let cid = dt.cid;
@@ -1649,7 +1649,7 @@ function FCA(dt){
 }
 
 function getFBToken(dt){
-		 let uuu = "admin.aceluxurystore.com/facebook-catalog";
+		 let uuu = "https://admin.aceluxurystore.com/facebook-catalog";
 		 let uu = `https://graph.facebook.com/v8.0/oauth/access_token?client_id=${dt.cid}&client_secret=${dt.edf}&redirect_url=${uuu}&code={dt.code}`;
 		 
 	
