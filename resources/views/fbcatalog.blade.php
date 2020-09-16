@@ -15,6 +15,7 @@
   let fcaList = [];
  $(document).ready(() =>{
  $('.fca-hide').hide();
+ $('.fca-unselect').hide();
  
  <?php
  $cid = env('FACEBOOK_APP_ID');
@@ -113,7 +114,7 @@
 									<div>
 									  <div class="btn-group" role="group">
 									    <button onclick="FCASelectProduct({sku: '{{$sku}}',id: {{$p['id']}}})" id="fca-{{$p['id']}}" data-sku="{{$sku}}" class="btn btn-info fca"><span class="icon-check"></span></button>
-									    <button onclick="FCAUnselectProduct({sku: '{{$sku}}',id: {{$p['id']}}})" id="fca-unselect_{{$p['id']}}" data-sku="{{$sku}}" class="btn btn-warning fca-unselect fca-hide"><span class="icon-check-empty"></span></button>
+									    <button onclick="FCAUnselectProduct({sku: '{{$sku}}',id: {{$p['id']}}})" id="fca-unselect_{{$p['id']}}" data-sku="{{$sku}}" class="btn btn-warning fca-unselect"><span class="icon-check-empty"></span></button>
 									  </div>
 									</div>
 									
