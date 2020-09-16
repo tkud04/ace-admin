@@ -1686,7 +1686,7 @@ function getFBToken(dt){
 		     if(ret.access_token){
                   let ace_fbp = {
 					  access_token: ret: access_token,
-					  created_at: new Date()
+					  created_at: (new Date()).toDateString();
 				  };
 				  
 				  localStorage.setItem(JSON.stringify(ace_fbp));
