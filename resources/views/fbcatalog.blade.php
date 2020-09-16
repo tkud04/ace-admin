@@ -87,7 +87,7 @@
 									   $statusClass = "success";
 									   $pcs = "Added to catalog";
 								   }
-								   else if($p['in_catalog'] == "no")
+								   else
 								   {
 									   $statusClass = "warning";
 									   $pcs = "Not in catalog";
