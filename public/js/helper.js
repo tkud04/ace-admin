@@ -1661,10 +1661,12 @@ function getFBToken(dt){
 	//fetch request
 	fetch(req)
 	   .then(response => {
+		   let textt = response.text();
+		   console.log("text: ",textt);
 		   if(response.status === 200){
 			   //console.log(response);
 			   
-			   return response.text();
+			   return textt;
 		   }
 		   else{
 			   return {status: "error", message: "Technical error"};
