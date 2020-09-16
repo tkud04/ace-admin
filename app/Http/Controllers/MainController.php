@@ -3471,7 +3471,7 @@ EOD;
 			   $description = $pd['description'];
 			   $category = $pd['category'];
 			   $in_stock = $pd['in_stock'];
-			   $amount = $pd['amount'];
+			   $amount = $pd['amount'] * 100;
 			    $imggs = $product['imggs'];
 				$cid = env('FACEBOOK_CATALOG_ID');
 		$url = "https://graph.facebook.com/v8.0/".$cid."/batch";
