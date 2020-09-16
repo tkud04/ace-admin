@@ -13,6 +13,6 @@ class Catalogs extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'sku', 'status'
+        'id', 'sku', 'handle', 'status'
     ];
 }

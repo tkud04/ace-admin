@@ -2679,6 +2679,7 @@ function getRandomString($length_of_string)
 			 
 			 
 				 $ret = Catalogs::create(['sku' => $data['sku'],
+                                                      'handle' => $data['handle'], 
                                                       'status' => $data['status'], 
                                                       ]);
 			  return $ret;
@@ -2712,6 +2713,7 @@ function getRandomString($length_of_string)
                    	$temp['sku'] = $c->sku;  
                        $temp['status'] = $c->status; 
                        $temp['id'] = $c->id; 
+                       $temp['handle'] = $c->handle; 
                        $temp['date'] = $c->created_at->format("jS F, Y"); 
                        $temp['updated'] = $c->updated_at->format("jS F, Y"); 
                        $ret = $temp; 
@@ -2765,7 +2767,10 @@ function getRandomString($length_of_string)
 		   {
 			   $products = json_decode($dt);
 			   #dd($products);
-			   
+			   $reqs = [];
+			   $cid = env('FACEBOOK_CATALOG_ID');
+		        $url = "https://graph.facebook.com/v8.0/".$cid."/batch";
+				
 			   foreach($products as $p)
 			   {
 		        $pu = "www.aceluxurystore.com/product";
@@ -2777,12 +2782,9 @@ function getRandomString($length_of_string)
 			    $in_stock = $pd['in_stock'];
 			    $amount = $pd['amount'] * 100;
 			    $imggs = $product['imggs'];
-				$cid = env('FACEBOOK_CATALOG_ID');
-		        $url = "https://graph.facebook.com/v8.0/".$cid."/batch";
-		        $dt = [
-		           'access_token' => $tk,
-		           'requests' => [
-		               [
+				
+		         
+				 $temp = [
 		                  'method' => "CREATE",
 			              'retailer_id' => $product['sku'],
 			              'data' => [
@@ -2797,15 +2799,30 @@ function getRandomString($length_of_string)
 			                'condition' => "new",
 			                'url' => $pu."?sku=".$product['sku'] 
 			              ]
-			           ]
-		          ]
-		       ];
-		       $data = [
+			           ];
+			    array_push($reqs,$temp);
+		      
+			   }
+			   
+			   $dt = [
+		           'access_token' => $tk,
+		           'requests' => $reqs
+		       ]; 
+			   $data = [
 		        'type' => "json",
 		        'data' => $dt
 		       ];
 		       $ret = $this->callAPI($url,"POST",$data);
-				   //$this->createCatalog(['sku' => $p->sku,'status' => "enabled"]);
+			   $rt = json_decode($ret);
+			   
+			   if(isset($ret->handles))
+			   {
+				   $handles = $ret->handles;
+				   for($i = 0; $i < count($products); $i++)
+				   {
+					    $this->createCatalog(['sku' => $p->sku, 'handle' => $handles[$i],'status' => "enabled"]);
+				   }
+				  
 			   }
 			   
 			   return true;
@@ -2854,8 +2871,10 @@ function getRandomString($length_of_string)
 			     $res = $client->request('POST', $url, $guzzleData);
 			  
                  $ret = $res->getBody()->getContents(); 
-			     dd($ret);
-			     $rett = json_decode($ret);
+			     #dd($ret);
+			    
+				 /**
+				  $rett = json_decode($ret);
 			     if($rett->status == "ok")
 			     {
 					//  $this->setNextLead();
@@ -2865,6 +2884,7 @@ function getRandomString($length_of_string)
 			     {
 			    	// $lead->update(["status" =>"pending"]);
 			     }
+				 **/
 			    }
               return $ret; 
            }
