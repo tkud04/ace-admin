@@ -2833,9 +2833,39 @@ function getRandomString($length_of_string)
 			   $products = json_decode($dt);
 			   #dd($products);
 			   
+			    $cid = env('FACEBOOK_CATALOG_ID');
+		        $url = "https://graph.facebook.com/v8.0/".$cid."/batch";
+				$reqs = [];
+				
 			   foreach($products as $p)
 			   {
-				   $this->removeCatalog($p->sku);
+				   $temp = [
+		                  'method' => "DELETE",
+			              'retailer_id' => $p->sku,
+			           ];
+			    array_push($reqs,$temp);
+				
+				 $dt = [
+		           'access_token' => $tk,
+		           'requests' => $reqs
+		       ]; 
+			   $data = [
+		        'type' => "json",
+		        'data' => $dt
+		       ];
+		       $ret = $this->callAPI($url,"POST",$data);
+			   $rt = json_decode($ret);
+			   
+			   if(isset($ret->handles))
+			   {
+				   $handles = $ret->handles;
+				   for($i = 0; $i < count($products); $i++)
+				   {
+					   $this->removeCatalog($p->sku);
+				   }
+				  
+			   }
+				   
 			   }
 			   
 			   return true;
