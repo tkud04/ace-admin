@@ -3389,7 +3389,7 @@ EOD;
 		$code = "";
 		$ss2 = "";
 		
-		if(isset($req['code'] && isset($req['state'])
+		if(isset($req['code'] && isset($req['state']))
 		{
 			$code = $req['code'];
 			$ss2 = $req['state'];
