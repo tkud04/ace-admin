@@ -15,7 +15,6 @@
   let fcaList = [];
  $(document).ready(() =>{
  $('.fca-hide').hide();
- $('.fca-unselect').hide();
  
  <?php
  $cid = env('FACEBOOK_APP_ID');

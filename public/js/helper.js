@@ -379,6 +379,7 @@ function hideUnselects(){
 	$('.cp-unselect').hide();
 	$('#pq-unselect-all').hide();
 	$('.pq-unselect').hide();
+	 $('.fca-unselect').hide();
 }
 
 function hideSelectErrors(){
@@ -1548,7 +1549,7 @@ function FCASelectAllProducts(){
 	if(bs){
 		for(let i = 0; i < bs.length; i++){
 			b = bs[i];
-			//console.log(b);
+			console.log(b);
 			FCASelectProduct({id: b.id.substring(3),sku: b.getAttribute('data-sku')});
 			$(`#fca-unselect_${b.id.substring(3)}`).fadeIn();
 		}
