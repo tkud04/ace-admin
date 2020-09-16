@@ -608,6 +608,7 @@ $subject = $data['subject'];
 				  $temp['name'] = $product->name;
 				  $temp['sku'] = $product->sku;
 				  $temp['qty'] = $product->qty;
+				  $temp['in_catalog'] = $product->in_catalog;
 				  $temp['status'] = $product->status;
 				  $temp['pd'] = $this->getProductData($product->sku);
 				  $temp['discounts'] = $this->getDiscounts($product->sku);
@@ -809,6 +810,7 @@ $subject = $data['subject'];
                                                       'sku' => $sku, 
                                                       'qty' => $data['qty'],                                                       
                                                       'added_by' => $data['user_id'],                                                       
+                                                      'in_catalog' => "no", 
                                                       'status' => "enabled", 
                                                       ]);
                                                       
@@ -996,6 +998,7 @@ $subject = $data['subject'];
 					  $discount = $this->createDiscount($disc);
 				  }				  
 				 
+				 //update catalog here
                }                         
                                                       
                 return "ok";
@@ -1520,6 +1523,8 @@ $subject = $data['subject'];
 				   if($qty < 0) $qty = 0;
 				   $p->update(['qty' => $qty]);
 			   }
+			   
+			   //update product stock on catalog here
 		   }
 		   
 		   function clearNewUserDiscount($u)
@@ -2041,6 +2046,8 @@ $subject = $data['subject'];
 							else if(isset($p->origName)) $dt['name'] = $p->origName;
 						}
 						$product->update($dt);
+						
+						//update product on catalog here
 					}
             }
 			  
@@ -2820,7 +2827,8 @@ function getRandomString($length_of_string)
 				   $handles = $ret->handles;
 				   for($i = 0; $i < count($products); $i++)
 				   {
-					    $this->createCatalog(['sku' => $p->sku, 'handle' => $handles[$i],'status' => "enabled"]);
+					   $pp = Products::where('sku',$p->sku)->first();
+					   if($pp != null) $pp->update(['in_catalog' => "yes"]);
 				   }
 				  
 			   }
@@ -2843,8 +2851,8 @@ function getRandomString($length_of_string)
 		                  'method' => "DELETE",
 			              'retailer_id' => $p->sku,
 			           ];
-			    array_push($reqs,$temp);
-				
+			      array_push($reqs,$temp);
+			   }
 				 $dt = [
 		           'access_token' => $tk,
 		           'requests' => $reqs
@@ -2861,11 +2869,10 @@ function getRandomString($length_of_string)
 				   $handles = $ret->handles;
 				   for($i = 0; $i < count($products); $i++)
 				   {
-					   $this->removeCatalog($p->sku);
+					   $pp = Products::where('sku',$p->sku)->first();
+					   if($pp != null) $pp->update(['in_catalog' => "no"]);
 				   }
 				  
-			   }
-				   
 			   }
 			   
 			   return true;

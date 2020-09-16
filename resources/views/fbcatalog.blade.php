@@ -50,7 +50,7 @@
                     </div>
                    <div class="content">
 				   <div class="row">
-				     <div class="col-md-6">
+				     <div class="col-md-12">
 					  <h4>All products</h4>
 					 <div class="table-responsive" role="grid">
 					     
@@ -74,7 +74,7 @@
 							   #$products = [];
 							   foreach($products as $p)
 							   {
-								 if($p['status'] == "enabled")
+								 if($p['status'] == "enabled" && $p['qty'] > 0)
 								 {
 								   $sku = $p['sku'];
 								   $name = $p['name'];
@@ -82,7 +82,17 @@
 							       $img = $p['imggs'][0];
 							       $qty = $p['qty'];
 								   $pu = url('edit-product')."?id=".$sku;
-								   $statusClass = $p['status'] == "enabled" ? "success" : "danger";
+								   if($p['in_catalog'] == "yes")
+								   {
+									   $statusClass = "success";
+									   $pcs = "Added to catalog";
+								   }
+								   else if($p['in_catalog'] == "no")
+								   {
+									   $statusClass = "warning";
+									   $pcs = "Not in catalog";
+								   }
+								 
 									
 							   ?>
                                 <tr>
@@ -98,7 +108,7 @@
 							 {{$sku}}<br> {!! $pd['description'] !!}
 						 </span><br>
 									</td>
-									 <td><span class="label label-{{$statusClass}}">{{strtoupper($p['status'])}}</span></td>
+									 <td><span class="label label-{{$statusClass}}">{{strtoupper($pcs)}}</span></td>
                                     <td>
 									<div>
 									  <div class="btn-group" role="group">
@@ -119,43 +129,11 @@
 
                     </div><br>
 					</div> 
-					<div class="col-md-6">
-					<h4>Products in your Catalog</h4>
-					 <div class="table-responsive" role="grid">
-					     
-                        <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered ace-table">
-                            <thead>
-                                <tr>
-                                    <th width="70%">Product</th>
-                                    <th width="20%">Last updated</th>
-                                                                                                                                          
-                                </tr>
-                            </thead>
-                            <tbody>
-							   	<?php
-                                 if(count($catalogs) > 0)
-								 {
-									foreach($catalogs as $catalog)
-									{
-										$p = $products->where('sku',$catalog['sku'])->first();
-                                ?>
-								 <tr>
-								   <td>{{$p['sku']." - ".$p['name']}}</td>
-								   <td>{{$catalog['updated']}}</td>
-								 </tr>
-								<?php
-                                    }
-								 }
-                                ?>								
-                            </tbody>
-                        </table>                                        
-
-                    </div><br>
-					</div>    
+					    
 					</div>    
 						   
                             <div class="hp-info hp-simple pull-left">
-							<form action="{{url('facebook-catalog-add')}}" id="fca-form" method="post" enctype="multipart/form-data">
+							<form action="{{url('facebook-catalog')}}" id="fca-form" method="post" enctype="multipart/form-data">
 							  {!! csrf_field() !!}
 							  <input type="hidden" id="fca-dt" name="dt">
 							  <input type="hidden" id="fca-ftk" name="ftk">

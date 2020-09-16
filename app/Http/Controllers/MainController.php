@@ -3426,7 +3426,7 @@ EOD;
 	 *
 	 * @return Response
 	 */
-	public function postFacebookCatalogAdd(Request $request)
+	public function postFacebookCatalog(Request $request)
     {
     	$req = $request->all();
 		 $ret = ['status' => "error", 'message' => "nothing happened"];
