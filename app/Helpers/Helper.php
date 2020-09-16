@@ -2821,11 +2821,11 @@ function getRandomString($length_of_string)
 		       ];
 		       $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
-			   dd($rt);
+			   #dd($rt);
 			   if(isset($rt->handles))
 			   {
-				   $handles = $ret->handles;
-				   for($i = 0; $i < count($products); $i++)
+				   $handles = $rt->handles;
+				   foreach($products as $p)
 				   {
 					   $pp = Products::where('sku',$p->sku)->first();
 					   if($pp != null) $pp->update(['in_catalog' => "yes"]);
@@ -2866,8 +2866,8 @@ function getRandomString($length_of_string)
 			   
 			   if(isset($rt->handles))
 			   {
-				   $handles = $ret->handles;
-				   for($i = 0; $i < count($products); $i++)
+				   $handles = $rt->handles;
+				   foreach($products as $p)
 				   {
 					   $pp = Products::where('sku',$p->sku)->first();
 					   if($pp != null) $pp->update(['in_catalog' => "no"]);
