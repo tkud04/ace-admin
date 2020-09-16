@@ -1549,9 +1549,9 @@ function FCASelectAllProducts(){
 	if(bs){
 		for(let i = 0; i < bs.length; i++){
 			b = bs[i];
-			console.log(b);  bid = b.id.substring(3);
+			console.log(b);  bid = b.id.substring(4);
 			console.log("bid",bid);
-			FCASelectProduct({id: b.id.substring(3),sku: b.getAttribute('data-sku')});
+			FCASelectProduct({id:bid,sku: b.getAttribute('data-sku')});
 			//$(`#fca-unselect_${b.id.substring(3)}`).fadeIn();
 		}
 	    showBulkSelectButton("fca","selectAll");
@@ -1565,7 +1565,7 @@ function FCAUnselectAllProducts(){
 	
 	if(bs){
 		for(let i = 0; i < bs.length; i++){
-			b = bs[i]; bid = b.id.substring(3);
+			b = bs[i]; bid = b.id.substring(4);
 			console.log("bid",bid);
 			FCAUnselectProduct({id: bid,sku: b.getAttribute('data-sku')});
 			//$(`#fca-unselect_${bid}`).hide();
