@@ -3397,6 +3397,29 @@ EOD;
 		
        return view('fbcatalog',compact(['user','c','products','catalogs','ss','code','ss2','signals']));
     }
+	
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getFacebookCatalogAdd(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		return redirect()->intended('facebook-catalog');
+    }
 
     /**
 	 * Show the application welcome screen to the user.
@@ -3442,6 +3465,52 @@ EOD;
          } 
 
         return $ret;		 
+    }
+	
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getFacebookCatalogUpdate(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		return redirect()->intended('facebook-catalog');
+    }
+	
+	 /**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getFacebookCatalogDelete(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			}  
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		return redirect()->intended('facebook-catalog');
     }
 
  /**
