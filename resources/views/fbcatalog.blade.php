@@ -57,9 +57,9 @@
                         <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered ace-table">
                             <thead>
                                 <tr>
-                                    <th width="70%">Product</th>
-                                    <th width="20%">Status</th>
-                                    <th width="10%">
+                                    <th width="50%">Product</th>
+                                    <th width="25%">Status</th>
+                                    <th width="25%">
 									<div class="btn-group" role="group">
 									 <button id="fca-select-all" onclick="FCASelectAllProducts()" class="btn btn-success">Select all</button>
 									 <button id="fca-unselect-all" onclick="FCAUnselectAllProducts()" class="btn btn-warning fca-hide">Unselect all</button>
@@ -97,7 +97,7 @@
 							   ?>
                                 <tr>
                                     <td>
-									<h6>{{$sku}}</h6>
+									<h6>{{$name}}</h6>
 									  
 						 
 						 <span>
