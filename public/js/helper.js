@@ -1662,7 +1662,7 @@ function getFBToken(dt){
 	fetch(req)
 	   .then(response => {
 		   let textt = response.text();
-		   console.log("text: ",textt);
+		   //console.log("text: ",textt);
 		   if(response.status === 200){
 			   //console.log(response);
 			   
@@ -1679,28 +1679,23 @@ function getFBToken(dt){
 	   })
 	   .then(res => {
 		   console.log(res);
-          /**
-				 
-		   if(res.status == "ok"){
-                  $('#settings-nud').html(res.data);
-				  $('#settings-discount-side2').hide();
-				  $('#settings-discount-loading').hide();
-		     $('#settings-discount-submit').fadeIn();		
-              $('#settings-discount-side1').fadeIn();
-		   }
-		   else if(res.status == "error"){
-				     alert("An unknown error has occured. Please refresh the app or try again later");
-                   $('#settings-discount-loading').hide();
-		     $('#settings-discount-submit').fadeIn();					 
-		   }
+		   let ret = JSON.parse(res);
 		   
-		  **/
+		   if(ret){
+         
+		     if(ret.access_token){
+                  let ace_fbp = {
+					  access_token: ret: access_token,
+					  created_at: new Date()
+				  };
+				  
+				  localStorage.setItem(JSON.stringify(ace_fbp));
+		     }
+		   }
 		   
 		  
 	   }).catch(error => {
-		    alert("Failed to get token: " + error);	
-            $('#settings-discount-loading').hide();
-		     $('#settings-discount-submit').fadeIn();			
+		    alert("Failed to get token: " + error);				
 	   });
 }
 
