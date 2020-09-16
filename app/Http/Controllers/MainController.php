@@ -3410,6 +3410,7 @@ EOD;
 		 
         $validator = Validator::make($req, [
                              'dt' => 'required',
+                             'ftk' => 'required',
                              'action' => 'required|not_in:none'
          ]);
          
@@ -3422,15 +3423,15 @@ EOD;
          else
          {
 			 $dt = false;
-			 
+			 $tk = $req['ftk'];
 			 switch($req['action'])
 			 {
 				 case "add":
-				   $dt = $this->helpers->addToFBCatalog($req['dt']);
+				   $dt = $this->helpers->addToFBCatalog($req['dt'],$tk);
 				   session()->flash("add-catalog-status", "success");
 				 break;
 				 case "remove":
-				   $dt = $this->helpers->removeFromFBCatalog($req['dt']);
+				   $dt = $this->helpers->removeFromFBCatalog($req['dt'],$tk);
 				   session()->flash("remove-catalog-status", "success");
 				 break;
 			 }

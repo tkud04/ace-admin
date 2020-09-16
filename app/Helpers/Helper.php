@@ -2761,20 +2761,57 @@ function getRandomString($length_of_string)
            }
 		   
 		   
-		   function addToFBCatalog($dt)
+		   function addToFBCatalog($dt,$tk)
 		   {
 			   $products = json_decode($dt);
 			   #dd($products);
 			   
 			   foreach($products as $p)
 			   {
-				   $this->createCatalog(['sku' => $p->sku,'status' => "enabled"]);
+		        $pu = "www.aceluxurystore.com/product";
+		        $product = $this->helpers->getProduct($p);
+		        $iss = ['in_stock' => "in stock",'out_of_stock' => "out of stock",'new' => "available for order"];
+		        $pd = $product['pd'];
+			    $description = $pd['description'];
+			    $category = $pd['category'];
+			    $in_stock = $pd['in_stock'];
+			    $amount = $pd['amount'] * 100;
+			    $imggs = $product['imggs'];
+				$cid = env('FACEBOOK_CATALOG_ID');
+		        $url = "https://graph.facebook.com/v8.0/".$cid."/batch";
+		        $dt = [
+		           'access_token' => $tk,
+		           'requests' => [
+		               [
+		                  'method' => "CREATE",
+			              'retailer_id' => $product['sku'],
+			              'data' => [
+			                'availability' => "in stock",
+			                'brand' => "Ace Luxury Store",
+			                'category' => $this->helpers->googleProductCategories[$category],
+			                'description' => $description,
+			                'image_url' => $imggs[0],
+			                'price' => $amount,
+			                'name' => $product['name'],
+			                'currency' => "NGN",
+			                'condition' => "new",
+			                'url' => $pu."?sku=".$product['sku'] 
+			              ]
+			           ]
+		          ]
+		       ];
+		       $data = [
+		        'type' => "json",
+		        'data' => $dt
+		       ];
+		       $ret = $this->callAPI($url,"POST",$data);
+				   //$this->createCatalog(['sku' => $p->sku,'status' => "enabled"]);
 			   }
 			   
 			   return true;
 		   }
 		   
-		   function removeFromFBCatalog($dt)
+		   function removeFromFBCatalog($dt,$tk)
 		   {
 			   $products = json_decode($dt);
 			   #dd($products);
@@ -2799,7 +2836,7 @@ function getRandomString($length_of_string)
 			   else
 			    { 
                   $dt = $params['data'];
-			      dd(json_encode($dt));
+			      #dd(json_encode($dt));
 				  $guzzleData = [];
 				  
 				  switch($params['type'])
