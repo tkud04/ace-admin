@@ -2822,7 +2822,7 @@ function getRandomString($length_of_string)
 		       $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
 			   
-			   if(isset($ret->handles))
+			   if(isset($rt->handles))
 			   {
 				   $handles = $ret->handles;
 				   for($i = 0; $i < count($products); $i++)
@@ -2864,7 +2864,7 @@ function getRandomString($length_of_string)
 		       $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
 			   
-			   if(isset($ret->handles))
+			   if(isset($rt->handles))
 			   {
 				   $handles = $ret->handles;
 				   for($i = 0; $i < count($products); $i++)
