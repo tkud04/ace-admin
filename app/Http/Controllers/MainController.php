@@ -3378,13 +3378,24 @@ EOD;
 		{
 			return redirect()->intended('login');
 		}
+		$req = $request->all();
 		$products = $this->helpers->getProducts();
 		$products = collect($products);
 		$c = $this->helpers->getCategories();
 		$catalogs = $this->helpers->getCatalogs();
 		$catalogs = collect($catalogs);
+		$ss = $this->helpers->getRandomString(10);
 		$signals = $this->helpers->signals;
-       return view('fbcatalog',compact(['user','c','products','catalogs','signals']));
+		$code = "";
+		$ss2 = "";
+		
+		if(isset($req['code'] && isset($req['state'])
+		{
+			$code = $req['code'];
+			$ss2 = $req['state'];
+		}
+		
+       return view('fbcatalog',compact(['user','c','products','catalogs','ss','code','ss2','signals']));
     }
 
     /**
@@ -3453,6 +3464,7 @@ EOD;
 			return redirect()->intended('login');
 		}
 		$p = "ACE2700LX437";
+		$pu = "www.aceluxurystore.com/product";
 		$product = $this->helpers->getProduct($p);
 		 $iss = ['in_stock' => "in stock",'out_of_stock' => "out of stock",'new' => "available for order"];
 		 $pd = $product['pd'];
@@ -3480,7 +3492,7 @@ EOD;
 			    'name' => $product['name'],
 			    'currency' => "NGN",
 			    'condition' => "new",
-			    'url' => url('product')."?sku=".$product['sku'] 
+			    'url' => $pu."?sku=".$product['sku'] 
 			  ]
 			]
 		  ]

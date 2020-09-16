@@ -58,6 +58,7 @@
                             </thead>
                             <tbody>
 							   <?php
+							   $cid = env('FACEBOOK_APP_ID');
 							   $uss = [];
 							   #$products = [];
 							   foreach($products as $p)
@@ -158,7 +159,7 @@
 								 <h3 id="fca-select-product-error" class="label label-danger text-uppercase fca-hide mr-5 mb-5">Please select a product</h3>
 								 <h3 id="fca-select-action-error" class="label label-danger text-uppercase fca-hide mr-5 mb-5">Please select an action</h3>
 								 <br>
-								 <button onclick="FCA()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+								 <button onclick="FCA({cid:'<?php echo e($cid); ?>'})" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>                                
                             </div>
                      

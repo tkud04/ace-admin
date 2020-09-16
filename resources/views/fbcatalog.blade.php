@@ -16,6 +16,16 @@
  $(document).ready(() =>{
  $('.fca-hide').hide();
  
+ <?php
+ $cid = env('FACEBOOK_APP_ID');
+ $sec = env('FACEBOOK_APP_SECRET');
+ 
+ if($code != ""){
+ ?>
+  getFBToken({code: '{{$code}}',cid: '{{$cid}}',edf: '{{$sec}}'});
+ <?php
+ }
+ ?>
  });
  </script>
 
@@ -59,6 +69,7 @@
                             </thead>
                             <tbody>
 							   <?php
+							   
 							   $uss = [];
 							   #$products = [];
 							   foreach($products as $p)
@@ -157,7 +168,7 @@
 								 <h3 id="fca-select-product-error" class="label label-danger text-uppercase fca-hide mr-5 mb-5">Please select a product</h3>
 								 <h3 id="fca-select-action-error" class="label label-danger text-uppercase fca-hide mr-5 mb-5">Please select an action</h3>
 								 <br>
-								 <button onclick="FCA()" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
+								 <button onclick="FCA({cid:'{{$cid}}',ss:'{{$ss}}'})" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Submit</button>
 								</div>                                
                             </div>
                      

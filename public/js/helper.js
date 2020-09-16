@@ -1610,7 +1610,7 @@ function FCAUnselectProduct(dt){
 	}
 }
 
-function FCA(){
+function FCA(dt){
 	hideElems('fca');
 	console.log("fcaList length: ",fcaList.length);
 	let fcAction = $('#fca-action').val();
@@ -1619,9 +1619,87 @@ function FCA(){
 		if(fcAction == "none") showSelectError('fca','action');
 	}
 	else{
-		$('#fca-dt').val(JSON.stringify(fcaList));
-		$('#fca-form').submit();   
+		//get fb permission
+		let  fbp = localStorage.getItem('ace_fbp'), uu = "admin.aceluxurystore.com/facebook-catalog";
+		if(fbp){
+		   $('#fca-dt').val(JSON.stringify(fcaList));
+		   $('#fca-form').submit();
+		}
+		else{
+			//invoke dialog to get code
+			
+			Swal.fire({
+             title: `Your permission is required`,
+             imageUrl: "img/facebook.png",
+             imageWidth: 512,
+             imageHeight: 512,
+             imageAlt: `Grant the app catalog permissions`,
+             showCloseButton: true,
+             html:
+             "<h4 class='text-warning'>To manage your Catalog Facebook <b>requires</b> your permission.</h4><p class='text-primary'>Click OK below to redirect to Facebook to grant the app access to your catalog.</p>"
+           }).then((result) => {
+               if (result.value) {
+                 let cid = dt.cid;
+			     window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${dt.ss}&scope=catalog_management`;
+                }
+              });
+		}
+		   
 	}
+}
+
+function getFBToken(dt){
+		 let uuu = "admin.aceluxurystore.com/facebook-catalog";
+		 let uu = `https://graph.facebook.com/v8.0/oauth/access_token?client_id=${dt.cid}&client_secret=${dt.edf}&redirect_url=${uuu}&code={dt.code}`;
+		 
+	
+	//create request
+	const req = new Request(uu,{method: 'GET'});
+	//console.log(req);
+	
+	
+	//fetch request
+	fetch(req)
+	   .then(response => {
+		   if(response.status === 200){
+			   //console.log(response);
+			   
+			   return response.text();
+		   }
+		   else{
+			   return {status: "error", message: "Technical error"};
+		   }
+	   })
+	   .catch(error => {
+		    alert("Failed to get token: " + error);			
+			$('#settings-discount-loading').hide();
+		     $('#settings-discount-submit').fadeIn();
+	   })
+	   .then(res => {
+		   console.log(res);
+          /**
+				 
+		   if(res.status == "ok"){
+                  $('#settings-nud').html(res.data);
+				  $('#settings-discount-side2').hide();
+				  $('#settings-discount-loading').hide();
+		     $('#settings-discount-submit').fadeIn();		
+              $('#settings-discount-side1').fadeIn();
+		   }
+		   else if(res.status == "error"){
+				     alert("An unknown error has occured. Please refresh the app or try again later");
+                   $('#settings-discount-loading').hide();
+		     $('#settings-discount-submit').fadeIn();					 
+		   }
+		   
+		  **/
+		   
+		  
+	   }).catch(error => {
+		    alert("Failed to get token: " + error);	
+            $('#settings-discount-loading').hide();
+		     $('#settings-discount-submit').fadeIn();			
+	   });
 }
 
 
