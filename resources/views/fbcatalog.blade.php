@@ -158,6 +158,7 @@
 							<form action="{{url('facebook-catalog-add')}}" id="fca-form" method="post" enctype="multipart/form-data">
 							  {!! csrf_field() !!}
 							  <input type="hidden" id="fca-dt" name="dt">
+							  <input type="hidden" id="fca-ftk" name="ftk">
 							  <select id="fca-action" name="action">
 							    <option value="none">Select action</option>
 							    <option value="add">Add to catalog</option>

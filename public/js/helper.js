@@ -1621,11 +1621,19 @@ function FCA(dt){
 	else{
 		//get fb permission
 		let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/facebook-catalog";
+		let fbPermRequired = true;
 		if(fbp){
-		   $('#fca-dt').val(JSON.stringify(fcaList));
-		   $('#fca-form').submit();
+			let ace_fbp = JSON.parse(fbp);
+			if(ace_fbp){
+		        $('#fca-ftk').val(ace_fbp.access_token);
+				fbPermRequired = false;
+			}
+			else{
+				console.log("Invalid token");
+			}
+		   
 		}
-		else{
+		if(fbPermRequired){
 			//invoke dialog to get code
 			
 			Swal.fire({
@@ -1644,7 +1652,10 @@ function FCA(dt){
                 }
               });
 		}
-		   
+		else{
+			$('#fca-dt').val(JSON.stringify(fcaList));
+			 $('#fca-form').submit();
+		}
 	}
 }
 
@@ -1685,11 +1696,11 @@ function getFBToken(dt){
          
 		     if(ret.access_token){
                   let ace_fbp = {
-					  access_token: ret: access_token,
+					  access_token: ret.access_token,
 					  created_at: (new Date()).toDateString();
 				  };
 				  
-				  localStorage.setItem(JSON.stringify(ace_fbp));
+				  localStorage.setItem("ace_fbp",JSON.stringify(ace_fbp));
 		     }
 		   }
 		   
