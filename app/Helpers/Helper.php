@@ -2769,7 +2769,7 @@ function getRandomString($length_of_string)
 			   foreach($products as $p)
 			   {
 		        $pu = "www.aceluxurystore.com/product";
-		        $product = $this->getProduct($p);
+		        $product = $this->getProduct($p->sku);
 		        $iss = ['in_stock' => "in stock",'out_of_stock' => "out of stock",'new' => "available for order"];
 		        $pd = $product['pd'];
 			    $description = $pd['description'];
