@@ -46,7 +46,7 @@
 				{!! csrf_field() !!}
                 <div class="block">
                     <div class="header">
-                        <h2>Update stock and product name for multiple products</h2>
+                        <h2>Add items to your Facebook Catalog</h2>
                     </div>
                    <div class="content">
 				   <div class="row">
