@@ -2821,7 +2821,7 @@ function getRandomString($length_of_string)
 		       ];
 		       $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
-			   
+			   dd($rt);
 			   if(isset($rt->handles))
 			   {
 				   $handles = $ret->handles;
