@@ -1045,7 +1045,7 @@ class MainController extends Controller {
 			  $signals = $this->helpers->signals;
 			  $xf = $req['id'];
 			  #dd($product);
-			  
+			  $code = ""; $ss2 = "";
 			  if(isset($req['code']) && isset($req['state']))
 		      {
 			    $code = $req['code'];
@@ -3248,6 +3248,8 @@ EOD;
 		$ps = $this->helpers->getProducts();
 		 $products = collect($ps);
 		 $req = $request->all();
+		 $code = ""; $ss2 = "";
+		 
 		 if(isset($req['code']) && isset($req['state']))
 		{
 			$code = $req['code'];
