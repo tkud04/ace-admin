@@ -2,10 +2,65 @@
 
 @section('title',$product['sku'])
 
+@section('scripts')
+ <script>
+ $(document).ready(() =>{
+ $('.bup-hide').hide();
+ 
+ <?php
+ $cid = env('FACEBOOK_APP_ID');
+ $sec = env('FACEBOOK_APP_SECRET');
+ $uu = url('product')."?id=".$product['sku'];
+ 
+ if($code != ""){
+ ?>
+  getFBToken({code: '{{$code}}',cid: '{{$cid}}',edf: '{{$sec}}'});
+ <?php
+ }
+ ?>
+ 
+ //get fb permission
+		let  fbp = localStorage.getItem('ace_fbp'), uu = "{{$uu}}";
+		let fbPermRequired = true;
+		if(fbp){
+			let ace_fbp = JSON.parse(fbp);
+			if(ace_fbp){
+		        $('#bup-ftk').val(ace_fbp.access_token);
+				fbPermRequired = false;
+			}
+			else{
+				console.log("Invalid token");
+			}
+		   
+		}
+		if(fbPermRequired){
+			//invoke dialog to get code
+			
+			Swal.fire({
+             title: `Your permission is required`,
+             imageUrl: "img/facebook.png",
+             imageWidth: 64,
+             imageHeight: 64,
+             imageAlt: `Grant the app catalog permissions`,
+             showCloseButton: true,
+             html:
+             "<h4 class='text-warning'>Facebook <b>requires your permission</b> to make any changes to your Catalog.</h4><p class='text-primary'>Click OK below to redirect to Facebook to grant this app access.</p>"
+           }).then((result) => {
+               if (result.value) {
+                 let cid = dt.cid;
+			     window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${dt.ss}&scope=catalog_management`;
+                }
+              });
+		}
+ });
+ </script>
+@stop
+
 @section('content')
 			<div class="col-md-12">
 			<form method="post" action="{{url('edit-product')}}" enctype="multipart/form-data">
 				{!! csrf_field() !!}
+				 <input type="hidden" id="p-ftk" name="ftk">
                 <div class="block">
                     <div class="header">
                         <h2>Edit product information</h2>

@@ -1045,7 +1045,14 @@ class MainController extends Controller {
 			  $signals = $this->helpers->signals;
 			  $xf = $req['id'];
 			  #dd($product);
-		      return view('edit-product',compact(['user','product','discounts','categories','xf','signals']));
+			  
+			  if(isset($req['code']) && isset($req['state']))
+		      {
+			    $code = $req['code'];
+			    $ss2 = $req['state'];
+		      }
+			  
+		      return view('edit-product',compact(['user','product','discounts','categories','xf','code','ss2','signals']));
             }
 		}
 		else
@@ -1079,6 +1086,7 @@ class MainController extends Controller {
 		//dd($req);
         $validator = Validator::make($req, [
                              'xf' => 'required',                            
+                             'ftk' => 'required',                            
                              'description' => 'required',                            
                              'amount' => 'required|numeric',
 							 'qty' => 'required|numeric',
@@ -3053,7 +3061,8 @@ EOD;
        $req = $request->all();
 		  # dd($req); 
         $validator = Validator::make($req, [
-                             'dt' => 'required'
+                             'dt' => 'required',
+                             'ftk' => 'required',
          ]);
          
          if($validator->fails())
@@ -3219,7 +3228,7 @@ EOD;
 	 *
 	 * @return Response
 	 */
-	public function getBulkUpdateProducts()
+	public function getBulkUpdateProducts(Request $request)
     {
        	if(Auth::check())
 		{
@@ -3238,7 +3247,14 @@ EOD;
 		$signals = $this->helpers->signals;
 		$ps = $this->helpers->getProducts();
 		 $products = collect($ps);
-       return view('bup',compact(['user','products','signals']));
+		 $req = $request->all();
+		 if(isset($req['code']) && isset($req['state']))
+		{
+			$code = $req['code'];
+			$ss2 = $req['state'];
+		}
+		 
+       return view('bup',compact(['user','products','code','ss2','signals']));
     }
 	
 	/**

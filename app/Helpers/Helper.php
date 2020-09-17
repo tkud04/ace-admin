@@ -998,7 +998,45 @@ $subject = $data['subject'];
 					  $discount = $this->createDiscount($disc);
 				  }				  
 				 
+				 
 				 //update catalog here
+				 
+				 $cid = env('FACEBOOK_CATALOG_ID');
+		        $url = "https://graph.facebook.com/v8.0/".$cid."/batch";
+				$reqs = [];
+				 
+				 $temp = [
+		                  'method' => "UPDATE",
+			              'retailer_id' => $p->sku,
+			              'data' => [
+			                'amount' => $data['amount'] * 100,
+			                'description' => $data['description']
+			              ]
+			           ];
+					   array_push($reqs,$temp);
+					   
+					   $dtt = [
+		           'access_token' => $tk,
+		           'requests' => $reqs
+		       ]; 
+			   $data = [
+		        'type' => "json",
+		        'data' => $dtt
+		       ];
+		       $ret = $this->callAPI($url,"POST",$data);
+			   $rt = json_decode($ret);
+			   #dd($rt);
+			   if(isset($rt->handles))
+			   {
+				   $handles = $rt->handles;
+				   /**
+				   foreach($products as $p)
+				   {
+					   $pp = Products::where('sku',$p->sku)->first();
+					   if($pp != null) $pp->update(['in_catalog' => "yes"]);
+				   }
+				  **/
+			   }
                }                         
                                                       
                 return "ok";
@@ -2028,9 +2066,12 @@ $subject = $data['subject'];
 		 function bulkUpdateProducts($data)
 		  {
 			$dt = json_decode($data['dt']);
-			
+			$tk = $data['ftk'];
 			#dd($dt);
-			 
+			 $cid = env('FACEBOOK_CATALOG_ID');
+		        $url = "https://graph.facebook.com/v8.0/".$cid."/batch";
+				$reqs = [];
+				
 			foreach($dt as $p)
             {
                 	$product = Products::where('sku',$p->sku)->first();
@@ -2048,10 +2089,40 @@ $subject = $data['subject'];
 						$product->update($dt);
 						
 						//update product on catalog here
+						$temp = [
+		                  'method' => "UPDATE",
+			              'retailer_id' => $p->sku,
+			              'data' => [
+			                'name' => $dt['name']
+			              ]
+			           ];
+			           array_push($reqs,$temp);
 					}
             }
-			  
-			  
+			
+			$dtt = [
+		           'access_token' => $tk,
+		           'requests' => $reqs
+		       ]; 
+			   $data = [
+		        'type' => "json",
+		        'data' => $dtt
+		       ];
+		       $ret = $this->callAPI($url,"POST",$data);
+			   $rt = json_decode($ret);
+			   #dd($rt);
+			   if(isset($rt->handles))
+			   {
+				   $handles = $rt->handles;
+				   /**
+				   foreach($products as $p)
+				   {
+					   $pp = Products::where('sku',$p->sku)->first();
+					   if($pp != null) $pp->update(['in_catalog' => "yes"]);
+				   }
+				  **/
+			   }
+
 			  return "ok";
 		  }		  
 		  
