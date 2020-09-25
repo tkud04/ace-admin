@@ -32,6 +32,18 @@
 							 $totals = $o['totals'];
 							 $statusClass = $o['status'] == "paid" ? "success" : "danger";
 							 $uu = "#";
+							 
+							 $u = [];
+							 
+							 if($o['user_id'] == "anon")
+							 {
+								 $u = $o['anon'];
+							 }
+							 else
+							 {
+								 $u = $o['user'];
+								 $u['name'] = $u['fname']." ".$u['lname'];
+							 }
 				    ?>
                       <tr>
 					   <td>{{$o['date']}}</td>
@@ -61,7 +73,16 @@
 						?>
 						<b>Total: &#8358;{{number_format($o['amount'],2)}}</b>
 					   </td>	  
-					   <td><span class="label label-{{$statusClass}}">{{strtoupper($o['status'])}}</span></td>
+					   <td>
+					      <span class="label label-{{$statusClass}}">{{strtoupper($o['status'])}}</span>
+						  
+						  @if($o['status'] == "unpaid" && count($u) > 0)
+							  <br>Contact customer:<br>
+							  <em>{{$u['name']}}</em><br>
+							  Phone: <a href="tel:{{$u['phone']}}"><em>{{$u['phone']}}</em></a><br>
+							  Email: <a href="mailto:{{$u['email']}}"><em>{{$u['email']}}</em></a><br>
+						  @endif
+					   </td>
 					   <td>
 					     <a class="btn btn-primary" href="{{$tu}}">View</span>&nbsp;&nbsp;
 					     <a class="btn btn-warning" href="{{$ttu}}">Track</span>&nbsp;&nbsp;

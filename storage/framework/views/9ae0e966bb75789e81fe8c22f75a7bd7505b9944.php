@@ -38,8 +38,10 @@
                                     <th width="70%">Order</th>
                                     <th width="20%">Status</th>
                                     <th width="10%">
+									<div class="btn-group" role="group">
 									 <button id="cp-select-all" onclick="cpSelectAllOrders()" class="btn btn-success">Select all</button>
-									 <button id="cp-unselect-all" onclick="cpUnselectAllOrders()" class="btn btn-success">Unselect all</button>
+									 <button id="cp-unselect-all" onclick="cpUnselectAllOrders()" class="btn btn-warning">Unselect all</button>
+									 </div>
 									</th>                                                                                                      
                                 </tr>
                             </thead>
@@ -53,6 +55,18 @@
 								 {
 								   $items = $o['items'];
 								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
+									
+									$u = [];
+							 
+							 if($o['user_id'] == "anon")
+							 {
+								 $u = $o['anon'];
+							 }
+							 else
+							 {
+								 $u = $o['user'];
+								 $u['name'] = $u['fname']." ".$u['lname'];
+							 }
 									
 							   ?>
                                 <tr>
@@ -82,7 +96,13 @@
 						 }
 						?>
 									</td>
-                                    <td><span class="label label-<?php echo e($statusClass); ?> sink"><?php echo e(strtoupper($o['status'])); ?></span></td>
+                                    <td>
+									  <span class="label label-<?php echo e($statusClass); ?> sink"><?php echo e(strtoupper($o['status'])); ?></span>
+									  <br>Contact customer:<br>
+							          <em><?php echo e($u['name']); ?></em><br>
+							          Phone: <a href="tel:<?php echo e($u['phone']); ?>"><em><?php echo e($u['phone']); ?></em></a><br>
+							          Email: <a href="mailto:<?php echo e($u['email']); ?>"><em><?php echo e($u['email']); ?></em></a><br>
+									</td>
 									<td>
 									 <div class="btn-group" role="group">
 									 <button onclick="cpSelectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="cp-<?php echo e($o['reference']); ?>" class="btn btn-info cp"><span class="icon-check"></span></button>

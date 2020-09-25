@@ -224,8 +224,8 @@ class Helper implements HelperContract
  
   
   
-  public $adminEmail = "aceluxurystore@yahoo.com";
-  //public $adminEmail = "aquarius4tkud@yahoo.com";
+  //public $adminEmail = "aceluxurystore@yahoo.com";
+  public $adminEmail = "aquarius4tkud@yahoo.com";
   public $suEmail = "kudayisitobi@gmail.com";
   
   public $googleProductCategories = [
@@ -1796,6 +1796,10 @@ $subject = $data['subject'];
 						$anon = $this->getAnonOrder($o->reference,false);
 						$temp['totals']['delivery'] = $this->getDeliveryFee($anon['state'],"state");
                         $temp['anon'] = $anon;						
+				  }
+				  else
+				  {
+					  $temp['user'] = $this->getUser($o->user_id);
 				  }
                   $temp['date'] = $o->created_at->format("jS F, Y");
                   $ret = $temp; 

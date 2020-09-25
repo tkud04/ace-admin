@@ -57,6 +57,18 @@
 								   $items = $o['items'];
 								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
 									
+									$u = [];
+							 
+							 if($o['user_id'] == "anon")
+							 {
+								 $u = $o['anon'];
+							 }
+							 else
+							 {
+								 $u = $o['user'];
+								 $u['name'] = $u['fname']." ".$u['lname'];
+							 }
+									
 							   ?>
                                 <tr>
                                     <td>
@@ -84,7 +96,13 @@
 						 }
 						?>
 									</td>
-                                    <td><span class="label label-{{$statusClass}} sink">{{strtoupper($o['status'])}}</span></td>
+                                    <td>
+									  <span class="label label-{{$statusClass}} sink">{{strtoupper($o['status'])}}</span>
+									  <br>Contact customer:<br>
+							          <em>{{$u['name']}}</em><br>
+							          Phone: <a href="tel:{{$u['phone']}}"><em>{{$u['phone']}}</em></a><br>
+							          Email: <a href="mailto:{{$u['email']}}"><em>{{$u['email']}}</em></a><br>
+									</td>
 									<td>
 									 <div class="btn-group" role="group">
 									 <button onclick="cpSelectOrder({reference: '{{$o['reference']}}'})" id="cp-{{$o['reference']}}" class="btn btn-info cp"><span class="icon-check"></span></button>

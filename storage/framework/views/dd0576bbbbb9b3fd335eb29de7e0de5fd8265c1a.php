@@ -31,6 +31,18 @@
 							 $totals = $o['totals'];
 							 $statusClass = $o['status'] == "paid" ? "success" : "danger";
 							 $uu = "#";
+							 
+							 $u = [];
+							 
+							 if($o['user_id'] == "anon")
+							 {
+								 $u = $o['anon'];
+							 }
+							 else
+							 {
+								 $u = $o['user'];
+								 $u['name'] = $u['fname']." ".$u['lname'];
+							 }
 				    ?>
                       <tr>
 					   <td><?php echo e($o['date']); ?></td>
@@ -61,7 +73,16 @@
 						?>
 						<b>Total: &#8358;<?php echo e(number_format($o['amount'],2)); ?></b>
 					   </td>	  
-					   <td><span class="label label-<?php echo e($statusClass); ?>"><?php echo e(strtoupper($o['status'])); ?></span></td>
+					   <td>
+					      <span class="label label-<?php echo e($statusClass); ?>"><?php echo e(strtoupper($o['status'])); ?></span>
+						  
+						  <?php if($o['status'] == "unpaid" && count($u) > 0): ?>
+							  <br>Contact customer:<br>
+							  <em><?php echo e($u['name']); ?></em><br>
+							  Phone: <a href="tel:<?php echo e($u['phone']); ?>"><em><?php echo e($u['phone']); ?></em></a><br>
+							  Email: <a href="mailto:<?php echo e($u['email']); ?>"><em><?php echo e($u['email']); ?></em></a><br>
+						  <?php endif; ?>
+					   </td>
 					   <td>
 					     <a class="btn btn-primary" href="<?php echo e($tu); ?>">View</span>&nbsp;&nbsp;
 					     <a class="btn btn-warning" href="<?php echo e($ttu); ?>">Track</span>&nbsp;&nbsp;
