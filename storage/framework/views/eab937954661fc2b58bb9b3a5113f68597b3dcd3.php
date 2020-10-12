@@ -103,7 +103,8 @@
 							  
 					  if(count($mostVisitedPages) > 0)
 					  {
-						 for($i = 0; $i < 7; $i++)
+						  $mvpLength = count($mostVisitedPages) >=7 ? 7 : count($mostVisitedPages); 
+						 for($i = 0; $i < $mvpLength; $i++)
 						 {
 							 $mvp = $mostVisitedPages[$i];
 							 $u = $mvp['url'];

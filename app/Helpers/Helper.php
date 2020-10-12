@@ -1129,7 +1129,7 @@ $subject = $data['subject'];
 			  //dd($data);
               if($pi != null)
                {
-				 // $this->deleteCloudImage($pi->url);
+				  //$this->deleteCloudImage($pi->delete_token);
 				 $pi->delete();
                }                         
                                                       
