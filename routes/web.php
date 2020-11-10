@@ -114,6 +114,13 @@ Route::get('plugin', 'MainController@getPlugin');
 Route::post('plugin', 'MainController@postPlugin');
 Route::get('remove-plugin', 'MainController@getRemovePlugin');
 
+Route::get('couriers', 'MainController@getCouriers');
+Route::get('add-courier', 'MainController@getAddCourier');
+Route::post('add-couriers', 'MainController@postAddCourier');
+Route::get('courier', 'MainController@getCourier');
+Route::post('courier', 'MainController@postCourier');
+Route::get('remove-courier', 'MainController@getRemoveCourier');
+
 Route::get('analytics', 'MainController@getAnalytics');
 Route::post('analytics', 'MainController@postAnalytics');
 Route::get('facebook-catalog', 'MainController@getFacebookCatalog');

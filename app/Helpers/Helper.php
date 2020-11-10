@@ -3062,22 +3062,21 @@ function getRandomString($length_of_string)
            }
 		   
 		   
-		  function updateCatalog($data,$user=null)
+		  function updateCourier($data)
            {
 			   #dd($data);
 			 $ret = "error";
-			  $c = Catalogs::where('id',$data['xf'])->first();
+			  $c = Couriers::where('id',$data['xf'])->first();
 			 
 			 
 			 if(!is_null($c))
 			 {
-				 /**
 				 $c->update(['name' => $data['name'], 
-                                                      'value' => $data['value'], 
-                                                      'status' => $data['status']
+                                                      'nickname' => $data['nickname'], 
+                                                      'price' => $data['price'],
+                                                      'coverage' => $data['coverage'],
+                                                      'status' => $data['status'],
                                                       ]);
-			     **/
-				 $c->touch();
 			   $ret = "ok";
 			 }
            	
@@ -3085,14 +3084,12 @@ function getRandomString($length_of_string)
                 return $ret;
            }
 
-		   function removeCatalog($xf,$user=null)
+		   function removeCourier($xf,$user=null)
            {
 			   #dd($data);
 			 $ret = "error";
-			 $c = Catalogs::where('id',$xf)
-			              ->orWhere('sku',$xf)->first();
+			 $c = Couriers::where('id',$xf)->first();
 
-			 
 			 if(!is_null($c))
 			 {
 				 $c->delete();

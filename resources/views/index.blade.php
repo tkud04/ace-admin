@@ -276,6 +276,40 @@
 			<div class="col-md-5">
 			   <div class="block block-drop-shadow">
 			      <div class="head bg-dot20">
+                        <h2>Couriers</h2>
+				  <div class="head-panel nm">
+						<br>
+						  <?php
+						   $cr_count = count($couriers);
+						   
+						  if($cr_count < 1)
+						   {
+						  ?>	  
+						  <h4>No couriers.</h4>
+						  <a href="{{url('add-courier')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">Add a courier</a> 
+					      <?php
+						   }
+						  else
+						  {
+						    $cct = "courier";
+						    $prepo = "is";
+						   
+						   if($catalog > 1)
+						   {
+							   $cct = "couriers";
+							   $prepo = "are";
+						   }
+						  ?>
+							<h4>{{$cr_count}} {{$cct}} in your catalog.</h4>
+                            <a href="{{url('couriers')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View {{$cct}}</a> 
+						  <?php						
+						  }
+                          ?>               
+                        </div>
+                  </div>
+			   </div>  
+			   <div class="block block-drop-shadow">
+			      <div class="head bg-dot20">
                         <h2>Facebook Catalog</h2>
 				  <div class="head-panel nm">
 						<br>
