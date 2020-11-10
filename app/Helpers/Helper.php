@@ -25,6 +25,7 @@ use App\OrderItems;
 use App\Ads;
 use App\Settings;
 use App\Plugins;
+use App\Couriers;
 use App\Senders;
 use App\Catalogs;
 use Analytics;
@@ -94,6 +95,9 @@ class Helper implements HelperContract
 					 "add-catalog-status" => "Item(s) added to catalog",
                      "remove-catalog-status" => "Item(s) removed from catalog",
                      "update-catalog-status" => "Catalog updated",
+					 "add-courier-status" => "Courier added",
+                     "remove-courier-status" => "Courier removed",
+                     "update-courier-status" => "Courier info updated",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -118,7 +122,10 @@ class Helper implements HelperContract
 					"bulk-update-tracking-status-error" => "There was a problem updating trackings, please try again.",
 					"bulk-confirm-payment-status-error" => "There was a problem confirming payments, please try again.",
 					"bulk-update-products-status-error" => "There was a problem updating products, please try again.",
-					"bulk-upload-products-status-error" => "There was a problem uploading products, please try again."
+					"bulk-upload-products-status-error" => "There was a problem uploading products, please try again.",
+					"add-courier-status-error" => "There was a problem adding the courier, please try again.",
+                     "remove-courier-status-error" => "There was a problem removing the courier, please try again.",
+                     "update-courier-status-error" => "There was a problem updating the courier, please try again."
                     ]
                    ];
 				   
@@ -2999,6 +3006,99 @@ function getRandomString($length_of_string)
 				 **/
 			    }
               return $ret; 
+           }
+		   
+		   function createCourier($data)
+           {
+			   #dd($data);
+			 $ret = null;
+			 
+			 
+				 $ret = Couriers::create(['name' => $data['name'],
+                                                      'price' => $data['price'], 
+                                                      'coverage' => $data['coverage'], 
+                                                      'status' => $data['status'], 
+                                                      ]);
+			  return $ret;
+           }
+
+   function getCouriers()
+   {
+	   $ret = [];
+	   
+	   $couriers = Couriers::where('id','>',"0")->get();
+	   
+	   if(!is_null($couriers))
+	   {
+		   foreach($couriers as $c)
+		   {
+		     $temp = $this->getCourier($c->id);
+		     array_push($ret,$temp);
+	       }
+	   }
+	   
+	   return $ret;
+   }
+   
+   function getCourier($id)
+           {
+           	$ret = [];
+               $c = Couriers::where('id',$id)->first();
+ 
+              if($c != null)
+               {
+                   	$temp['id'] = $c->id;  
+                       $temp['status'] = $c->status; 
+                       $temp['nickname'] = $c->nickname; 
+                       $temp['name'] = $c->name; 
+                       $temp['price'] = $c->price; 
+                       $temp['coverage'] = $c->coverage; 
+                       $temp['date'] = $c->created_at->format("jS F, Y"); 
+                       $temp['updated'] = $c->updated_at->format("jS F, Y"); 
+                       $ret = $temp; 
+               }                          
+                                                      
+                return $ret;
+           }
+		   
+		   
+		  function updateCatalog($data,$user=null)
+           {
+			   #dd($data);
+			 $ret = "error";
+			  $c = Catalogs::where('id',$data['xf'])->first();
+			 
+			 
+			 if(!is_null($c))
+			 {
+				 /**
+				 $c->update(['name' => $data['name'], 
+                                                      'value' => $data['value'], 
+                                                      'status' => $data['status']
+                                                      ]);
+			     **/
+				 $c->touch();
+			   $ret = "ok";
+			 }
+           	
+                                                      
+                return $ret;
+           }
+
+		   function removeCatalog($xf,$user=null)
+           {
+			   #dd($data);
+			 $ret = "error";
+			 $c = Catalogs::where('id',$xf)
+			              ->orWhere('sku',$xf)->first();
+
+			 
+			 if(!is_null($c))
+			 {
+				 $c->delete();
+			   $ret = "ok";
+			 }
+           
            }
 		   
            
