@@ -3562,7 +3562,7 @@ EOD;
 		$products = $this->helpers->getProducts();
 		 $signals = $this->helpers->signals;
 		 
-		return view('add-discount',compact(['user','products','categories','signals']));	
+		return view('add-courier',compact(['user','products','categories','signals']));	
 		
     }
 	
@@ -3588,7 +3588,7 @@ EOD;
         }
         
         $req = $request->all();
-		#dd($req);
+		dd($req);
         $validator = Validator::make($req, [                          
                              'discount_type' => 'required|not_in:none',
                              'discount' => 'required',

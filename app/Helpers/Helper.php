@@ -3015,6 +3015,7 @@ function getRandomString($length_of_string)
 			 
 			 
 				 $ret = Couriers::create(['name' => $data['name'],
+                                                      'type' => $data['type'], 
                                                       'price' => $data['price'], 
                                                       'coverage' => $data['coverage'], 
                                                       'status' => $data['status'], 
@@ -3052,6 +3053,7 @@ function getRandomString($length_of_string)
                        $temp['nickname'] = $c->nickname; 
                        $temp['name'] = $c->name; 
                        $temp['price'] = $c->price; 
+                       $temp['type'] = $c->type; 
                        $temp['coverage'] = $c->coverage; 
                        $temp['date'] = $c->created_at->format("jS F, Y"); 
                        $temp['updated'] = $c->updated_at->format("jS F, Y"); 
@@ -3074,6 +3076,7 @@ function getRandomString($length_of_string)
 				 $c->update(['name' => $data['name'], 
                                                       'nickname' => $data['nickname'], 
                                                       'price' => $data['price'],
+                                                      'type' => $data['type'],
                                                       'coverage' => $data['coverage'],
                                                       'status' => $data['status'],
                                                       ]);

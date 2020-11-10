@@ -19,6 +19,8 @@ $(document).ready(function(){
 	$('#analytics-1-num-error').hide();
 	$('#analytics-1-loading').hide();
 	
+	$('#ac-validation-error').hide();
+	
 	hideUnselects();
 	hideSelectErrors();
 	if($("#add-discount-type").val() == "single"){} 
@@ -214,6 +216,23 @@ $(document).ready(function(){
 				   $('#analytics-1-submit').hide();
 		           $('#analytics-1-loading').fadeIn();
 			       fetchAnalytics({type: "most-visited-pages", period: period, num: num});   
+			   }
+
+		  });
+
+		  $("#ac-submit").click(function(e){            
+		       e.preventDefault();
+			   $('#ac-validation-error').hide();
+			   
+			   let n = $('#ac-name').val(), nn = $('#ac-nickname').val(),
+			              t = $('#ac-type').val(), p = $('#ac-price').val(), c = $('#ac-coverage').val();
+			   
+			   if(t == "none" || c == "none" || n == "" || nn == "" || p == "" || parseInt(p) < 1){
+				    $('#ac-validation-error').fadeIn();
+			   }
+			   else{
+				   $('#ac-form').submit();
+		          
 			   }
 
 		  });
