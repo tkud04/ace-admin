@@ -54,7 +54,7 @@
 					   <td>{{ $name }}</td>
 					   <td>{{ $type }}</td>
 					   <td>{{ $coverage }}</td>
-					  <td>(&#8358;){{number_format($price)}}</code></td>
+					  <td>&#8358;{{number_format($price)}}</code></td>
 					  <td>				   
 					    <h3 class="label {{$ss}}">{{strtoupper($c['status'])}}</h3>
 					  </td>

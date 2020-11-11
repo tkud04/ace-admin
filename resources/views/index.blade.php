@@ -300,7 +300,7 @@
 							   $prepo = "are";
 						   }
 						  ?>
-							<h4>{{$cr_count}} {{$cct}} in your catalog.</h4>
+							<h4>{{$cr_count}} {{$cct}} listed.</h4>
                             <a href="{{url('couriers')}}" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View {{$cct}}</a> 
 						  <?php						
 						  }
