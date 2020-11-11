@@ -46,9 +46,9 @@
 								</div>
 								
 								<div class="form-row">
-                                <div class="col-md-3">Price:</div>
+                                <div class="col-md-3">Price (&#8358;):</div>
 								<div class="col-md-9">
-							      <input type="number" class="form-control" name="value" id="ac-price" required/>
+							      <input type="number" class="form-control" name="price" id="ac-price" required/>
 								 </div>
 								</div>
 						

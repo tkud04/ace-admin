@@ -1,13 +1,15 @@
-<?php $__env->startSection('title',"Add Courier"); ?>
+<?php $__env->startSection('title',"Edit Courier"); ?>
 
 <?php $__env->startSection('content'); ?>
 			<div class="col-md-12">
-			<form method="post" action="<?php echo e(url('add-courier')); ?>" id="ac-form">
+			<form method="post" action="<?php echo e(url('courier')); ?>" id="ac-form">
 				<?php echo csrf_field(); ?>
 
+				<input type="hidden" name="xf" value="<?php echo e($c['id']); ?>"/>
+				
 				<div class="block">
                     <div class="header">
-                        <h2>Add new courier</h2>
+                        <h2>Edit courier</h2>
                     </div>
                     <div class="content controls">
 					<div class="form-row">
@@ -91,4 +93,4 @@
             </form>				
             </div>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/add-courier.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/courier.blade.php ENDPATH**/ ?>

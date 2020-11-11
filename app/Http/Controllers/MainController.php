@@ -3588,12 +3588,13 @@ EOD;
         }
         
         $req = $request->all();
-		dd($req);
+		#dd($req);
         $validator = Validator::make($req, [                          
-                             'discount_type' => 'required|not_in:none',
-                             'discount' => 'required',
+                             'coverage' => 'required|not_in:none',
+                             'name' => 'required',
+                             'nickname' => 'required',
+                             'price' => 'required|numeric',
                              'type' => 'required|not_in:none',
-                             'status' => 'required|not_in:none'
          ]);
          
          if($validator->fails())
@@ -3605,21 +3606,10 @@ EOD;
          
          else
          {
-			 if($req['type'] == "single")
-			 {
-				if(isset($req['sku']) && $req['sku'] != "none")
-				{
-					
-				}
-				else
-				{
-					session()->flash("no-sku-status", "success"); 
-					return redirect()->back();
-				}
-			 }
-            $this->helpers->createDiscount($req);
-			session()->flash("create-discount-status", "success");
-			return redirect()->intended('discounts');
+			 $req['status'] = "enabled";
+			 $this->helpers->addCourier($req);
+			session()->flash("add-courier-status", "success");
+			return redirect()->intended('couriers');
          } 	  
     }
 	
@@ -3650,13 +3640,13 @@ EOD;
 		
 		
 		$req = $request->all();
-		$discounts = $this->helpers->getDiscounts();
+		$couriers = $this->helpers->getCouriers();
 		$categories = $this->helpers->getCategories();
 		
 		$signals = $this->helpers->signals;
-	    #dd($discounts);
+	   # dd($couriers);
 		
-    	return view('discounts',compact(['user','categories','discounts','signals']));
+    	return view('couriers',compact(['user','categories','couriers','signals']));
     }
 	
 	/**
@@ -3681,7 +3671,7 @@ EOD;
 			$req = $request->all();
 			
             $validator = Validator::make($req, [                            
-                             'd' => 'required',
+                             'xf' => 'required',
             ]);
          
             if($validator->fails())
@@ -3692,12 +3682,10 @@ EOD;
             else
             {
 				#dd($req);
-              $discount = $this->helpers->getDiscount($req['d']);
+              $c = $this->helpers->getCourier($req['xf']);
 			  $signals = $this->helpers->signals;
-			  $xf = $discount['id'];
-			  $products = $this->helpers->getProducts();
-			  #dd($discount);
-		      return view('edit-discount',compact(['user','discount','xf','products','signals']));
+			  #dd($c);
+			  return view('courier',compact(['user','c','signals']));
             }
 		}
 		else

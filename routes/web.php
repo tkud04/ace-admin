@@ -116,7 +116,7 @@ Route::get('remove-plugin', 'MainController@getRemovePlugin');
 
 Route::get('couriers', 'MainController@getCouriers');
 Route::get('add-courier', 'MainController@getAddCourier');
-Route::post('add-couriers', 'MainController@postAddCourier');
+Route::post('add-courier', 'MainController@postAddCourier');
 Route::get('courier', 'MainController@getCourier');
 Route::post('courier', 'MainController@postCourier');
 Route::get('remove-courier', 'MainController@getRemoveCourier');

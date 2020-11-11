@@ -3008,7 +3008,7 @@ function getRandomString($length_of_string)
               return $ret; 
            }
 		   
-		   function createCourier($data)
+		   function addCourier($data)
            {
 			   #dd($data);
 			 $ret = null;

@@ -1,13 +1,16 @@
-<?php $__env->startSection('title',"Add Courier"); ?>
+@extends('layout')
 
-<?php $__env->startSection('content'); ?>
+@section('title',"Edit Courier")
+
+@section('content')
 			<div class="col-md-12">
-			<form method="post" action="<?php echo e(url('add-courier')); ?>" id="ac-form">
-				<?php echo csrf_field(); ?>
-
+			<form method="post" action="{{url('courier')}}" id="ac-form">
+				{!! csrf_field() !!}
+				<input type="hidden" name="xf" value="{{$c['id']}}"/>
+				
 				<div class="block">
                     <div class="header">
-                        <h2>Add new courier</h2>
+                        <h2>Edit courier</h2>
                     </div>
                     <div class="content controls">
 					<div class="form-row">
@@ -36,7 +39,7 @@
 								     foreach($types as $key => $value){
 										
 								    ?>
-								    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+								    <option value="{{$key}}">{{$value}}</option>
 								    <?php
 								    }
 								    ?>
@@ -67,7 +70,7 @@
 								     foreach($cvgs as $key => $value){
 										
 								    ?>
-								    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+								    <option value="{{$key}}">{{$value}}</option>
 								    <?php
 								    }
 								    ?>
@@ -90,5 +93,4 @@
                 </div>  
             </form>				
             </div>
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/add-courier.blade.php ENDPATH**/ ?>
+@stop
