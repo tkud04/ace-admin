@@ -293,7 +293,7 @@
 						    $cct = "courier";
 						    $prepo = "is";
 						   
-						   if($catalog > 1)
+						   if($cr_count > 1)
 						   {
 							   $cct = "couriers";
 							   $prepo = "are";

@@ -878,18 +878,27 @@ $subject = $data['subject'];
 		   function getDiscounts($id,$type="product")
            {
            	$ret = [];
-             if($type == "product")
+			
+			 if($id == "all")
 			 {
-				$discounts = Discounts::where('sku',$id)
+				 $discounts = Discounts::where('id','>',"0")->get();
+             }
+			 else
+			 {
+               if($type == "product")
+			   {
+				  $discounts = Discounts::where('sku',$id)
 			                 ->orWhere('type',"general")
 							 ->where('status',"enabled")->get(); 
-			 }
-			 elseif($type == "user")
-			 {
-				 $discounts = Discounts::where('sku',$id)
+			   }
+			   elseif($type == "user")
+			   {
+			  	  $discounts = Discounts::where('sku',$id)
 			                 ->where('type',"user")
 							 ->where('status',"enabled")->get();
-             }
+               }
+			 }
+			 
 			 
               if($discounts != null)
                {
@@ -3015,6 +3024,7 @@ function getRandomString($length_of_string)
 			 
 			 
 				 $ret = Couriers::create(['name' => $data['name'],
+                                                      'nickname' => $data['nickname'], 
                                                       'type' => $data['type'], 
                                                       'price' => $data['price'], 
                                                       'coverage' => $data['coverage'], 
@@ -3077,8 +3087,8 @@ function getRandomString($length_of_string)
                                                       'nickname' => $data['nickname'], 
                                                       'price' => $data['price'],
                                                       'type' => $data['type'],
-                                                      'coverage' => $data['coverage'],
-                                                      'status' => $data['status'],
+                                                      'coverage' => $data['coverage']
+                                                      //'status' => $data['status'],
                                                       ]);
 			   $ret = "ok";
 			 }

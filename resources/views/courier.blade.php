@@ -16,12 +16,12 @@
 					<div class="form-row">
                                 <div class="col-md-3">Name:</div>
 								<div class="col-md-9">
-							      <input type="text" class="form-control" name="name" id="ac-name" placeholder="Courier name e.g Fedex" required/>
+							      <input type="text" class="form-control" name="name" id="ac-name" placeholder="Courier name e.g Fedex" value="{{$c['name']}}" required/>
 								 </div>
 								</div>
 								<div class="col-md-3">Nickname:</div>
 								<div class="col-md-9">
-							      <input type="text" class="form-control" name="nickname" id="ac-nickname" placeholder="System nickname e.g fedex" required/>
+							      <input type="text" class="form-control" name="nickname" id="ac-nickname" placeholder="System nickname e.g fedex" value="{{$c['nickname']}}" required/>
 								 </div>
 								</div>
 								
@@ -37,9 +37,9 @@
 										 ];
 										 
 								     foreach($types as $key => $value){
-										
+										$ss = $c['type'] == $key ? " selected='selected'" : "";
 								    ?>
-								    <option value="{{$key}}">{{$value}}</option>
+								    <option value="{{$key}}"{{$ss}}>{{$value}}</option>
 								    <?php
 								    }
 								    ?>
@@ -50,7 +50,7 @@
 								<div class="form-row">
                                 <div class="col-md-3">Price (&#8358;):</div>
 								<div class="col-md-9">
-							      <input type="number" class="form-control" name="price" id="ac-price" required/>
+							      <input type="number" class="form-control" name="price" id="ac-price" value="{{$c['price']}}" required/>
 								 </div>
 								</div>
 						
@@ -68,7 +68,7 @@
 										 ];
 										 
 								     foreach($cvgs as $key => $value){
-										
+										$ss = $c['coverage'] == $key ? " selected='selected'" : "";
 								    ?>
 								    <option value="{{$key}}">{{$value}}</option>
 								    <?php

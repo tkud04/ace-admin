@@ -13,6 +13,6 @@ class Couriers extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'nickname', 'price', 'coverage', 'status'
+        'name', 'nickname', 'type', 'price', 'coverage', 'status'
     ];
 }

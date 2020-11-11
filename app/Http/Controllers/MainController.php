@@ -2791,7 +2791,7 @@ EOD;
 		
 		
 		$req = $request->all();
-		$discounts = $this->helpers->getDiscounts();
+		$discounts = $this->helpers->getDiscounts("all");
 		$categories = $this->helpers->getCategories();
 		
 		$signals = $this->helpers->signals;
@@ -3720,10 +3720,11 @@ EOD;
 		#dd($req);
         $validator = Validator::make($req, [       
                               'xf' => 'required',		
-                             'discount_type' => 'required|not_in:none',
-                             'discount' => 'required',
-                             'type' => 'required|not_in:none',
-                             'status' => 'required|not_in:none'
+                             'coverage' => 'required|not_in:none',
+                             'name' => 'required',
+                             'nickname' => 'required',
+                             'price' => 'required|numeric',
+                             'type' => 'required|not_in:none'
          ]);
          
          if($validator->fails())
@@ -3735,25 +3736,9 @@ EOD;
          
          else
          {
-			 if($req['type'] == "single")
-			 {
-				if(isset($req['sku']) && $req['sku'] != "none")
-				{
-					
-				}
-				else
-				{
-					session()->flash("no-sku-status", "success"); 
-					return redirect()->back();
-				}
-			 }
-			 else
-			 {
-				 $req['sku'] = "";
-			 }
-            $this->helpers->updateDiscount($req);
-			session()->flash("update-discount-status", "success");
-			return redirect()->intended('discounts');
+            $this->helpers->updateCourier($req);
+			session()->flash("update-courier-status", "success");
+			return redirect()->intended('couriers');
          } 	  
     }
 	
@@ -3794,9 +3779,9 @@ EOD;
          
          else
          {
-           $this->helpers->deleteDiscount($req['xf']);
-			session()->flash("delete-discount-status", "success");
-			return redirect()->back();
+           $this->helpers->removeCourier($req['xf']);
+			session()->flash("remove-courier-status", "success");
+			return redirect()->intended('couriers');
          } 	  
     }
 	
