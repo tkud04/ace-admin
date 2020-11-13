@@ -299,7 +299,7 @@
 							   $prepo = "are";
 						   }
 						  ?>
-							<h4><?php echo e($cr_count); ?> <?php echo e($cct); ?> in your catalog.</h4>
+							<h4><?php echo e($cr_count); ?> <?php echo e($cct); ?> listed.</h4>
                             <a href="<?php echo e(url('couriers')); ?>" class="btn btn-default btn-block btn-clean" style="margin-top: 5px;">View <?php echo e($cct); ?></a> 
 						  <?php						
 						  }

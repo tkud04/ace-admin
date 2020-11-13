@@ -53,7 +53,7 @@
 					   <td><?php echo e($name); ?></td>
 					   <td><?php echo e($type); ?></td>
 					   <td><?php echo e($coverage); ?></td>
-					  <td>(&#8358;)<?php echo e(number_format($price)); ?></code></td>
+					  <td>&#8358;<?php echo e(number_format($price)); ?></code></td>
 					  <td>				   
 					    <h3 class="label <?php echo e($ss); ?>"><?php echo e(strtoupper($c['status'])); ?></h3>
 					  </td>

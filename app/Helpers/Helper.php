@@ -1748,7 +1748,9 @@ $subject = $data['subject'];
            	$ret = ["subtotal" => 0, "delivery" => 0, "items" => 0];
               #dd($items);
               if($items != null && count($items) > 0)
-               {           	
+               {    
+                  $oid = $items[0]['order_id'];
+                 $o = Orders::where('id',$oid)->first();		   
                	foreach($items as $i) 
                     {
                     	if(count($i['product']) > 0)
@@ -1760,7 +1762,8 @@ $subject = $data['subject'];
                        }	
                     }
                    
-                   $ret['delivery'] = $this->getDeliveryFee();
+				   $c = $this->getCourier($o->courier_id);
+						  $ret['delivery'] = $c['price'];
                   
                }                                 
                                                       
@@ -1801,6 +1804,9 @@ $subject = $data['subject'];
                   $temp['reference'] = $o->reference;
                   $temp['amount'] = $o->amount;
                   $temp['type'] = $o->type;
+				  $temp['courier_id'] = $o->courier_id;
+				  $c = $this->getCourier($o->courier_id);
+                  $temp['courier'] = $c;
                   $temp['payment_code'] = $o->payment_code;
                   $temp['notes'] = $o->notes;
                   $temp['status'] = $o->status;
@@ -1810,8 +1816,8 @@ $subject = $data['subject'];
 				  if($o->user_id == "anon")
 				  {
 						$anon = $this->getAnonOrder($o->reference,false);
-						$temp['totals']['delivery'] = $this->getDeliveryFee($anon['state'],"state");
-                        $temp['anon'] = $anon;						
+						
+						$temp['totals']['delivery'] = $c['price'];  
 				  }
 				  else
 				  {
