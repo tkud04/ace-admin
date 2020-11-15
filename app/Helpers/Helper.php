@@ -1819,7 +1819,7 @@ $subject = $data['subject'];
 				  {
 						$anon = $this->getAnonOrder($o->reference,false);
 						
-						$temp['totals']['delivery'] = $c['price'];  
+						$temp['totals']['delivery'] = isset($c['price']) ? $c['price'] : "1000";;  
 				  }
 				  else
 				  {
