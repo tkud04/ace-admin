@@ -1765,7 +1765,7 @@ $subject = $data['subject'];
                     }
                    
 				   $c = $this->getCourier($o->courier_id);
-						  $ret['delivery'] = $c['price'];
+				   	$ret['delivery'] = isset($c['price']) ? $c['price'] : "1000";
                   
                }                                 
                                                       
