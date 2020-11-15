@@ -1751,7 +1751,7 @@ $subject = $data['subject'];
               #dd($items);
               if($items != null && count($items) > 0)
                {    
-                  $oid = $items[0]['order_id'];
+		          $oid = $items[0]['order_id'];
                  $o = Orders::where('id',$oid)->first();		   
                	foreach($items as $i) 
                     {
@@ -1845,6 +1845,7 @@ $subject = $data['subject'];
                     {
 						$temp = [];
                     	$temp['id'] = $i->id; 
+                    	$temp['order_id'] = $i->order_id; 
                         $temp['product'] = $this->getProduct($i->sku); 
                         $temp['qty'] = $i->qty; 
                         array_push($ret, $temp); 
