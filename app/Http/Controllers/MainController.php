@@ -3561,9 +3561,10 @@ EOD;
 		
 		$categories = $this->helpers->getCategories();
 		$products = $this->helpers->getProducts();
+		 $states = $this->helpers->states;
 		 $signals = $this->helpers->signals;
 		 
-		return view('add-courier',compact(['user','products','categories','signals']));	
+		return view('add-courier',compact(['user','products','categories','states','signals']));	
 		
     }
 	
@@ -3684,9 +3685,10 @@ EOD;
             {
 				#dd($req);
               $c = $this->helpers->getCourier($req['xf']);
+			   $states = $this->helpers->states;
 			  $signals = $this->helpers->signals;
 			  #dd($c);
-			  return view('courier',compact(['user','c','signals']));
+			  return view('courier',compact(['user','c','states','signals']));
             }
 		}
 		else

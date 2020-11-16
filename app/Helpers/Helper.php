@@ -3031,12 +3031,14 @@ function getRandomString($length_of_string)
 			   #dd($data);
 			 $ret = null;
 			 
+			 $cvg = $data['coverage'];
+			 if($data['coverage'] == "individual" && isset($data['coverage_individual']) && $data['coverage_individual'] != "none") $cvg = $data['coverage_individual'];
 			 
 				 $ret = Couriers::create(['name' => $data['name'],
                                                       'nickname' => $data['nickname'], 
                                                       'type' => $data['type'], 
                                                       'price' => $data['price'], 
-                                                      'coverage' => $data['coverage'], 
+                                                      'coverage' => $cvg, 
                                                       'status' => $data['status'], 
                                                       ]);
 			  return $ret;
@@ -3050,6 +3052,7 @@ function getRandomString($length_of_string)
 	   
 	   if(!is_null($couriers))
 	   {
+		   $couriers = $couriers->sortByDesc('created_at');
 		   foreach($couriers as $c)
 		   {
 		     $temp = $this->getCourier($c->id);
@@ -3092,11 +3095,14 @@ function getRandomString($length_of_string)
 			 
 			 if(!is_null($c))
 			 {
+				  $cvg = $data['coverage'];
+			 if($data['coverage'] == "individual" && isset($data['coverage_individual']) && $data['coverage_individual'] != "none") $cvg = $data['coverage_individual'];
+			 
 				 $c->update(['name' => $data['name'], 
                                                       'nickname' => $data['nickname'], 
                                                       'price' => $data['price'],
                                                       'type' => $data['type'],
-                                                      'coverage' => $data['coverage']
+                                                      'coverage' => $cvg
                                                       //'status' => $data['status'],
                                                       ]);
 			   $ret = "ok";

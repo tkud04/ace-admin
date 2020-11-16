@@ -19,6 +19,8 @@ $(document).ready(function(){
 	$('#analytics-1-num-error').hide();
 	$('#analytics-1-loading').hide();
 	
+	let ccvg = $('#ac-coverage').val();
+	if(ccvg != "individual") $('#ac-coverage-individual').hide();
 	$('#ac-validation-error').hide();
 	
 	hideUnselects();
@@ -220,14 +222,31 @@ $(document).ready(function(){
 
 		  });
 
+		  $("#ac-coverage").change(function(e){            
+		       e.preventDefault();
+			   
+			   let n = $(this).val();
+			   
+			   if(n == "individual"){
+				    $('#ac-coverage-individual').fadeIn();
+			   }
+			   else{
+				   $('#ac-coverage-individual').val("none");
+				   $('#ac-coverage-individual').hide();
+		          
+			   }
+
+		  });
+		  
 		  $("#ac-submit").click(function(e){            
 		       e.preventDefault();
 			   $('#ac-validation-error').hide();
 			   
 			   let n = $('#ac-name').val(), nn = $('#ac-nickname').val(),
-			              t = $('#ac-type').val(), p = $('#ac-price').val(), c = $('#ac-coverage').val();
+			              t = $('#ac-type').val(), ti = $('#ac-coverage-individual').val(),
+						  p = $('#ac-price').val(), c = $('#ac-coverage').val();
 			   
-			   if(t == "none" || c == "none" || n == "" || nn == "" || p == "" || parseInt(p) < 1){
+			   if(t == "none" || (c == "individual" && ti == "none") || c == "none" || n == "" || nn == "" || p == "" || parseInt(p) < 1){
 				    $('#ac-validation-error').fadeIn();
 			   }
 			   else{

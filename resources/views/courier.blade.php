@@ -64,16 +64,34 @@
 								     $cvgs = [
 									     'lagos' => "Lagos",
 									     'sw' => "Southwest states",
-									     'others' => "Other states"
+									     'others' => "Other states",
+										 'individual' => "Select state"
 										 ];
+										 $cvg = "";
 										 
 								     foreach($cvgs as $key => $value){
-										$ss = $c['coverage'] == $key ? " selected='selected'" : "";
+										 $vv = $c['coverage'] != "lagos" && $c['coverage'] != "sw" && $c['coverage'] != "others";
+                                          $cvg = $vv ? "individual" : $c['coverage'];										 
+										$ss = $cvg == $key ? " selected='selected'" : "";
 								    ?>
-								    <option value="{{$key}}">{{$value}}</option>
+								    <option value="{{$key}}"{{$ss}}>{{$value}}</option>
 								    <?php
 								    }
 								    ?>
+							      </select>
+								  	<select class="form-control" name="coverage_individual" id="ac-coverage-individual" style="margin-bottom: 5px;">
+							        <option value="none">Select state</option>
+								    <?php
+							
+							 foreach($states as $key => $value)
+							 {
+								$ss = $c['coverage'] == $key ? " selected='selected'" : "";
+						    ?>
+                           
+							   <option value="{{$key}}"{{$ss}}>{{$value}}</option>
+							<?php
+							 }
+                            ?>
 							      </select>
 								 </div>
 								</div>

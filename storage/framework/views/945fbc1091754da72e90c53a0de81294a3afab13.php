@@ -61,7 +61,8 @@
 								     $cvgs = [
 									     'lagos' => "Lagos",
 									     'sw' => "Southwest states",
-									     'others' => "Other states"
+									     'others' => "Other states",
+									     'individual' => "Select state"
 										 ];
 										 
 								     foreach($cvgs as $key => $value){
@@ -71,6 +72,20 @@
 								    <?php
 								    }
 								    ?>
+							      </select>
+								  <select class="form-control" name="coverage_individual" id="ac-coverage-individual" style="margin-bottom: 5px;">
+							        <option value="none">Select state</option>
+								    <?php
+							
+							 foreach($states as $key => $value)
+							 {
+								
+						    ?>
+                           
+							   <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
+							<?php
+							 }
+                            ?>
 							      </select>
 								 </div>
 								</div>

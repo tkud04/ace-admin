@@ -15,11 +15,13 @@
                         <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable">
                             <thead>
                                 <tr>
-                                    <th width="20%">Date</th>
-                                    <th width="20%">Reference #</th>
-                                    <th width="20%">Items</th>                                                                       
-                                    <th width="20%">Status</th>                                                                       
-                                    <th width="20%">Actions</th>                                                                       
+                                    <th>Date</th>
+                                    <th>Reference #</th>
+                                    <th>Items</th>
+                                     <th>Type</th>
+                                    <th>Courier</th>									
+                                    <th>Status</th>                                                                       
+                                    <th>Actions</th>                                                                       
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,6 +46,20 @@
 								 $u = $o['user'];
 								 $u['name'] = $u['fname']." ".$u['lname'];
 							 }
+							 
+							  $type = $o['type']; $cr = $o['courier'];
+							 $ttype = "";
+							 
+							 if($type == "card" || $type == "bank")
+							 {
+								$ttype = "Prepaid (".$type.")";
+                                $ttClass = "primary";								
+							 } 
+							 else if($type == "pod")
+							 {
+								 $ttype = "Pay on Delivery";
+								 $ttClass = "success";
+							 } 
 				    ?>
                       <tr>
 					   <td>{{$o['date']}}</td>
@@ -72,7 +88,9 @@
 						 }
 						?>
 						<b>Total: &#8358;{{number_format($o['amount'],2)}}</b>
-					   </td>	  
+					   </td>
+                       <td><span class="label label-{{$ttClass}}">{{strtoupper($ttype)}}</span></td>		  
+					   <td><b>{{$cr['name']}}</b> (&#8358;{{number_format($cr['price'],2)}})</td>					   
 					   <td>
 					      <span class="label label-{{$statusClass}}">{{strtoupper($o['status'])}}</span>
 						  

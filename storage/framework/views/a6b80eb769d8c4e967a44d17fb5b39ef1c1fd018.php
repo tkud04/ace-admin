@@ -39,6 +39,8 @@
 							 if($c['coverage'] == "lagos") $coverage = "Lagos state";
 							 else if($c['coverage'] == "sw") $coverage = "Southwest states";
 							 else if($c['coverage'] == "others") $coverage = "Other states";
+							 else if($c['coverage'] == "fct") $coverage = strtoupper($c['coverage']);
+							 else $coverage = ucwords($c['coverage'])." state";
 							 
 							 $price = $c['price'];
 							 $vu = url('courier')."?xf=".$c['id'];
