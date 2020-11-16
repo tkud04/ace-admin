@@ -1818,7 +1818,7 @@ $subject = $data['subject'];
 				  if($o->user_id == "anon")
 				  {
 						$anon = $this->getAnonOrder($o->reference,false);
-						
+						$temp['anon'] = $anon;
 						$temp['totals']['delivery'] = isset($c['price']) ? $c['price'] : "1000";;  
 				  }
 				  else

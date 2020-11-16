@@ -36,7 +36,8 @@
                         <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered ace-table">
                             <thead>
                                 <tr>
-                                    <th width="70%">Order</th>
+                                    <th width="50%">Order</th>
+                                    <th width="20%">Type</th>
                                     <th width="20%">Status</th>
                                     <th width="10%">
 									<div class="btn-group" role="group">
@@ -55,7 +56,19 @@
 								 if($o['status'] == "unpaid")
 								 {
 								   $items = $o['items'];
-								    $statusClass = $o['status'] == "paid" ? "success" : "danger";
+								    $statusClass =  "danger";
+									$type = $o['type'];
+									
+									if($type == "card" || $type == "bank")
+							        {
+								      $ttype = "Prepaid (".$type.")";
+                                      $ttClass = "primary";								
+							        } 
+							        else if($type == "pod")
+							        {
+								      $ttype = "Pay on Delivery";
+								      $ttClass = "success";
+							        } 
 									
 									$u = [];
 							 
@@ -96,6 +109,7 @@
 						 }
 						?>
 									</td>
+									<td><span class="label label-{{$ttClass}} sink">{{strtoupper($ttype)}}</span></td>
                                     <td>
 									  <span class="label label-{{$statusClass}} sink">{{strtoupper($o['status'])}}</span>
 									  <br>Contact customer:<br>

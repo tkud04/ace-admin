@@ -3221,6 +3221,7 @@ EOD;
 		$os = $this->helpers->getOrders();
 		$ordersCollection = collect($os);
 		$orders = $ordersCollection->where('status',"unpaid");
+		#dd($orders);
        return view('bcp',compact(['user','orders','signals']));
     }
     

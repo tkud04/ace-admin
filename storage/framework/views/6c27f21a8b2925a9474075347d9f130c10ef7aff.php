@@ -9,13 +9,15 @@
 <h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">New order <?php echo e($order['payment_code']); ?> paid via bank!</h3>
 Hello admin,<br> please be informed that an admin just confirmed this order. See the details below:<br><br>
 Reference #: <b><?php echo e($order['reference']); ?></b><br>
-Customer: <b><?php echo e($name); ?> (<?php echo e($user); ?>)</b><br>
+Customer: <b><?php echo e($name); ?></b><br>
+Customer contact: <b><?php echo e($phone); ?> | <?php echo e($user); ?></b><br>
 Notes: <b><?php echo e($order['notes']); ?></b><br><br>
 <?php
 foreach($items as $i)
 {
 	$product = $i['product'];
 	$sku = $product['sku'];
+	$name = $product['name'];
 	$qty = $i['qty'];
 	$pu = url('product')."?sku=".$product['sku'];
 	$img = $product['imggs'][0];
@@ -24,7 +26,7 @@ foreach($items as $i)
 
 <a href="<?php echo e($pu); ?>" target="_blank">
   <img style="vertical-align: middle;border:0;line-height: 20px;" src="<?php echo e($img); ?>" alt="<?php echo e($sku); ?>" height="80" width="80" style="margin-bottom: 5px;"/>
-	  <?php echo e($sku); ?>
+	  <?php echo e($name); ?>
 
 </a> (x<?php echo e($qty); ?>)<br>
 <?php
