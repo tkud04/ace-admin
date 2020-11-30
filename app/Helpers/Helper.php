@@ -1944,7 +1944,7 @@ $subject = $data['subject'];
 				$ret = $this->getCurrentSender();
 				$ret['order'] = $o;
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname'];
-				$ret['subject'] = "Your order has been placed via bank payment. Reference #: ".$o['reference']";
+				$ret['subject'] = "Your order has been placed via bank payment. Reference #: ".$o['reference'];
 		        $ret['phone'] = $u['phone'];
 		        $ret['em'] = $u['email'];
 		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
