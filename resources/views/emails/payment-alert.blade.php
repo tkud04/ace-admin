@@ -4,9 +4,10 @@
  $itemCount = $totals['items'];
  $uu = "http://admin.aceluxurystore.com/edit-order?r=".$order['reference'];
  $tu = "http://admin.aceluxurystore.com/track?o=".$order['reference'];
+   $cr = $order['courier'];
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
-<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">New order {{$order['payment_code']}} paid via bank!</h3>
+<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">New order {{$order['reference']}} paid via bank!</h3>
 Hello admin,<br> please be informed that an admin just confirmed this order. See the details below:<br><br>
 Reference #: <b>{{$order['reference']}}</b><br>
 Customer: <b>{{$name}}</b><br>
@@ -34,6 +35,7 @@ foreach($items as $i)
 Total: <b>&#8358;{{number_format($order['amount'],2)}}</b><br><br>
 
 <h6>Shipping Details</h6>
+<p><b>{{$cr['name']}}</b> (&#8358;{{number_format($cr['price'],2)}})</p>
 <p>Address: {{$shipping['address']}}</p>
 <p>City: {{$shipping['city']}}</p>
 <p>State: {{$shipping['state']}}</p><br><br>

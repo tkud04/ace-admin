@@ -13,6 +13,50 @@
  $(document).ready(() =>{
  $('.bup-hide').hide();
  
+ <?php
+ $cid = env('FACEBOOK_APP_ID');
+ $sec = env('FACEBOOK_APP_SECRET');
+ 
+ if($code != ""){
+ ?>
+  getFBToken({code: '<?php echo e($code); ?>',cid: '<?php echo e($cid); ?>',edf: '<?php echo e($sec); ?>'});
+ <?php
+ }
+ ?>
+ 
+ //get fb permission
+		let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/bup";
+		let fbPermRequired = true;
+		if(fbp){
+			let ace_fbp = JSON.parse(fbp);
+			if(ace_fbp){
+		        $('#bup-ftk').val(ace_fbp.access_token);
+				fbPermRequired = false;
+			}
+			else{
+				console.log("Invalid token");
+			}
+		   
+		}
+		if(fbPermRequired){
+			//invoke dialog to get code
+			
+			Swal.fire({
+             title: `Your permission is required`,
+             imageUrl: "img/facebook.png",
+             imageWidth: 64,
+             imageHeight: 64,
+             imageAlt: `Grant the app catalog permissions`,
+             showCloseButton: true,
+             html:
+             "<h4 class='text-warning'>Facebook <b>requires your permission</b> to make any changes to your Catalog.</h4><p class='text-primary'>Click OK below to redirect to Facebook to grant this app access.</p>"
+           }).then((result) => {
+               if (result.value) {
+                 let cid = dt.cid;
+			     window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${dt.ss}&scope=catalog_management`;
+                }
+              });
+		}
  });
  </script>
 
@@ -110,6 +154,7 @@
 							  <?php echo csrf_field(); ?>
 
 							  <input type="hidden" id="bup-dt" name="dt">
+							  <input type="hidden" id="bup-ftk" name="ftk">
 							  </form>
                                 <div class="hp-sm">
 								 <h3 id="bup-select-product-error" class="label label-danger text-uppercase bup-hide mr-5 mb-5">Please select a product</h3>
