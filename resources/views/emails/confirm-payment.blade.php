@@ -2,12 +2,21 @@
 $totals = $order['totals'];
   $uu = "http://www.aceluxurystore.com/track?o=".$order['reference'];
   $items = $order['items'];
+  $cr = $order['courier'];
  $itemCount = $totals['items'];
+$h2 = $order['type'] == "pod" ? "Your order has been delivered and full payment received" : "Payment confirmed!";
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
-<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Payment confirmed!</h3>
-Hello {{$name}},<br> your payment for order <b>{{$order['payment_code']}}</b> has been cleared and your order is being processed. <br><br>
+<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">{{$h2}}</h3>
+Hello {{$name}},<br>
+@if($order['type'] == "pod")
+your payment for order <b>{{$order['reference']}}</b> is now complete. 
+@else
+ your payment for order <b>{{$order['reference']}}</b> has been cleared and your order is being processed.
+@endif
+ <br><br>
 Reference #: <b>{{$order['reference']}}</b><br>
+Type: <b>{{$order['type']}}</b><br>
 Notes: <b>{{$order['notes']}}</b><br><br>
 <?php
 foreach($items as $i)
