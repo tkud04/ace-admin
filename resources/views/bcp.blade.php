@@ -53,7 +53,7 @@
 							   
 							   foreach($orders as $o)
 							   {
-								 if($o['status'] == "unpaid")
+								 if($o['status'] == "unpaid" || $o['status'] == "pod")
 								 {
 								   $items = $o['items'];
 								    $statusClass =  "danger";
