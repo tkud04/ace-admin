@@ -7,9 +7,10 @@
    $cr = $order['courier'];
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
-<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">New order {{$order['reference']}} paid via bank!</h3>
+<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Order {{$order['reference']}} paid via {{$order['type']}}</h3>
 Hello admin,<br> please be informed that an admin just confirmed this order. See the details below:<br><br>
 Reference #: <b>{{$order['reference']}}</b><br>
+Type: <b>{{$order['type']}}</b><br>
 Customer: <b>{{$name}}</b><br>
 Customer contact: <b>{{$phone}} | {{$user}}</b><br>
 Notes: <b>{{$order['notes']}}</b><br><br>
