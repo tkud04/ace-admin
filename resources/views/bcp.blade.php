@@ -56,8 +56,11 @@
 								 if($o['status'] == "unpaid" || $o['status'] == "pod")
 								 {
 								   $items = $o['items'];
-								    $statusClass =  "danger";
-									$type = $o['type'];
+                                                                   $type = $o['type'];
+
+								    $statusClass = $type == "pod" ? "warning": "danger";
+                                                                    $sts = $type == "pod" ? "paid 50%": $o['status'];
+									
 									
 									if($type == "card" || $type == "bank")
 							        {
@@ -111,7 +114,7 @@
 									</td>
 									<td><span class="label label-{{$ttClass}} sink">{{strtoupper($ttype)}}</span></td>
                                     <td>
-									  <span class="label label-{{$statusClass}} sink">{{strtoupper($o['status'])}}</span>
+									  <span class="label label-{{$statusClass}} sink">{{strtoupper($sts)}}</span>
 									  <br>Contact customer:<br>
 							          <em>{{$u['name']}}</em><br>
 							          Phone: <a href="tel:{{$u['phone']}}"><em>{{$u['phone']}}</em></a><br>
