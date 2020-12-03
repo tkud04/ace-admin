@@ -1954,6 +1954,7 @@ $subject = $data['subject'];
 				//$ret = $this->smtp;
 				$ret = $this->getCurrentSender();
 				$ret['order'] = $o;
+				$ret['shipping'] = $shipping;
 				$ret['user'] = $u['email'];
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
 				$ret['phone'] = $u['phone'];
