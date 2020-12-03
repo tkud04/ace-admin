@@ -1655,7 +1655,7 @@ $subject = $data['subject'];
 			                          'amount' => $dt['amount'],
 			                          'type' => $dt['type'],
 			                          'courier_id' => $dt['courier_id'],
-			                          'payment_code' => $dt['payment_code'],
+			                          'payment_type' => $dt['payment_type'],
 			                          'notes' => $dt['notes'],
 			                          'status' => $dt['status'],
 			                 ]); 
@@ -1669,7 +1669,7 @@ $subject = $data['subject'];
 			                          'amount' => $dt['amount'],
 			                          'type' => $dt['type'],
 			                          'courier_id' => $dt['courier_id'],
-			                          'payment_code' => $dt['payment_code'],
+			                          'payment_type' => $dt['payment_type'],
 			                          'notes' => $dt['notes'],
 			                          'status' => $dt['status'],
 			                 ]);   
@@ -1809,7 +1809,7 @@ $subject = $data['subject'];
 				  $temp['courier_id'] = $o->courier_id;
 				  $c = $this->getCourier($o->courier_id);
                   $temp['courier'] = $c;
-                  $temp['payment_code'] = $o->payment_code;
+                  $temp['payment_type'] = $o->payment_type;
                   $temp['notes'] = $o->notes;
                   $temp['status'] = $o->status;
                   $temp['current_tracking'] = $this->getCurrentTracking($o->reference);
@@ -1928,16 +1928,19 @@ $subject = $data['subject'];
 				$oo = Orders::where('reference',$o['reference'])->first();
                	if(!is_null($oo)) $oo->update(['status' => 'paid']);
 				
-				//update each product stock
+				//update each product stock for bank payments
+				if($o["type"] == "bank")
+				{
 				foreach($items as $i)
                {
                	if(count($i['product']) > 0)
                    {
                    	$sku = $i['product']['sku'];
 				       $qty = $i['qty'];
-				      $this->updateStock($sku,$qty);                   
+				       $this->updateStock($sku,$qty);                   
                    }
                    
+               }
                }
                
 				//$ret = $this->smtp;
