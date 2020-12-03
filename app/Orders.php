@@ -13,7 +13,7 @@ class Orders extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'reference', 'amount', 'type', 'courier_id', 'payment_code', 'notes', 'status'
+        'user_id', 'reference', 'amount', 'type', 'courier_id', 'payment_type', 'notes', 'status'
     ];
     
 }
