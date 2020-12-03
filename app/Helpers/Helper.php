@@ -1943,6 +1943,7 @@ $subject = $data['subject'];
 				//$ret = $this->smtp;
 				$ret = $this->getCurrentSender();
 				$ret['order'] = $o;
+				$ret['shipping'] = $shipping;
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname'];
 				$ret['subject'] = "Your order has been placed via bank payment. Reference #: ".$o['reference'];
 				if($o['type'] == "pod") $ret['subject'] = "Your POD order has been delivered and fully paid. Reference #: ".$o['reference'];
@@ -1958,7 +1959,7 @@ $subject = $data['subject'];
 				$ret['phone'] = $u['phone'];
 		        $ret['subject'] = "URGENT: Received payment for order ".$o['reference']." via bank";
 		        if($o['type'] == "pod") $ret['subject'] = "URGENT: Received balance for order ".$o['reference']." via POD";
-		        $ret['shipping'] = $shipping;
+		        
 		        $ret['em'] = $this->adminEmail;
 		        $this->sendEmailSMTP($ret,"emails.payment-alert");
 				$ret['em'] = $this->suEmail;
