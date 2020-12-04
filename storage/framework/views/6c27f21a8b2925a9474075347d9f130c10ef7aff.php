@@ -4,11 +4,13 @@
  $itemCount = $totals['items'];
  $uu = "http://admin.aceluxurystore.com/edit-order?r=".$order['reference'];
  $tu = "http://admin.aceluxurystore.com/track?o=".$order['reference'];
+   $cr = $order['courier'];
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
-<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">New order <?php echo e($order['payment_code']); ?> paid via bank!</h3>
+<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Order <?php echo e($order['reference']); ?> paid via <?php echo e($order['type']); ?></h3>
 Hello admin,<br> please be informed that an admin just confirmed this order. See the details below:<br><br>
 Reference #: <b><?php echo e($order['reference']); ?></b><br>
+Type: <b><?php echo e($order['type']); ?></b><br>
 Customer: <b><?php echo e($name); ?></b><br>
 Customer contact: <b><?php echo e($phone); ?> | <?php echo e($user); ?></b><br>
 Notes: <b><?php echo e($order['notes']); ?></b><br><br>
@@ -35,6 +37,7 @@ foreach($items as $i)
 Total: <b>&#8358;<?php echo e(number_format($order['amount'],2)); ?></b><br><br>
 
 <h6>Shipping Details</h6>
+<p><b><?php echo e($cr['name']); ?></b> (&#8358;<?php echo e(number_format($cr['price'],2)); ?>)</p>
 <p>Address: <?php echo e($shipping['address']); ?></p>
 <p>City: <?php echo e($shipping['city']); ?></p>
 <p>State: <?php echo e($shipping['state']); ?></p><br><br>

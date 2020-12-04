@@ -2,12 +2,21 @@
 $totals = $order['totals'];
   $uu = "http://www.aceluxurystore.com/track?o=".$order['reference'];
   $items = $order['items'];
+  $cr = $order['courier'];
  $itemCount = $totals['items'];
+$h2 = $order['type'] == "pod" ? "Your order has been delivered and full payment received" : "Payment confirmed!";
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
-<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Payment confirmed!</h3>
-Hello <?php echo e($name); ?>,<br> your payment for order <b><?php echo e($order['payment_code']); ?></b> has been cleared and your order is being processed. <br><br>
+<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;"><?php echo e($h2); ?></h3>
+Hello <?php echo e($name); ?>,<br>
+<?php if($order['type'] == "pod"): ?>
+your payment for order <b><?php echo e($order['reference']); ?></b> is now complete. 
+<?php else: ?>
+ your payment for order <b><?php echo e($order['reference']); ?></b> has been cleared and your order is being processed.
+<?php endif; ?>
+ <br><br>
 Reference #: <b><?php echo e($order['reference']); ?></b><br>
+Type: <b><?php echo e($order['type']); ?></b><br>
 Notes: <b><?php echo e($order['notes']); ?></b><br><br>
 <?php
 foreach($items as $i)
@@ -30,6 +39,13 @@ foreach($items as $i)
 }
 ?>
 Total: <b>&#8358;<?php echo e(number_format($order['amount'],2)); ?></b><br><br>
+
+<h6>Shipping Details</h6>
+<p><b><?php echo e($cr['name']); ?></b> (&#8358;<?php echo e(number_format($cr['price'],2)); ?>)</p>
+<p>Address: <?php echo e($shipping['address']); ?></p>
+<p>City: <?php echo e($shipping['city']); ?></p>
+<p>State: <?php echo e($shipping['state']); ?></p><br><br>
+
 <h5 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Next steps</h5>
 
 <p>Kindly click the button below to track your delivery. Alternatively you can log in to your Dashboard to track your order (go to Orders and click the Track button beside the order).</p><br>
