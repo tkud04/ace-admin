@@ -10,12 +10,13 @@
                         <h2>Add new courier</h2>
                     </div>
                     <div class="content controls">
-					<div class="form-row">
+					           <div class="form-row">
                                 <div class="col-md-3">Name:</div>
 								<div class="col-md-9">
 							      <input type="text" class="form-control" name="name" id="ac-name" placeholder="Courier name e.g Fedex" required/>
 								 </div>
 								</div>
+								<div class="form-row">
 								<div class="col-md-3">Nickname:</div>
 								<div class="col-md-9">
 							      <input type="text" class="form-control" name="nickname" id="ac-nickname" placeholder="System nickname e.g fedex" required/>
