@@ -36,6 +36,7 @@
                         <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered ace-table">
                             <thead>
                                 <tr>
+                                    <th>Actions</th>
                                     <th width="50%">Order</th>
                                     <th width="20%">Type</th>
                                     <th width="20%">Status</th>
@@ -84,9 +85,13 @@
 								 $u = $o['user'];
 								 $u['name'] = $u['fname']." ".$u['lname'];
 							 }
+                                                          $du = url('delete-order')."?o=".$o['reference'];
 									
 							   ?>
                                 <tr>
+                                   <td>
+					    			         <a class="btn btn-danger" href="{{$du}}">Delete</span>
+								        </td>
                                     <td>
 									<h6>ACE_{{$o['reference']}}</h6>
 									  <?php
@@ -125,7 +130,8 @@
 									 <button onclick="cpSelectOrder({reference: '{{$o['reference']}}'})" id="cp-{{$o['reference']}}" class="btn btn-info cp"><span class="icon-check"></span></button>
 									 <button onclick="cpUnselectOrder({reference: '{{$o['reference']}}'})" id="cp-unselect_{{$o['reference']}}" class="btn btn-warning cp-unselect"><span class="icon-check-empty"></span></button>
 									 </div>
-									</td>                                                                     
+									</td>     
+                                                                                                                                        
                                 </tr>
                                <?php
 							    }
