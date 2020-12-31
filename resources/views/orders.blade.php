@@ -59,7 +59,7 @@
 							 {
 								 $ttype = "Admin";
 								 $ttClass = "success";
-								 $cr = ['name' => "sdmin",'price' => "0"];
+								 $cr = ['name' => "admin",'price' => "0"];
 							 }
 							 else if($type == "pod")
 							 {
