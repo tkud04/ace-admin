@@ -1636,8 +1636,10 @@ $subject = $data['subject'];
 			   #dd($dt);
 			   //$ref = $this->helpers->getRandomString(5);
 			   $psref = isset($dt['ps_ref']) ? $dt['ps_ref'] : "";
-			   
-			   if(is_null($user))
+			   $c = isset($dt['courier_id']) ? $dt['courier_id'] : "";
+			   $pt = isset($dt['payment_type']) ? $dt['payment_type'] : "";
+			  
+			  if(is_null($user))
 			   {
 				   $gid = isset($_COOKIE['gid']) ? $_COOKIE['gid'] : "";
 				   $anon = AnonOrders::create(['email' => $dt['email'],
@@ -1654,8 +1656,8 @@ $subject = $data['subject'];
 			                          'ps_ref' => $psref,
 			                          'amount' => $dt['amount'],
 			                          'type' => $dt['type'],
-			                          'courier_id' => $dt['courier_id'],
-			                          'payment_type' => $dt['payment_type'],
+			                          'courier_id' => $c,
+			                          'payment_type' => $pt,
 			                          'notes' => $dt['notes'],
 			                          'status' => $dt['status'],
 			                 ]); 
@@ -1668,8 +1670,8 @@ $subject = $data['subject'];
 			                          'ps_ref' => $psref,
 			                          'amount' => $dt['amount'],
 			                          'type' => $dt['type'],
-			                          'courier_id' => $dt['courier_id'],
-			                          'payment_type' => $dt['payment_type'],
+			                          'courier_id' => $c,
+			                          'payment_type' => $pt,
 			                          'notes' => $dt['notes'],
 			                          'status' => $dt['status'],
 			                 ]);   
@@ -2329,6 +2331,7 @@ function getRandomString($length_of_string)
 		$dt['notes'] = is_null($notes) ? "" : $notes;
 		$dt['payment_code'] = $this->getPaymentCode($ref);
 		$dt['type'] = "admin";
+		$dt['payment_type'] = "admin";
 		$dt['status'] = "paid";
 		
 		if($u->id == "anon")
@@ -2364,7 +2367,7 @@ function getRandomString($length_of_string)
                }
                $oo = $this->getOrder($o->reference);
 			   
-		/*******************************************************/
+		/*******************************************************
          //We have the user, update the status and notify the customer
 				if(!is_null($o)) $o->update(['status' => 'paid']);
 				//$ret = $this->smtp;
@@ -2375,14 +2378,14 @@ function getRandomString($length_of_string)
 		        $ret['phone'] = $u->id == "anon" ? $u->phone : $uuu['phone'];
 		        $ret['em'] = $u->email;
 		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
-				
+				*/
 				//$ret = $this->smtp;
 				$ret = $this->getCurrentSender();
 				$ret['order'] = $oo;
 				$ret['user'] = $u->email;
 				$ret['name'] = $u->name;
 				 $ret['phone'] = $u->id == "anon" ? $u->phone : $uuu['phone'];
-		        $ret['subject'] = "URGENT: Received payment for order ".$o->payment_code;
+		        $ret['subject'] = "URGENT: Received payment for order ".$o->reference;
 		        $ret['shipping'] = $u->id == "anon" ? ['address' =>$u->address,'city' =>$u->city,'state' =>$u->state] : $sd[0];
 		        $ret['em'] = $this->adminEmail;
 		        $this->sendEmailSMTP($ret,"emails.bao-alert");

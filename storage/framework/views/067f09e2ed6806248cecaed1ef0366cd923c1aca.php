@@ -12,6 +12,7 @@
 <script>
  $(document).ready(() =>{
  $('.bao-hide').hide();
+ localStorage.clear();
  
  });
  </script>
