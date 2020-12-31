@@ -55,6 +55,12 @@
 								$ttype = "Prepaid (".$type.")";
                                 $ttClass = "primary";								
 							 } 
+							 else if($type == "admin")
+							 {
+								 $ttype = "Admin";
+								 $ttClass = "success";
+								 $cr = ['name' => "sdmin",'price' => "0"];
+							 }
 							 else if($type == "pod")
 							 {
 								 $ttype = "Pay on Delivery";
