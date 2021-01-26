@@ -2488,6 +2488,7 @@ EOD;
 		#dd($req);
         $validator = Validator::make($req, [                          
                             'xf' => 'required',
+                            'email' => 'required|email',
                              'status' => 'required|not_in:none'
          ]);
          

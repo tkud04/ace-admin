@@ -12,7 +12,11 @@
 							 $totals = $o['totals'];
 							 $statusClass = $o['status'] == "paid" ? "success" : "danger";
 							 $uu = "#";
+							 $u = $o['user_id'] == "anon" ? $o['anon'] : $o['user'];
+							 $em = $u['email'];
 							   ?>
+							   <input type="hidden" name="fxx" value="{{$em}}">
+							   
                 <div class="block">
                     <div class="header">
                         <h2>Edit order information</h2>
@@ -31,9 +35,10 @@
 						   </div>
                         </div><br>
 						<div class="form-row">
-                            <div class="col-md-3">Payment code</div>
+                            <div class="col-md-3">Customer email</div>
                            <div class="col-md-9">
-							  <input type="text" class="form-control" value="{{$o['payment_code']}}" readonly>
+						    <!-- <p class="form-control-plaintext"><b>NOTE</b>: Changing the email address will send another email to the customer.</p>-->
+							  <input type="text" name="email" id="edit-order-email" class="form-control" value="{{$em}}">
 						   </div>
                         </div><br>
 						<div class="form-row">

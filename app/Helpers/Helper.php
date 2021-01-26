@@ -1864,9 +1864,26 @@ $subject = $data['subject'];
 			 
 			if($o != null)
 			{
-				$o->update(['status' => $data['status']
+				$dt = [
+				 'status' => $data['status']
+				];
 				
-				]);
+				if($data['email'] != $data['fxx'])
+				{
+					$em = $data['email'];
+					
+					if($o->user_id == "anon")
+					{
+						$ao = AnonOrders::where('reference',$o->reference)->first();
+						if($ao != null) $ao->update(['email' => $em]);
+					}
+					else
+					{
+						#$u = 
+					}
+				}
+				
+				$o->update($dt);
 			}
 
                 return "ok";
