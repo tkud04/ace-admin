@@ -1,10 +1,65 @@
 <?php $__env->startSection('title',$product['sku']); ?>
 
+<?php $__env->startSection('scripts'); ?>
+ <script>
+ $(document).ready(() =>{
+ $('.bup-hide').hide();
+ 
+ <?php
+ $cid = env('FACEBOOK_APP_ID');
+ $sec = env('FACEBOOK_APP_SECRET');
+ $uu = url('edit-product')."?id=".$product['sku'];
+ 
+ if($code != ""){
+ ?>
+  getFBToken({code: '<?php echo e($code); ?>',cid: '<?php echo e($cid); ?>',edf: '<?php echo e($sec); ?>'});
+ <?php
+ }
+ ?>
+ 
+ //get fb permission
+		let  fbp = localStorage.getItem('ace_fbp'), uu = "<?php echo e($uu); ?>";
+		let fbPermRequired = true;
+		if(fbp){
+			let ace_fbp = JSON.parse(fbp);
+			if(ace_fbp){
+		        $('#bup-ftk').val(ace_fbp.access_token);
+				fbPermRequired = false;
+			}
+			else{
+				console.log("Invalid token");
+			}
+		   
+		}
+		if(fbPermRequired){
+			//invoke dialog to get code
+			
+			Swal.fire({
+             title: `Your permission is required`,
+             imageUrl: "img/facebook.png",
+             imageWidth: 64,
+             imageHeight: 64,
+             imageAlt: `Grant the app catalog permissions`,
+             showCloseButton: true,
+             html:
+             "<h4 class='text-warning'>Facebook <b>requires your permission</b> to make any changes to your Catalog.</h4><p class='text-primary'>Click OK below to redirect to Facebook to grant this app access.</p>"
+           }).then((result) => {
+               if (result.value) {
+                 let cid = "<?php echo e($cid); ?>", ss = "ksslal3wew";
+			     window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
+                }
+              });
+		}
+ });
+ </script>
+<?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('content'); ?>
 			<div class="col-md-12">
 			<form method="post" action="<?php echo e(url('edit-product')); ?>" enctype="multipart/form-data">
 				<?php echo csrf_field(); ?>
 
+				 <input type="hidden" id="p-ftk" name="ftk">
                 <div class="block">
                     <div class="header">
                         <h2>Edit product information</h2>

@@ -651,6 +651,7 @@ function BUUP(){
 		 $('#result-box').fadeIn();
 		 
 		 buupFire();
+		 console.log(localStorage);
 	   }
   }
 }
