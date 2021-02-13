@@ -816,8 +816,7 @@ $subject = $data['subject'];
            	$ret = Products::create(['name' => $data['name'],                                                                                                          
                                                       'sku' => $sku, 
                                                       'qty' => $data['qty'],                                                       
-                                                      'added_by' => $data['user_id'],                                                       
-                                                      'in_catalog' => "no", 
+                                                      'added_by' => $data['user_id'],
                                                       'status' => "enabled", 
                                                       ]);
                                                       
