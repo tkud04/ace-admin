@@ -42,7 +42,7 @@
 		}
 		if(fbPermRequired){
 			//invoke dialog to get code
-			
+			/**
 			Swal.fire({
              title: `Your permission is required`,
              imageUrl: "img/facebook.png",
@@ -54,10 +54,11 @@
              "<h4 class='text-warning'>Facebook <b>requires your permission</b> to make any changes to your Catalog.</h4><p class='text-primary'>Click OK below to redirect to Facebook to grant this app access.</p>"
            }).then((result) => {
                if (result.value) {
-                 let cid = dt.cid;
-			     window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${dt.ss}&scope=catalog_management`;
+                 let cid = "{{$cid}}", ss = "ksslal3wew";
+			     window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
                 }
               });
+		  **/
 		}
  });
  </script>
