@@ -1015,7 +1015,7 @@ $subject = $data['subject'];
 				 
 				 
 				 //update catalog here
-				 
+				  /**
 				 $cid = env('FACEBOOK_CATALOG_ID');
 		        $url = "https://graph.facebook.com/v8.0/".$cid."/batch";
 				$reqs = [];
@@ -1038,7 +1038,7 @@ $subject = $data['subject'];
 		        'type' => "json",
 		        'data' => $dtt
 		       ];
-		       /**
+		      
 			   $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
 			   #dd($rt);
@@ -2122,7 +2122,8 @@ $subject = $data['subject'];
 		 function bulkUpdateProducts($data)
 		  {
 			$dt = json_decode($data['dt']);
-			$tk = $data['ftk'];
+			//$tk = $data['ftk'];
+			$tk = "";
 			#dd($dt);
 			 $cid = env('FACEBOOK_CATALOG_ID');
 		        $url = "https://graph.facebook.com/v8.0/".$cid."/batch";
