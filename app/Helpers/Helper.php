@@ -2150,7 +2150,8 @@ $subject = $data['subject'];
 		                  'method' => "UPDATE",
 			              'retailer_id' => $p->sku,
 			              'data' => [
-			                'name' => $dt['name']
+			                'name' => $dt['name'],
+			                'inventory' => $dt['qty']
 			              ]
 			           ];
 			           array_push($reqs,$temp);
@@ -2168,11 +2169,11 @@ $subject = $data['subject'];
 		       
 			   $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
-			   dd($rt);
+			   #dd($rt);
 			   if(isset($rt->handles))
 			   {
 				   $handles = $rt->handles;
-				   foreach($products as $p)
+				   foreach($dt as $p)
 				   {
 				     $pp = Products::where('sku',$p->sku)->first();
 					 if($pp != null) $pp->update(['in_catalog' => "yes"]);
