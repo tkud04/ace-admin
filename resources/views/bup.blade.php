@@ -19,8 +19,10 @@
  <?php
  $cid = env('FACEBOOK_APP_ID');
  $sec = env('FACEBOOK_APP_SECRET');
+ $fbp = "true";
  
  if($code != ""){
+	 $fbp = "false";
  ?>
   getFBToken({code: '{{$code}}',cid: '{{$cid}}',edf: '{{$sec}}',redirect_uri: uu});
  <?php
@@ -29,7 +31,7 @@
  
  //get fb permission
 		
-		let fbPermRequired = true;
+		let fbPermRequired = {{$fbp}};
 		if(fbp){
 			let ace_fbp = JSON.parse(fbp);
 			if(ace_fbp){

@@ -2122,8 +2122,8 @@ $subject = $data['subject'];
 		 function bulkUpdateProducts($data)
 		  {
 			$dt = json_decode($data['dt']);
-			//$tk = $data['ftk'];
-			$tk = "";
+			$tk = $data['ftk'];
+			//$tk = "";
 			#dd($dt);
 			 $cid = env('FACEBOOK_CATALOG_ID');
 		        $url = "https://graph.facebook.com/v8.0/".$cid."/batch";
@@ -2165,21 +2165,19 @@ $subject = $data['subject'];
 		        'type' => "json",
 		        'data' => $dtt
 		       ];
-		       /**
+		       
 			   $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
 			   #dd($rt);
 			   if(isset($rt->handles))
 			   {
 				   $handles = $rt->handles;
-				 //  foreach($products as $p)
-				 //  {
-				//	   $pp = Products::where('sku',$p->sku)->first();
-				//	   if($pp != null) $pp->update(['in_catalog' => "yes"]);
-				 //  }
+				   foreach($products as $p)
+				   {
+				     $pp = Products::where('sku',$p->sku)->first();
+					 if($pp != null) $pp->update(['in_catalog' => "yes"]);
+				   }
 			   }
-			   **/
-
 			  return "ok";
 		  }		  
 		  
