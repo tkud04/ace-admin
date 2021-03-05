@@ -1678,9 +1678,8 @@ function getFBToken(dt){
 	//fetch request
 	fetch(req)
 	   .then(response => {
-		   if(response.status === 200){
-			   //console.log(response);
-			   
+		   console.log(response);
+		   if(response.status === 200){  
 			   return response.json();
 		   }
 		   else{
