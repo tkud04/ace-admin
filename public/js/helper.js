@@ -1678,12 +1678,10 @@ function getFBToken(dt){
 	//fetch request
 	fetch(req)
 	   .then(response => {
-		   let textt = response.text();
-		   //console.log("text: ",textt);
 		   if(response.status === 200){
 			   //console.log(response);
 			   
-			   return textt;
+			   return response.json();
 		   }
 		   else{
 			   return {status: "error", message: "Technical error"};
@@ -1694,9 +1692,8 @@ function getFBToken(dt){
 			$('#settings-discount-loading').hide();
 		     $('#settings-discount-submit').fadeIn();
 	   })
-	   .then(res => {
-		   console.log(res);
-		   let ret = JSON.parse(res);
+	   .then(ret => {
+		   console.log("ret: ",ret);
 		   
 		   if(ret){
          

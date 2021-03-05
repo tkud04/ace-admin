@@ -12,6 +12,7 @@
 
 @section('scripts')
  <script>
+ let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/bup";
  $(document).ready(() =>{
  $('.bup-hide').hide();
  
@@ -27,7 +28,7 @@
  ?>
  
  //get fb permission
-		let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/bup";
+		
 		let fbPermRequired = true;
 		if(fbp){
 			let ace_fbp = JSON.parse(fbp);
