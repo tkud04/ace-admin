@@ -22,7 +22,7 @@
  
  if($code != ""){
  ?>
-  getFBToken({code: '{{$code}}',cid: '{{$cid}}',edf: '{{$sec}}'});
+  getFBToken({code: '{{$code}}',cid: '{{$cid}}',edf: '{{$sec}}',redirect_uri: uu});
  <?php
  }
  ?>
