@@ -505,7 +505,7 @@ function BUUPAddRow(){
 	let str = `
 	 <tr id="buup-${buupCounter}" style="margin-bottom: 20px; border-bottom: 1px solid #fff;">
 	 <td>Will be generated</td>
-	 <td><input type="text" placeholder="Product name" class="form-control name"></td>
+	 <td><input type="text" placeholder="Product name" class="form-control pname"></td>
 	   <td width="40%"><input type="text" placeholder="Product description" class="form-control desc"></td>
 	   <td><input type="number"  placeholder="Price in NGN" class="form-control price"></td>
 	   <td><input type="number"  placeholder="Stock" class="form-control stock"></td>
@@ -610,7 +610,7 @@ function BUUP(){
 
 	for(let i = 0; i < buupCounter; i++){
 		let BUPitem = `#buup-${i}`;
-		name = $(`${BUPitem} input.name`).val();
+		pname = $(`${BUPitem} input.pname`).val();
 		desc = $(`${BUPitem} input.desc`).val();
 		price = $(`${BUPitem} input.price`).val();
 		stock = $(`${BUPitem} input.stock`).val();
@@ -621,7 +621,7 @@ function BUUP(){
 				let temp = {
 					id: BUPitem,
 					data:{
-					  name: name,
+					  name: pname,
 					  desc: desc,
 					  price: price,
 					  stock: stock,
@@ -715,12 +715,8 @@ function buupFire(){
 				 
 		   if(res.status == "ok"){
                   $('#result-ctr').html(bc);
-		   }
-		   else if(res.status == "error"){
-				     alert("An unknown network error has occured. Please refresh the app or try again later");			   
-		   }
-		   
-		    setTimeout(function(){
+				  
+				  setTimeout(function(){
 			       if(bc >= buupCounter){
 					  $('#result-box').hide();
 					  $("#finish-box").fadeIn();
@@ -729,7 +725,15 @@ function buupFire(){
                   else{
 					 buupFire();
 				  }				  
-		    },4000);
+		         },4000);
+		   }
+		   else if(res.status == "error"){
+				     alert("An unknown network error has occured. Please refresh the app or try again later");	
+                     $('#result-box').hide();
+					  $("#finish-box").fadeIn();					 
+		   }
+		   
+		    
 		   
 		  
 	   }).catch(error => {

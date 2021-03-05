@@ -33,7 +33,7 @@
 		}
 		if(fbPermRequired){
 			//invoke dialog to get code
-			
+			/**
 			Swal.fire({
              title: `Your permission is required`,
              imageUrl: "img/facebook.png",
@@ -49,6 +49,7 @@
 			     window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
                 }
               });
+		  **/
 		}
  });
  </script>

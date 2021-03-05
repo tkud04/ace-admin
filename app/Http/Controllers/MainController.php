@@ -3126,6 +3126,7 @@ EOD;
 				$rr = [
 				  'category' => $p->category,
                              'description' => $p->desc,                        
+                             'name' => $p->name,                        
                              'in_stock' => $p->status,                        
                              'amount' => $p->price,
                              'qty' => $p->stock,
@@ -3151,7 +3152,7 @@ EOD;
 				 
 				 $rr['ird'] = $ird;
                  $rr['user_id'] = $user->id;
-                 $rr['name'] = "";
+                # $rr['name'] = "";
 			
                  $product = $this->helpers->createProduct($rr);
                  $ret = ['status' => "ok","message"=>"product uploaded"];
