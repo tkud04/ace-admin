@@ -2151,7 +2151,7 @@ $subject = $data['subject'];
 			              'retailer_id' => $p->sku,
 			              'data' => [
 			                'name' => $dt['name'],
-			                'inventory' => $dt['qty']
+			                'inventory' => (int)$dt['qty']
 			              ]
 			           ];
 			           array_push($reqs,$temp);
