@@ -2168,7 +2168,7 @@ $subject = $data['subject'];
 		       
 			   $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
-			   #dd($rt);
+			   dd($rt);
 			   if(isset($rt->handles))
 			   {
 				   $handles = $rt->handles;
