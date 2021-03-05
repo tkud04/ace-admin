@@ -2121,7 +2121,7 @@ $subject = $data['subject'];
 		  
 		 function bulkUpdateProducts($data)
 		  {
-			$dt = json_decode($data['dt']);
+			$dtRaw = json_decode($data['dt']);
 			$tk = $data['ftk'];
 			//$tk = "";
 			#dd($dt);
@@ -2129,7 +2129,7 @@ $subject = $data['subject'];
 		        $url = "https://graph.facebook.com/v10.0/".$cid."/batch";
 				$reqs = [];
 				
-			foreach($dt as $p)
+			foreach($dtRaw as $p)
             {
                 	$product = Products::where('sku',$p->sku)->first();
 					
@@ -2173,7 +2173,7 @@ $subject = $data['subject'];
 			   if(isset($rt->handles))
 			   {
 				   $handles = $rt->handles;
-				   foreach($dt as $p)
+				   foreach($dtRaw as $p)
 				   {
 				     $pp = Products::where('sku',$p->sku)->first();
 					 if($pp != null) $pp->update(['in_catalog' => "yes"]);
