@@ -1716,5 +1716,124 @@ function getFBToken(dt){
 	   });
 }
 
+function fetchReport(dt){
+		 
+	//create request
+	let url = `report?from=${dt.from}&to=${dt.to}&range=${dt.range}`, s1 = "An unknown error has occured. Please try again later.";
+	const req = new Request(url,{method: 'GET'});
+	
+	//fetch request
+	fetch(req)
+	   .then(response => {
+		   
+		   if(response.status === 200){   
+			   return response.json();
+		   }
+		   else{
+			   return {status: "error", message: "Technical error"};
+		   }
+	   })
+	   .catch(error => {
+		    Swal.fire({
+			 icon: "error",
+             title: error
+           });
+		   $('#reports-loading').hide();
+		   $('#reports-btn').fadeIn();
+				    
+	   })
+	   .then(res => {
+		   console.log(res);
+				 
+		   if(res.status == "ok"){
+               let d = res.data;  
+			   
+			   /**
+			   if(dt.type == "total-revenue"){
+				   //{x: '{{$date->format("d M")}}',y: {{$item['amount']}}}
+				   $('#reports-bar').hide();
+				      $('#reports-bar').html("");
+					  
+				   if(d.length){
+				     Morris.Bar({
+                      element: 'reports-bar',
+                      data: d,
+                      xkey: 'x',
+                      ykeys: ['y'],
+                      labels: ['Revenue(N)'],
+                      barColors: ['#5969ff'],
+                       resize: true,
+                          gridTextSize: '14px'
+                     });   
+				   }
+				   else{
+					   $('#reports-bar').html("<h3>No data could be found.</h3>");
+				   }
+				   
+				   $('#reports-bar').fadeIn();
+			   }
+			   else if(dt.type == "top-performing-product"){
+				   //{ value: 70, label: 'foo' },
+				   $('#reports-donut').hide();
+				      $('#reports-donut').html("");
+					  
+				   if(d.length){
+				     Morris.Donut({
+                element: 'reports-donut',
+                data: d,
+             
+                labelColor: '#2e2f39',
+                   gridTextSize: '14px',
+                colors: [
+                     "#5969ff",
+                                "#ff407b",
+                                "#25d5f2",
+                                "#ffc750"
+                               
+                ],
 
+                formatter: function(x) { return "N" + x },
+                  resize: true
+            });   
+				   }
+				   else{
+					   $('#reports-donut').html("<h3>No data could be found.</h3>");
+				   }
+				   
+				   $('#reports-donut').fadeIn();
+			   }
+			   **/
+			   
+			   
+		   }
+		   else if(res.status == "error"){
+			   let msg = ``;
+			   
+			   if(res.message == "duplicate"){
+				   msg = `The email address has been used before.`;
+			   }
+			   else if(res.message == "validation"){
+				   msg = `All fields are required.`;
+			   }
+			   else{
+				   msg = `An unknown error has occured, please try again.`;
+			   }
 
+               Swal.fire({
+			 icon: "error",
+             title: msg
+           });			   
+			   
+		   }
+		   $('#reports-loading').hide();
+		   $('#reports-btn').fadeIn();	
+			
+	   }).catch(error => {
+		    Swal.fire({
+			 icon: "error",
+             title: error
+           });
+		   $('#reports-loading').hide();
+		   $('#reports-btn').fadeIn();
+	   });
+}

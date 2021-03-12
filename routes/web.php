@@ -65,6 +65,8 @@ Route::get('new-tracking', 'MainController@getAddTracking');
 Route::post('new-tracking', 'MainController@postAddTracking');
 
 Route::get('orders', 'MainController@getOrders');
+Route::get('reports', 'MainController@getReports');
+Route::get('report', 'MainController@getReport');
 Route::get('new-order', 'MainController@getAddOrder');
 Route::get('aba', 'MainController@getTestAddOrder');
 Route::post('new-order', 'MainController@postAddOrder');

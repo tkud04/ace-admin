@@ -112,6 +112,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> orders</a>
                                 <ul class="dropdown-menu">                                    
                                     <li><a href="{{url('orders')}}"> View orders</a></li>
+                                    <li><a href="{{url('reports')}}"> View reports</a></li>
                                     <li><a href="{{url('new-order')}}"> Add new order</a></li>
                                 </ul>                                
                             </li>

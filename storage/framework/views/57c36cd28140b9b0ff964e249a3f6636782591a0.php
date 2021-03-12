@@ -112,6 +112,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> orders</a>
                                 <ul class="dropdown-menu">                                    
                                     <li><a href="<?php echo e(url('orders')); ?>"> View orders</a></li>
+                                    <li><a href="<?php echo e(url('reports')); ?>"> View reports</a></li>
                                     <li><a href="<?php echo e(url('new-order')); ?>"> Add new order</a></li>
                                 </ul>                                
                             </li>
