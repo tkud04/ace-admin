@@ -1748,13 +1748,13 @@ function fetchReport(dt){
 		   if(res.status == "ok"){
                let d = res.data;  
 			   
-			   /**
+			   
 			   if(dt.type == "total-revenue"){
 				   //{x: '{{$date->format("d M")}}',y: {{$item['amount']}}}
 				   $('#reports-bar').hide();
 				      $('#reports-bar').html("");
 					  
-				   if(d.length){
+				   if(d.length > 0){
 				     Morris.Bar({
                       element: 'reports-bar',
                       data: d,
@@ -1802,7 +1802,7 @@ function fetchReport(dt){
 				   
 				   $('#reports-donut').fadeIn();
 			   }
-			   **/
+			   
 			   
 			   
 		   }

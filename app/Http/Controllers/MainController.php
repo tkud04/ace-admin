@@ -2332,7 +2332,7 @@ class MainController extends Controller {
          else
          {
 			$r = $this->helpers->getReport($req);
-            $ret = ['status' => "ok","data"=>$r];
+            $ret = $r;
          } 
 		 return json_encode($ret);
     }

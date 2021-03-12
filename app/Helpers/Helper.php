@@ -1829,7 +1829,7 @@ $subject = $data['subject'];
 					  $temp['user'] = $this->getUser($o->user_id);
 				  }
                   $temp['date'] = $o->created_at->format("jS F, Y");
-                  if(isset($params['sd']) && $params['sd']) $temp['sd'] = $o->created_at->format("d M");
+                  if(isset($params['sd']) && $params['sd']) $temp['sd'] = $o->created_at->format("Y-m-d");
                   $ret = $temp; 
                }                                 
               		#dd($ret);	  
@@ -3160,16 +3160,24 @@ function getRandomString($length_of_string)
 			   $from = $dt['from']; $to = $dt['to']; 
 			   $range = $dt['range']; $type = $dt['range'];
 			   
-			   $orders = $this->getOrders(['sd' => true]);
-			   $rr = [];
+			   $ret = ['status' => "error",'message' => "no data"];
 			   
-			   foreach($orders as $o)
-			   {
-				   $temp = ['x' => $o['sd'], 'y' => $o['amount']];
-				   array_push($rr,$temp);
-			   }
-			   $ret = ['status' => "ok",'data' => $rr];
-			   return $ret;
+			    $orders = Orders::whereDate('created_at','>=',$from)
+			                   ->whereDate('created_at','<=',$to)->get();
+				
+                if($orders != null)
+				{
+					$rr = [];
+					foreach($orders as $order)
+					{
+						$o = $this->getOrder($order->reference,['sd' => true]);
+						$temp = ['x' => $o['sd'], 'y' => $o['amount']];
+				        array_push($rr,$temp);
+					}
+					
+			        $ret = ['status' => "ok",'data' => $rr];
+				}				
+			    return $ret;
 		   }
 		   
            
