@@ -277,4 +277,25 @@ $(document).ready(function(){
 
 		  });
 		  
+		  $("#reports-2-btn").click(function(e){            
+		       e.preventDefault();
+			   
+			   let from = $('#reports-from').val(), to = $('#reports-to').val(),
+			              range = $('#reports-range').val();
+			   
+			   if(from == "" || to == "" || range == "none"){
+				    Swal.fire({
+			            icon: 'error',
+                        title: "Please fill in the required fields."
+                    })
+			   }
+			   else{
+				    $('#reports-btn').hide();
+				    $('#reports-loading').fadeIn();
+				   fetchReport({type: "total-revenue", from: from, to: to, range: range});
+		          
+			   }
+
+		  });
+		  
 });

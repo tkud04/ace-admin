@@ -1719,7 +1719,7 @@ function getFBToken(dt){
 function fetchReport(dt){
 		 
 	//create request
-	let url = `report?from=${dt.from}&to=${dt.to}&range=${dt.range}`, s1 = "An unknown error has occured. Please try again later.";
+	let url = `report?type=${dt.type}&from=${dt.from}&to=${dt.to}&range=${dt.range}`, s1 = "An unknown error has occured. Please try again later.";
 	const req = new Request(url,{method: 'GET'});
 	
 	//fetch request
@@ -1772,14 +1772,14 @@ function fetchReport(dt){
 				   
 				   $('#reports-bar').fadeIn();
 			   }
-			   else if(dt.type == "top-performing-product"){
+			   else if(dt.type == "best-selling-products"){
 				   //{ value: 70, label: 'foo' },
 				   $('#reports-donut').hide();
 				      $('#reports-donut').html("");
 					  
 				   if(d.length){
 				     Morris.Donut({
-                element: 'reports-donut',
+                element: 'reports-2-donut',
                 data: d,
              
                 labelColor: '#2e2f39',
@@ -1797,10 +1797,10 @@ function fetchReport(dt){
             });   
 				   }
 				   else{
-					   $('#reports-donut').html("<h3>No data could be found.</h3>");
+					   $('#reports-2-donut').html("<h3>No data could be found.</h3>");
 				   }
 				   
-				   $('#reports-donut').fadeIn();
+				   $('#reports-2-donut').fadeIn();
 			   }
 			   
 			   

@@ -3154,11 +3154,36 @@ function getRandomString($length_of_string)
 			 }
            
            }
+		  
+		   function weekOfYear($date)
+		   {
+             $weekOfYear = intval(date("W", $date));
+             if (date('n', $date) == "1" && $weekOfYear > 51)
+			 {       
+		       // It's the last week of the previous year.
+               $weekOfYear = 0;    
+             }
+             return $weekOfYear;
+           }
 		   
+		   function weekOfMonth($date) 
+		   {
+			 //Week of the month = Week of the year - Week of the year of first day of month + 1
+			 
+             //Get the first day of the month.
+             $firstOfMonth = strtotime(date("Y-m-01", $date));
+			 
+             //Apply formula.
+             return $this->weekOfYear($date) - $this->weekOfYear($firstOfMonth) + 1;
+           }
+
+           
+
+		    //weekOfMonth(strtotime("2021-01-28")) 
 		   function getReport($dt)
 		   {
 			   $from = $dt['from']; $to = $dt['to']; 
-			   $range = $dt['range']; $type = $dt['range'];
+			   $range = $dt['range']; $type = $dt['type'];
 			   
 			   $ret = ['status' => "error",'message' => "no data"];
 			   
@@ -3168,11 +3193,29 @@ function getRandomString($length_of_string)
                 if($orders != null)
 				{
 					$rr = [];
-					foreach($orders as $order)
+					if($type == "total-revenue")
 					{
+					  foreach($orders as $order)
+					  {
 						$o = $this->getOrder($order->reference,['sd' => true]);
-						$temp = ['x' => $o['sd'], 'y' => $o['amount']];
+						$x = "";
+						if($range == "daily") $x = $o['sd'];
+						else if($range == "weekly") $x = $order->created_at->format("Y-m")." W".$this->weekOfMonth(strtotime($order->created_at->format("Y-m-d")));
+						$temp = ['x' => $x, 'y' => $o['amount']];
 				        array_push($rr,$temp);
+					  }
+					}
+					else if($type == "best-selling-products")
+					{
+					  foreach($orders as $order)
+					  {
+						$o = $this->getOrder($order->reference,['sd' => true]);
+						$x = "";
+						if($range == "daily") $x = $o['sd'];
+						else if($range == "weekly") $x = $order->created_at->format("Y-m")." W".$this->weekOfMonth(strtotime($order->created_at->format("Y-m-d")));
+						$temp = ['x' => $x, 'y' => $o['amount']];
+				        array_push($rr,$temp);
+					  }
 					}
 					
 			        $ret = ['status' => "ok",'data' => $rr];

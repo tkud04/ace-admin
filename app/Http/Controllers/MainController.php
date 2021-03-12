@@ -2317,6 +2317,7 @@ class MainController extends Controller {
 		  $ret = ['status' => "ok","message"=>"nothing happened"];
 		  
         $validator = Validator::make($req, [
+                             'type' => 'required',
                              'from' => 'required',
                              'to' => 'required',
                              'range' => 'required'
