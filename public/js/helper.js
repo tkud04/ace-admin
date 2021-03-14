@@ -1784,7 +1784,7 @@ function fetchReport(dt){
                 element: 'reports-2-donut',
                 data: d,
              
-                labelColor: '#2e2f39',
+                labelColor: '#fff',
                    gridTextSize: '14px',
                 colors: [
                      "#5969ff",
