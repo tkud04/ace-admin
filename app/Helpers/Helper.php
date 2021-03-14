@@ -3222,7 +3222,7 @@ function getRandomString($length_of_string)
 					  foreach($orders as $order)
 					  {
 						$o = $this->getOrder($order->reference,['sd' => true]);
-						array_push($vals2,$o);
+						#array_push($vals2,$o);
 						$items = $o['items'];
 					
 						if(count($items) > 0)
@@ -3243,7 +3243,7 @@ function getRandomString($length_of_string)
 							}
 						}
 					  }
-					  dd($vals2);
+					  #dd($vals2);
 					  foreach($vals as $x => $y)
 						{
 						   $temp = ['value' => $y, 'label' => $x];
