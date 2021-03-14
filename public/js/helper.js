@@ -1718,6 +1718,8 @@ function getFBToken(dt){
 
 function fetchReport(dt){
 		 
+	let error_handle = "reports";
+	if(dt.type == "best-selling-products") error_handle = "reports-2";
 	//create request
 	let url = `report?type=${dt.type}&from=${dt.from}&to=${dt.to}&range=${dt.range}`, s1 = "An unknown error has occured. Please try again later.";
 	const req = new Request(url,{method: 'GET'});
@@ -1738,8 +1740,8 @@ function fetchReport(dt){
 			 icon: "error",
              title: error
            });
-		   $('#reports-loading').hide();
-		   $('#reports-btn').fadeIn();
+		   $(`#${error_handle}-loading`).hide();
+		   $(`#${error_handle}-btn`).fadeIn();
 				    
 	   })
 	   .then(res => {
@@ -1774,10 +1776,10 @@ function fetchReport(dt){
 			   }
 			   else if(dt.type == "best-selling-products"){
 				   //{ value: 70, label: 'foo' },
-				   $('#reports-donut').hide();
-				      $('#reports-donut').html("");
+				   $('#reports-2-donut').hide();
+				      $('#reports-2-donut').html("");
 					  
-				   if(d.length){
+				   if(d.length > 0){
 				     Morris.Donut({
                 element: 'reports-2-donut',
                 data: d,
@@ -1825,15 +1827,15 @@ function fetchReport(dt){
            });			   
 			   
 		   }
-		   $('#reports-loading').hide();
-		   $('#reports-btn').fadeIn();	
+		   $(`#${error_handle}-loading`).hide();
+		   $(`#${error_handle}-btn`).fadeIn();	
 			
 	   }).catch(error => {
 		    Swal.fire({
 			 icon: "error",
              title: error
            });
-		   $('#reports-loading').hide();
-		   $('#reports-btn').fadeIn();
+		   $(`#${error_handle}-loading`).hide();
+		   $(`#${error_handle}-btn`).fadeIn();
 	   });
 }

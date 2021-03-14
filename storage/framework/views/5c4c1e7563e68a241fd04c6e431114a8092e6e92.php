@@ -81,19 +81,6 @@
 						  <span class="control-label">To</span>
 						  <input type="date" id="reports-2-to" class="form-control">
 						</div>
-						<div class="form-group">
-						  <span class="control-label">Range</span>
-						  <select class="form-control" id="reports-2-range">
-                           <?php
-							foreach($ranges as $k => $v)
-							{
-                           ?>						   
-						   <option value="<?php echo e($k); ?>"><?php echo e($v); ?></option>
-						   <?php
-                            }
-                           ?>
-						  </select>
-						</div>
 						</div>
 						<div class="col-md-12">
 						  <a href="javascript:void(0)" id="reports-2-btn" class="btn btn-primary">SUBMIT</a>

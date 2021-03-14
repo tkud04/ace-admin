@@ -283,7 +283,7 @@ $(document).ready(function(){
 			   let from = $('#reports-2-from').val(), to = $('#reports-2-to').val(),
 			              range = $('#reports-2-range').val();
 			   
-			   if(from == "" || to == "" || range == "none"){
+			   if(from == "" || to == ""){
 				    Swal.fire({
 			            icon: 'error',
                         title: "Please fill in the required fields."
@@ -292,7 +292,7 @@ $(document).ready(function(){
 			   else{
 				    $('#reports-2-btn').hide();
 				    $('#reports-2-loading').fadeIn();
-				   fetchReport({type: "best-selling-products", from: from, to: to, range: range});
+				   fetchReport({type: "best-selling-products", from: from, to: to, range: "afff"});
 		          
 			   }
 

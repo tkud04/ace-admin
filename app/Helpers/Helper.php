@@ -1850,6 +1850,7 @@ $subject = $data['subject'];
 						$temp = [];
                     	$temp['id'] = $i->id; 
                     	$temp['order_id'] = $i->order_id; 
+                        $temp['sku'] = $i->sku; 
                         $temp['product'] = $this->getProduct($i->sku); 
                         $temp['qty'] = $i->qty; 
                         array_push($ret, $temp); 
@@ -3216,21 +3217,36 @@ function getRandomString($length_of_string)
 					}
 					else if($type == "best-selling-products")
 					{
-					  $vals = [];
+					  $vals = []; $vals2 = [];
+					 
 					  foreach($orders as $order)
 					  {
 						$o = $this->getOrder($order->reference,['sd' => true]);
-						$x = "";
-						if($range == "daily") $x = $o['sd'];
-						else if($range == "weekly") $x = $order->created_at->format("Y-m")." W".$this->weekOfMonth(strtotime($order->created_at->format("Y-m-d")));
-						
-						if(isset($vals[$x])) $vals[$x] += $o['amount'];
-						else $vals[$x] = $o['amount'];
+						array_push($vals2,$o);
+						$items = $o['items'];
+					
+						if(count($items) > 0)
+						{
+							foreach($items as $i)
+							{
+								$sku = $i['sku'];
+								$p = $i['product'];
+								
+								if(count($p) > 0)
+								{
+									$amount = $p['pd']['amount'];
+									$subtotal = $amount * $i['qty'];
+									
+									if(isset($vals[$sku])) $vals[$sku] += $subtotal;
+						            else $vals[$sku] = $subtotal;
+								}
+							}
+						}
 					  }
-					  
+					  dd($vals2);
 					  foreach($vals as $x => $y)
 						{
-						   $temp = ['x' => $x, 'y' => $y];
+						   $temp = ['value' => $y, 'label' => $x];
 				           array_push($rr,$temp);
 						}
 					}
