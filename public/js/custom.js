@@ -280,8 +280,8 @@ $(document).ready(function(){
 		  $("#reports-2-btn").click(function(e){            
 		       e.preventDefault();
 			   
-			   let from = $('#reports-from').val(), to = $('#reports-to').val(),
-			              range = $('#reports-range').val();
+			   let from = $('#reports-2-from').val(), to = $('#reports-2-to').val(),
+			              range = $('#reports-2-range').val();
 			   
 			   if(from == "" || to == "" || range == "none"){
 				    Swal.fire({
@@ -290,9 +290,9 @@ $(document).ready(function(){
                     })
 			   }
 			   else{
-				    $('#reports-btn').hide();
-				    $('#reports-loading').fadeIn();
-				   fetchReport({type: "total-revenue", from: from, to: to, range: range});
+				    $('#reports-2-btn').hide();
+				    $('#reports-2-loading').fadeIn();
+				   fetchReport({type: "best-selling-products", from: from, to: to, range: range});
 		          
 			   }
 

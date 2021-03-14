@@ -3195,27 +3195,43 @@ function getRandomString($length_of_string)
 					$rr = [];
 					if($type == "total-revenue")
 					{
+						$vals = [];
 					  foreach($orders as $order)
 					  {
 						$o = $this->getOrder($order->reference,['sd' => true]);
 						$x = "";
 						if($range == "daily") $x = $o['sd'];
 						else if($range == "weekly") $x = $order->created_at->format("Y-m")." W".$this->weekOfMonth(strtotime($order->created_at->format("Y-m-d")));
-						$temp = ['x' => $x, 'y' => $o['amount']];
-				        array_push($rr,$temp);
+						
+						if(isset($vals[$x])) $vals[$x] += $o['amount'];
+						else $vals[$x] = $o['amount'];
 					  }
+					  
+					  foreach($vals as $x => $y)
+						{
+						   $temp = ['x' => $x, 'y' => $y];
+				           array_push($rr,$temp);
+						}
 					}
 					else if($type == "best-selling-products")
 					{
+					  $vals = [];
 					  foreach($orders as $order)
 					  {
 						$o = $this->getOrder($order->reference,['sd' => true]);
 						$x = "";
 						if($range == "daily") $x = $o['sd'];
 						else if($range == "weekly") $x = $order->created_at->format("Y-m")." W".$this->weekOfMonth(strtotime($order->created_at->format("Y-m-d")));
-						$temp = ['x' => $x, 'y' => $o['amount']];
-				        array_push($rr,$temp);
+						
+						if(isset($vals[$x])) $vals[$x] += $o['amount'];
+						else $vals[$x] = $o['amount'];
 					  }
+					  
+					  foreach($vals as $x => $y)
+						{
+						   $temp = ['x' => $x, 'y' => $y];
+				           array_push($rr,$temp);
+						}
 					}
 					
 			        $ret = ['status' => "ok",'data' => $rr];
