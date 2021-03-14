@@ -3202,6 +3202,7 @@ function getRandomString($length_of_string)
 						$x = "";
 						if($range == "daily") $x = $o['sd'];
 						else if($range == "weekly") $x = $order->created_at->format("Y-m")." W".$this->weekOfMonth(strtotime($order->created_at->format("Y-m-d")));
+						else if($range == "monthly") $x = $order->created_at->format("F");
 						
 						if(isset($vals[$x])) $vals[$x] += $o['amount'];
 						else $vals[$x] = $o['amount'];
