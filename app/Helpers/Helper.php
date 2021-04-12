@@ -1971,7 +1971,7 @@ $subject = $data['subject'];
 				$ret['shipping'] = $shipping;
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname'];
 				$ret['subject'] = "Your payment for order #: ".$o['reference']." has been confirmed";
-				if($o['type'] == "pod") $ret['subject'] = Your part payment for order #: ".$o['reference']." has been confirmed";
+				if($o['type'] == "pod") $ret['subject'] = "Your part payment for order #: ".$o['reference']." has been confirmed";
 		        $ret['phone'] = $u['phone'];
 		        $ret['em'] = $u['email'];
 		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
