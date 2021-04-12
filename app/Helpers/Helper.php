@@ -231,8 +231,8 @@ class Helper implements HelperContract
  
   
   
-  public $adminEmail = "aceluxurystore@yahoo.com";
-  //public $adminEmail = "aquarius4tkud@yahoo.com";
+  //public $adminEmail = "aceluxurystore@yahoo.com";
+  public $adminEmail = "aquarius4tkud@yahoo.com";
   public $suEmail = "kudayisitobi@gmail.com";
   
   public $googleProductCategories = [
@@ -3193,6 +3193,7 @@ function getRandomString($length_of_string)
 				
                 if($orders != null)
 				{
+					$orders = $orders->sortByAsc('created_at');
 					$rr = [];
 					if($type == "total-revenue")
 					{
