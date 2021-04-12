@@ -1951,7 +1951,7 @@ $subject = $data['subject'];
                	if(!is_null($oo)) $oo->update(['status' => 'paid']);
 				
 				//update each product stock for bank payments
-				if($o["type"] == "bank")
+				if($o["payment_type"] == "bank")
 				{
 				foreach($items as $i)
                {
@@ -1970,8 +1970,8 @@ $subject = $data['subject'];
 				$ret['order'] = $o;
 				$ret['shipping'] = $shipping;
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname'];
-				$ret['subject'] = "Your order has been placed via bank payment. Reference #: ".$o['reference'];
-				if($o['type'] == "pod") $ret['subject'] = "Your POD order has been delivered and fully paid. Reference #: ".$o['reference'];
+				$ret['subject'] = "Your payment for order #: ".$o['reference']." has been confirmed";
+				if($o['type'] == "pod") $ret['subject'] = Your part payment for order #: ".$o['reference']." has been confirmed";
 		        $ret['phone'] = $u['phone'];
 		        $ret['em'] = $u['email'];
 		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
