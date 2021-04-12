@@ -4,13 +4,13 @@ $totals = $order['totals'];
   $items = $order['items'];
   $cr = $order['courier'];
  $itemCount = $totals['items'];
-$h2 = $order['type'] == "pod" ? "Your order has been delivered and full payment received" : "Payment confirmed!";
+$h2 = $order['type'] == "pod" ? "Part payment received" : "Payment confirmed!";
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
 <h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;"><?php echo e($h2); ?></h3>
 Hello <?php echo e($name); ?>,<br>
 <?php if($order['type'] == "pod"): ?>
-your payment for order <b><?php echo e($order['reference']); ?></b> is now complete. 
+The initial payment for your order <b><?php echo e($order['reference']); ?></b> has been received and your order is being processed.
 <?php else: ?>
  your payment for order <b><?php echo e($order['reference']); ?></b> has been cleared and your order is being processed.
 <?php endif; ?>

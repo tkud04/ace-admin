@@ -222,7 +222,7 @@
                         <div class="head-panel nm">
 						<br>
 						  <?php
-						  $unpaidOrders = $ordersCollection->where('status',"unpaid");
+						  $unpaidOrders = $ordersCollection->whereIn('status',["unpaid","pod"]);
 						   $uocount = count($unpaidOrders);
 						   
 						  if($uocount < 1)

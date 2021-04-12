@@ -35,6 +35,7 @@
                         <table cellpadding="0" cellspacing="0" width="100%" data-idl="3" class="table table-bordered ace-table">
                             <thead>
                                 <tr>
+                                    <th>Actions</th>
                                     <th width="50%">Order</th>
                                     <th width="20%">Type</th>
                                     <th width="20%">Status</th>
@@ -52,11 +53,14 @@
 							   
 							   foreach($orders as $o)
 							   {
-								 if($o['status'] == "unpaid")
+								 if($o['status'] == "unpaid" || $o['status'] == "pod")
 								 {
 								   $items = $o['items'];
-								    $statusClass =  "danger";
-									$type = $o['type'];
+                                                                   $type = $o['type'];
+
+								    $statusClass = $type == "pod" ? "warning": "danger";
+                                                                    $sts = $type == "pod" ? "paid 50%": $o['status'];
+									
 									
 									if($type == "card" || $type == "bank")
 							        {
@@ -80,9 +84,13 @@
 								 $u = $o['user'];
 								 $u['name'] = $u['fname']." ".$u['lname'];
 							 }
+                                                          $du = url('delete-order')."?o=".$o['reference'];
 									
 							   ?>
                                 <tr>
+                                   <td>
+					    			         <a class="btn btn-danger" href="<?php echo e($du); ?>">Delete</span>
+								        </td>
                                     <td>
 									<h6>ACE_<?php echo e($o['reference']); ?></h6>
 									  <?php
@@ -111,7 +119,7 @@
 									</td>
 									<td><span class="label label-<?php echo e($ttClass); ?> sink"><?php echo e(strtoupper($ttype)); ?></span></td>
                                     <td>
-									  <span class="label label-<?php echo e($statusClass); ?> sink"><?php echo e(strtoupper($o['status'])); ?></span>
+									  <span class="label label-<?php echo e($statusClass); ?> sink"><?php echo e(strtoupper($sts)); ?></span>
 									  <br>Contact customer:<br>
 							          <em><?php echo e($u['name']); ?></em><br>
 							          Phone: <a href="tel:<?php echo e($u['phone']); ?>"><em><?php echo e($u['phone']); ?></em></a><br>
@@ -122,7 +130,8 @@
 									 <button onclick="cpSelectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="cp-<?php echo e($o['reference']); ?>" class="btn btn-info cp"><span class="icon-check"></span></button>
 									 <button onclick="cpUnselectOrder({reference: '<?php echo e($o['reference']); ?>'})" id="cp-unselect_<?php echo e($o['reference']); ?>" class="btn btn-warning cp-unselect"><span class="icon-check-empty"></span></button>
 									 </div>
-									</td>                                                                     
+									</td>     
+                                                                                                                                        
                                 </tr>
                                <?php
 							    }
@@ -156,4 +165,5 @@
                </div>				
            </div>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/bcp.blade.php ENDPATH**/ ?>

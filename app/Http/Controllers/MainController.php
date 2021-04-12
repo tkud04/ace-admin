@@ -3308,7 +3308,7 @@ EOD;
 		$signals = $this->helpers->signals;
 		$os = $this->helpers->getOrders();
 		$ordersCollection = collect($os);
-		$orders = $ordersCollection->where('status',"unpaid");
+		$orders = $ordersCollection->whereIn('status',["unpaid","pod"]);
 		#dd($orders);
        return view('bcp',compact(['user','orders','signals']));
     }
