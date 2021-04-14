@@ -2190,11 +2190,9 @@ $subject = $data['subject'];
            	$ret = [];
 			if($all)
 			{
-				$o = AnonOrders::where('reference',$id)
-			            ->orWhere('id',$id)->first();
+				$o = AnonOrders::where('reference',$id)->first();
 						
-               $o2 = Orders::where('reference',$id)
-			            ->orWhere('id',$id)->first();
+               $o2 = Orders::where('reference',$id)->first();
 						#dd([$o,$o2]);
               if($o != null || $o2 != null)
                {
