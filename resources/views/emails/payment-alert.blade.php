@@ -34,6 +34,9 @@ foreach($items as $i)
 }
 ?>
 Total: <b>&#8358;{{number_format($order['amount'],2)}}</b><br><br>
+Part payment made: <b>&#8358;{{number_format($order['amount'] /2,2)}}</b><br><br>
+Outstanding balance: <b>&#8358;{{number_format($order['amount'] /2,2)}}</b><br><br>
+
 
 <h6>Shipping Details</h6>
 <p><b>{{$cr['name']}}</b> (&#8358;{{number_format($cr['price'],2)}})</p>
