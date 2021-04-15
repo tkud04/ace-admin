@@ -7,7 +7,7 @@
    $cr = $order['courier'];
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
-<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Part payment for order {{$order['reference']}} paid via {{$order['type']}}</h3>
+<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">{{$subject}}</h3>
 Hello admin,<br> please be informed that an admin just confirmed payment for this order. See the details below:<br><br>
 Reference #: <b>{{$order['reference']}}</b><br>
 Type: <b>{{$order['type']}}</b><br>
@@ -34,9 +34,10 @@ foreach($items as $i)
 }
 ?>
 Total: <b>&#8358;{{number_format($order['amount'],2)}}</b><br><br>
+@if($o['type'] == "pod")
 Part payment made: <b>&#8358;{{number_format($order['amount'] /2,2)}}</b><br><br>
 Outstanding balance: <b>&#8358;{{number_format($order['amount'] /2,2)}}</b><br><br>
-
+@endif
 
 <h6>Shipping Details</h6>
 <p><b>{{$cr['name']}}</b> (&#8358;{{number_format($cr['price'],2)}})</p>

@@ -1,22 +1,18 @@
 <?php
-$totals = $order['totals'];
-  $uu = "http://www.aceluxurystore.com/track?o=".$order['reference'];
-  $items = $order['items'];
-  $cr = $order['courier'];
+ $totals = $order['totals'];
+ $items = $order['items'];
  $itemCount = $totals['items'];
-$h2 = $order['type'] == "pod" ? "Part payment received" : "Payment confirmed!";
+ $uu = "http://admin.aceluxurystore.com/edit-order?r=".$order['reference'];
+ $tu = "http://admin.aceluxurystore.com/track?o=".$order['reference'];
+   $cr = $order['courier'];
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
-<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;"><?php echo e($h2); ?></h3>
-Hello <?php echo e($name); ?>,<br>
-<?php if($order['type'] == "pod"): ?>
-The initial payment for your order <b><?php echo e($order['reference']); ?></b> has been received and your order is being processed.
-<?php else: ?>
- your payment for order <b><?php echo e($order['reference']); ?></b> has been cleared and your order is being processed.
-<?php endif; ?>
- <br><br>
+<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;"><?php echo e($subject); ?></h3>
+Hello admin,<br> please be informed that an admin just confirmed payment for this order. See the details below:<br><br>
 Reference #: <b><?php echo e($order['reference']); ?></b><br>
 Type: <b><?php echo e($order['type']); ?></b><br>
+Customer: <b><?php echo e($name); ?></b><br>
+Customer contact: <b><?php echo e($phone); ?> | <?php echo e($user); ?></b><br>
 Notes: <b><?php echo e($order['notes']); ?></b><br><br>
 <?php
 foreach($items as $i)
@@ -39,18 +35,21 @@ foreach($items as $i)
 }
 ?>
 Total: <b>&#8358;<?php echo e(number_format($order['amount'],2)); ?></b><br><br>
+Part payment made: <b>&#8358;<?php echo e(number_format($order['amount'] /2,2)); ?></b><br><br>
+Outstanding balance: <b>&#8358;<?php echo e(number_format($order['amount'] /2,2)); ?></b><br><br>
+
 
 <h6>Shipping Details</h6>
 <p><b><?php echo e($cr['name']); ?></b> (&#8358;<?php echo e(number_format($cr['price'],2)); ?>)</p>
 <p>Address: <?php echo e($shipping['address']); ?></p>
 <p>City: <?php echo e($shipping['city']); ?></p>
 <p>State: <?php echo e($shipping['state']); ?></p><br><br>
-
 <h5 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Next steps</h5>
 
-<p>Kindly click the button below to track your delivery. Alternatively you can log in to your Dashboard to track your order (go to Orders and click the Track button beside the order).</p><br>
-<p style="color:red;"><b>NOTE:</b> Orders are delivered within 48 hours in Lagos.<br><br>Orders outside Lagos are delivered between 3 – 7 days.</p><br><br>
+<p>Click the <b>View Order</b> button below to view the order or <b>Track Order</b> button to update delivery information. Alternatively you can log in to the Admin Dashboard to view or update tracking info for this order (go to Orders and click either the View or Track buttons beside the order).</p><br>
+<p style="color:red;"><b>NOTE:</b> The tracking status for this order is currently marked as <b>PENDING</b>, kindly update delivery information for this order.</p><br><br>
 
-<a href="<?php echo e($uu); ?>" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Track order</a><br><br>
-
+<a href="<?php echo e($uu); ?>" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px; margin-right: 10px;">View order</a>
+<a href="<?php echo e($tu); ?>" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px; margin-right: 10px;">Track order</a>
+<br><br>
 <?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/emails/confirm-payment.blade.php ENDPATH**/ ?>

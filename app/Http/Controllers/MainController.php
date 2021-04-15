@@ -3065,7 +3065,7 @@ EOD;
          {
 			$order = $this->helpers->getOrder($req['o']);
 			#dd($order);
-			if(count($order) > 0 && $order['status'] == "unpaid" && $order['type'] == "bank")
+			if(count($order) > 0)
 			{
 				$this->helpers->confirmPayment($req['o']);
 				return view("confirm-payment",compact(['order']));

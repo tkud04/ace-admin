@@ -7,8 +7,8 @@
    $cr = $order['courier'];
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
-<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Order <?php echo e($order['reference']); ?> paid via <?php echo e($order['type']); ?></h3>
-Hello admin,<br> please be informed that an admin just confirmed this order. See the details below:<br><br>
+<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Part payment for order <?php echo e($order['reference']); ?> paid via <?php echo e($order['type']); ?></h3>
+Hello admin,<br> please be informed that an admin just confirmed payment for this order. See the details below:<br><br>
 Reference #: <b><?php echo e($order['reference']); ?></b><br>
 Type: <b><?php echo e($order['type']); ?></b><br>
 Customer: <b><?php echo e($name); ?></b><br>
@@ -35,6 +35,9 @@ foreach($items as $i)
 }
 ?>
 Total: <b>&#8358;<?php echo e(number_format($order['amount'],2)); ?></b><br><br>
+Part payment made: <b>&#8358;<?php echo e(number_format($order['amount'] /2,2)); ?></b><br><br>
+Outstanding balance: <b>&#8358;<?php echo e(number_format($order['amount'] /2,2)); ?></b><br><br>
+
 
 <h6>Shipping Details</h6>
 <p><b><?php echo e($cr['name']); ?></b> (&#8358;<?php echo e(number_format($cr['price'],2)); ?>)</p>

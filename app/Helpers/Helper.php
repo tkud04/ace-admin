@@ -1974,6 +1974,7 @@ $subject = $data['subject'];
 				if($o['type'] == "pod") $ret['subject'] = "Your part payment for order #: ".$o['reference']." has been confirmed";
 		        $ret['phone'] = $u['phone'];
 		        $ret['em'] = $u['email'];
+				$ret['user'] = $u['email'];
 		        $this->sendEmailSMTP($ret,"emails.confirm-payment");
 				
 				//$ret = $this->smtp;
