@@ -34,7 +34,7 @@ foreach($items as $i)
 }
 ?>
 Total: <b>&#8358;{{number_format($order['amount'],2)}}</b><br><br>
-@if($o['type'] == "pod")
+@if($order['type'] == "pod")
 Part payment made: <b>&#8358;{{number_format($order['amount'] /2,2)}}</b><br><br>
 Outstanding balance: <b>&#8358;{{number_format($order['amount'] /2,2)}}</b><br><br>
 @endif
