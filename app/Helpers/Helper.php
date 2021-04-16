@@ -1984,7 +1984,7 @@ $subject = $data['subject'];
 				$ret['user'] = $u['email'];
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
 				$ret['phone'] = $u['phone'];
-		        $ret['subject'] = "URGENT: Received part payment for order ".$o['reference']." via bank";
+		        $ret['subject'] = "URGENT: Received payment for order ".$o['reference']." via bank";
 		        if($o['type'] == "pod") $ret['subject'] = "URGENT: Received part payment for order ".$o['reference']." via POD";
 		        
 		        $ret['em'] = $this->adminEmail;
