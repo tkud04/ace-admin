@@ -8,7 +8,7 @@
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
 <h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;"><?php echo e($subject); ?></h3>
-Hello admin,<br> please be informed that an admin just confirmed payment for this order. See the details below:<br><br>
+Hello <?php echo e($name); ?>,<br> please be informed that your payment for the above mentioned order has been confirmed. See the details below:<br><br>
 Reference #: <b><?php echo e($order['reference']); ?></b><br>
 Type: <b><?php echo e($order['type']); ?></b><br>
 Customer: <b><?php echo e($name); ?></b><br>
@@ -35,8 +35,10 @@ foreach($items as $i)
 }
 ?>
 Total: <b>&#8358;<?php echo e(number_format($order['amount'],2)); ?></b><br><br>
+<?php if($order['type'] == "pod"): ?>
 Part payment made: <b>&#8358;<?php echo e(number_format($order['amount'] /2,2)); ?></b><br><br>
 Outstanding balance: <b>&#8358;<?php echo e(number_format($order['amount'] /2,2)); ?></b><br><br>
+<?php endif; ?>
 
 
 <h6>Shipping Details</h6>
