@@ -2277,7 +2277,7 @@ class MainController extends Controller {
 			return redirect()->intended('login');
 		}
 		
-		dd($req);
+		#dd($req);
 		if(isset($req['r']))
 		{
 		
