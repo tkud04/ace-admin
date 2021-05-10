@@ -2302,6 +2302,7 @@ class MainController extends Controller {
 				$ret['phone'] = $u['phone'];
 		        $ret['em'] = $u['email'];
 				$ret['user'] = $u['email'];
+				  dd($ret);
 		        $this->helpers->sendEmailSMTP($ret,"emails.ask-review");
 				  
 				 session()->flash("ask-review-status", "success");
