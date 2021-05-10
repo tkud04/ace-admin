@@ -81,6 +81,7 @@
 							 $qty = $i['qty'];
 							 $pu = url('edit-product')."?id=".$product['sku'];
 							 $tu = url('edit-order')."?r=".$o['reference'];
+							 $aru = url('ask-for-review')."?r=".$o['reference'];
 							 $ttu = url('track')."?o=".$o['reference'];
 							$du = url('delete-order')."?o=".$o['reference'];
 						 ?>
@@ -108,9 +109,14 @@
 						  @endif
 					   </td>
 					   <td>
-					     <a class="btn btn-primary" href="{{$tu}}">View</span>&nbsp;&nbsp;
-					     <a class="btn btn-warning" href="{{$ttu}}">Track</span>&nbsp;&nbsp;
-					     <a class="btn btn-danger" href="{{$du}}">Delete</span>
+					   <div style="margin-bottom: 2px; !important;">
+					     <a class="btn btn-primary" href="{{$tu}}">View</a>&nbsp;&nbsp;
+					     <a class="btn btn-warning" href="{{$aru}}">Ask for review</a>&nbsp;&nbsp;
+						</div>
+						<div>
+						<a class="btn btn-info" href="{{$ttu}}">Track</a>&nbsp;&nbsp;
+					     <a class="btn btn-danger" href="{{$du}}">Delete</a>
+						 </div>
 					   </td>
 					 </tr>
 					<?php

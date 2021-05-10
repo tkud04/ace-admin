@@ -28,6 +28,7 @@ use App\Plugins;
 use App\Couriers;
 use App\Senders;
 use App\Catalogs;
+use App\OrderReviews;
 use Analytics;
 use Spatie\Analytics\Period;
 use \Cloudinary\Api;

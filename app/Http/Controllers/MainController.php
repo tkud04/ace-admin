@@ -2251,6 +2251,42 @@ class MainController extends Controller {
 		
     	return view('orders',compact(['user','categories','orders','signals']));
     }
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getAskForReview(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		dd($req);
+		$orders = $this->helpers->getOrders();
+		
+		$categories = $this->helpers->getCategories();
+		
+		$signals = $this->helpers->signals;
+	    #dd($ads);
+		
+    	return view('orders',compact(['user','categories','orders','signals']));
+    }
 
 	/**
 	 * Show the application welcome screen to the user.

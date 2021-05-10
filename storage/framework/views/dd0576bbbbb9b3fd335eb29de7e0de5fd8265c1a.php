@@ -80,6 +80,7 @@
 							 $qty = $i['qty'];
 							 $pu = url('edit-product')."?id=".$product['sku'];
 							 $tu = url('edit-order')."?r=".$o['reference'];
+							 $aru = url('ask-for-review')."?r=".$o['reference'];
 							 $ttu = url('track')."?o=".$o['reference'];
 							$du = url('delete-order')."?o=".$o['reference'];
 						 ?>
@@ -108,9 +109,14 @@
 						  <?php endif; ?>
 					   </td>
 					   <td>
-					     <a class="btn btn-primary" href="<?php echo e($tu); ?>">View</span>&nbsp;&nbsp;
-					     <a class="btn btn-warning" href="<?php echo e($ttu); ?>">Track</span>&nbsp;&nbsp;
-					     <a class="btn btn-danger" href="<?php echo e($du); ?>">Delete</span>
+					   <div style="margin-bottom: 2px; !important;">
+					     <a class="btn btn-primary" href="<?php echo e($tu); ?>">View</a>&nbsp;&nbsp;
+					     <a class="btn btn-warning" href="<?php echo e($aru); ?>">Ask for review</a>&nbsp;&nbsp;
+						</div>
+						<div>
+						<a class="btn btn-info" href="<?php echo e($ttu); ?>">Track</a>&nbsp;&nbsp;
+					     <a class="btn btn-danger" href="<?php echo e($du); ?>">Delete</a>
+						 </div>
 					   </td>
 					 </tr>
 					<?php
