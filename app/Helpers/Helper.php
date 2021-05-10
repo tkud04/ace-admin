@@ -99,6 +99,7 @@ class Helper implements HelperContract
 					 "add-courier-status" => "Courier added",
                      "remove-courier-status" => "Courier removed",
                      "update-courier-status" => "Courier info updated",
+		     "ask-review-status" => "Review request sent",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -127,6 +128,7 @@ class Helper implements HelperContract
 					"add-courier-status-error" => "There was a problem adding the courier, please try again.",
                      "remove-courier-status-error" => "There was a problem removing the courier, please try again.",
                      "update-courier-status-error" => "There was a problem updating the courier, please try again."
+		     "ask-review-status-error" => "There was a problem asking for a review, please try again.",
                     ]
                    ];
 				   
