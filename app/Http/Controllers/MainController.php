@@ -2278,14 +2278,26 @@ class MainController extends Controller {
 		}
 		
 		dd($req);
-		$orders = $this->helpers->getOrders();
+		if(isset($req['r']))
+		{
 		
-		$categories = $this->helpers->getCategories();
-		
-		$signals = $this->helpers->signals;
-	    #dd($ads);
-		
-    	return view('orders',compact(['user','categories','orders','signals']));
+		 $o = $this->helpers->getOrder($req['r']);
+			  $signals = $this->helpers->signals;
+			  if(count($o) > 0)
+			  {
+				  //send email here
+				 session()->flash("ask-review-status", "success");
+			    return redirect()->intended('orders');
+			  }
+			  else
+			  {
+				  return redirect()->intended('orders');
+			  }
+		}
+		else
+		{
+			return redirect()->intended('orders');
+		}
     }
 
 	/**
