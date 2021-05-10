@@ -129,6 +129,7 @@ class Helper implements HelperContract
                      "remove-courier-status-error" => "There was a problem removing the courier, please try again.",
                      "update-courier-status-error" => "There was a problem updating the courier, please try again.",
 		     "ask-review-status-error" => "There was a problem asking for a review, please try again.",
+		     "ask-review-status-email-error" => "No customer email on record.",
                     ]
                    ];
 				   
