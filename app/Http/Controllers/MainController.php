@@ -2291,18 +2291,18 @@ class MainController extends Controller {
 				   }
 				   else
 				   {
-					   $u = $this->getUser($o['user_id']);
+					   $u = $this->helpers->getUser($o['user_id']);
 				   }
 				  
 				  //send email here
-				  $ret = $this->getCurrentSender();
+				  $ret = $this->helpers->getCurrentSender();
 				$ret['order'] = $o;
 				$ret['name'] = $o['user_id'] == "anon" ? $u['name'] : $u['fname'];
 				$ret['subject'] = "We need your review about your order";
 				$ret['phone'] = $u['phone'];
 		        $ret['em'] = $u['email'];
 				$ret['user'] = $u['email'];
-		        $this->sendEmailSMTP($ret,"emails.ask-review");
+		        $this->helpers->sendEmailSMTP($ret,"emails.ask-review");
 				  
 				 session()->flash("ask-review-status", "success");
 			    return redirect()->intended('orders');
