@@ -100,6 +100,7 @@ class Helper implements HelperContract
                      "remove-courier-status" => "Courier removed",
                      "update-courier-status" => "Courier info updated",
 		     "ask-review-status" => "Review request sent",
+		     "ask-review-email-status" => "No customer email on record.",
                      ],
                      'errors'=> ["login-status-error" => "There was a problem signing in, please contact support.",
 					 "signup-status-error" => "There was a problem signing in, please contact support.",
@@ -129,7 +130,7 @@ class Helper implements HelperContract
                      "remove-courier-status-error" => "There was a problem removing the courier, please try again.",
                      "update-courier-status-error" => "There was a problem updating the courier, please try again.",
 		     "ask-review-status-error" => "There was a problem asking for a review, please try again.",
-		     "ask-review-status-email-error" => "No customer email on record.",
+		     
                     ]
                    ];
 				   
