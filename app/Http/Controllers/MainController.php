@@ -2302,10 +2302,19 @@ class MainController extends Controller {
 				$ret['phone'] = $u['phone'];
 		        $ret['em'] = $u['email'];
 				$ret['user'] = $u['email'];
-				  dd($ret);
-		        $this->helpers->sendEmailSMTP($ret,"emails.ask-review");
+				  #dd($ret);
+				  if($ret['email'] == "")
+				  {
+				      session()->flash("ask-review-email-status", "success");
+				  }
+				  else
+				  {
+				      session()->flash("ask-review-status", "success");
+				      $this->helpers->sendEmailSMTP($ret,"emails.ask-review");
+				  }
+		        
 				  
-				 session()->flash("ask-review-status", "success");
+				 
 			    return redirect()->intended('orders');
 			  }
 			  else
