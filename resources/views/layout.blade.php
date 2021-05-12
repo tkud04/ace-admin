@@ -140,7 +140,8 @@
 							<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="icon-pencil"></span> reviews</a>
                                 <ul class="dropdown-menu">                                    
-                                    <li><a href="{{url('reviews')}}"> View reviews</a></li>
+                                    <li><a href="{{url('reviews')}}"> View product reviews</a></li>
+                                    <li><a href="{{url('order-reviews')}}"> View order reviews</a></li>
                                 </ul>                                
                             </li>
 							<li>

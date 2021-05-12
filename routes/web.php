@@ -60,6 +60,8 @@ Route::get('reviews', 'MainController@getReviews');
 Route::get('edit-review', 'MainController@getEditReview');
 Route::post('edit-review', 'MainController@postEditReview');
 
+Route::get('order-reviews', 'MainController@getOrderReviews');
+Route::get('update-order-review', 'MainController@getUpdateOrderReview');
 Route::get('track', 'MainController@getTrackings');
 Route::get('new-tracking', 'MainController@getAddTracking');
 Route::post('new-tracking', 'MainController@postAddTracking');

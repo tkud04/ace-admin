@@ -1,13 +1,13 @@
 @extends('layout')
 
-@section('title',"Product Reviews")
+@section('title',"Order Reviews")
 
 @section('content')
 			<div class="col-md-12">
 				{!! csrf_field() !!}
                 <div class="block">
                     <div class="header">
-                        <h2>List of product reviews</h2>
+                        <h2>List of order reviews</h2>
                     </div>
                     <div class="content">
                        <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
@@ -16,7 +16,7 @@
                             <thead>
                                 <tr>
                                     <th width="20%">ID</th>
-                                    <th width="20%">Product</th>
+                                    <th width="20%">Order</th>
                                     <th width="20%">Review</th>                                                                       
                                     <th width="20%">Status</th>                                                                       
                                     <th width="20%">Actions</th>                                                                       
@@ -25,26 +25,33 @@
                             <tbody>
 							   @foreach($reviews as $r)
 							   <?php
-                           	   $name = $r['name'];
-                           	   $sku = $r['sku'];
-	                            $review = $r['review'];
-	                            $status = $r['status'];
-	                            $rating = $r['rating'];
-	                            $status = $r['status'];
-	                            $pu = url('edit-product?id=').$sku;
-								$ss = ($status == "enabled") ? "success" : "danger";
+                           	   $ref = $r['reference'];
+                           	  
+								if($r['status'] == "pending" || $r['status'] == "disabled")
+								{
+									$ss =  "Enable";
+									$sss = "enabled";
+									$ssc = "warning";
+								}
+								else{
+									$ss =  "Disable";
+									$sss = "disabled";
+									$ssc = "success";
+								}
+	                            $pu = url('update-order-review')."?xf=".$ref."&status=".$sss;
+								
 							   ?>
                                 <tr>
                                     <td>{{$r['id']}}</td>
-                                    <td><a href="{{$pu}}" target="_blank">{{$sku}}</a></td>
-                                    <td><b>{{$name}}</b>: {{$review}}</td>
-                                     <td><span class="driver-status label label-{{$ss}}">{{$status}}</span></td>                                                                      
+                                    <td>{{$ref}}</td>
                                     <td>
-									  <?php
-									   $uu = url('edit-review')."?id=".$r['id'];
-									   
-									  ?>
-									  <a href="{{$uu}}" class="btn btn-primary">View</button>									  
+									  <b>Came as advertised</b>: {{$r['caa']}}<br>
+									  <b>Delivered on time</b>: {{$r['daa']}}<br>
+									  <b>Comment</b>: {{$r['comment']}}<br>
+									</td>
+                                     <td><span class="driver-status label label-{{$ssc}}">{{$r['status']}}</span></td>                                                                      
+                                    <td>
+									  <a href="{{$pu}}" class="btn btn-primary">{{$ss}}</button>									  
 									</td>                                                                     
                                 </tr>
                                @endforeach                       

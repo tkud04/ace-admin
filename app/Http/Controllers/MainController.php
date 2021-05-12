@@ -2160,6 +2160,86 @@ class MainController extends Controller {
          } 	  
     }
 	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+	public function getOrderReviews(Request $request)
+    {
+       $user = null;
+       $req = $request->all();
+       
+		
+		if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+		{
+			return redirect()->intended('login');
+		}
+		
+		
+		$reviews = $this->helpers->getOrderReviews();
+		$categories = $this->helpers->getCategories();
+		
+		$signals = $this->helpers->signals;
+	    #dd($ads);
+		
+    	return view('order-reviews',compact(['user','categories','reviews','signals']));
+    }
+	
+	
+	
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function getUpdateOrderReview(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+        $validator = Validator::make($req, [                          
+                           'xf' => 'required',
+                           'status' => 'required|not_in:none'
+         ]);
+         
+         if($validator->fails())
+         {
+             $messages = $validator->messages();
+             return redirect()->back()->withInput()->with('errors',$messages);
+             //dd($messages);
+         }
+         
+         else
+         {
+            $this->helpers->updateOrderReview($req);
+			session()->flash("update-order-review-status", "success");
+			return redirect()->back();
+         } 	  
+    }
+	
 	
 	/**
 	 * Show the application welcome screen to the user.
@@ -2303,7 +2383,7 @@ class MainController extends Controller {
 		        $ret['em'] = $u['email'];
 				$ret['user'] = $u['email'];
 				  #dd($ret);
-				  if($ret['email'] == "")
+				  if($ret['em'] == "")
 				  {
 				      session()->flash("ask-review-email-status", "success");
 				  }

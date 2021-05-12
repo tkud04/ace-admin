@@ -1417,6 +1417,90 @@ $subject = $data['subject'];
                 return "ok";
            }
 		   
+		    function createOrderReview($data)
+           {
+			 #  $userId = $user == null ? $this->generateTempUserID() : $user->id;
+           	$ret = OrderReviews::create(['reference' => $data['ref'], 
+                                                      'caa' => $data['caa'], 
+                                                      'daa' => $data['daa'],
+                                                      'caa_img' => $data['img'],
+                                                      'rating' => $data['rating'],
+                                                      'comment' => $data['comment'],
+                                                      'status' => "pending",
+                                                      ]);
+                                                      
+                return $ret;
+           }
+		   
+		   function getOrderReviews()
+           {
+           	$ret = [];
+              $reviews = OrderReviews::where('id','>',0)->get();
+              $reviews = $reviews->sortByDesc('created_at');	
+			  
+              if($reviews != null)
+               {
+				  foreach($reviews as $r)
+				  {
+					  $temp = [];
+					  $temp['id'] = $r->id;
+					  $temp['reference'] = $r->reference;
+					  $temp['caa'] = $r->caa;
+					  $temp['img'] = $this->getCloudinaryImage($r->caa_img);
+					 $temp['daa'] = $r->daa;
+					  $temp['comment'] = $r->comment;
+					  $temp['status'] = $r->status;
+					  array_push($ret,$temp);
+				  }
+               }                         
+                                  
+                return $ret;
+           }
+		   
+		   function getOrderReview($ref)
+           {
+           	$ret = [];
+              $review = OrderReviews::where('ref',$ref)->first();
+             
+              if($review != null)
+               {
+				  
+					  $temp = [];
+					  $temp['id'] = $r->id;
+					  $temp['reference'] = $r->reference;
+					  $temp['caa'] = $r->caa;
+					  $temp['img'] = $this->getCloudinaryImage($r->caa_img);
+					 $temp['daa'] = $r->daa;
+					  $temp['comment'] = $r->comment;
+					  $temp['status'] = $r->status;
+					  $ret = $temp;
+               }                         
+                                  
+                return $ret;
+           }
+		   
+		   function updateOrderReview($data)
+           {
+			   $ret = "error";
+			  $r = OrderReviews::where('reference',$data['xf'])->first();
+			  # dd($r);
+			 
+			if($r != null)
+			{
+				$rrr = [];
+			   if(isset($data['caa'])) $rrr['caa'] = $data['caa'];
+			   if(isset($data['daa'])) $rrr['daa'] = $data['daa'];
+			   if(isset($data['img'])) $rrr['img'] = $data['img'];
+			   if(isset($data['comment'])) $rrr['comment'] = $data['comment'];
+			   if(isset($data['status'])) $rrr['status'] = $data['status'];
+			   #dd($rrr);
+				$r->update($rrr);
+				$ret = "ok";
+			}
+
+                return $ret;
+           }
+		   
 		    function createBanner($data)
            {
 			   $copy = isset($data['copy']) ? $data['copy'] : "";
