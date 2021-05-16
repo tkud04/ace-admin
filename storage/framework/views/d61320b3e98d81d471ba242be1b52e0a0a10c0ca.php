@@ -33,7 +33,7 @@
 							if(count($uuser) > 0)
                             {
                             	$u = $uuser['fname']." ".$uuser['lname'];
-                                $u .= "<br> Contact details: ".$uuser['phone']." | ".$user['email'];
+                                $u .= "<br> Contact details: ".$uuser['phone']." | ".$uuser['email'];
                            }
 				    ?>
                       <tr>
