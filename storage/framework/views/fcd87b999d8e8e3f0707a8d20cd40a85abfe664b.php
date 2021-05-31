@@ -12,12 +12,18 @@
                     </div>
                     <div class="content controls">
 					<div class="form-row">
+					<div class="form-row">
+                                <div class="col-md-3">Code:</div>
+								<div class="col-md-9">
+							      <input type="text" class="form-control" name="code" id="code" placeholder="Coupon code" value="<?php echo e($discount['code']); ?>"/>
+							    </div>
+							   </div> 
                                 <div class="col-md-3">Type:</div>
 								<div class="col-md-9">
 							      <select class="form-control" id="add-discount-type" name="type" style="margin-bottom: 5px;">
 							        <option value="none">Select type</option>
 								    <?php
-								     $types = ['single' => "Single",'general' => "General"];
+								     $types = ['single' => "Single product",'category' => "Category",'general' => "General"];
 								     foreach($types as $key => $value){
 										 $ss = $key == $discount['type'] ? "selected='selected'" : "";
 								    ?>
@@ -35,9 +41,25 @@
 							    <option value="none">Select product</option>
 								<?php
 								foreach($products as $p){
-								$ss = $discount['sku'] == $p['sku'] ? " selected='selected'" : "";
+								$ss = $discount['uid'] == $p['sku'] ? " selected='selected'" : "";
 								?>
 								 <option value="<?php echo e($p['sku']); ?>" <?php echo e($ss); ?>><?php echo e($p['sku']); ?></option>
+								<?php
+								}
+								?>
+							  </select>
+							</div>
+                        </div>
+						<div class="form-row" id="category-form-row">
+                            <div class="col-md-3">Category:</div>
+                            <div class="col-md-9">
+							  <select class="form-control" name="category">
+							    <option value="none">Select category</option>
+								<?php
+								foreach($categories as $cc){
+								$ss = $discount['uid'] == $cc['name'] ? " selected='selected'" : "";
+								?>
+								 <option value="<?php echo e($cc['id']); ?>" <?php echo e($ss); ?>><?php echo e($cc['name']); ?></option>
 								<?php
 								}
 								?>

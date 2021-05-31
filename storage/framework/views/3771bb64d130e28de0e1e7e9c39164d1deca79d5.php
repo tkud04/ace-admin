@@ -11,12 +11,18 @@
                     </div>
                     <div class="content controls">
 					<div class="form-row">
+                                <div class="col-md-3">Code:</div>
+								<div class="col-md-9">
+							      <input type="text" class="form-control" name="code" id="code" placeholder="Coupon code" value=""/>
+							    </div>
+							   </div> 
+					<div class="form-row">
                                 <div class="col-md-3">Type:</div>
 								<div class="col-md-9">
 							      <select class="form-control" id="add-discount-type" name="type" style="margin-bottom: 5px;">
 							        <option value="none">Select type</option>
 								    <?php
-								     $types = ['single' => "Single",'general' => "General"];
+								     $types = ['single' => "Single product",'category' => "Category",'general' => "General"];
 								     foreach($types as $key => $value){
 								    ?>
 								    <option value="<?php echo e($key); ?>"><?php echo e($value); ?></option>
@@ -26,6 +32,22 @@
 							      </select>
 								 </div>
 								</div>
+						<div class="form-row" id="category-form-row">
+                            <div class="col-md-3">Category:</div>
+                            <div class="col-md-9">
+							  <select class="form-control" name="category">
+							    <option value="none">Select category</option>
+								<?php
+								foreach($categories as $cc){
+								//$ss = $product['status'] == $key ? " selected='selected'" : "";
+								?>
+								 <option value="<?php echo e($cc['id']); ?>"><?php echo e($cc['name']); ?></option>
+								<?php
+								}
+								?>
+							  </select>
+							</div>
+                        </div>
 						<div class="form-row" id="sku-form-row">
                             <div class="col-md-3">Product:</div>
                             <div class="col-md-9">

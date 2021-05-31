@@ -26,7 +26,10 @@ $(document).ready(function(){
 	hideUnselects();
 	hideSelectErrors();
 	if($("#add-discount-type").val() == "single"){} 
-	else {$('#sku-form-row').hide(); }
+	else {
+		$('#sku-form-row').hide();
+		$('#category-form-row').hide();
+		}
 	
         $("select.customer-type").change((e) =>{
 			e.preventDefault();
@@ -132,10 +135,16 @@ $(document).ready(function(){
                let dtype = $(this).val();
             
 			   if(dtype == "single"){			 
+                $('#category-form-row').hide();			 
                 $('#sku-form-row').fadeIn();			 
+			   }
+			   else if(dtype == "category"){
+			    $('#category-form-row').hide();			 
+			    $('#category-form-row').fadeIn();			 
 			   }
 			   else{
 			    $('#sku-form-row').hide();			 
+			    $('#category-form-row').hide();			 
 			   }
 		  });
 		  

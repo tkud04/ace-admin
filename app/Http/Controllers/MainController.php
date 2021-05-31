@@ -2975,6 +2975,7 @@ EOD;
 		#dd($req);
         $validator = Validator::make($req, [                          
                              'discount_type' => 'required|not_in:none',
+                             'code' => 'required',
                              'discount' => 'required',
                              'type' => 'required|not_in:none',
                              'status' => 'required|not_in:none'
@@ -2998,6 +2999,18 @@ EOD;
 				else
 				{
 					session()->flash("no-sku-status", "success"); 
+					return redirect()->back();
+				}
+			 }
+			 else if($req['type'] == "category")
+			 {
+				if(isset($req['category']) && $req['category'] != "none")
+				{
+					
+				}
+				else
+				{
+					session()->flash("no-category-status", "success"); 
 					return redirect()->back();
 				}
 			 }
@@ -3080,8 +3093,9 @@ EOD;
 			  $signals = $this->helpers->signals;
 			  $xf = $discount['id'];
 			  $products = $this->helpers->getProducts();
+			  $categories = $this->helpers->getCategories();
 			  #dd($discount);
-		      return view('edit-discount',compact(['user','discount','xf','products','signals']));
+		      return view('edit-discount',compact(['user','discount','xf','products','categories','signals']));
             }
 		}
 		else
@@ -3140,6 +3154,18 @@ EOD;
 				else
 				{
 					session()->flash("no-sku-status", "success"); 
+					return redirect()->back();
+				}
+			 }
+			  else if($req['type'] == "category")
+			 {
+				if(isset($req['category']) && $req['category'] != "none")
+				{
+					
+				}
+				else
+				{
+					session()->flash("no-category-status", "success"); 
 					return redirect()->back();
 				}
 			 }

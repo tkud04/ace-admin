@@ -79,6 +79,7 @@ class Helper implements HelperContract
                      "create-discount-status" => "Discount created.",
                      "delete-discount-status" => "Discount deleted.",
                      "no-sku-status" => "Please select a product for single discount.",
+                     "no-category-status" => "Please select a category for category discount.",
                      "set-cover-image-status" => "Product image updated",
                      "delete-image-status" => "Image deleted",
                      "delete-order-status" => "Order deleted",
@@ -236,7 +237,7 @@ class Helper implements HelperContract
  
   
   
-  public $adminEmail = "aceluxurystore@yahoo.com";
+  public $adminEmail = "support@aceluxurystore.com";
   //public $adminEmail = "aquarius4tkud@yahoo.com";
   public $suEmail = "kudayisitobi@gmail.com";
   
@@ -867,9 +868,13 @@ $subject = $data['subject'];
 		   
 		   function createDiscount($data)
            {
-			   $sku = ($data['type'] == "single") ? $data['type'] : "";
+			   $uid = "";
 			   
-           	$ret = Discounts::create(['sku' => $data['sku'],                                                                                                          
+			   if($data['type'] == "single") $uid = $data['sku'];
+			   else if($data['type'] == "category") $uid = $data['category'];
+			   
+           	$ret = Discounts::create(['uid' => $uid,                                                                                                          
+                                                      'code' => $data['code'], 
                                                       'discount_type' => $data['discount_type'], 
                                                       'discount' => $data['discount'], 
                                                       'type' => $data['type'], 
@@ -889,18 +894,9 @@ $subject = $data['subject'];
              }
 			 else
 			 {
-               if($type == "product")
-			   {
-				  $discounts = Discounts::where('sku',$id)
-			                 ->orWhere('type',"general")
+               $discounts = Discounts::where('uid',$id)
+			                 ->orWhere('type',$type)
 							 ->where('status',"enabled")->get(); 
-			   }
-			   elseif($type == "user")
-			   {
-			  	  $discounts = Discounts::where('sku',$id)
-			                 ->where('type',"user")
-							 ->where('status',"enabled")->get();
-               }
 			 }
 			 
 			 
@@ -910,10 +906,12 @@ $subject = $data['subject'];
 				  {
 					$temp = [];
 				    $temp['id'] = $d->id;
-				    $temp['sku'] = $d->sku;
+				    $temp['uid'] = $d->uid;
+				    $temp['code'] = $d->code;
 				    $temp['discount_type'] = $d->discount_type;
 				    $temp['discount'] = $d->discount;
 				    $temp['type'] = $d->type;
+					if($temp['type'] == "category") $temp['category'] = $this->getCategory($temp['uid']);
 				    $temp['status'] = $d->status;
 				    array_push($ret,$temp);  
 				  }
@@ -961,10 +959,12 @@ $subject = $data['subject'];
 					
 							$temp = [];
 				            $temp['id'] = $disc->id;
-				            $temp['sku'] = $disc->sku;
+				            $temp['uid'] = $disc->uid;
+				            $temp['code'] = $disc->code;
 				            $temp['discount_type'] = $disc->discount_type;
 				            $temp['discount'] = $disc->discount;
 				            $temp['type'] = $disc->type;
+							if($temp['type'] == "category") $temp['category'] = $this->getCategory($temp['uid']);
 				            $temp['status'] = $disc->status;
 							$ret = $temp;
 					}                      
@@ -1110,6 +1110,11 @@ $subject = $data['subject'];
 		    function updateDiscount($data)
            {
            	$ret = [];
+			$uid = "";
+			   
+			   if($data['type'] == "single") $uid = $data['sku'];
+			   else if($data['type'] == "category") $uid = $data['category'];
+			   
               $disc = Discounts::where('id',$data['xf'])->first();
               
 			  //dd($data);
@@ -1117,7 +1122,8 @@ $subject = $data['subject'];
                {
 				  $disc->update([
 				  'type' => $data['type'],
-				  'sku' => $data['sku'],
+				  'code' => $data['code'],
+				  'uid' => $uid,
 				  'discount_type' => $data['discount_type'],
 				  'discount' => $data['discount'],
 				    'status' => $data['status']

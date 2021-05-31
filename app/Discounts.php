@@ -13,7 +13,7 @@ class Discounts extends Model
      * @var array
      */
     protected $fillable = [
-        'sku', 'discount_type', 'discount', 'type', 'status'
+        'uid', 'code', 'discount_type', 'discount', 'type', 'status'
     ];
     
 }

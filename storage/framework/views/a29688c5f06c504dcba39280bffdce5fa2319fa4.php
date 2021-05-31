@@ -14,7 +14,7 @@
                         <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable">
                             <thead>
                                 <tr>
-                                    <th width="20%">ID</th>
+                                    <th width="20%">Code</th>
                                     <th width="20%">Type</th>
                                     <th width="20%">Discount</th>
                                     <th width="20%">Status</th>                                                                       
@@ -40,7 +40,12 @@
 							   
 							   if($d['type'] == "single")
 							   {
-								   $dtype = strtoupper($d['type'])." - ".$d['sku'];
+								   $dtype = strtoupper($d['type'])." - ".$d['uid'];
+							   }
+							   elseif($d['type'] == "category")
+							   {
+								   $c = $d['category'];
+								   $dtype = strtoupper($d['type'])." - ".$c['name'];
 							   }
 							   elseif($d['type'] == "general")
 							   {
@@ -48,7 +53,7 @@
 							   }
 							   ?>
                                 <tr>
-                                    <td><?php echo e($d['id']); ?></td>
+                                    <td><?php echo e($d['code']); ?></td>
                                     <td><?php echo e($dtype); ?></td>
                                     <td><?php echo $disc; ?></td>
                                     <td><span class="driver-status label label-<?php echo e($ss); ?>"><?php echo e($status); ?></span></td>                                                                     
