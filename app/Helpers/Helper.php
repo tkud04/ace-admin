@@ -951,7 +951,7 @@ $subject = $data['subject'];
 
 		   function getDiscount($id)
            {
-           	
+           	$ret = [];
 				$disc = Discounts::where('id',$id)->first();              
 							 
 					if($disc != null)
