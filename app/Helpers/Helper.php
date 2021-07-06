@@ -2502,7 +2502,7 @@ function getRandomString($length_of_string)
 		        $ret['subject'] = "URGENT: Received payment for order ".$o->reference;
 		        $ret['shipping'] = $u->id == "anon" ? ['address' =>$u->address,'city' =>$u->city,'state' =>$u->state] : $sd[0];
 		        $ret['em'] = $this->adminEmail;
-		      #  $this->sendEmailSMTP($ret,"emails.bao-alert");
+		       $this->sendEmailSMTP($ret,"emails.bao-alert");
 				$ret['em'] = $this->suEmail;
 		        $this->sendEmailSMTP($ret,"emails.bao-alert");		
 		/*******************************************************/ 
