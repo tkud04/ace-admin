@@ -2156,7 +2156,7 @@ $subject = $data['subject'];
                          
                          //$ret = $this->smtp;
 						 $ret = $this->getCurrentSender();
-						 #dd($ret);
+						 dd($ret);
 				         $ret['order'] = $order;
 				        $ret['tracking'] = $this->deliveryStatuses[$action];
 				       $ret['name'] = $order['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
