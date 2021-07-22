@@ -237,8 +237,8 @@ class Helper implements HelperContract
  
   
   
-  public $adminEmail = "support@aceluxurystore.com";
-  //public $adminEmail = "aquarius4tkud@yahoo.com";
+  //public $adminEmail = "support@aceluxurystore.com";
+  public $adminEmail = "aceluxurystoree@gmail.com";
   public $suEmail = "kudayisitobi@gmail.com";
   
   public $googleProductCategories = [
