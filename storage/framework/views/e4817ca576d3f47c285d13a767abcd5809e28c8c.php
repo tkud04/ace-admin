@@ -107,7 +107,7 @@
                             </tbody>
                         </table>                                        
 
-                    </div>
+                    </div><br>
 						   
 						   
                             <div class="hp-info hp-simple pull-left">
