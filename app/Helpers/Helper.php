@@ -3287,7 +3287,7 @@ function getRandomString($length_of_string)
 				
                 if($orders != null)
 				{
-					$orders = $orders->sortByAsc('created_at');
+					$orders = $orders->sortBy('created_at');
 					$rr = [];
 					if($type == "total-revenue")
 					{
