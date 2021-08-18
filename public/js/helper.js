@@ -606,7 +606,7 @@ function BUUP(){
 		showSelectError('buup','product');
 	}
 	else{
-	ret = [], hasUnfilledQty = false;
+	ret = [], hasUnfilledQty = false; err = [];
 
 	for(let i = 0; i < buupCounter; i++){
 		let BUPitem = `#buup-${i}`;
@@ -617,7 +617,7 @@ function BUUP(){
 		category = $(`${BUPitem} select.category`).val();
 		status = $(`${BUPitem} select.status`).val();
 		
-			if(name != "" && desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
+			if(pname != "" && desc != "" && parseInt(price) > 0 && parseInt(stock) > 0 && category != "none" && status != "none"){
 				let temp = {
 					id: BUPitem,
 					data:{
@@ -632,12 +632,19 @@ function BUUP(){
 				BUUPlist.push(temp);
 			}
 			else{
+				if(pname == "") err.push("pname");
+				if(desc == "") err.push("desc");
+				if( parseInt(price) < 1) err.push("price");
+				if( parseInt(stock) < 1) err.push("stock");
+				if(category == "none") err.push("category");
+				if(status == "none") err.push("status");
 				hasUnfilledQty = true;
 			}		
 	}
 	
 	   if(hasUnfilledQty){
 		   showSelectError('buup','validation');
+		   console.log("err: ",err);
 	   }
 	   else{
 		 //console.log("ret: ",ret);
