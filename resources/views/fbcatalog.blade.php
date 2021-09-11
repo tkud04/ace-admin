@@ -21,8 +21,12 @@
  $sec = env('FACEBOOK_APP_SECRET');
  //$uu = url("facebook-catalog");
  $uu = "https://admin.aceluxurystore.com/facebook-catalog";
+ if($code == ""){
  ?>
   window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id={{$cid}}&redirect_uri={{$uu}}&state={{$ss}&scope=catalog_management`;
+  <?php
+ }
+ ?>
  });
  </script>
 
