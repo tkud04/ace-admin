@@ -2911,7 +2911,7 @@ EOD;
          else
          {
 			 $req['user_id'] = $user->id;
-            $this->helpers->createTracking($req);
+            $this->helpers->updateTracking($req['reference'],$req['status']);
 			session()->flash("create-tracking-status", "success");
 			return redirect()->intended('orders');
          } 	  

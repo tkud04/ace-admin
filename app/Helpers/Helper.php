@@ -2133,10 +2133,11 @@ $subject = $data['subject'];
 			  return "ok";
 		  }
 		
-		  function updateTracking($o,$action)
+		  function updateTracking($oo,$action)
          {
-         	$order = $this->getOrder($o->reference);
-			dd($order);
+			 $o = isset($o->reference) ? $o->reference : $oo;
+         	$order = $this->getOrder($o);
+			#dd($order);
                     if(count($order) > 0)
                     {
                     	if($order['user_id'] == "anon")
