@@ -2135,7 +2135,7 @@ $subject = $data['subject'];
 		
 		  function updateTracking($oo,$action)
          {
-			 $o = isset($o->reference) ? $o->reference : $oo;
+			 $o = isset($oo->reference) ? $oo->reference : $oo;
          	$order = $this->getOrder($o);
 			#dd($order);
                     if(count($order) > 0)
