@@ -19,13 +19,10 @@
  <?php
  $cid = env('FACEBOOK_APP_ID');
  $sec = env('FACEBOOK_APP_SECRET');
- 
- if($code != ""){
+ //$uu = url("facebook-catalog");
+ $uu = "https://admin.aceluxurystore.com/facebook-catalog";
  ?>
-  getFBToken({code: '{{$code}}',cid: '{{$cid}}',edf: '{{$sec}}',redirect_uri: "https://admin.aceluxurystore.com/facebook-catalog"});
- <?php
- }
- ?>
+  window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id={{$cid}}&redirect_uri={{$uu}}&state={{$ss}&scope=catalog_management`;
  });
  </script>
 
