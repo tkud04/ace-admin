@@ -648,6 +648,7 @@ $subject = $data['subject'];
 				  $temp['description'] = $pd->description;
 				  $temp['in_stock'] = $pd->in_stock;
 				  $temp['category'] = $pd->category;
+				$temp['gpc'] = $pd->gpc;
 				  $ret = $temp;
                }                         
                                                       
@@ -847,7 +848,8 @@ $subject = $data['subject'];
            	$ret = ProductData::create(['sku' => $data['sku'],                                                                                                          
                                                       'description' => $data['description'], 
                                                       'amount' => $data['amount'],                                                      
-                                                      'category' => $data['category'],                                                       
+                                                      'category' => $data['category'],
+                                                     'gpc' => $data['gpc'],                                                       
                                                       'in_stock' => $in_stock                                              
                                                       ]);
                                                       
@@ -3015,6 +3017,7 @@ function getRandomString($length_of_string)
 			    $in_stock = $pd['in_stock'];
 			    $amount = $pd['amount'] * 100;
 			    $imggs = $product['imggs'];
+			    $gpc = $pd['gpc'];
 				
 		         
 				 $temp = [
@@ -3023,7 +3026,7 @@ function getRandomString($length_of_string)
 			              'data' => [
 			                'availability' => "in stock",
 			                'brand' => "Ace Luxury Store",
-			                'category' => $this->googleProductCategories[$category],
+			                'category' => $gpc,
 			                'description' => $description,
 			                'image_url' => $imggs[0],
 			                'price' => $amount,
