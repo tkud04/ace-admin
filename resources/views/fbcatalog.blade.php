@@ -26,6 +26,16 @@
   window.location = `https://www.facebook.com/v11.0/dialog/oauth?client_id={{$cid}}&redirect_uri={{$uu}}&state={{$ss}&scope=catalog_management`;
   <?php
  }
+ else{
+?> 	
+getFBToken({
+   redirect_uri: "{{$uu}}",
+   client_id: "{{$cid}}",
+   client_secret: "{{$sec}}",
+   code: "{{$code}}"
+});
+ <?php
+ }
  ?>
  });
  </script>
