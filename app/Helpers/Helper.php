@@ -3017,11 +3017,11 @@ function getRandomString($length_of_string)
 		        $iss = ['in_stock' => "in stock",'out_of_stock' => "out of stock",'new' => "available for order"];
 		        $pd = $product['pd'];
 			    $description = $pd['description'];
-			    $category = $pd['category'];
+			    $category = $this->getCategory($pd['category']);
 			    $in_stock = $pd['in_stock'];
 			    $amount = $pd['amount'] * 100;
 			    $imggs = $product['imggs'];
-			    $gpc = $pd['gpc'];
+			    $gpc = $category['gpc'];
 				
 		         
 				 $temp = [
