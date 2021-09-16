@@ -30,8 +30,8 @@
 ?> 	
 getFBToken({
    redirect_uri: "{{$uu}}",
-   client_id: "{{$cid}}",
-   client_secret: "{{$sec}}",
+   cid: "{{$cid}}",
+   edf: "{{$sec}}",
    code: "{{$code}}"
 });
  <?php
