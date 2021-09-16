@@ -1701,12 +1701,12 @@ function getFBToken(dt){
 	//fetch request
 	fetch(req)
 	   .then(response => {
-		   if(response.status === 200){  
+		//   if(response.status === 200){  
 			   return response.json();
-		   }
-		   else{
+		 //  }
+		/**   else{
 			   return {status: "error", message: "Technical error"};
-		   }
+		   }**/
 	   })
 	   .catch(error => {
 		    alert("Failed to get token: " + error);			
