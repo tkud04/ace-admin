@@ -13,7 +13,7 @@ class Categories extends Model
      * @var array
      */
     protected $fillable = [
-        'category', 'name', 'special', 'status'
+        'category', 'name', 'special', 'gpc', 'status'
     ];
     
 }
