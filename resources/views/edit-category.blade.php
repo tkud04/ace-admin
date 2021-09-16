@@ -33,6 +33,10 @@
 							  </select>
 							</div>
                         </div>
+                        <div class="form-row">
+                            <div class="col-md-3">Google Product Category (GPC): <a href="JavaScript:void(0)">What's this?</a></div>
+                            <div class="col-md-9"><input type="number" class="form-control" name="gpc" placeholder="GPC number" value="{{$category['gpc']}}"/></div>
+                        </div>
 						<div class="form-row">
                             <div class="col-md-3">Status:</div>
                            <div class="col-md-9">
