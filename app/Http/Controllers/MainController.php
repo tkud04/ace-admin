@@ -1432,6 +1432,7 @@ class MainController extends Controller {
 		#dd($req);
         $validator = Validator::make($req, [
                              'category' => 'required',
+                             'gpc' => 'required',
                              'status' => 'required|not_in:none'
          ]);
          
@@ -1520,7 +1521,8 @@ class MainController extends Controller {
 		#dd($req);
         $validator = Validator::make($req, [
                              'xf' => 'required',                            
-                             'category' => 'required',                            
+                             'category' => 'required',  
+                             'gpc' => 'required',                          
                              'status' => 'required|not_in:none',
          ]);
          
