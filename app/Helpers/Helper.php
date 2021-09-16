@@ -1233,7 +1233,7 @@ $subject = $data['subject'];
            {
            	$ret = [];
            	$c = Categories::where('id',$id)
-                                    orWhere('category',$id)->first();
+                                    ->orWhere('category',$id)->first();
               // dd($cart);
 			  
               if($c != null)
