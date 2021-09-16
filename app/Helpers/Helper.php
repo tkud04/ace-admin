@@ -648,7 +648,7 @@ $subject = $data['subject'];
 				  $temp['description'] = $pd->description;
 				  $temp['in_stock'] = $pd->in_stock;
 				  $temp['category'] = $pd->category;
-				$temp['gpc'] = $pd->gpc;
+				
 				  $ret = $temp;
                }                         
                                                       
@@ -848,8 +848,7 @@ $subject = $data['subject'];
            	$ret = ProductData::create(['sku' => $data['sku'],                                                                                                          
                                                       'description' => $data['description'], 
                                                       'amount' => $data['amount'],                                                      
-                                                      'category' => $data['category'],
-                                                     'gpc' => $data['gpc'],                                                       
+                                                      'category' => $data['category'],                                                                                                        
                                                       'in_stock' => $in_stock                                              
                                                       ]);
                                                       
@@ -1199,6 +1198,7 @@ $subject = $data['subject'];
 			   'name' => $data['name'],
 			   'category' => $data['category'],
 			   'special' => $data['special'],
+			   'gpc' => $data['gpc'],
 			   'status' => $data['status'],
 			]);                          
             return $ret;
@@ -1219,6 +1219,7 @@ $subject = $data['subject'];
 						$temp['name'] = $c->name;
 						$temp['category'] = $c->category;
 						$temp['special'] = $c->special;
+						$temp['gpc'] = $c->gpc;
 						$temp['status'] = $c->status;
 						array_push($ret,$temp);
                     }
@@ -1241,6 +1242,7 @@ $subject = $data['subject'];
 						$temp['name'] = $c->name;
 						$temp['category'] = $c->category;
 						$temp['special'] = $c->special;
+						$temp['gpc'] = $c->gpc;
 						$temp['status'] = $c->status;
 						$ret = $temp;
                }                                 
@@ -1252,7 +1254,8 @@ $subject = $data['subject'];
            {
            	$ret = Categories::create(['name' => ucwords($data['category']),                                                                                                          
                                                       'category' => $data['category'],                                                      
-                                                      'special' => $data['special'],                                                      
+                                                      'special' => $data['special'],  
+                                                      'gpc' => $data['gpc'],                                                      
                                                       'status' => $data['status'], 
                                                       ]);
             
@@ -1270,7 +1273,8 @@ $subject = $data['subject'];
 			{
 				$c->update(['name' => ucwords($data['category']),                                                                                                          
                                                       'category' => $data['category'],                                                      
-                                                      'special' => $special,                                                      
+                                                      'special' => $special,
+                                                      'gpc' => $data['gpc'],                                                        
                                                       'status' => $data['status']
 				
 				]);
