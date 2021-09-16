@@ -1690,7 +1690,7 @@ function FCA(dt){
 function getFBToken(dt){
 		 //let uuu = "https://admin.aceluxurystore.com/facebook-catalog";
 		 let uuu = dt.redirect_uri;
-		 let uu = `https://graph.facebook.com/v8.0/oauth/access_token?client_id=${dt.cid}&client_secret=${dt.edf}&redirect_uri=${uuu}&code=${dt.code}`;
+		 let uu = `https://graph.facebook.com/v12.0/oauth/access_token?client_id=${dt.cid}&client_secret=${dt.edf}&redirect_uri=${uuu}&code=${dt.code}`;
 		 
 	
 	//create request
