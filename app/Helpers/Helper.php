@@ -1232,7 +1232,8 @@ $subject = $data['subject'];
 		   function getCategory($id)
            {
            	$ret = [];
-           	$c = Categories::where('id',$id)->first();
+           	$c = Categories::where('id',$id)
+                                    orWhere('category',$id)->first();
               // dd($cart);
 			  
               if($c != null)
