@@ -1715,7 +1715,14 @@ function getFBToken(dt){
 	   })
 	   .then(ret => {
 		   console.log("ret: ",ret);
-		   
+		   Swal.fire({
+			showCloseButton: true,
+             html: `
+               <ul>
+                  <li>ret: ${JSON.stringify(ret)}</li>
+               </ul>
+              `
+		});
 		   if(ret){
          
 		     if(ret.access_token){
