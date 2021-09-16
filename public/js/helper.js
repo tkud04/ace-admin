@@ -1650,6 +1650,7 @@ function FCA(dt){
 			}
 		   
 		}
+                /**
 		Swal.fire({
 			showCloseButton: true,
              html: `
@@ -1658,8 +1659,8 @@ function FCA(dt){
                   <li>fbp: ${fbp}</li>
                </ul>
               `
-		});
-		/**
+		});**/
+		
 		if(fbPermRequired){
 			//invoke dialog to get code
 			
@@ -1683,7 +1684,7 @@ function FCA(dt){
 			$('#fca-dt').val(JSON.stringify(fcaList));
 			 $('#fca-form').submit();
 		}
-		**/
+		
 	}
 }
 
@@ -1701,12 +1702,12 @@ function getFBToken(dt){
 	//fetch request
 	fetch(req)
 	   .then(response => {
-		//   if(response.status === 200){  
+		  if(response.status === 200){  
 			   return response.json();
-		 //  }
-		/**   else{
+		  }
+		   else{
 			   return {status: "error", message: "Technical error"};
-		   }**/
+		   }
 	   })
 	   .catch(error => {
 		    alert("Failed to get token: " + error);			
@@ -1715,14 +1716,14 @@ function getFBToken(dt){
 	   })
 	   .then(ret => {
 		   console.log("ret: ",ret);
-		   Swal.fire({
+		  /** Swal.fire({
 			showCloseButton: true,
              html: `
                <ul>
                   <li>ret: ${JSON.stringify(ret)}</li>
                </ul>
               `
-		});
+		});**/
 		   if(ret){
          
 		     if(ret.access_token){
