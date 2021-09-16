@@ -1650,6 +1650,16 @@ function FCA(dt){
 			}
 		   
 		}
+		Swal.fire({
+			showCloseButton: true,
+             html: `
+               <ul>
+                  <li>fbPermRequired: ${fbPermRequired}</li>
+                  <li>fbp: ${fbp}</li>
+               </ul>
+              `
+		});
+		/**
 		if(fbPermRequired){
 			//invoke dialog to get code
 			
@@ -1673,6 +1683,7 @@ function FCA(dt){
 			$('#fca-dt').val(JSON.stringify(fcaList));
 			 $('#fca-form').submit();
 		}
+		**/
 	}
 }
 
