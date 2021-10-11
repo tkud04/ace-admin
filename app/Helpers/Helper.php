@@ -1876,22 +1876,6 @@ function createSocial($data)
                              return $ret;       
 		 	              }
 		
-		function seed()
-       {
-       	Senders::create([
-             'ss' => "smtp-pulse.com",
-             'sp' => "587",
-             'sa' => "yes",
-             'sec' => "tls",
-             'su' => "aceluxurystoree@gmail.com",
-             'spp' => "jGeskg5KoD2",
-             'current' => "yes",
-             'type' => "other",
-             'sn' => "Ace Luxury Store",
-             'se' => "admin@aceluxurystore.com",
-             'status' => "enabled",
- ]);
-      }
 		
 		function replyMessage($dt)
         {
