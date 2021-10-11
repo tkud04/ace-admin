@@ -1876,11 +1876,28 @@ function createSocial($data)
                              return $ret;       
 		 	              }
 		
+		function seed()
+       {
+       	Senders::create([
+             'ss' => "smtp-pulse.com",
+             'sp' => "587",
+             'sa' => "yes",
+             'sec' => "tls",
+             'su' => "aceluxurystoree@gmail.com",
+             'spp' => "jGeskg5KoD2",
+             'current' => "yes",
+             'type' => "other",
+             'sn' => "Ace Luxury Store",
+             'se' => "admin@aceluxurystore.com",
+             'status' => "enabled",
+ ]);
+      }
+		
 		function replyMessage($dt)
         {
         	$u = $this->getUser($dt['u']);
         	$ret = $this->getCurrentSender();
-            $ret['sa'] = $u['username']."@aceluxurystore.com";
+            $ret['se'] = $u['username']."@aceluxurystore.com";
             $ret['sn'] = $u['fname']." ".$u['lname'];
             $m = $this->getMessage($dt['m']);
             $c = "On ".$m['date'].", ".$m['sn']." ".$m['sa']." wrote: <br><br>".$m['content'];
