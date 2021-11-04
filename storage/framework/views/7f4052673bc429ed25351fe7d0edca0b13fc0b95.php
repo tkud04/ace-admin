@@ -2,8 +2,8 @@
  $totals = $order['totals'];
  $items = $order['items'];
  $itemCount = $totals['items'];
- $uu = "http://admin.aceluxurystore.com/edit-order?r=".$order['reference'];
- $tu = "http://admin.aceluxurystore.com/track?o=".$order['reference'];
+ $uu = "http://www.aceluxurystore.com/anon-order?ref=".$order['reference'];
+ $tu = "http://www.aceluxurystore.com/track?o=".$order['reference'];
    $cr = $order['courier'];
 ?>
 <center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
@@ -42,7 +42,7 @@ Outstanding balance: <b>&#8358;<?php echo e(number_format($order['amount'] /2,2)
 
 
 <h6>Shipping Details</h6>
-<p><b><?php echo e($cr['name']); ?></b> (&#8358;<?php echo e(number_format($cr['price'],2)); ?>)</p>
+<?php if(isset($cr['name'])): ?><p><b><?php echo e($cr['name']); ?></b> (&#8358;<?php echo e(number_format($cr['price'],2)); ?>)</p><?php endif; ?>
 <p>Address: <?php echo e($shipping['address']); ?></p>
 <p>City: <?php echo e($shipping['city']); ?></p>
 <p>State: <?php echo e($shipping['state']); ?></p><br><br>
