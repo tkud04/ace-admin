@@ -12,7 +12,7 @@
                     <div class="content">
                        <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper" role="grid">
 					     
-                        <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable">
+                        <table cellpadding="0" cellspacing="0" width="100%" class="table table-bordered table-striped sortable ace-table">
                             <thead>
                                 <tr>
                                     <th width="30%">Product</th>
