@@ -49,7 +49,7 @@ getFBToken({
     <script src="lib/datatables/js/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="lib/datatables/js/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="lib/datatables/js/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-    <script src="lib/datatables/js/datatables-init.js"></script>
+    <script src="lib/datatables/js/datatables-init.js?ver={{rand(99,9999)}}"></script>
 @stop
 
 @section('content')
