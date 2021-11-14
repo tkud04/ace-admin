@@ -17,10 +17,24 @@
  <?php
  $cid = env('FACEBOOK_APP_ID');
  $sec = env('FACEBOOK_APP_SECRET');
- $uu = url("facebook-catalog");
- //$uu = "https://admin.aceluxurystore.com/facebook-catalog";
+ //$uu = url("facebook-catalog");
+ $uu = "https://admin.aceluxurystore.com/facebook-catalog";
+ if($code == ""){
  ?>
-  window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=<?php echo e($cid); ?>&redirect_uri=<?php echo e($uu); ?>&state={{$ss}&scope=catalog_management`;
+  window.location = `https://www.facebook.com/v11.0/dialog/oauth?client_id=<?php echo e($cid); ?>&redirect_uri=<?php echo e($uu); ?>&state={{$ss}&scope=catalog_management`;
+  <?php
+ }
+ else{
+?> 	
+getFBToken({
+   redirect_uri: "<?php echo e($uu); ?>",
+   cid: "<?php echo e($cid); ?>",
+   edf: "<?php echo e($sec); ?>",
+   code: "<?php echo e($code); ?>"
+});
+ <?php
+ }
+ ?>
  });
  </script>
 
@@ -153,4 +167,5 @@
                </div>				
            </div>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/fbcatalog.blade.php ENDPATH**/ ?>
