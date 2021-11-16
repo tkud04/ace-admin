@@ -9,24 +9,43 @@
 
 
 <?php $__env->startSection('scripts'); ?>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : "<?php echo e(env('FACEBOOK_APP_ID')); ?>",
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v12.0'
+    });
+  };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
  <script>
+ let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/bup";
  $(document).ready(() =>{
  $('.bup-hide').hide();
  
  <?php
  $cid = env('FACEBOOK_APP_ID');
  $sec = env('FACEBOOK_APP_SECRET');
+ $fbp = "true";
  
  if($code != ""){
+	 $fbp = "false";
  ?>
-  getFBToken({code: '<?php echo e($code); ?>',cid: '<?php echo e($cid); ?>',edf: '<?php echo e($sec); ?>'});
+  getFBToken({code: '<?php echo e($code); ?>',cid: '<?php echo e($cid); ?>',edf: '<?php echo e($sec); ?>',redirect_uri: uu});
  <?php
  }
  ?>
  
  //get fb permission
-		let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/bup";
-		let fbPermRequired = true;
+		FB.login(function(response) {
+             // handle the response
+			 console.log("response: ", response);
+            }, {scope: 'catalog_management'});
+		
+			/**
+		let fbPermRequired = <?php echo e($fbp); ?>;
 		if(fbp){
 			let ace_fbp = JSON.parse(fbp);
 			if(ace_fbp){
@@ -41,6 +60,7 @@
 		if(fbPermRequired){
 			//invoke dialog to get code
 			
+		
 			Swal.fire({
              title: `Your permission is required`,
              imageUrl: "img/facebook.png",
@@ -52,11 +72,13 @@
              "<h4 class='text-warning'>Facebook <b>requires your permission</b> to make any changes to your Catalog.</h4><p class='text-primary'>Click OK below to redirect to Facebook to grant this app access.</p>"
            }).then((result) => {
                if (result.value) {
-                 let cid = dt.cid;
-			     window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${dt.ss}&scope=catalog_management`;
+                 let cid = "<?php echo e($cid); ?>", ss = "ksslal3wew";
+			     window.location = `https://www.facebook.com/v10.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
                 }
               });
+		  
 		}
+		**/
  });
  </script>
 
@@ -167,4 +189,5 @@
                </div>				
            </div>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\bkupp\lokl\repo\ace-admin\resources\views/bup.blade.php ENDPATH**/ ?>

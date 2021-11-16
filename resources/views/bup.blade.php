@@ -11,6 +11,17 @@
 
 
 @section('scripts')
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : "{{env('FACEBOOK_APP_ID')}}",
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v12.0'
+    });
+  };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
  <script>
  let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/bup";
  $(document).ready(() =>{
@@ -30,7 +41,12 @@
  ?>
  
  //get fb permission
+		FB.login(function(response) {
+             // handle the response
+			 console.log("response: ", response);
+            }, {scope: 'catalog_management'});
 		
+			/**
 		let fbPermRequired = {{$fbp}};
 		if(fbp){
 			let ace_fbp = JSON.parse(fbp);
@@ -46,6 +62,7 @@
 		if(fbPermRequired){
 			//invoke dialog to get code
 			
+		
 			Swal.fire({
              title: `Your permission is required`,
              imageUrl: "img/facebook.png",
@@ -58,11 +75,12 @@
            }).then((result) => {
                if (result.value) {
                  let cid = "{{$cid}}", ss = "ksslal3wew";
-			     window.location = `https://www.facebook.com/v8.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
+			     window.location = `https://www.facebook.com/v10.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
                 }
               });
 		  
 		}
+		**/
  });
  </script>
 
