@@ -493,7 +493,7 @@ function BUP(){
 		        $('#bup-ftk').val(ace_fbp.access_token);
 			}
 		}
-		$('#bup-form').submit();   
+		$('#bup-form').submit();
 	   }
   }
 }
