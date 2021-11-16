@@ -29,6 +29,7 @@
  $('.bup-hide').hide();
  
   //get fb permission
+   console.log("calling fb login.. ");
 		FB.login(function(response) {
              // handle the response
 			 console.log("response: ", response);
