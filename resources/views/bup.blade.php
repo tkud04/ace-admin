@@ -27,13 +27,7 @@
  let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/bup";
  $(document).ready(() =>{
  $('.bup-hide').hide();
- 
-  //get fb permission
-   console.log("calling fb login.. ",FB);
-		FB.login(function(response) {
-             // handle the response
-			 console.log("response: ", response);
-            }, {scope: 'catalog_management'});
+
  
  <?php
  $cid = env('FACEBOOK_APP_ID');
@@ -48,7 +42,7 @@
  }
  ?>
 		
-			/**
+		
 		let fbPermRequired = {{$fbp}};
 		if(fbp){
 			let ace_fbp = JSON.parse(fbp);
@@ -77,7 +71,14 @@
            }).then((result) => {
                if (result.value) {
                  let cid = "{{$cid}}", ss = "ksslal3wew";
-			     window.location = `https://www.facebook.com/v10.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
+				  
+                 //get fb permission
+                 console.log("calling fb login.. ",FB);
+		         FB.login(function(response) {
+                   // handle the response
+			       console.log("response: ", response);
+                 }, {scope: 'catalog_management'});
+			     //window.location = `https://www.facebook.com/v10.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
                 }
               });
 		  
