@@ -2152,6 +2152,7 @@ $subject = $data['subject'];
 		        'data' => $dtt
 		       ];
 		       
+			   /**
 			   $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
 			   #dd($rt);
@@ -2164,6 +2165,7 @@ $subject = $data['subject'];
 					 if($pp != null) $pp->update(['in_catalog' => "yes"]);
 				   }
 			   }
+			   **/
 			  return "ok";
 		  }		  
 		  
