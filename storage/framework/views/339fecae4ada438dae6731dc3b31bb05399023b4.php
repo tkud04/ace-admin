@@ -37,12 +37,14 @@
  <?php
  }
  ?>
- 
- //get fb permission
+ $(document).ready(() => {
+	 //get fb permission
 		FB.login(function(response) {
              // handle the response
 			 console.log("response: ", response);
             }, {scope: 'catalog_management'});
+ });
+ 
 		
 			/**
 		let fbPermRequired = <?php echo e($fbp); ?>;

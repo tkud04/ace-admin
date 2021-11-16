@@ -11,6 +11,8 @@
 
 
 @section('scripts')
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
 <script>
   window.fbAsyncInit = function() {
     FB.init({
@@ -21,7 +23,6 @@
     });
   };
 </script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
  <script>
  let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/bup";
  $(document).ready(() =>{
