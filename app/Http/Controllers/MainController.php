@@ -3334,7 +3334,7 @@ EOD;
 		  # dd($req); 
         $validator = Validator::make($req, [
                              'dt' => 'required',
-                             'ftk' => 'required',
+                             //'ftk' => 'required',
          ]);
          
          if($validator->fails())
