@@ -486,6 +486,13 @@ function BUP(){
 	   else{
 		 console.log("ret: ",ret);
 		$('#bup-dt').val(JSON.stringify(ret));
+		let  fbp = localStorage.getItem('ace_fbp');
+		if(fbp){
+			let ace_fbp = JSON.parse(fbp);
+			if(ace_fbp){
+		        $('#bup-ftk').val(ace_fbp.access_token);
+			}
+		}
 		$('#bup-form').submit();   
 	   }
   }

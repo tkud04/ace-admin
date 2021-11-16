@@ -76,7 +76,16 @@
                  console.log("calling fb login.. ",FB);
 		         FB.login(function(response) {
                    // handle the response
-			       console.log("response: ", response);
+			      if (response.authResponse) {
+                   let ret = response.authResponse, ace_fbp = {
+					  access_token: ret.access_token,
+					  created_at: (new Date()).toDateString()
+				  };
+				  
+				  localStorage.setItem("ace_fbp",JSON.stringify(ace_fbp));
+                  } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                  }
                  }, {scope: 'catalog_management'});
 			     //window.location = `https://www.facebook.com/v10.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
                 }
