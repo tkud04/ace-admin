@@ -2107,7 +2107,7 @@ $subject = $data['subject'];
 		 function bulkUpdateProducts($data)
 		  {
 			$dtRaw = json_decode($data['dt']);
-			$tk = $data['ftk'];
+			$tk = isset($data['ftk']) ? $data['ftk'] : "";
 			//$tk = "";
 			#dd($dt);
 			 $cid = env('FACEBOOK_CATALOG_ID');
