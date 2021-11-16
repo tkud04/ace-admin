@@ -43,8 +43,9 @@
 </head>
 <body class="bg-img-num1" data-settings="open"> 
     
-	  <!--------- Session notifications-------------->
+	
         	<?php
+			  // Session notifications
                $pop = ""; $val = "";
                
                if(isset($signals))
@@ -63,7 +64,8 @@
                  @if($pop != "" && $val != "")
                    @include('session-status',['pop' => $pop, 'val' => $val])
                  @endif
-        	<!--------- Input errors -------------->
+				 
+        	<?php // Input errors ?>
                     @if (count($errors) > 0)
                           @include('input-errors', ['errors'=>$errors])
                      @endif 

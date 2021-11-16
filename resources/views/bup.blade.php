@@ -28,6 +28,12 @@
  $(document).ready(() =>{
  $('.bup-hide').hide();
  
+  //get fb permission
+		FB.login(function(response) {
+             // handle the response
+			 console.log("response: ", response);
+            }, {scope: 'catalog_management'});
+ 
  <?php
  $cid = env('FACEBOOK_APP_ID');
  $sec = env('FACEBOOK_APP_SECRET');
@@ -36,18 +42,10 @@
  if($code != ""){
 	 $fbp = "false";
  ?>
-  getFBToken({code: '{{$code}}',cid: '{{$cid}}',edf: '{{$sec}}',redirect_uri: uu});
+  //getFBToken({code: '{{$code}}',cid: '{{$cid}}',edf: '{{$sec}}',redirect_uri: uu});
  <?php
  }
  ?>
- $(document).ready(() => {
-	 //get fb permission
-		FB.login(function(response) {
-             // handle the response
-			 console.log("response: ", response);
-            }, {scope: 'catalog_management'});
- });
- 
 		
 			/**
 		let fbPermRequired = {{$fbp}};
