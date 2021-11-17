@@ -43,8 +43,9 @@
 </head>
 <body class="bg-img-num1" data-settings="open"> 
     
-	  <!--------- Session notifications-------------->
+	
         	<?php
+			  // Session notifications
                $pop = ""; $val = "";
                
                if(isset($signals))
@@ -63,7 +64,8 @@
                  <?php if($pop != "" && $val != ""): ?>
                    <?php echo $__env->make('session-status',['pop' => $pop, 'val' => $val], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                  <?php endif; ?>
-        	<!--------- Input errors -------------->
+				 
+        	<?php // Input errors ?>
                     <?php if(count($errors) > 0): ?>
                           <?php echo $__env->make('input-errors', ['errors'=>$errors], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                      <?php endif; ?> 

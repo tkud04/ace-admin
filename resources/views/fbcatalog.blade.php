@@ -11,8 +11,20 @@
 
 
 @section('scripts')
+<script crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : "{{env('FACEBOOK_APP_ID')}}",
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v12.0'
+    });
+  };
+</script>
+
  <script>
-  let fcaList = [];
+  let fcaList = [], fbp = localStorage.getItem('ace_fbp');
  $(document).ready(() =>{
  $('.fca-hide').hide();
  
@@ -21,22 +33,58 @@
  $sec = env('FACEBOOK_APP_SECRET');
  //$uu = url("facebook-catalog");
  $uu = "https://admin.aceluxurystore.com/facebook-catalog";
- if($code == ""){
+  $fbp = "true";
  ?>
-  window.location = `https://www.facebook.com/v11.0/dialog/oauth?client_id={{$cid}}&redirect_uri={{$uu}}&state={{$ss}&scope=catalog_management`;
-  <?php
- }
- else{
-?> 	
-getFBToken({
-   redirect_uri: "{{$uu}}",
-   cid: "{{$cid}}",
-   edf: "{{$sec}}",
-   code: "{{$code}}"
-});
- <?php
- }
- ?>
+ let fbPermRequired = {{$fbp}};
+		if(fbp){
+			let ace_fbp = JSON.parse(fbp);
+			if(ace_fbp){
+		        $('#bup-ftk').val(ace_fbp.access_token);
+				fbPermRequired = false;
+			}
+			else{
+				console.log("Invalid token");
+			}
+		   
+		}
+		if(fbPermRequired){
+			//invoke dialog to get code
+			
+		
+			Swal.fire({
+             title: `Your permission is required`,
+             imageUrl: "img/facebook.png",
+             imageWidth: 64,
+             imageHeight: 64,
+             imageAlt: `Grant the app catalog permissions`,
+             showCloseButton: true,
+             html:
+             "<h4 class='text-warning'>Facebook <b>requires your permission</b> to make any changes to your Catalog.</h4><p class='text-primary'>Click OK below to redirect to Facebook to grant this app access.</p>"
+           }).then((result) => {
+               if (result.value) {
+                 let cid = "{{$cid}}", ss = "ksslal3wew";
+				  
+                 //get fb permission
+                 console.log("calling fb login.. ",FB);
+		         FB.login(function(response) {
+                   // handle the response
+			      if (response.authResponse) {
+                   let ret = response.authResponse, ace_fbp = {
+					  access_token: ret.access_token,
+					  created_at: (new Date()).toDateString()
+				  };
+				  
+				  localStorage.setItem("ace_fbp",JSON.stringify(ace_fbp));
+                  } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                  }
+                 }, {scope: 'catalog_management'});
+			     //window.location = `https://www.facebook.com/v10.0/dialog/oauth?client_id=${cid}&redirect_uri=${uu}&state=${ss}&scope=catalog_management`;
+                }
+              });
+		  
+		}
+ 
  });
  </script>
 
@@ -85,7 +133,7 @@ getFBToken({
 							   #$products = [];
 							   foreach($products as $p)
 							   {
-								 if($p['status'] == "enabled" && $p['qty'] > 0)
+								 if($p['status'] == "enabled")
 								 {
 								   $sku = $p['sku'];
 								   $name = $p['name'];

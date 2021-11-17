@@ -3672,7 +3672,7 @@ EOD;
 		}
 		$req = $request->all();
 		$products = $this->helpers->getProducts();
-		$products = collect($products);
+		//$products = collect($products);
 		$c = $this->helpers->getCategories();
 		$catalogs = $this->helpers->getCatalogs();
 		$catalogs = collect($catalogs);
@@ -3680,7 +3680,7 @@ EOD;
 		$signals = $this->helpers->signals;
 		$code = "";
 		$ss2 = "";
-		
+		#dd($products);
 		if(isset($req['code']) && isset($req['state']))
 		{
 			$code = $req['code'];
