@@ -27,6 +27,9 @@ class MainController extends Controller {
 	public function getIndex()
     {
        $user = null;
+	   
+	   //remove all carts with no user id
+		$this->helpers->clearGhostCarts();
 
 		if(Auth::check())
 		{

@@ -3243,6 +3243,12 @@ function getRandomString($length_of_string)
 			    return $ret;
 		   }
 		   
+   function clearGhostCarts()
+   {
+      Carts::where('user_id',"")->delete();
+   }
+   
+		   
            
 }
 ?>
