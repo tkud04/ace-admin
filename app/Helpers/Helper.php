@@ -1504,7 +1504,9 @@ $subject = $data['subject'];
 			    //total profits
 				$ret['total'] = Orders::where('id','>',"0")->where('status',"paid")->sum('amount');
 				$ret['today'] = Orders::whereDate('created_at',date("Y-m-d"))->where('status',"paid")->sum('amount');
-				$ret['month'] = Orders::whereMonth('created_at',date("m"))->where('status',"paid")->sum('amount');
+				$ret['month'] = Orders::whereMonth('created_at',date("m"))
+				                ->whereYear('created_at',date("Y"))
+				                ->where('status',"paid")->sum('amount');
 				
 				return $ret;
 		   }
