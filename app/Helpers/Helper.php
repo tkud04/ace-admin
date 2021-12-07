@@ -1496,6 +1496,24 @@ $subject = $data['subject'];
 			
               return $ret;
            }
+
+		   function getOrderStats()
+           {
+			   $ret = [];
+			   
+			  //total products
+			  $ret['unpaid'] = Orders::whereIn('status',["unpaid","pod"])->count();
+			  $ret['paid'] = Orders::where('status',"paid")->count();
+			  $ru = 0;
+			  foreach(Orders::where(['status' => "paid"])->cursor() as $o)
+			  {
+				  if($this->getCurrentTracking($o->reference) == null) ++$ru;
+			  }
+			  $ret['untracked'] = 0;
+			  
+			
+              return $ret;
+           }
 		   
 		   function getProfits()
 		   {

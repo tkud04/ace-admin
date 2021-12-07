@@ -223,8 +223,7 @@
                         <div class="head-panel nm">
 						<br>
 						  <?php
-						  $unpaidOrders = $ordersCollection->whereIn('status',["unpaid","pod"]);
-						   $uocount = count($unpaidOrders);
+						  $uocount = $ordersStats['unpaid'];
 						   
 						  if($uocount < 1)
 						   {
@@ -381,8 +380,8 @@
                         <div class="head-panel nm">
 						<br>
 						  <?php
-						  $paidOrders = $ordersCollection->where('status',"paid");
-						   $pocount = count($paidOrders);
+						  $pocount = $ordersStats['paid'];
+						  $uto = $ordersStats['untracked'];
 						   
 						  if($pocount < 1)
 						   {
@@ -401,8 +400,7 @@
 						  ?>
 							<h4>{{$pocount}} paid {{$ot}} on your website.</h4>
 							<?php
-							 $untrackedOrders = $paidOrders->where('current_tracking',null);
-						  $uto = count($untrackedOrders);
+							// $untrackedOrders = $paidOrders->where('current_tracking',null);
 						  
 						  if($uto > 0)
 						  {

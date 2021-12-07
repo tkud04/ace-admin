@@ -50,8 +50,7 @@ class MainController extends Controller {
 		$accounts = [];
 		$stats = $this->helpers->getDashboardStats();
 		$profits = $this->helpers->getProfits();
-		$orders = $this->helpers->getOrders();
-		$ordersCollection = collect($orders);
+		$ordersStats = $this->helpers->getOrderStats();
 		$ccarts = $this->helpers->getCarts();
         #dd($ordersCollection);
 		 $catalogs = $this->helpers->getCatalogs();
@@ -64,7 +63,7 @@ class MainController extends Controller {
 		//Analytics
 		$mostVisitedPages = $this->helpers->getAnalytics(['type' => "most-visited-pages",'period' => "days",'num' => 7]);
 		
-    	return view('index',compact(['user','stats','profits','orders','ordersCollection','products','catalogs','couriers','lowStockProducts','mostVisitedPages','ccarts','signals']));
+    	return view('index',compact(['user','stats','profits','ordersStats','products','catalogs','couriers','lowStockProducts','mostVisitedPages','ccarts','signals']));
     }
     
     /**
