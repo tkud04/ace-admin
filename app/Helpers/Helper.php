@@ -2920,6 +2920,7 @@ function getRandomString($length_of_string)
 		        $iss = ['in_stock' => "in stock",'out_of_stock' => "out of stock",'new' => "available for order"];
 		        $pd = $product['pd'];
 			    $description = $pd['description'];
+			    $pname = (isset($product['name']) && strlen($product['name']) > 3) ? $product['name'] : $pd['description'];
 			    $category = $this->getCategory($pd['category']);
 			    $in_stock = $pd['in_stock'];
 			    $amount = $pd['amount'] * 100;
@@ -2937,7 +2938,7 @@ function getRandomString($length_of_string)
 			                'description' => $description,
 			                'image_url' => $imggs[0],
 			                'price' => $amount,
-			                'name' => $product['name'],
+			                'name' => $pname,
 			                'currency' => "NGN",
 			                'condition' => "new",
 			                'url' => $pu."?sku=".$product['sku'] 

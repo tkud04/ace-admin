@@ -24,7 +24,7 @@
 </script>
 
  <script>
-  let fcaList = [], fbp = localStorage.getItem('ace_fbp');
+  let fcaList = [], fbp = localStorage.getItem('ace_fbp'), oldfbp = JSON.parse(fbp);
  $(document).ready(() =>{
  $('.fca-hide').hide();
  
@@ -37,7 +37,10 @@
  ?>
 
  // clear previous tks
- localStorage.clear();
+ if(fbp && fbp.created_at){
+	 localStorage.clear();
+	 fbp = null;
+ } 
  
  let fbPermRequired = {{$fbp}};
 		if(fbp){
