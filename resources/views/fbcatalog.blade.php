@@ -75,6 +75,7 @@
 				  };
 				  
 				  localStorage.setItem("ace_fbp",JSON.stringify(ace_fbp));
+				   console.log('fbp saved.');
                   } else {
                     console.log('User cancelled login or did not fully authorize.');
                   }
