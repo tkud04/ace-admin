@@ -35,6 +35,10 @@
  $uu = "https://admin.aceluxurystore.com/facebook-catalog";
   $fbp = "true";
  ?>
+
+ // clear previous tks
+ localStorage.clear();
+ 
  let fbPermRequired = {{$fbp}};
 		if(fbp){
 			if(fbp){
