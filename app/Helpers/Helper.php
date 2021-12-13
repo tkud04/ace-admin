@@ -3046,7 +3046,7 @@ function getRandomString($length_of_string)
 			     $res = $client->request('POST', $url, $guzzleData);
 			  
                  $ret = $res->getBody()->getContents(); 
-			     dd($ret);
+			     #dd($ret);
 			    
 				 /**
 				  $rett = json_decode($ret);
