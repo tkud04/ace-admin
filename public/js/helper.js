@@ -488,10 +488,7 @@ function BUP(){
 		$('#bup-dt').val(JSON.stringify(ret));
 		let  fbp = localStorage.getItem('ace_fbp');
 		if(fbp){
-			let ace_fbp = JSON.parse(fbp);
-			if(ace_fbp){
-		        $('#bup-ftk').val(ace_fbp.access_token);
-			}
+			$('#bup-ftk').val(ace_fbp.accessToken);
 		}
 		$('#bup-form').submit();
 	   }
@@ -1647,15 +1644,11 @@ function FCA(dt){
 		let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/facebook-catalog";
 		let fbPermRequired = true;
 		if(fbp){
-			let ace_fbp = JSON.parse(fbp);
-			if(ace_fbp){
-		        $('#fca-ftk').val(ace_fbp.access_token);
-				fbPermRequired = false;
-			}
-			else{
-				console.log("Invalid token");
-			}
-		   
+			 $('#fca-ftk').val(fbp);
+			 fbPermRequired = false;
+		}
+		else{
+			 console.log("Invalid token");
 		}
                 /**
 		Swal.fire({
@@ -1733,12 +1726,8 @@ function getFBToken(dt){
 		});**/
 		   if(ret){
          
-		     if(ret.access_token){
-                  let ace_fbp = {
-					  access_token: ret.access_token,
-					  created_at: (new Date()).toDateString()
-				  };
-				  
+		     if(ret.accessToken){
+                  let ace_fbp = ret.accessToken;
 				  localStorage.setItem("ace_fbp",JSON.stringify(ace_fbp));
 		     }
 		   }

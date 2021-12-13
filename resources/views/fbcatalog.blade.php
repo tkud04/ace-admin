@@ -37,9 +37,8 @@
  ?>
  let fbPermRequired = {{$fbp}};
 		if(fbp){
-			let ace_fbp = JSON.parse(fbp);
-			if(ace_fbp){
-		        $('#bup-ftk').val(ace_fbp.access_token);
+			if(fbp){
+		        $('#bup-ftk').val(fbp);
 				fbPermRequired = false;
 			}
 			else{
@@ -71,12 +70,9 @@
 			      if (response.authResponse) {
                    let ret = response.authResponse;
 				   console.log('ret: ',ret);
-				   let ace_fbp = {
-					  access_token: ret.access_token,
-					  created_at: (new Date()).toDateString()
-				  };
+				   let ace_fbp = ret.accessToken;
 				  
-				  localStorage.setItem("ace_fbp",JSON.stringify(ace_fbp));
+				  localStorage.setItem("ace_fbp",ace_fbp);
 				   console.log('fbp saved.');
                   } else {
                     console.log('User cancelled login or did not fully authorize.');
