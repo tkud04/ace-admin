@@ -3734,7 +3734,7 @@ EOD;
          if($validator->fails())
          {
             $messages = $validator->messages();
-            return redirect()->withInput()->with("errors",$messages);
+            return redirect()->back()->withInput()->with("errors",$messages);
          }
          
          else
