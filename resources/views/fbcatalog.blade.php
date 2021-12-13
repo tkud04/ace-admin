@@ -69,7 +69,9 @@
 		         FB.login(function(response) {
                    // handle the response
 			      if (response.authResponse) {
-                   let ret = response.authResponse, ace_fbp = {
+                   let ret = response.authResponse;
+				   console.log('ret: ',ret);
+				   let ace_fbp = {
 					  access_token: ret.access_token,
 					  created_at: (new Date()).toDateString()
 				  };
