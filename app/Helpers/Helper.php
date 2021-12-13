@@ -2956,7 +2956,7 @@ function getRandomString($length_of_string)
 		        'type' => "json",
 		        'data' => $dt
 		       ];
-			   dd($data);
+			  # dd($data);
 		       $ret = $this->callAPI($url,"POST",$data);
 			   $rt = json_decode($ret);
 			   #dd($rt);
