@@ -237,11 +237,11 @@ class Helper implements HelperContract
  
   
   
-  //public $adminEmail = "tkudayisi@aceluxurystore.com";
-  //public $suEmail = "aquarius4tkud@yahoo.com";
+  public $adminEmail = "tkudayisi@aceluxurystore.com";
+  public $suEmail = "aquarius4tkud@yahoo.com";
   
-  public $adminEmail = "support@aceluxurystore.com";
-  public $suEmail = "aceluxurystore@yahoo.com";
+  //public $adminEmail = "support@aceluxurystore.com";
+  //public $suEmail = "aceluxurystore@yahoo.com";
   
   public $googleProductCategories = [
 				              'bracelets' => "191",
