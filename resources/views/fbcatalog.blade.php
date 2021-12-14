@@ -24,7 +24,8 @@
 </script>
 
  <script>
-  let fcaList = [], fbp = localStorage.getItem('ace_fbp'), oldfbp = false;
+ localStorage.clear();
+  let fcaList = [], fbp = localStorage.getItem('ace_fbp');
  $(document).ready(() =>{
  $('.fca-hide').hide();
  
@@ -35,20 +36,6 @@
  $uu = "https://admin.aceluxurystore.com/facebook-catalog";
   $fbp = "true";
  ?>
-
- try{
-	let t = JSON.parse(fbp);
-	oldfbp = true;
- }
- catch(e){
-	 console.log("Erorr from json parse: ",e);
- }
-
- // clear previous tks
- if(oldfbp){
-	 localStorage.clear();
-	 fbp = null;
- } 
  
  let fbPermRequired = {{$fbp}};
 		if(fbp){
