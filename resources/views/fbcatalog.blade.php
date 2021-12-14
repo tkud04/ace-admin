@@ -24,7 +24,7 @@
 </script>
 
  <script>
-  let fcaList = [], fbp = localStorage.getItem('ace_fbp'), oldfbp = JSON.parse(fbp);
+  let fcaList = [], fbp = localStorage.getItem('ace_fbp'), oldfbp = false;
  $(document).ready(() =>{
  $('.fca-hide').hide();
  
@@ -36,8 +36,16 @@
   $fbp = "true";
  ?>
 
+ try{
+	let t = JSON.parse(fbp);
+	oldfbp = true;
+ }
+ catch(e){
+	 console.log("Erorr from json parse: ",e);
+ }
+
  // clear previous tks
- if(fbp && fbp.created_at){
+ if(oldfbp){
 	 localStorage.clear();
 	 fbp = null;
  } 
