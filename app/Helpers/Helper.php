@@ -352,49 +352,80 @@ $subject = $data['subject'];
 		   
 		   function bomb($data) 
            {
-           	//form query string
-               $qs = "sn=".$data['sn']."&sa=".$data['sa']."&subject=".$data['subject'];
-
-               $lead = $data['em'];
-			   
-			   if($lead == null)
-			   {
-				    $ret = json_encode(["status" => "ok","message" => "Invalid recipient email"]);
-			   }
-			   else
-			    { 
-                  $qs .= "&receivers=".$lead."&ug=deal"; 
+             $url = $data['url'];
                
-                  $config = $this->emailConfig;
-                  $qs .= "&host=".$config['ss']."&port=".$config['sp']."&user=".$config['su']."&pass=".$config['spp'];
-                  $qs .= "&message=".$data['message'];
-               
-			      //Send request to nodemailer
-			      $url = "https://radiant-island-62350.herokuapp.com/?".$qs;
-			   
-			
-			     $client = new Client([
+			       $client = new Client([
                  // Base URI is used with relative requests
-                 'base_uri' => 'http://httpbin.org',
+                 'base_uri' => 'https://mail.aceluxurystore.com',
                  // You can set any number of default request options.
                  //'timeout'  => 2.0,
+				 'headers' => isset($data['headers']) && count($data['headers']) > 0 ? $data['headers'] : []
                  ]);
-			     $res = $client->request('GET', $url);
-			  
-                 $ret = $res->getBody()->getContents(); 
-			 
+                  
+				 
+				 $dt = [
+				    
+				 ];
+				 
+				 if(isset($data['auth']))
+				 {
+					 $dt['auth'] = $data['auth'];
+				 }
+				 if(isset($data['data']))
+				 {
+					if(isset($data['type']) && $data['type'] == "raw")
+					{
+					  $dt['body'] = $data['data'];
+					}
+					else
+					{
+					  $dt['multipart'] = [];
+					  foreach($data['data'] as $k => $v)
+				      {
+					    $temp = [
+					      'name' => $k,
+						  'contents' => $v
+					     ];
+						 
+					     array_push($dt['multipart'],$temp);
+				      }
+					  
+					   if(isset($data['atts']))
+					   {
+						   foreach($data['atts'] as $a)
+						   {
+							   $n = $a['name']; $r = $a['content']; 
+							   $temp = [
+					              'name' => 'attachment',
+								  'filename' => $n,
+						          'contents' => Psr7\Utils::tryFopen($r, 'r')
+					           ];
+						 
+					           array_push($dt['multipart'],$temp);
+						   }
+					   }
+					}
+				   
+				 }
+
+				 
+				 try
+				 {
+					# dd($dt);
+					$res = $client->request(strtoupper($data['method']),$url,$dt);
+					$ret = $res->getBody()->getContents(); 
+			       //dd($ret);
+
+				 }
+				 catch(RequestException $e)
+				 {
+					dd($e);
+					# $mm = (is_null($e->getResponse())) ? null: Psr7\str($e->getResponse());
+					 $mm = (is_null($e->getResponse())) ? null: $e->getResponse();
+					 $ret = json_encode(["status" => "error","message" => $mm]);
+				 }
 			     $rett = json_decode($ret);
-			     if($rett->status == "ok")
-			     {
-					//  $this->setNextLead();
-			    	//$lead->update(["status" =>"sent"]);					
-			     }
-			     else
-			     {
-			    	// $lead->update(["status" =>"pending"]);
-			     }
-			    }
-              return $ret; 
+           return $ret; 
            }
 		   
 		   function getUsers($all=false)
@@ -3268,6 +3299,27 @@ function getRandomString($length_of_string)
    function clearGhostCarts()
    {
       Carts::where('user_id',"")->delete();
+   }
+   
+   function webmailSend($dt)
+   {
+      $rr = [
+          'data' => [
+            'u' => "admin",
+            'tk' => "kt",
+            't' => $dt['t'],
+            's' => $dt['s'],
+            'c' => $dt['c']
+          ],
+          'headers' => [],
+          'url' => "https://mail.aceluxurystore.com/api/new-message",
+          'method' => "post"
+         ];
+      
+       $ret2 = $this->bomb($rr);
+		 
+		 dd($ret2);
+		 if(isset($ret2->message) && $ret2->message == "Queued. Thank you.") $ret = ['status' => "ok"];
    }
    
 		   
