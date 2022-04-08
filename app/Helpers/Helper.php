@@ -2942,7 +2942,7 @@ function getRandomString($length_of_string)
 			   #dd($products);
 			   $reqs = [];
 			   $cid = env('FACEBOOK_CATALOG_ID');
-		        $url = "https://graph.facebook.com/v11.0/".$cid."/batch";
+		        $url = "https://graph.facebook.com/v13.0/".$cid."/batch";
 				
 			   foreach($products as $p)
 			   {
@@ -3011,7 +3011,7 @@ function getRandomString($length_of_string)
 			   #dd($products);
 			   
 			    $cid = env('FACEBOOK_CATALOG_ID');
-		        $url = "https://graph.facebook.com/v11.0/".$cid."/batch";
+		        $url = "https://graph.facebook.com/v13.0/".$cid."/batch";
 				$reqs = [];
 				
 			   foreach($products as $p)
