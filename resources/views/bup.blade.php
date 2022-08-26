@@ -54,7 +54,7 @@
 		  console.log({response})
 		  fbp = response
 
-		  if(fbp){
+		  if(fbp.length > 0){
 			let ace_fbp = JSON.parse(fbp);
 			console.log({ace_fbp})
 			if(ace_fbp?.access_token){
