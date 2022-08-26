@@ -1,4 +1,3 @@
-const { Callbacks } = require("jquery");
 
 	let trackingOrders = [], trackingAction = "none", cpOrders = [], cpAction = "none", pqProducts = [], pqAction = "0";
 	let BUPlist = [], BUUPlist = [], BAOlist = [], BAODelivery = 0;
