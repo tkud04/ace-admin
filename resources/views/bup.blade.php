@@ -86,6 +86,7 @@
 				  };
 				  
 				  localStorage.setItem("ace_fbp",JSON.stringify(ace_fbp));
+				  saveFBToken(ace_fbp)
                   } else {
                     console.log('User cancelled login or did not fully authorize.');
                   }

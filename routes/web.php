@@ -138,3 +138,6 @@ Route::get('facebook-catalog-delete', 'MainController@getFacebookCatalogUpdate')
 Route::post('facebook-catalog-delete', 'MainController@postFacebookCatalogDelete');
 
 Route::get('apitest', 'MainController@getAPITest');
+
+Route::get('get-fb-token', 'MainController@getFbToken');
+Route::get('save-fb-token', 'MainController@saveFbToken');

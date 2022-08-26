@@ -1738,6 +1738,67 @@ function getFBToken(dt){
 	   });
 }
 
+function saveFBToken(dt){
+	let payload = JSON.stringify(dt)
+	let uu = `save-fb-token?dt=${payload}`
+    const req = new Request(uu,{method: 'GET'})
+
+//fetch request
+fetch(req)
+  .then(response => {
+	 if(response.status === 200){  
+		  return response.json();
+	 }
+	  else{
+		  return {status: "error", message: "Technical error"};
+	  }
+  })
+  .catch(error => {
+	   alert("Failed to save token: " + error)
+  })
+  .then(ret => {
+	  console.log("ret: ",ret)
+	 
+	  if(ret){
+			 localStorage.setItem("ace_fbp",payload)
+	  }
+	  
+	 
+  }).catch(error => {
+	   alert("Failed finally to save token: " + error);				
+  });
+}
+
+function getFBToken2(){
+	let uu = `get-fb-token`
+    const req = new Request(uu,{method: 'GET'})
+
+//fetch request
+fetch(req)
+  .then(response => {
+	 if(response.status === 200){  
+		  return response.json();
+	 }
+	  else{
+		  return {status: "error", message: "Technical error"};
+	  }
+  })
+  .catch(error => {
+	   alert("Failed to get fb token: " + error)
+  })
+  .then(ret => {
+	  console.log("ret: ",ret)
+	 
+	  if(ret){
+			 localStorage.setItem("ace_fbp",ret)
+	  }
+	  
+	 
+  }).catch(error => {
+	   alert("Failed finally to get fb token: " + error);				
+  });
+}
+
 function fetchReport(dt){
 		 
 	let error_handle = "reports";

@@ -4061,6 +4061,35 @@ EOD;
 			return redirect()->intended('couriers');
          } 	  
     }
+
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function getFbToken(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+       
+          $fbToken = $this->helpers->getSettings('fb-token');
+			return json_encode($fbToken);  
+    }
 	
 	
 
