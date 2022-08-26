@@ -4114,20 +4114,24 @@ EOD;
         }
         
         $req = $request->all();
-		#dd($req);
+		$response = [
+			'status' => 'error',
+			'message' => 'An unkown error occured'
+		];
 
 		if(isset($req['dt'])){
             $this->helpers->createSetting([
 				'k' => 'fb-token-'.$user->id,
 				'v' => $req['dt']
 			]);
-			return $fbToken; 
+
+			 $response = ['status' => 'ok']; 
 		}
 		else{
-          
+          $response['message'] = 'validation';
 		}
        
-          
+          return $response;
     }
 	
 	
