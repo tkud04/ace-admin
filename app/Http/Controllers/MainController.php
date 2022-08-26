@@ -4088,7 +4088,7 @@ EOD;
 		#dd($req);
        
           $fbToken = $this->helpers->getSetting('fb-token');
-			return json_encode($fbToken);  
+			return $fbToken;  
     }
 	
 	

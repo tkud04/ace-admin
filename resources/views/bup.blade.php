@@ -25,12 +25,10 @@
 
  <script>
     let fbp = {}
-	getFBToken2((response) => {
-		console.log({response})
-		fbp = response
-	})
+	
 
  let uu = "https://admin.aceluxurystore.com/bup";
+
  $(document).ready(() =>{
  $('.bup-hide').hide();
 
@@ -51,8 +49,12 @@
 		
 		
 		let fbPermRequired = {{$fbp}}
-		
-		if(fbp){
+        
+		getFBToken2((response) => {
+		  console.log({response})
+		  fbp = response
+
+		  if(fbp){
 			let ace_fbp = JSON.parse(fbp);
 			console.log({ace_fbp})
 			if(ace_fbp?.access_token){
@@ -104,6 +106,8 @@
               });
 		  
 		}
+
+	    })
  });
  </script>
 
