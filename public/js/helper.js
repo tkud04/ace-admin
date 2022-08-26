@@ -1789,7 +1789,7 @@ fetch(req)
   })
   .then(ret => {
 	  console.log("ret: ",ret)
-	  callback(ret)
+	  callback(ret.value)
 	  
 	 
   }).catch(error => {
