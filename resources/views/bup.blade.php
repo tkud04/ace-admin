@@ -54,8 +54,8 @@
 		  console.log({response})
 		  fbp = response
 
-		  if(fbp.length > 0){
-			let ace_fbp = JSON.parse(fbp[0]);
+		  if(fbp?.accessToken){
+			let ace_fbp = JSON.parse(fbp?.accessToken);
 			console.log({ace_fbp})
 			if(ace_fbp?.accessToken){
 		        $('#bup-ftk').val(ace_fbp.accessToken);
