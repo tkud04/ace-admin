@@ -24,7 +24,7 @@
 </script>
 
  <script>
- let  fbp = localStorage.getItem('ace_fbp'), uu = "https://admin.aceluxurystore.com/bup";
+ let  fbp = getFBToken2(), uu = "https://admin.aceluxurystore.com/bup";
  $(document).ready(() =>{
  $('.bup-hide').hide();
 
@@ -43,11 +43,12 @@
  ?>
 		
 		
-		let fbPermRequired = {{$fbp}};
+		let fbPermRequired = {{$fbp}}
+		
 		if(fbp){
 			let ace_fbp = JSON.parse(fbp);
 			console.log({ace_fbp})
-			if(ace_fbp){
+			if(ace_fbp?.access_token){
 		        $('#bup-ftk').val(ace_fbp.access_token);
 				fbPermRequired = false;
 			}

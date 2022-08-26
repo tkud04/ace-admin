@@ -1788,10 +1788,7 @@ fetch(req)
   })
   .then(ret => {
 	  console.log("ret: ",ret)
-	 
-	  if(ret){
-			 localStorage.setItem("ace_fbp",ret)
-	  }
+	  return ret
 	  
 	 
   }).catch(error => {
