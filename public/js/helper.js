@@ -1760,7 +1760,7 @@ fetch(req)
   .then(ret => {
 	  console.log("ret: ",ret)
 	 
-	  if(ret){
+	  if(ret?.status == 'ok'){
 			 localStorage.setItem("ace_fbp",payload)
 	  }
 	  

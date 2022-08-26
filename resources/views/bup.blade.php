@@ -55,10 +55,10 @@
 		  fbp = response
 
 		  if(fbp.length > 0){
-			let ace_fbp = JSON.parse(fbp);
+			let ace_fbp = JSON.parse(fbp[0]);
 			console.log({ace_fbp})
-			if(ace_fbp?.access_token){
-		        $('#bup-ftk').val(ace_fbp.access_token);
+			if(ace_fbp?.accessToken){
+		        $('#bup-ftk').val(ace_fbp.accessToken);
 				fbPermRequired = false;
 			}
 			else{
@@ -89,13 +89,13 @@
                    // handle the response
 			      if (response.authResponse) {
 					console.log('auth response: ',response.authResponse)
-                   let ret = response.authResponse, ace_fbp = {
-					  access_token: ret.access_token,
-					  test: true,
-					  created_at: (new Date()).toDateString()
+                   let ret = response.authResponse
+				  let ace_fbp = {
+					  accessToken: ret.accessToken,
+					  created_at: (new Date()).toDateString(),
+					  expiresIn: ret.expiresIn
 				  };
 				  
-				  localStorage.setItem("ace_fbp",JSON.stringify(ace_fbp));
 				  saveFBToken(ace_fbp)
                   } else {
                     console.log('User cancelled login or did not fully authorize.');

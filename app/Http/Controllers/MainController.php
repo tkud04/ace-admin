@@ -4087,8 +4087,47 @@ EOD;
         $req = $request->all();
 		#dd($req);
        
-          $fbToken = $this->helpers->getSetting('fb-token');
+          $fbToken = $this->helpers->getSetting('fb-token-'.$user->id);
 			return $fbToken;  
+    }
+	
+
+	/**
+	 * Show the application welcome screen to the user.
+	 *
+	 * @return Response
+	 */
+    public function saveFbToken(Request $request)
+    {
+    	if(Auth::check())
+		{
+			$user = Auth::user();
+			if(!$this->helpers->isAdmin($user))
+			{
+				Auth::logout();
+				 return redirect()->intended('/');
+			} 
+		}
+		else
+        {
+        	return redirect()->intended('login');
+        }
+        
+        $req = $request->all();
+		#dd($req);
+
+		if(isset($req['dt'])){
+            $this->helpers->createSetting([
+				'k' => 'fb-token-'.$user->id,
+				'v' => $req['dt']
+			]);
+			return $fbToken; 
+		}
+		else{
+          
+		}
+       
+          
     }
 	
 	
