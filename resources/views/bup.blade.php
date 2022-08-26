@@ -46,6 +46,7 @@
 		let fbPermRequired = {{$fbp}};
 		if(fbp){
 			let ace_fbp = JSON.parse(fbp);
+			console.log({ace_fbp})
 			if(ace_fbp){
 		        $('#bup-ftk').val(ace_fbp.access_token);
 				fbPermRequired = false;
@@ -77,8 +78,10 @@
 		         FB.login(function(response) {
                    // handle the response
 			      if (response.authResponse) {
+					console.log('auth response: ',response.authResponse)
                    let ret = response.authResponse, ace_fbp = {
 					  access_token: ret.access_token,
+					  test: true,
 					  created_at: (new Date()).toDateString()
 				  };
 				  
