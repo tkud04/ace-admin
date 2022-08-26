@@ -4088,7 +4088,7 @@ EOD;
 		#dd($req);
        
           $fbToken = $this->helpers->getSetting('fb-token-'.$user->id);
-			return $fbToken;  
+			return [$fbToken];  
     }
 	
 
