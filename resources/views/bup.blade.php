@@ -24,10 +24,16 @@
 </script>
 
  <script>
- let  fbp = getFBToken2(), uu = "https://admin.aceluxurystore.com/bup";
+    let fbp = {}
+	getFBToken2((response) => {
+		fbp = response
+	})
+
+ let uu = "https://admin.aceluxurystore.com/bup";
  $(document).ready(() =>{
  $('.bup-hide').hide();
 
+ console.log({fbp})
  
  <?php
  $cid = env('FACEBOOK_APP_ID');

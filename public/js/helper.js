@@ -1,3 +1,5 @@
+const { Callbacks } = require("jquery");
+
 	let trackingOrders = [], trackingAction = "none", cpOrders = [], cpAction = "none", pqProducts = [], pqAction = "0";
 	let BUPlist = [], BUUPlist = [], BAOlist = [], BAODelivery = 0;
 	
@@ -1769,7 +1771,7 @@ fetch(req)
   });
 }
 
-function getFBToken2(){
+function getFBToken2(callback){
 	let uu = `get-fb-token`
     const req = new Request(uu,{method: 'GET'})
 
@@ -1788,7 +1790,7 @@ fetch(req)
   })
   .then(ret => {
 	  console.log("ret: ",ret)
-	  return ret
+	  callback(ret)
 	  
 	 
   }).catch(error => {
