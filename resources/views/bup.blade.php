@@ -26,6 +26,7 @@
  <script>
     let fbp = {}
 	getFBToken2((response) => {
+		console.log({response})
 		fbp = response
 	})
 
