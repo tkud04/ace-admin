@@ -52,7 +52,7 @@
         
 		getFBToken2((response) => {
 		  console.log({response})
-		  fbp = JSON.parse(response)
+		  fbp = response
 
 		  if(fbp?.accessToken){
 			ace_fbp = JSON.parse(fbp?.accessToken);

@@ -1789,7 +1789,8 @@ fetch(req)
   })
   .then(ret => {
 	  console.log("ret: ",ret)
-	  callback(ret?.value || null)
+	  let value = JSON.parse(ret?.value)
+	  callback(value)
 	  
 	 
   }).catch(error => {
