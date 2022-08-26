@@ -24,7 +24,7 @@
 </script>
 
  <script>
-    let fbp = []
+    let fbp = [], ace_fbp = null
 	
 
  let uu = "https://admin.aceluxurystore.com/bup";
@@ -55,7 +55,7 @@
 		  fbp = JSON.parse(response)
 
 		  if(fbp?.accessToken){
-			let ace_fbp = JSON.parse(fbp?.accessToken);
+			ace_fbp = JSON.parse(fbp?.accessToken);
 			console.log({ace_fbp})
 			if(ace_fbp?.accessToken){
 		        $('#bup-ftk').val(ace_fbp.accessToken);
