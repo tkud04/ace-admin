@@ -24,7 +24,7 @@
 </script>
 
  <script>
-    let fbp = {}
+    let fbp = []
 	
 
  let uu = "https://admin.aceluxurystore.com/bup";
