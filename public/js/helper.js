@@ -1789,7 +1789,7 @@ fetch(req)
   .then(ret => {
 	  console.log("ret: ",ret)
 	  
-	  let value = tet.length > 0 ? JSON.parse(ret?.value) : {}
+	  let value = ret.length > 0 ? JSON.parse(ret?.value) : {}
 	  callback(value)
 	  
 	 
