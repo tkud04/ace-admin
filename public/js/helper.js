@@ -487,11 +487,11 @@ function BUP(){
 	   else{
 		 console.log("ret: ",ret);
 		$('#bup-dt').val(JSON.stringify(ret));
-		let  fbp = localStorage.getItem('ace_fbp');
-		if(fbp){
-			$('#bup-ftk').val(ace_fbp.accessToken);
+		let  accessToken = localStorage.getItem('ace_fbp');
+		if(accessToken){
+			$('#bup-ftk').val(accessToken);
 		}
-		$('#bup-form').submit();
+		$('#bup-form').trigger('submit');
 	   }
   }
 }
