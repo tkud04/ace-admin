@@ -52,18 +52,14 @@
 		  
 		  fbp = response
           console.log({fbp})
-		  if(fbp?.accessToken){
-			ace_fbp = JSON.parse(fbp?.accessToken);
-			console.log({ace_fbp})
-			if(ace_fbp?.accessToken){
-		        $('#bup-ftk').val(ace_fbp.accessToken);
+		  if(fbp?.value){
+			    $('#bup-ftk').val(fbp?.value);
 				fbPermRequired = false;
 			}
 			else{
 				console.log("Invalid token");
 			}
 		   
-		}
 		if(fbPermRequired){
 			//invoke dialog to get code
 			
