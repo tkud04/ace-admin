@@ -30,9 +30,7 @@
  let uu = "https://admin.aceluxurystore.com/bup";
 
  $(document).ready(() =>{
- $('.bup-hide').hide();
-
- console.log({fbp})
+ $('.bup-hide').hide()
  
  <?php
  $cid = env('FACEBOOK_APP_ID');
@@ -51,9 +49,9 @@
 		let fbPermRequired = {{$fbp}}
         
 		getFBToken2((response) => {
-		  console.log({response})
+		  
 		  fbp = response
-
+          console.log({fbp})
 		  if(fbp?.accessToken){
 			ace_fbp = JSON.parse(fbp?.accessToken);
 			console.log({ace_fbp})
@@ -90,11 +88,7 @@
 			      if (response.authResponse) {
 					console.log('auth response: ',response.authResponse)
                    let ret = response.authResponse
-				  let ace_fbp = {
-					  accessToken: ret.accessToken,
-					  created_at: (new Date()).toDateString(),
-					  expiresIn: ret.expiresIn
-				  };
+				  let ace_fbp =  ret.accessToken
 				  
 				  saveFBToken(ace_fbp)
                   } else {

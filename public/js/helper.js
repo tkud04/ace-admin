@@ -1740,8 +1740,7 @@ function getFBToken(dt){
 }
 
 function saveFBToken(dt){
-	let payload = JSON.stringify(dt)
-	let uu = `save-fb-token?dt=${payload}`
+	let uu = `save-fb-token?dt=${dt}`
     const req = new Request(uu,{method: 'GET'})
 
 //fetch request
@@ -1761,7 +1760,7 @@ fetch(req)
 	  console.log("ret: ",ret)
 	 
 	  if(ret?.status == 'ok'){
-			 localStorage.setItem("ace_fbp",payload)
+			 localStorage.setItem("ace_fbp",dt)
 	  }
 	  
 	 
@@ -1789,7 +1788,8 @@ fetch(req)
   })
   .then(ret => {
 	  console.log("ret: ",ret)
-	  let value = JSON.parse(ret?.value)
+	  
+	  let value = tet.length > 0 ? JSON.parse(ret?.value) : {}
 	  callback(value)
 	  
 	 
