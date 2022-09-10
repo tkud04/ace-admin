@@ -1346,8 +1346,8 @@ function updateDeliveryFees(dt){
           
 				 
 		   if(res.status == "ok"){
-                  $('#settings-d1').html(res.data['d1']);
-                  $('#settings-d2').html(res.data['d2']);
+                  $('#settings-d1').html(res.data['delivery1']);
+                  $('#settings-d2').html(res.data['delivery2']);
 				  $('#settings-delivery-side2').hide();
 				  $('#settings-delivery-loading').hide();
 		     $('#settings-delivery-submit').fadeIn();		
