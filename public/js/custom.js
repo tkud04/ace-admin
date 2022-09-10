@@ -166,7 +166,7 @@ $(document).ready(function(){
 			   }
              $('#settings-delivery-submit').hide();
 		     $('#settings-delivery-loading').fadeIn();
-			 updateDeliveryFees({d1: d1, d2: d2});
+			 updateDeliveryFees({delivery1: d1, delivery2: d2});
 		  }); 
 		  
 		  $("#settings-discount-btn").click(function(e){            
