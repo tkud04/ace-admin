@@ -2327,7 +2327,7 @@ class MainController extends Controller {
 		
 		
 		$orders = $this->helpers->getOrders();
-		dd($orders);
+		#dd($orders);
 		$categories = $this->helpers->getCategories();
 		
 		$signals = $this->helpers->signals;
