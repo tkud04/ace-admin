@@ -2094,12 +2094,13 @@ $subject = $data['subject'];
                          
                          //$ret = $this->smtp;
 						 $ret = $this->getCurrentSender();
-						 dd($ret);
+						
 				         $ret['order'] = $order;
 				        $ret['tracking'] = $this->deliveryStatuses[$action];
 				       $ret['name'] = $order['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
 		               $ret['subject'] = "New update for order ".$o;
 		        $ret['em'] = $u['email'];
+				dd($ret);
 		        $this->sendEmailSMTP($ret,"emails.tracking-alert");
                     }
          }
