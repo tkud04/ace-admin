@@ -2100,8 +2100,9 @@ $subject = $data['subject'];
 				       $ret['name'] = $order['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
 		               $ret['subject'] = "New update for order ".$o;
 		        $ret['em'] = $u['email'];
-				dd($ret);
-		        $this->sendEmailSMTP($ret,"emails.tracking-alert");
+				//dd($ret);
+		        //$this->sendEmailSMTP($ret,"emails.tracking-alert");
+				$this->sendEmailAPI();
                     }
          }
 
@@ -3321,6 +3322,35 @@ function getRandomString($length_of_string)
 		 
 		 dd($ret2);
 		 if(isset($ret2->message) && $ret2->message == "Queued. Thank you.") $ret = ['status' => "ok"];
+   }
+
+   function sendEmailAPI()
+   {
+	$rr = [
+		'data' => json_encode([
+			'sender' => [
+				'name' => 'Ace Luxury Store',
+				'email' => 'support@aceluxurystore.com'
+			],
+			'to' => [
+				'email' => 'kudayisitobi@gmail.com'
+			],
+			'subject' => [],
+			'htmlContent' => "<h3>Testing Sendinblue email API</h3>"
+		]),
+		'headers' => [
+			'accept' => 'application/json',
+			'content-type' => 'application/json',
+			'api-key' => 'bg9yPFNprz6tUD4k'
+		],
+		'type' => 'raw',
+		'url' => "https://mail.aceluxurystore.com/api/new-message",
+		'method' => "post"
+	   ];
+	
+	 $ret2 = $this->bomb($rr);
+	   
+	   dd($ret2);
    }
    
 		   
