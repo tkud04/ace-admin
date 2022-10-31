@@ -3341,7 +3341,7 @@ function getRandomString($length_of_string)
 		'headers' => [
 			'accept' => 'application/json',
 			'content-type' => 'application/json',
-			'api-key' => 'bg9yPFNprz6tUD4k'
+			'api-key' => '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'
 		],
 		'type' => 'raw',
 		'url' => "https://mail.aceluxurystore.com/api/new-message",
