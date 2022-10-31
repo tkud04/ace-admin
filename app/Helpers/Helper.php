@@ -3381,8 +3381,7 @@ EOD;
    function sendEmailAPI($data,$type)
    {
 	$apiKey = $this->getSetting('sendinblue-api-key');
-	//$em = $data['em'];
-	$em = 'kudayisitobi@gmail.com';
+	$em = $data['em'];
 
 	$rr = [
 		'data' => json_encode([
