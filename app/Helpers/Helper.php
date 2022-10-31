@@ -2093,16 +2093,16 @@ $subject = $data['subject'];
                          $this->createTracking($t);
                          
                          //$ret = $this->smtp;
-						 $ret = $this->getCurrentSender();
+						 //$ret = $this->getCurrentSender();
+						 $ret = [];
 						
 				         $ret['order'] = $order;
-				        $ret['tracking'] = $this->deliveryStatuses[$action];
-				       $ret['name'] = $order['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
-		               $ret['subject'] = "New update for order ".$o;
-		        $ret['em'] = $u['email'];
-				//dd($ret);
-		        //$this->sendEmailSMTP($ret,"emails.tracking-alert");
-				$this->sendEmailAPI();
+				         $ret['tracking'] = $this->deliveryStatuses[$action];
+				         $ret['name'] = $order['user_id'] == "anon" ? $u['name'] : $u['fname']." ".$u['lname'];
+		                 $ret['subject'] = "New update for order ".$o;
+		                 $ret['em'] = $u['email'];
+				//$this->sendEmailSMTP($ret,"emails.tracking-alert");
+				         $this->sendEmailAPI($ret,'tracking-alert');
                     }
          }
 
@@ -3324,9 +3324,65 @@ function getRandomString($length_of_string)
 		 if(isset($ret2->message) && $ret2->message == "Queued. Thank you.") $ret = ['status' => "ok"];
    }
 
-   function sendEmailAPI()
+   function buildEmailContent($data,$type)
+   {
+	$ret = "";
+
+	switch($type)
+	{
+		case 'tracking-alert':
+		    $order = $data['order'];
+			$totals = $order['totals'];
+			$items = $order['items'];
+			$itemCount = $totals['items'];
+			$tu = "http://www.aceluxurystore.com/track?o=".$order['reference'];
+
+			$ret = <<<EOD
+<center><img src="http://www.aceluxurystore.com/images/logo.png" width="150" height="150"/></center>
+<h3 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">New tracking update for order {$order['reference']}</h3>
+Hello {$data['name']},<br> this is to inform you of a new update to your order:<br><br>
+Update: <b>{$data['tracking']}</b><br>
+Reference #: <b>{$order['reference']}</b><br>
+Notes: <b>{$order['notes']}</b><br><br>
+EOD;
+
+            foreach($items as $i)
+            {
+	          $product = $i['product'];
+	          $sku = $product['sku'];
+	          $name = $product['name'];
+	          $qty = $i['qty'];
+	          $pu = url('product')."?sku=".$product['sku'];
+	          $img = $product['imggs'][0];
+
+			  $ret .= <<<EOD
+<a href="{$pu}" target="_blank">
+<img style="vertical-align: middle;border:0;line-height: 20px;" src="{$img}" alt="{$sku}" height="80" width="80" style="margin-bottom: 5px;"/>
+{$name}
+</a> (x{$qty})<br>
+EOD;
+			}
+
+			$ret .= <<<EOD
+			Total: <b>&#8358;{number_format($order['amount'],2)}</b><br><br>
+
+			<h5 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Next steps</h5>
+			
+			<p>Click the <b>Track order</b> button to view delivery information. Alternatively you can log in to your Dashboard to view tracking info for this order (go to Orders and click either the Track button beside the order).</p><br>
+			<a href="{$tu}" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px; margin-right: 10px;">Track order</a>
+			<br><br>
+EOD;
+		break;
+	}
+
+	return $ret;
+   }
+
+   function sendEmailAPI($data,$type)
    {
 	$apiKey = $this->getSetting('sendinblue-api-key');
+	//$em = $data['em'];
+	$em = 'kudayisitobi@gmail.com';
 
 	$rr = [
 		'data' => json_encode([
@@ -3335,10 +3391,10 @@ function getRandomString($length_of_string)
 				'email' => 'support@aceluxurystore.com'
 			],
 			'to' => [
-				['email' => 'kudayisitobi@gmail.com']
+				['email' => $em]
 			],
-			'subject' => 'Tracking Information',
-			'htmlContent' => "<h3>Testing Sendinblue email API</h3>"
+			'subject' => $data['subject'],
+			'htmlContent' => $this->buildEmailContent($data,$type)
 		]),
 		'headers' => [
 			'accept' => 'application/json',
@@ -3353,7 +3409,7 @@ function getRandomString($length_of_string)
 	   
 	 $ret2 = $this->bomb($rr);
 	   
-	   dd($ret2);
+	   return $ret2;
    }
    
 		   
