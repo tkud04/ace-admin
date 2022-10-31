@@ -3337,7 +3337,7 @@ function getRandomString($length_of_string)
 			'to' => [
 				'email' => 'kudayisitobi@gmail.com'
 			],
-			'subject' => [],
+			'subject' => 'Tracking Information',
 			'htmlContent' => "<h3>Testing Sendinblue email API</h3>"
 		]),
 		'headers' => [
@@ -3346,7 +3346,7 @@ function getRandomString($length_of_string)
 			'api-key' => $apiKey['value']
 		],
 		'type' => 'raw',
-		'url' => "https://mail.aceluxurystore.com/api/new-message",
+		'url' => "https://api.sendinblue.com/v3/smtp/email",
 		'method' => "post"
 	   ];
 	
