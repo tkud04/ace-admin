@@ -3335,7 +3335,7 @@ function getRandomString($length_of_string)
 				'email' => 'support@aceluxurystore.com'
 			],
 			'to' => [
-				'email' => 'kudayisitobi@gmail.com'
+				['email' => 'kudayisitobi@gmail.com']
 			],
 			'subject' => 'Tracking Information',
 			'htmlContent' => "<h3>Testing Sendinblue email API</h3>"
