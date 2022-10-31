@@ -3364,13 +3364,11 @@ EOD;
 			}
 
 			$ret .= <<<EOD
-			Total: <b>&#8358;{number_format($order['amount'],2)}</b><br><br>
-
-			<h5 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Next steps</h5>
-			
-			<p>Click the <b>Track order</b> button to view delivery information. Alternatively you can log in to your Dashboard to view tracking info for this order (go to Orders and click either the Track button beside the order).</p><br>
-			<a href="{$tu}" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px; margin-right: 10px;">Track order</a>
-			<br><br>
+Total: <b>&#8358;{number_format($order['amount'],2)}</b><br><br>
+<h5 style="background: #ff9bbc; color: #fff; padding: 10px 15px;">Next steps</h5>
+<p>Click the <b>Track order</b> button to view delivery information. Alternatively you can log in to your Dashboard to view tracking info for this order (go to Orders and click either the Track button beside the order).</p><br>
+<a href="{$tu}" target="_blank" style="background: #ff9bbc; color: #fff; padding: 10px 15px; margin-right: 10px;">Track order</a>
+<br><br>
 EOD;
 		break;
 	}
