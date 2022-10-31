@@ -3350,7 +3350,7 @@ function getRandomString($length_of_string)
 		'method' => "post"
 	   ];
 	
-	   dd($rr);
+	   
 	 $ret2 = $this->bomb($rr);
 	   
 	   dd($ret2);
